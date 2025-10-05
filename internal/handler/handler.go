@@ -229,6 +229,7 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			// collect messages and authors
 			var msgs []string
 			var authors []string
+			var authorsWithLinks []string
 			for _, c := range commits {
 				if cm, ok := c.(map[string]any); ok {
 					if m, ok := cm["message"].(string); ok {
@@ -237,6 +238,12 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 					if author, ok := cm["author"].(map[string]any); ok {
 						if name, ok := author["name"].(string); ok {
 							authors = append(authors, name)
+							// try to build a GitHub profile link from username if available
+							if uname, ok := author["username"].(string); ok && uname != "" {
+								authorsWithLinks = append(authorsWithLinks, fmt.Sprintf("[%s](https://github.com/%s)", name, uname))
+							} else {
+								authorsWithLinks = append(authorsWithLinks, name)
+							}
 						}
 					}
 				}
@@ -260,6 +267,10 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			if len(authors) > 0 {
 				data["commit_authors"] = authors
 				data["commit_authors_joined"] = strings.Join(authors, ", ")
+				if len(authorsWithLinks) > 0 {
+					data["commit_authors_with_links"] = authorsWithLinks
+					data["commit_authors_with_links_joined"] = strings.Join(authorsWithLinks, ", ")
+				}
 			}
 		}
 
