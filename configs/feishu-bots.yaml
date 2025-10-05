@@ -6,7 +6,7 @@
 # =========================================
 
 feishu_bots:
-  - alias: "dev-team"
+  - alias: "dev-team" # 可以在 repos.yaml 中通过该别名引用这个链接
     url: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxx"
 
   - alias: "ops-team"

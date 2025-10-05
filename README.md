@@ -30,88 +30,7 @@
 
 ## 🚀 快速开始
 
-### 前置要求
-
-- Docker 和 Docker Compose（推荐）
-- 或者 Go 1.21+（本地运行）
-
-### 使用 Docker Compose（推荐）
-
-#### 使用预构建镜像
-
-```bash
-# 拉取最新镜像
-docker pull ghcr.io/hnrobert/feishu-github-tracker:latest
-
-# 或使用 docker-compose（会自动拉取镜像）
-docker-compose up -d
-```
-
-#### 从源码构建
-
-1. **克隆仓库**
-
-   ```bash
-   git clone https://github.com/hnrobert/feishu-github-tracker.git
-   cd feishu-github-tracker
-   ```
-
-2. **配置文件**
-
-   编辑 `configs/` 目录下的配置文件：
-
-   - `server.yaml` - 服务器配置（端口、密钥等）
-   - `feishu-bots.yaml` - 飞书机器人 Webhook URL
-   - `repos.yaml` - 仓库和事件映射规则
-   - `events.yaml` - 事件定义和模板
-   - `templates.yaml` - 飞书消息卡片模板
-
-3. **启动服务**
-
-   ```bash
-   docker-compose up -d
-   ```
-
-4. **查看日志**
-
-   ```bash
-   docker-compose logs -f
-   ```
-
-5. **配置 GitHub Webhook**
-
-在 GitHub 仓库设置中添加 Webhook：
-
-- Payload URL: `http://your-server-address:4594/webhook`
-- Content type: `application/json`
-- Secret: 与 `server.yaml` 中的 `secret` 保持一致
-- 选择需要的事件类型
-
-### 本地运行
-
-1. **安装依赖**
-
-   ```bash
-   go mod download
-   ```
-
-2. **构建**
-
-   ```bash
-   make build
-   ```
-
-3. **运行**
-
-   ```bash
-   ./bin/feishu-github-tracker
-   ```
-
-   或者直接运行：
-
-   ```bash
-   go run ./cmd/feishu-github-tracker
-   ```
+参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速部署和测试。
 
 ## 📁 项目结构
 
@@ -149,12 +68,18 @@ feishu-github-tracker/
 
 ```yaml
 server:
-  host: '0.0.0.0' # 监听地址
-  port: 4594 # 监听端口
-  secret: 'your_secret' # GitHub Webhook 密钥
-  log_level: 'info' # 日志级别: debug, info, warn, error
-  max_payload_size: 5MB # 最大请求体大小
-  timeout: 15 # 请求超时时间（秒）
+  host: '0.0.0.0' # Webhook监听主机
+  port: 4594 # Webhook监听端口
+  secret: 'your_secret' # 用于验证GitHub X-Hub-Signature的密钥
+  log_level: 'info' # 可选: debug, info, warn, error
+  max_payload_size: 5MB # 限制单次Webhook body大小
+  timeout: 15 # 单次请求处理超时 (秒)
+
+# 允许的来源（用于白名单过滤，可选）
+allowed_sources:
+  - 'github.com'
+  - 'api.github.com'
+  - 'your-github-enterprise-domain.com'
 ```
 
 ### feishu-bots.yaml
@@ -163,11 +88,14 @@ server:
 
 ```yaml
 feishu_bots:
-  - alias: 'dev-team'
+  - alias: 'dev-team' # 可以在 repos.yaml 中通过该别名引用这个链接
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxx'
 
   - alias: 'ops-team'
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/yyyyyyy'
+
+  - alias: 'org-notify'
+    url: 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz'
 ```
 
 ### repos.yaml
@@ -176,43 +104,45 @@ feishu_bots:
 
 ```yaml
 repos:
-  # 精确匹配特定仓库
+  # 示例：针对特定项目定义更详细监听
   - pattern: 'CompPsyUnion/motion-vote-backend'
     events:
-      push:
-        branches:
+      push: # 直接引用 events.yaml 中的事件
+        branches: # 可以进一步细化，覆盖 events.yaml 中的默认配置
           - main
           - develop
-      pull_request:
+      pull_request: # 同理
         types:
           - opened
           - closed
-      issues:
+          - reopened
+      issues: # 如果不细化，直接监听所有 types
       release:
     notify_to:
-      - ops-team
-      - dev-team
+      - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
+      - 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz' # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
 
-  # 使用通配符匹配多个仓库
+  # 示例：匹配实验性项目（使用 glob 模式）
   - pattern: 'CompPsyUnion/experimental-*'
     events:
-      all: # 使用预定义的事件集
+      all: # 直接应用 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
     notify_to:
-      - dev-team
+      - dev-team # 引用 feishu-bots.yaml 的 alias
 
-  # 匹配个人所有仓库
+  # 示例：匹配所有个人项目
   - pattern: 'hnrobert/*'
     events:
-      custom: # 使用自定义事件集
+      custom: # 直接应用 event_sets: 中定义的的模板
     notify_to:
-      - ops-team
+      - ops-team # 引用 feishu-bots.yaml 的 alias
 
-  # 兜底规则：匹配所有仓库
+  # 示例：匹配所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
   - pattern: '*'
     events:
-      basic:
+      basic: # 应用 events.yaml 内 event_sets: 中定义的的模板。可以理解将 basic 里的事件展开添加到该仓库监听
+      project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
     notify_to:
-      - org-notify
+      - org-notify # 引用 feishu-bots.yaml 的 alias
 ```
 
 ### events.yaml
@@ -225,14 +155,16 @@ event_sets:
   basic:
     push:
     pull_request:
+    pull_request_review:
+    pull_request_review_comment:
     issues:
+    issue_comment:
+    discussion:
+    discussion_comment:
     release:
+    package:
 
-  # 完整事件集
-  all:
-    # 包含所有 GitHub 支持的事件...
-
-  # 自定义事件集
+  # 可以自定义事件集
   custom:
     push:
       branches:
@@ -242,11 +174,17 @@ event_sets:
       types:
         - opened
         - closed
+
+  # 完整事件集
+  all:
+    # 包含所有 GitHub 支持的事件...
 ```
+
+具体参考 [./configs/events.yaml](./configs/events.yaml) 中的详细内容
 
 ### templates.yaml
 
-定义飞书消息卡片模板。支持为不同事件类型和状态定义多个模板变体：
+定义飞书消息卡片模板。支持为不同事件类型和状态定义多个模板变体。当前已经包括了所有你需要的常用事件的模板，你可以根据自己的需要进行修改和扩展。
 
 ```yaml
 templates:
@@ -314,39 +252,6 @@ curl http://localhost:4594/health
 - 文件位置：`log/feishu-github-tracker-YYYY-MM-DD.log`
 - 每天自动创建新的日志文件
 - 日志级别可在 `server.yaml` 中配置
-
-### Docker 命令
-
-```bash
-# 拉取最新镜像
-docker pull ghcr.io/hnrobert/feishu-github-tracker:latest
-
-# 启动服务（使用预构建镜像）
-docker-compose up -d
-
-# 查看日志
-docker-compose logs -f
-
-# 重启服务
-docker-compose restart
-
-# 停止服务
-docker-compose down
-
-# 从源码重新构建并启动
-docker-compose build
-docker-compose up -d
-```
-
-### 可用的镜像标签
-
-从 GitHub Container Registry 拉取：
-
-- `ghcr.io/hnrobert/feishu-github-tracker:latest` - 最新稳定版（main 分支）
-- `ghcr.io/hnrobert/feishu-github-tracker:main` - main 分支最新构建
-- `ghcr.io/hnrobert/feishu-github-tracker:develop` - develop 分支最新构建
-- `ghcr.io/hnrobert/feishu-github-tracker:v1.0.0` - 特定版本（发布时）
-- `ghcr.io/hnrobert/feishu-github-tracker:sha-xxxxxxx` - 特定 commit
 
 ## 🛠️ 开发
 
