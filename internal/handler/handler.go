@@ -206,6 +206,13 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		data["repo_url"] = repo["html_url"]
 		// Provide nested object for templates that use {{repository.full_name}} style
 		data["repository"] = repo
+
+		// repository link (Markdown)
+		if full, ok := repo["full_name"].(string); ok {
+			if url, ok2 := repo["html_url"].(string); ok2 {
+				data["repository_link_md"] = fmt.Sprintf("[%s](%s)", full, url)
+			}
+		}
 	}
 
 	if sender, ok := payload["sender"].(map[string]any); ok {
@@ -214,6 +221,13 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		data["sender_url"] = sender["html_url"]
 		// Provide nested object for templates that use {{sender.login}} style
 		data["sender"] = sender
+
+		// sender markdown link
+		if login, ok := sender["login"].(string); ok {
+			if surl, ok2 := sender["html_url"].(string); ok2 {
+				data["sender_link_md"] = fmt.Sprintf("[%s](%s)", login, surl)
+			}
+		}
 	}
 
 	// Event-specific fields
@@ -277,8 +291,26 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		// include pusher object so templates can reference {{pusher.name}}
 		if pusher, ok := payload["pusher"].(map[string]any); ok {
 			data["pusher"] = pusher
+
+			// pusher markdown link (pusher.name is usually username)
+			if pname, ok := pusher["name"].(string); ok {
+				// assume name is GitHub username
+				data["pusher_link_md"] = fmt.Sprintf("[%s](https://github.com/%s)", pname, pname)
+			}
 		}
 		data["forced"] = payload["forced"]
+
+		// branch link
+		if ref, ok := payload["ref"].(string); ok {
+			branch := strings.TrimPrefix(ref, "refs/heads/")
+			data["branch_name"] = branch
+			if repo, ok := payload["repository"].(map[string]any); ok {
+				if url, ok2 := repo["html_url"].(string); ok2 {
+					data["branch_url"] = fmt.Sprintf("%s/tree/%s", url, branch)
+					data["branch_link_md"] = fmt.Sprintf("[%s](%s/tree/%s)", branch, url, branch)
+				}
+			}
+		}
 
 	case "pull_request":
 		if pr, ok := payload["pull_request"].(map[string]any); ok {
@@ -290,11 +322,35 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["pr_body"] = pr["body"]
 			// Provide nested object
 			data["pull_request"] = pr
+			// pr author link
+			if user, ok := pr["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["pr_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 			if head, ok := pr["head"].(map[string]any); ok {
 				data["pr_head_ref"] = head["ref"]
+				// pr head branch link
+				if repo, ok := payload["repository"].(map[string]any); ok {
+					if url, ok2 := repo["html_url"].(string); ok2 {
+						if href, ok3 := head["ref"].(string); ok3 {
+							data["pr_head_branch_link_md"] = fmt.Sprintf("[%s](%s/tree/%s)", href, url, href)
+						}
+					}
+				}
 			}
 			if base, ok := pr["base"].(map[string]any); ok {
 				data["pr_base_ref"] = base["ref"]
+				// pr base branch link
+				if repo, ok := payload["repository"].(map[string]any); ok {
+					if url, ok2 := repo["html_url"].(string); ok2 {
+						if bref, ok3 := base["ref"].(string); ok3 {
+							data["pr_base_branch_link_md"] = fmt.Sprintf("[%s](%s/tree/%s)", bref, url, bref)
+						}
+					}
+				}
 			}
 		}
 		data["action"] = payload["action"]
@@ -307,6 +363,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["issue_state"] = issue["state"]
 			data["issue_body"] = issue["body"]
 			data["issue"] = issue
+			// issue author link
+			if user, ok := issue["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["issue_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		data["action"] = payload["action"]
 
@@ -315,6 +379,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
 			data["comment"] = comment
+			// comment author link
+			if user, ok := comment["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["comment_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		if issue, ok := payload["issue"].(map[string]any); ok {
 			data["issue_number"] = issue["number"]
@@ -339,6 +411,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["review_body"] = review["body"]
 			data["review_url"] = review["html_url"]
 			data["review"] = review
+			// review author link
+			if user, ok := review["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["review_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		if pr, ok := payload["pull_request"].(map[string]any); ok {
 			data["pr_number"] = pr["number"]
@@ -351,6 +431,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		if comment, ok := payload["comment"].(map[string]any); ok {
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
+			// comment author link
+			if user, ok := comment["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["comment_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		if pr, ok := payload["pull_request"].(map[string]any); ok {
 			data["pr_number"] = pr["number"]
@@ -363,6 +451,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["discussion_title"] = discussion["title"]
 			data["discussion_url"] = discussion["html_url"]
 			data["discussion_body"] = discussion["body"]
+			// discussion author link
+			if user, ok := discussion["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["discussion_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		data["action"] = payload["action"]
 
@@ -371,6 +467,14 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
 			data["comment"] = comment
+			// comment author link
+			if user, ok := comment["user"].(map[string]any); ok {
+				if login, ok2 := user["login"].(string); ok2 {
+					if url, ok3 := user["html_url"].(string); ok3 {
+						data["comment_user_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+					}
+				}
+			}
 		}
 		if discussion, ok := payload["discussion"].(map[string]any); ok {
 			data["discussion_title"] = discussion["title"]
@@ -385,6 +489,20 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["package"] = pkg
 			if name, ok := pkg["name"]; ok {
 				data["package_name"] = name
+				// package link if package registry metadata present (html_url or package ecosystem link)
+				if pname, ok2 := name.(string); ok2 {
+					// prefer package html_url
+					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
+						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
+					} else {
+						// fallback to repository package page
+						if repo, ok4 := payload["repository"].(map[string]any); ok4 {
+							if rurl, ok5 := repo["html_url"].(string); ok5 {
+								data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rurl)
+							}
+						}
+					}
+				}
 			}
 		}
 		data["action"] = payload["action"]
