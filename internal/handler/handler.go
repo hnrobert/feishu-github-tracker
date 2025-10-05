@@ -498,13 +498,54 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 			data["package"] = pkg
 			if name, ok := pkg["name"]; ok {
 				data["package_name"] = name
-				// package link if package registry metadata present (html_url or package ecosystem link)
+				// package_version may contain version/tag and uploader info; if present merge useful fields
 				if pname, ok2 := name.(string); ok2 {
-					// prefer package html_url
+					// prefer package_version html_url when available
+					if pv, okpv := payload["package_version"].(map[string]any); okpv {
+						// version name
+						if vname, vok := pv["version"].(string); vok && vname != "" {
+							// set into package map so templates can use {{package.version}}
+							pkg["version"] = vname
+							pkg["tag_name"] = vname
+							data["package_version_name"] = vname
+						}
+						// prefer html_url from package_version
+						if purl, okurl := pv["html_url"].(string); okurl && purl != "" {
+							pkg["html_url"] = purl
+						}
+
+						// uploader / publisher info
+						if up, okuk := pv["uploader"].(map[string]any); okuk {
+							if login, lok := up["login"].(string); lok {
+								if url, uok := up["html_url"].(string); uok {
+									data["package_publisher_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+									// if sender_link_md wasn't provided, populate it from uploader
+									if _, exists := data["sender_link_md"]; !exists {
+										data["sender_link_md"] = data["package_publisher_link_md"]
+									}
+								}
+							}
+						}
+						// also check common alternate fields
+						if au, aok := pv["author"].(map[string]any); aok {
+							if login, lok := au["login"].(string); lok {
+								if url, uok := au["html_url"].(string); uok {
+									if _, exists := data["package_publisher_link_md"]; !exists {
+										data["package_publisher_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+									}
+									if _, exists := data["sender_link_md"]; !exists {
+										data["sender_link_md"] = data["package_publisher_link_md"]
+									}
+								}
+							}
+						}
+					}
+
+					// now build package link markdown preferring updated pkg["html_url"]
 					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
 						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
 					} else {
-						// fallback to repository package page
+						// fallback to repository page
 						if repo, ok4 := payload["repository"].(map[string]any); ok4 {
 							if rurl, ok5 := repo["html_url"].(string); ok5 {
 								data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rurl)
