@@ -36,15 +36,15 @@ type ReposConfig struct {
 }
 
 type RepoPattern struct {
-	Pattern  string                 `yaml:"pattern"`
-	Events   map[string]interface{} `yaml:"events"`
-	NotifyTo []string               `yaml:"notify_to"`
+	Pattern  string         `yaml:"pattern"`
+	Events   map[string]any `yaml:"events"`
+	NotifyTo []string       `yaml:"notify_to"`
 }
 
 // EventsConfig represents events.yaml
 type EventsConfig struct {
-	EventSets map[string]map[string]interface{} `yaml:"event_sets"`
-	Events    map[string]interface{}            `yaml:"events"`
+	EventSets map[string]map[string]any `yaml:"event_sets"`
+	Events    map[string]any            `yaml:"events"`
 }
 
 // FeishuBotsConfig represents feishu-bots.yaml
@@ -67,8 +67,8 @@ type EventTemplate struct {
 }
 
 type PayloadTemplate struct {
-	Tags    []string               `yaml:"tags"`
-	Payload map[string]interface{} `yaml:"payload"`
+	Tags    []string       `yaml:"tags"`
+	Payload map[string]any `yaml:"payload"`
 }
 
 // Load loads all configuration files from the given directory
@@ -103,7 +103,7 @@ func Load(configDir string) (*Config, error) {
 	return cfg, nil
 }
 
-func loadYAML(path string, out interface{}) error {
+func loadYAML(path string, out any) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return err

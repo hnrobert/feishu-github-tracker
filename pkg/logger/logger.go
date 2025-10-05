@@ -65,7 +65,7 @@ func Init(levelStr string, logDir string) error {
 	return nil
 }
 
-func logMessage(level Level, format string, v ...interface{}) {
+func logMessage(level Level, format string, v ...any) {
 	if level < currentLevel {
 		return
 	}
@@ -73,18 +73,18 @@ func logMessage(level Level, format string, v ...interface{}) {
 	logger.Printf("[%s] %s", levelNames[level], msg)
 }
 
-func Debug(format string, v ...interface{}) {
+func Debug(format string, v ...any) {
 	logMessage(DEBUG, format, v...)
 }
 
-func Info(format string, v ...interface{}) {
+func Info(format string, v ...any) {
 	logMessage(INFO, format, v...)
 }
 
-func Warn(format string, v ...interface{}) {
+func Warn(format string, v ...any) {
 	logMessage(WARN, format, v...)
 }
 
-func Error(format string, v ...interface{}) {
+func Error(format string, v ...any) {
 	logMessage(ERROR, format, v...)
 }

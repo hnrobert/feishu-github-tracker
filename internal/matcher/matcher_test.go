@@ -45,7 +45,7 @@ func TestMatchEvent(t *testing.T) {
 		eventType        string
 		action           string
 		ref              string
-		configuredEvents map[string]interface{}
+		configuredEvents map[string]any
 		want             bool
 	}{
 		{
@@ -53,7 +53,7 @@ func TestMatchEvent(t *testing.T) {
 			eventType:        "push",
 			action:           "",
 			ref:              "refs/heads/main",
-			configuredEvents: map[string]interface{}{"push": map[string]interface{}{"branches": []interface{}{"*"}}},
+			configuredEvents: map[string]any{"push": map[string]any{"branches": []any{"*"}}},
 			want:             true,
 		},
 		{
@@ -61,7 +61,7 @@ func TestMatchEvent(t *testing.T) {
 			eventType:        "push",
 			action:           "",
 			ref:              "refs/heads/main",
-			configuredEvents: map[string]interface{}{"push": map[string]interface{}{"branches": []interface{}{"main"}}},
+			configuredEvents: map[string]any{"push": map[string]any{"branches": []any{"main"}}},
 			want:             true,
 		},
 		{
@@ -69,7 +69,7 @@ func TestMatchEvent(t *testing.T) {
 			eventType:        "push",
 			action:           "",
 			ref:              "refs/heads/develop",
-			configuredEvents: map[string]interface{}{"push": map[string]interface{}{"branches": []interface{}{"main"}}},
+			configuredEvents: map[string]any{"push": map[string]any{"branches": []any{"main"}}},
 			want:             false,
 		},
 		{
@@ -77,7 +77,7 @@ func TestMatchEvent(t *testing.T) {
 			eventType:        "pull_request",
 			action:           "opened",
 			ref:              "",
-			configuredEvents: map[string]interface{}{"pull_request": map[string]interface{}{"types": []interface{}{"opened", "closed"}}},
+			configuredEvents: map[string]any{"pull_request": map[string]any{"types": []any{"opened", "closed"}}},
 			want:             true,
 		},
 		{
@@ -85,7 +85,7 @@ func TestMatchEvent(t *testing.T) {
 			eventType:        "pull_request",
 			action:           "labeled",
 			ref:              "",
-			configuredEvents: map[string]interface{}{"pull_request": map[string]interface{}{"types": []interface{}{"opened", "closed"}}},
+			configuredEvents: map[string]any{"pull_request": map[string]any{"types": []any{"opened", "closed"}}},
 			want:             false,
 		},
 	}

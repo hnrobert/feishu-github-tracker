@@ -65,7 +65,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse payload
-	var payload map[string]interface{}
+	var payload map[string]any
 	if err := json.Unmarshal(body, &payload); err != nil {
 		logger.Error("Failed to parse JSON payload: %v", err)
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
@@ -99,7 +99,7 @@ func (h *Handler) verifySignature(signature string, body []byte) bool {
 	return hmac.Equal([]byte(receivedMAC), []byte(expectedMAC))
 }
 
-func (h *Handler) processWebhook(eventType string, payload map[string]interface{}) error {
+func (h *Handler) processWebhook(eventType string, payload map[string]any) error {
 	// Extract repository full name
 	repoFullName := h.extractRepoFullName(payload)
 	if repoFullName == "" {
@@ -165,8 +165,8 @@ func (h *Handler) processWebhook(eventType string, payload map[string]interface{
 	return nil
 }
 
-func (h *Handler) extractRepoFullName(payload map[string]interface{}) string {
-	if repo, ok := payload["repository"].(map[string]interface{}); ok {
+func (h *Handler) extractRepoFullName(payload map[string]any) string {
+	if repo, ok := payload["repository"].(map[string]any); ok {
 		if fullName, ok := repo["full_name"].(string); ok {
 			return fullName
 		}
@@ -174,20 +174,20 @@ func (h *Handler) extractRepoFullName(payload map[string]interface{}) string {
 	return ""
 }
 
-func (h *Handler) extractAction(payload map[string]interface{}) string {
+func (h *Handler) extractAction(payload map[string]any) string {
 	if action, ok := payload["action"].(string); ok {
 		return action
 	}
 	return ""
 }
 
-func (h *Handler) extractRef(payload map[string]interface{}) string {
+func (h *Handler) extractRef(payload map[string]any) string {
 	if ref, ok := payload["ref"].(string); ok {
 		return ref
 	}
 	// For pull requests, get the base branch
-	if pr, ok := payload["pull_request"].(map[string]interface{}); ok {
-		if base, ok := pr["base"].(map[string]interface{}); ok {
+	if pr, ok := payload["pull_request"].(map[string]any); ok {
+		if base, ok := pr["base"].(map[string]any); ok {
 			if ref, ok := base["ref"].(string); ok {
 				return "refs/heads/" + ref
 			}
@@ -196,20 +196,24 @@ func (h *Handler) extractRef(payload map[string]interface{}) string {
 	return ""
 }
 
-func (h *Handler) prepareTemplateData(eventType string, payload map[string]interface{}) map[string]interface{} {
-	data := make(map[string]interface{})
+func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) map[string]any {
+	data := make(map[string]any)
 
 	// Common fields
-	if repo, ok := payload["repository"].(map[string]interface{}); ok {
+	if repo, ok := payload["repository"].(map[string]any); ok {
 		data["repo_name"] = repo["name"]
 		data["repo_full_name"] = repo["full_name"]
 		data["repo_url"] = repo["html_url"]
+		// Provide nested object for templates that use {{repository.full_name}} style
+		data["repository"] = repo
 	}
 
-	if sender, ok := payload["sender"].(map[string]interface{}); ok {
+	if sender, ok := payload["sender"].(map[string]any); ok {
 		data["sender_name"] = sender["login"]
 		data["sender_avatar"] = sender["avatar_url"]
 		data["sender_url"] = sender["html_url"]
+		// Provide nested object for templates that use {{sender.login}} style
+		data["sender"] = sender
 	}
 
 	// Event-specific fields
@@ -217,10 +221,10 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]inter
 	case "push":
 		data["ref"] = payload["ref"]
 		data["compare_url"] = payload["compare"]
-		if commits, ok := payload["commits"].([]interface{}); ok {
+		if commits, ok := payload["commits"].([]any); ok {
 			data["commits_count"] = len(commits)
 			if len(commits) > 0 {
-				if commit, ok := commits[0].(map[string]interface{}); ok {
+				if commit, ok := commits[0].(map[string]any); ok {
 					data["commit_message"] = commit["message"]
 				}
 			}
@@ -228,77 +232,85 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]inter
 		data["forced"] = payload["forced"]
 
 	case "pull_request":
-		if pr, ok := payload["pull_request"].(map[string]interface{}); ok {
+		if pr, ok := payload["pull_request"].(map[string]any); ok {
 			data["pr_number"] = pr["number"]
 			data["pr_title"] = pr["title"]
 			data["pr_url"] = pr["html_url"]
 			data["pr_state"] = pr["state"]
 			data["pr_merged"] = pr["merged"]
 			data["pr_body"] = pr["body"]
-			if head, ok := pr["head"].(map[string]interface{}); ok {
+			// Provide nested object
+			data["pull_request"] = pr
+			if head, ok := pr["head"].(map[string]any); ok {
 				data["pr_head_ref"] = head["ref"]
 			}
-			if base, ok := pr["base"].(map[string]interface{}); ok {
+			if base, ok := pr["base"].(map[string]any); ok {
 				data["pr_base_ref"] = base["ref"]
 			}
 		}
 		data["action"] = payload["action"]
 
 	case "issues":
-		if issue, ok := payload["issue"].(map[string]interface{}); ok {
+		if issue, ok := payload["issue"].(map[string]any); ok {
 			data["issue_number"] = issue["number"]
 			data["issue_title"] = issue["title"]
 			data["issue_url"] = issue["html_url"]
 			data["issue_state"] = issue["state"]
 			data["issue_body"] = issue["body"]
+			data["issue"] = issue
 		}
 		data["action"] = payload["action"]
 
 	case "issue_comment":
-		if comment, ok := payload["comment"].(map[string]interface{}); ok {
+		if comment, ok := payload["comment"].(map[string]any); ok {
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
+			data["comment"] = comment
 		}
-		if issue, ok := payload["issue"].(map[string]interface{}); ok {
+		if issue, ok := payload["issue"].(map[string]any); ok {
 			data["issue_number"] = issue["number"]
 			data["issue_title"] = issue["title"]
 			data["issue_url"] = issue["html_url"]
+			data["issue"] = issue
 		}
 
 	case "release":
-		if release, ok := payload["release"].(map[string]interface{}); ok {
+		if release, ok := payload["release"].(map[string]any); ok {
 			data["release_name"] = release["name"]
 			data["release_tag"] = release["tag_name"]
 			data["release_url"] = release["html_url"]
 			data["release_body"] = release["body"]
+			data["release"] = release
 		}
 		data["action"] = payload["action"]
 
 	case "pull_request_review":
-		if review, ok := payload["review"].(map[string]interface{}); ok {
+		if review, ok := payload["review"].(map[string]any); ok {
 			data["review_state"] = review["state"]
 			data["review_body"] = review["body"]
 			data["review_url"] = review["html_url"]
+			data["review"] = review
 		}
-		if pr, ok := payload["pull_request"].(map[string]interface{}); ok {
+		if pr, ok := payload["pull_request"].(map[string]any); ok {
 			data["pr_number"] = pr["number"]
 			data["pr_title"] = pr["title"]
 			data["pr_url"] = pr["html_url"]
+			data["pull_request"] = pr
 		}
 
 	case "pull_request_review_comment":
-		if comment, ok := payload["comment"].(map[string]interface{}); ok {
+		if comment, ok := payload["comment"].(map[string]any); ok {
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
 		}
-		if pr, ok := payload["pull_request"].(map[string]interface{}); ok {
+		if pr, ok := payload["pull_request"].(map[string]any); ok {
 			data["pr_number"] = pr["number"]
 			data["pr_title"] = pr["title"]
 			data["pr_url"] = pr["html_url"]
 		}
 
 	case "discussion":
-		if discussion, ok := payload["discussion"].(map[string]interface{}); ok {
+		if discussion, ok := payload["discussion"].(map[string]any); ok {
 			data["discussion_title"] = discussion["title"]
 			data["discussion_url"] = discussion["html_url"]
 			data["discussion_body"] = discussion["body"]
@@ -306,13 +318,15 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]inter
 		data["action"] = payload["action"]
 
 	case "discussion_comment":
-		if comment, ok := payload["comment"].(map[string]interface{}); ok {
+		if comment, ok := payload["comment"].(map[string]any); ok {
 			data["comment_body"] = comment["body"]
 			data["comment_url"] = comment["html_url"]
+			data["comment"] = comment
 		}
-		if discussion, ok := payload["discussion"].(map[string]interface{}); ok {
+		if discussion, ok := payload["discussion"].(map[string]any); ok {
 			data["discussion_title"] = discussion["title"]
 			data["discussion_url"] = discussion["html_url"]
+			data["discussion"] = discussion
 		}
 	}
 

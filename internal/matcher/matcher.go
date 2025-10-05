@@ -24,8 +24,8 @@ func MatchRepo(fullName string, repos []config.RepoPattern) (*config.RepoPattern
 }
 
 // ExpandEvents expands event templates and merges them with custom events
-func ExpandEvents(repoEvents map[string]interface{}, eventSets map[string]map[string]interface{}, baseEvents map[string]interface{}) map[string]interface{} {
-	result := make(map[string]interface{})
+func ExpandEvents(repoEvents map[string]any, eventSets map[string]map[string]any, baseEvents map[string]any) map[string]any {
+	result := make(map[string]any)
 
 	// Process each event in the repo configuration
 	for key, value := range repoEvents {
@@ -54,7 +54,7 @@ func ExpandEvents(repoEvents map[string]interface{}, eventSets map[string]map[st
 }
 
 // MatchEvent checks if the webhook event matches the configured events
-func MatchEvent(eventType string, action string, ref string, payload map[string]interface{}, configuredEvents map[string]interface{}) bool {
+func MatchEvent(eventType string, action string, ref string, payload map[string]any, configuredEvents map[string]any) bool {
 	eventConfig, exists := configuredEvents[eventType]
 	if !exists {
 		return false
@@ -65,14 +65,14 @@ func MatchEvent(eventType string, action string, ref string, payload map[string]
 		return true
 	}
 
-	configMap, ok := eventConfig.(map[string]interface{})
+	configMap, ok := eventConfig.(map[string]any)
 	if !ok {
 		return true
 	}
 
 	// Check branches for push and pull_request events
 	if eventType == "push" || eventType == "pull_request" {
-		if branches, ok := configMap["branches"].([]interface{}); ok {
+		if branches, ok := configMap["branches"].([]any); ok {
 			if ref != "" && !matchBranches(ref, branches) {
 				return false
 			}
@@ -80,7 +80,7 @@ func MatchEvent(eventType string, action string, ref string, payload map[string]
 	}
 
 	// Check types/actions
-	if types, ok := configMap["types"].([]interface{}); ok {
+	if types, ok := configMap["types"].([]any); ok {
 		if action != "" && !matchTypes(action, types) {
 			return false
 		}
@@ -89,11 +89,11 @@ func MatchEvent(eventType string, action string, ref string, payload map[string]
 	return true
 }
 
-func matchBranches(ref string, branches []interface{}) bool {
+func matchBranches(ref string, branches []any) bool {
 	// Extract branch name from ref (refs/heads/main -> main)
 	branchName := ref
-	if strings.HasPrefix(ref, "refs/heads/") {
-		branchName = strings.TrimPrefix(ref, "refs/heads/")
+	if after, ok :=strings.CutPrefix(ref, "refs/heads/"); ok  {
+		branchName = after
 	}
 
 	for _, b := range branches {
@@ -119,7 +119,7 @@ func matchBranches(ref string, branches []interface{}) bool {
 	return false
 }
 
-func matchTypes(action string, types []interface{}) bool {
+func matchTypes(action string, types []any) bool {
 	for _, t := range types {
 		typeStr, ok := t.(string)
 		if !ok {

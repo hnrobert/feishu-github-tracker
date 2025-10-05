@@ -35,7 +35,7 @@ func New(botsConfig config.FeishuBotsConfig) *Notifier {
 }
 
 // Send sends a notification to the specified targets
-func (n *Notifier) Send(targets []string, payload map[string]interface{}) error {
+func (n *Notifier) Send(targets []string, payload map[string]any) error {
 	var errs []string
 
 	for _, target := range targets {
@@ -74,7 +74,7 @@ func (n *Notifier) resolveURL(target string) string {
 	return ""
 }
 
-func (n *Notifier) sendToWebhook(url string, payload map[string]interface{}) error {
+func (n *Notifier) sendToWebhook(url string, payload map[string]any) error {
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("failed to marshal payload: %w", err)

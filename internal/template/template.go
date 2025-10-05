@@ -10,7 +10,7 @@ import (
 )
 
 // SelectTemplate selects the appropriate template based on event type and tags
-func SelectTemplate(eventType string, tags []string, templates config.TemplatesConfig) (map[string]interface{}, error) {
+func SelectTemplate(eventType string, tags []string, templates config.TemplatesConfig) (map[string]any, error) {
 	eventTemplate, exists := templates.Templates[eventType]
 	if !exists {
 		return nil, fmt.Errorf("no template found for event type: %s", eventType)
@@ -50,14 +50,14 @@ func calculateMatchScore(eventTags, templateTags []string) int {
 }
 
 // FillTemplate fills the template with actual data from the webhook payload
-func FillTemplate(template map[string]interface{}, data map[string]interface{}) (map[string]interface{}, error) {
+func FillTemplate(template map[string]any, data map[string]any) (map[string]any, error) {
 	// Deep copy the template
 	templateJSON, err := json.Marshal(template)
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal template: %w", err)
 	}
 
-	var result map[string]interface{}
+	var result map[string]any
 	if err := json.Unmarshal(templateJSON, &result); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal template: %w", err)
 	}
@@ -68,9 +68,9 @@ func FillTemplate(template map[string]interface{}, data map[string]interface{}) 
 	return result, nil
 }
 
-func replacePlaceholders(obj interface{}, data map[string]interface{}) {
+func replacePlaceholders(obj any, data map[string]any) {
 	switch v := obj.(type) {
-	case map[string]interface{}:
+	case map[string]any:
 		for key, value := range v {
 			if str, ok := value.(string); ok {
 				v[key] = replacePlaceholder(str, data)
@@ -78,7 +78,7 @@ func replacePlaceholders(obj interface{}, data map[string]interface{}) {
 				replacePlaceholders(value, data)
 			}
 		}
-	case []interface{}:
+	case []any:
 		for i, item := range v {
 			if str, ok := item.(string); ok {
 				v[i] = replacePlaceholder(str, data)
@@ -89,7 +89,7 @@ func replacePlaceholders(obj interface{}, data map[string]interface{}) {
 	}
 }
 
-func replacePlaceholder(str string, data map[string]interface{}) string {
+func replacePlaceholder(str string, data map[string]any) string {
 	// Replace {{key}} or {{key.subkey}} placeholders
 	result := str
 	for key, value := range data {
@@ -98,7 +98,7 @@ func replacePlaceholder(str string, data map[string]interface{}) string {
 		result = strings.ReplaceAll(result, placeholder, valueStr)
 
 		// Handle nested keys
-		if nestedMap, ok := value.(map[string]interface{}); ok {
+		if nestedMap, ok := value.(map[string]any); ok {
 			for nestedKey, nestedValue := range nestedMap {
 				nestedPlaceholder := "{{" + key + "." + nestedKey + "}}"
 				nestedValueStr := fmt.Sprintf("%v", nestedValue)
@@ -110,7 +110,7 @@ func replacePlaceholder(str string, data map[string]interface{}) string {
 }
 
 // DetermineTags determines which tags to use based on the webhook payload
-func DetermineTags(eventType string, payload map[string]interface{}) []string {
+func DetermineTags(eventType string, payload map[string]any) []string {
 	tags := []string{eventType}
 
 	switch eventType {
@@ -124,7 +124,7 @@ func DetermineTags(eventType string, payload map[string]interface{}) []string {
 	case "pull_request":
 		action, _ := payload["action"].(string)
 		if action == "closed" {
-			if pr, ok := payload["pull_request"].(map[string]interface{}); ok {
+			if pr, ok := payload["pull_request"].(map[string]any); ok {
 				if merged, ok := pr["merged"].(bool); ok && merged {
 					tags = append(tags, "closed", "merged")
 				} else {
@@ -136,8 +136,8 @@ func DetermineTags(eventType string, payload map[string]interface{}) []string {
 		}
 
 	case "issues":
-		if issue, ok := payload["issue"].(map[string]interface{}); ok {
-			if labels, ok := issue["labels"].([]interface{}); ok {
+		if issue, ok := payload["issue"].(map[string]any); ok {
+			if labels, ok := issue["labels"].([]any); ok {
 				issueType := getIssueType(labels)
 				tags = append(tags, "issue", "type:"+issueType)
 			} else {
@@ -153,9 +153,9 @@ func DetermineTags(eventType string, payload map[string]interface{}) []string {
 	return tags
 }
 
-func getIssueType(labels []interface{}) string {
+func getIssueType(labels []any) string {
 	for _, label := range labels {
-		if labelMap, ok := label.(map[string]interface{}); ok {
+		if labelMap, ok := label.(map[string]any); ok {
 			if name, ok := labelMap["name"].(string); ok {
 				lowerName := strings.ToLower(name)
 				if strings.Contains(lowerName, "bug") {
