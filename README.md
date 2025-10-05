@@ -186,6 +186,8 @@ event_sets:
 
 定义飞书消息卡片模板。支持为不同事件类型和状态定义多个模板变体。当前已经包括了所有你需要的常用事件的模板，你可以根据自己的需要进行修改和扩展。
 
+这里的模板是基于飞书的消息卡片格式设计的，详情请参考 [飞书开放平台文档](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/create)。
+
 ```yaml
 templates:
   push:
