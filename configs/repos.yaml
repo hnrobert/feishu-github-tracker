@@ -21,20 +21,27 @@ repos:
       issues: # 如果不细化，直接监听所有 types
       release:
     notify_to:
-      - dev-team # 引用 feishu-bots.yaml 的 alias
-      - ops-team
+      - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
+      - "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz" # 这里是 dev-team, 但直接使用完整 URL 也可以
 
-  # 示例：匹配实验性项目
+  # 示例：匹配实验性项目（使用 glob 模式）
   - pattern: "CompPsyUnion/experimental-*"
     events:
-      all: # 直接应用 event_sets: 中定义的的模板
+      all: # 直接应用 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
     notify_to:
       - dev-team # 引用 feishu-bots.yaml 的 alias
 
-  # 示例：匹配整个组织的所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
-  - pattern: "CompPsyUnion/*"
+  # 示例：匹配所有个人项目
+  - pattern: "hnrobert/*"
     events:
-      simple: # 应用 events.yaml 内 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
-      project: # 也可以同时叠加更多事件。后添加的会覆盖前面的同类事件配置
+      custom: # 直接应用 event_sets: 中定义的的模板
+    notify_to:
+      - ops-team # 引用 feishu-bots.yaml 的 alias
+
+  # 示例：匹配所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
+  - pattern: "*"
+    events:
+      basic: # 应用 events.yaml 内 event_sets: 中定义的的模板。可以理解将 basic 里的事件展开添加到该仓库监听
+      project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
     notify_to:
       - org-notify # 引用 feishu-bots.yaml 的 alias
