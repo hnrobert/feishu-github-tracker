@@ -672,8 +672,11 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **包名：** {{package.name}}
-                    **动作：** {{action}}
+                    **包名：** {{package.name}} {{package_link_md | default('')}}
+                    **操作：** {{action}}
+                    **类型：** {{package.package_type | default('')}}
+                    **版本/Tag：** {{package.version | default('')}} {{package.tag_name | default('')}}
+                    **发布者：** {{sender_link_md | default(pusher_link_md | default(''))}}
 
   project:
     payloads:

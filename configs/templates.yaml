@@ -672,8 +672,11 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Package:** {{package.name}}
+                    **Package:** {{package.name}} {{package_link_md | default('')}}
                     **Action:** {{action}}
+                    **Type:** {{package.package_type | default('')}}
+                    **Version/Tag:** {{package.version | default('')}} {{package.tag_name | default('')}}
+                    **Published by:** {{sender_link_md | default(pusher_link_md | default(''))}}
 
   project:
     payloads:
