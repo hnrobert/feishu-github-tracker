@@ -134,9 +134,9 @@ func replacePlaceholdersInString(s string, data map[string]any) string {
 }
 
 // getValueByPath resolves dotted paths like 'repository.full_name' from data map.
-func getValueByPath(path string, data map[string]any) (interface{}, bool) {
+func getValueByPath(path string, data map[string]any) (any, bool) {
 	parts := strings.Split(path, ".")
-	var cur interface{} = data
+	var cur any = data
 	for _, p := range parts {
 		if m, ok := cur.(map[string]any); ok {
 			if v, exists := m[p]; exists {

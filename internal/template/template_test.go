@@ -6,13 +6,13 @@ import (
 )
 
 func TestFillTemplate_NestedPlaceholder(t *testing.T) {
-	tmpl := map[string]interface{}{
+	tmpl := map[string]any{
 		"content": "Repo: {{repository.full_name}} by {{sender.login}}",
 	}
 
-	data := map[string]interface{}{
-		"repository": map[string]interface{}{"full_name": "org/repo"},
-		"sender":     map[string]interface{}{"login": "alice"},
+	data := map[string]any{
+		"repository": map[string]any{"full_name": "org/repo"},
+		"sender":     map[string]any{"login": "alice"},
 	}
 
 	got, err := FillTemplate(tmpl, data)

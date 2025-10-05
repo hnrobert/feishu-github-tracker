@@ -13,9 +13,9 @@ func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
 	n := notifier.New(config.FeishuBotsConfig{})
 	h := New(cfg, n)
 
-	payload := map[string]interface{}{
-		"repository": map[string]interface{}{"full_name": "org/repo", "html_url": "https://github.com/org/repo"},
-		"sender":     map[string]interface{}{"login": "alice", "html_url": "https://github.com/alice"},
+	payload := map[string]any{
+		"repository": map[string]any{"full_name": "org/repo", "html_url": "https://github.com/org/repo"},
+		"sender":     map[string]any{"login": "alice", "html_url": "https://github.com/alice"},
 	}
 
 	data := h.prepareTemplateData("push", payload)

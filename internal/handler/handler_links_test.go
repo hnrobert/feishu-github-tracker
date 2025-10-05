@@ -12,11 +12,11 @@ func TestPrepareTemplateData_PushLinks(t *testing.T) {
 	n := notifier.New(config.FeishuBotsConfig{})
 	h := New(cfg, n)
 
-	payload := map[string]interface{}{
-		"repository": map[string]interface{}{"full_name": "org/repo", "html_url": "https://github.com/org/repo"},
-		"pusher":     map[string]interface{}{"name": "bob"},
+	payload := map[string]any{
+		"repository": map[string]any{"full_name": "org/repo", "html_url": "https://github.com/org/repo"},
+		"pusher":     map[string]any{"name": "bob"},
 		"ref":        "refs/heads/main",
-		"commits":    []interface{}{},
+		"commits":    []any{},
 	}
 
 	data := h.prepareTemplateData("push", payload)
@@ -34,9 +34,9 @@ func TestPrepareTemplateData_IssueLinks(t *testing.T) {
 	n := notifier.New(config.FeishuBotsConfig{})
 	h := New(cfg, n)
 
-	payload := map[string]interface{}{
-		"issue":  map[string]interface{}{"number": 2, "title": "Issue title", "html_url": "https://github.com/org/repo/issues/2", "user": map[string]interface{}{"login": "hnrobert", "html_url": "https://github.com/hnrobert"}},
-		"sender": map[string]interface{}{"login": "hnrobert", "html_url": "https://github.com/hnrobert"},
+	payload := map[string]any{
+		"issue":  map[string]any{"number": 2, "title": "Issue title", "html_url": "https://github.com/org/repo/issues/2", "user": map[string]any{"login": "hnrobert", "html_url": "https://github.com/hnrobert"}},
+		"sender": map[string]any{"login": "hnrobert", "html_url": "https://github.com/hnrobert"},
 	}
 
 	data := h.prepareTemplateData("issues", payload)
