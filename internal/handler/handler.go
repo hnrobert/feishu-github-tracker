@@ -225,10 +225,41 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		if commits, ok := payload["commits"].([]any); ok {
 			data["commits_count"] = len(commits)
 			data["commits"] = commits
-			if len(commits) > 0 {
-				if commit, ok := commits[0].(map[string]any); ok {
-					data["commit_message"] = commit["message"]
+
+			// collect messages and authors
+			var msgs []string
+			var authors []string
+			for _, c := range commits {
+				if cm, ok := c.(map[string]any); ok {
+					if m, ok := cm["message"].(string); ok {
+						msgs = append(msgs, m)
+					}
+					if author, ok := cm["author"].(map[string]any); ok {
+						if name, ok := author["name"].(string); ok {
+							authors = append(authors, name)
+						}
+					}
 				}
+			}
+
+			if len(msgs) > 0 {
+				data["commit_messages"] = msgs
+				// a single string with each message on a new line, prefixed
+				joined := ""
+				for i, m := range msgs {
+					if i == 0 {
+						joined = m
+					} else {
+						joined = joined + "\n- " + m
+					}
+				}
+				data["commit_messages_joined"] = joined
+				// also expose first commit message for backward compatibility
+				data["commit_message"] = msgs[0]
+			}
+			if len(authors) > 0 {
+				data["commit_authors"] = authors
+				data["commit_authors_joined"] = strings.Join(authors, ", ")
 			}
 		}
 
