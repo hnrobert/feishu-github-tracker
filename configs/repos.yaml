@@ -22,7 +22,7 @@ repos:
       release:
     notify_to:
       - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
-      - "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz" # 这里是 dev-team, 但直接使用完整 URL 也可以
+      - "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz" # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
 
   # 示例：匹配实验性项目（使用 glob 模式）
   - pattern: "CompPsyUnion/experimental-*"
