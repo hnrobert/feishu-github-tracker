@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "bref",
         "Buildx",
         "color",
         "delaycompress",
@@ -23,11 +24,15 @@
         "myrepo",
         "notifempty",
         "oneline",
+        "passthrough",
+        "pname",
         "postrotate",
         "prereleased",
         "rerequested",
         "resp",
+        "rurl",
         "sharedscripts",
+        "surl",
         "timezone",
         "tmpl",
         "tzdata",
