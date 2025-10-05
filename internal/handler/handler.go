@@ -541,16 +541,23 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 						}
 					}
 
+					// copy common package fields if present
+					if ptype, okpt := pkg["package_type"].(string); okpt {
+						data["package_type"] = ptype
+						pkg["package_type"] = ptype
+					}
+					if pver, okpv := pkg["version"].(string); okpv {
+						data["package_version"] = pver
+						pkg["version"] = pver
+					}
+					if ptag, okptag := pkg["tag_name"].(string); okptag {
+						data["package_tag_name"] = ptag
+						pkg["tag_name"] = ptag
+					}
+
 					// now build package link markdown preferring updated pkg["html_url"]
 					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
 						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
-					} else {
-						// fallback to repository page
-						if repo, ok4 := payload["repository"].(map[string]any); ok4 {
-							if rurl, ok5 := repo["html_url"].(string); ok5 {
-								data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rurl)
-							}
-						}
 					}
 				}
 			}

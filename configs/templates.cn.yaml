@@ -689,7 +689,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **包名：** {{package.name}} {{package_link_md | default('')}}
+                    **包名：** {{package_link_md | default(package.name)}}
                     **操作：** {{action}}
                     **类型：** {{package.package_type | default('')}}
                     **版本/Tag：** {{package.version | default('')}} {{package.tag_name | default('')}}

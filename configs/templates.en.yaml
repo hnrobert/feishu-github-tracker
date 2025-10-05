@@ -689,7 +689,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Package:** {{package.name}} {{package_link_md | default('')}}
+                    **Package:** {{package_link_md | default(package.name)}}
                     **Action:** {{action}}
                     **Type:** {{package.package_type | default('')}}
                     **Version/Tag:** {{package.version | default('')}} {{package.tag_name | default('')}}
