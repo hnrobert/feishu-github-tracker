@@ -57,7 +57,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **检测到强制推送**，操作人：{{sender.login}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}
+                    **检测到强制推送**，操作人：{{sender.login}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}
                     可能已重写历史。提交数：{{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 

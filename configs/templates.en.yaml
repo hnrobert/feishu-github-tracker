@@ -56,7 +56,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    🚨 **Force push detected** by {{sender.login}} on **{{branch_name}}** {{branch_link_md | default('')}}
+                    **Force push detected** by {{sender.login}} on **{{branch_name}}** {{branch_link_md | default('')}}
                     This may have rewritten history. Commits: {{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 
