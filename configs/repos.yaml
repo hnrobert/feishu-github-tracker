@@ -1,0 +1,40 @@
+# =========================================
+# repos.yaml
+# -----------------------------------------
+# 用于定义组织/仓库与事件模板、通知对象的映射关系
+# 支持通配符，按顺序匹配
+# =========================================
+
+repos:
+  # 示例：针对特定项目定义更详细监听
+  - pattern: "CompPsyUnion/motion-vote-backend"
+    events:
+      push: # 直接引用 events.yaml 中的事件
+        branches: # 可以进一步细化，覆盖 events.yaml 中的默认配置
+          - main
+          - develop
+      pull_request: # 同理
+        types:
+          - opened
+          - closed
+          - reopened
+      issues: # 如果不细化，直接监听所有 types
+      release:
+    notify_to:
+      - dev-team # 引用 feishu-bots.yaml 的 alias
+      - ops-team
+
+  # 示例：匹配实验性项目
+  - pattern: "CompPsyUnion/experimental-*"
+    events:
+      all: # 直接应用 event_sets: 中定义的的模板
+    notify_to:
+      - dev-team # 引用 feishu-bots.yaml 的 alias
+
+  # 示例：匹配整个组织的所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
+  - pattern: "CompPsyUnion/*"
+    events:
+      simple: # 应用 events.yaml 内 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
+      project: # 也可以同时叠加更多事件。后添加的会覆盖前面的同类事件配置
+    notify_to:
+      - org-notify # 引用 feishu-bots.yaml 的 alias

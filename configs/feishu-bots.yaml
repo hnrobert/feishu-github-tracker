@@ -1,0 +1,16 @@
+# =========================================
+# feishu-bots.yaml
+# -----------------------------------------
+# 存放所有飞书机器人的别名和Webhook URL
+# 可在repos.yaml中通过alias引用
+# =========================================
+
+feishu_bots:
+  - alias: "dev-team"
+    url: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxx"
+
+  - alias: "ops-team"
+    url: "https://open.feishu.cn/open-apis/bot/v2/hook/yyyyyyy"
+
+  - alias: "org-notify"
+    url: "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz"

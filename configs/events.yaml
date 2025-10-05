@@ -1,0 +1,262 @@
+# =========================================
+# events.yaml
+# -----------------------------------------
+# 定义支持的GitHub事件结构
+# 可通过 `alias` 在repo中快速引用
+# =========================================
+
+# 模板集合，用于在repos.yaml中引用
+# 注意：如果在模板里包含了一个完整事件（例如使用 `push:`），
+# 并且在该事件下没有进一步指定分支/类型等条件，我们会把它视为“全选”（匹配该事件的所有子类型）。
+event_sets:
+  # "basic" 模板：适合中小型项目（将事件的完整定义原样列出，可在模板里覆盖或细化）
+  basic:
+    push:
+    pull_request:
+    pull_request_review:
+    pull_request_review_comment:
+    issues:
+    issue_comment:
+    discussion:
+    discussion_comment:
+    release:
+    package:
+
+  # "all" 模板：包含GitHub支持的全部事件（每个事件都列出完整定义，便于模板内直接细化）
+  all:
+    push:
+    pull_request:
+    pull_request_review:
+    pull_request_review_comment:
+    issues:
+    issue_comment:
+    discussion:
+    discussion_comment:
+    release:
+    gollum:
+    create:
+    delete:
+    fork:
+    star:
+    watch:
+    repository:
+    deployment:
+    deployment_status:
+    package:
+    project:
+    project_card:
+    project_column:
+    milestone:
+    team:
+    membership:
+    member:
+    organization:
+    check_run:
+    check_suite:
+    workflow_run:
+    status:
+    page_build:
+    public:
+    security_advisory:
+
+  # 自定义模板：可按需添加事件并细化自定义新的 event_sets（示例）
+  custom:
+    push:
+      branches:
+        - main
+        - develop
+        - release/*
+    pull_request:
+      types:
+        - opened
+        - closed
+        - reopened
+    issues:
+      types:
+        - opened
+        - closed
+        - reopened
+    release:
+      types:
+        - published
+        - edited
+    discussion:
+      types:
+        - created
+        - answered
+
+# 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用
+events:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    types:
+      - opened
+      - closed
+      - reopened
+      - synchronize
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - review_requested
+      - review_request_removed
+      - ready_for_review
+      - converted_to_draft
+  pull_request_review:
+    types:
+      - submitted
+      - edited
+      - dismissed
+  pull_request_review_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  issues:
+    types:
+      - opened
+      - closed
+      - reopened
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - edited
+      - milestoned
+      - demilestoned
+      - transferred
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  discussion:
+    types:
+      - created
+      - edited
+      - deleted
+      - transferred
+      - pinned
+      - unpinned
+      - locked
+      - unlocked
+      - labeled
+      - unlabeled
+      - answered
+      - unanswered
+  discussion_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  release:
+    types:
+      - published
+      - unpublished
+      - created
+      - edited
+      - deleted
+      - prereleased
+      - released
+  gollum:
+  create:
+  delete:
+  fork:
+  star:
+    types:
+      - created
+      - deleted
+  watch:
+    types:
+      - started
+  repository:
+    types:
+      - created
+      - deleted
+      - archived
+      - unarchived
+      - edited
+      - renamed
+      - transferred
+      - publicized
+      - privatized
+  deployment:
+  deployment_status:
+  package:
+    types:
+      - published
+      - updated
+  project:
+    types:
+      - created
+      - updated
+      - closed
+      - reopened
+      - deleted
+  project_card:
+    types:
+      - created
+      - moved
+      - converted
+      - edited
+      - deleted
+  project_column:
+    types:
+      - created
+      - updated
+      - moved
+      - deleted
+  milestone:
+    types:
+      - created
+      - closed
+      - opened
+      - edited
+      - deleted
+  team:
+    types:
+      - created
+      - deleted
+      - edited
+      - added_to_repository
+      - removed_from_repository
+  membership:
+    types:
+      - added
+      - removed
+  member:
+    types:
+      - added
+      - removed
+      - edited
+  organization:
+    types:
+      - member_added
+      - member_removed
+      - member_invited
+  check_run:
+    types:
+      - created
+      - completed
+      - rerequested
+      - requested_action
+  check_suite:
+    types:
+      - completed
+      - requested
+      - rerequested
+  workflow_run:
+    types:
+      - completed
+      - requested
+      - in_progress
+  status:
+  page_build:
+  public:
+  security_advisory:
+    types:
+      - published
+      - updated
+      - withdrawn

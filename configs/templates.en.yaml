@@ -1,0 +1,992 @@
+# =========================================
+# templates.yaml
+# -----------------------------------------
+# GitHub event → Feishu (Lark) interactive card templates
+# Each template now exposes a `payloads` list. Each payload has a `tags`
+# array that your program can use to pick the appropriate card (e.g. when
+# a push is forced, or a PR is closed & merged). Keep placeholders intact.
+# =========================================
+
+templates:
+  push:
+    payloads:
+      - tags: [push, default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💾 New Push: {{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    {{pusher.name}} pushed {{commits | length}} commits to **{{ref}}**
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View commits"
+                    url: "{{compare_url}}"
+                    type: primary
+
+      - tags: [push, force]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚨 Force Push: {{repository.full_name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    🚨 **Force push detected** by {{sender.login}} on **{{ref}}**
+                    This may have rewritten history. Commits: {{commits | length}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View commits"
+                    url: "{{compare_url}}"
+                    type: primary
+
+  pull_request:
+    payloads:
+      - tags: [pr, closed, merged]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔮 Pull Request merged: #{{pull_request.number}} {{pull_request.title}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **PR merged by:** {{sender.login}}
+                    **PR:** #{{pull_request.number}} {{pull_request.title}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+      - tags: [pr, closed, unmerged]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ Pull Request closed (not merged): #{{pull_request.number}} {{pull_request.title}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **PR closed without merge** by {{sender.login}}
+                    **PR:** #{{pull_request.number}} {{pull_request.title}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+      - tags: [pr, default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔀 Pull Request {{action}}: {{pull_request.title}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{sender.login}}
+                    **PR #:** #{{pull_request.number}}
+                    **State:** {{pull_request.state}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+  issues:
+    payloads:
+      - tags: [issue, type:bug]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🐞 Bug: {{issue.title}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    🐛 **Bug reported** by {{sender.login}}
+                    **Issue #:** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:feature]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✨ Feature: {{issue.title}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ✨ **Feature request** by {{sender.login}}
+                    **Issue #:** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:task]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📝 Task: {{issue.title}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    📝 **Task created** by {{sender.login}}
+                    **Issue #:** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:unknown]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⚠️ Issue: {{issue.title}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ⚠️ **Issue (type unknown)** by {{sender.login}}
+                    **Issue #:** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+  # For all other events we keep a single default payload. The consumer
+  # can select a payload by matching tags.
+  release:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚀 Release: {{release.tag_name}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{release.author.login}}
+                    **Title:** {{release.name}}
+                    **Notes:** {{release.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Release"
+                    url: "{{release.html_url}}"
+                    type: primary
+
+  discussion:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 New Discussion: {{discussion.title}}"
+              template: "teal"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{sender.login}}
+                    **Category:** {{discussion.category.name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Discussion"
+                    url: "{{discussion.html_url}}"
+                    type: primary
+
+  pull_request_review:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📝 PR Review {{action}}: #{{pull_request.number}}"
+              template: "cyan"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Reviewer:** {{review.user.login}}
+                    **PR:** #{{pull_request.number}} {{pull_request.title}}
+                    **Conclusion:** {{review.state}}
+                    {{review.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Review"
+                    url: "{{review.html_url}}"
+                    type: primary
+
+  pull_request_review_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 PR Review Comment: #{{pull_request.number}}"
+              template: "cyan"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{sender.login}}
+                    **PR:** #{{pull_request.number}}
+                    **Comment:** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Comment"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  issue_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 Issue Comment: #{{issue.number}}"
+              template: "orange"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{sender.login}}
+                    **Issue:** #{{issue.number}} {{issue.title}}
+                    **Comment:** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Comment"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  discussion_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 Discussion Comment: {{discussion.title}}"
+              template: "teal"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Author:** {{sender.login}}
+                    **Discussion:** {{discussion.title}}
+                    **Comment:** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Comment"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  gollum:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📚 Wiki Update: {{repository.full_name}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Pusher:** {{sender.login}}
+                    **Changes:** {{pages | length}} pages updated
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View repo"
+                    url: "{{repository.html_url}}"
+                    type: primary
+
+  create:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✨ Created: {{ref_type}} in {{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Creator:** {{sender.login}}
+                    **Type:** {{ref_type}}  Name: {{ref}}
+
+  delete:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🗑️ Deleted: {{ref_type}} in {{repository.full_name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Actor:** {{sender.login}}
+                    **Deleted:** {{ref_type}} {{ref}}
+
+  fork:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🍴 Fork: {{forkee.full_name}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Forker:** {{sender.login}}
+                    **Forked repo:** {{forkee.full_name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View fork"
+                    url: "{{forkee.html_url}}"
+                    type: primary
+
+  star:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⭐ {{action}} by {{sender.login}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Repo:** {{repository.full_name}}
+                    **Action:** {{action}}
+
+  watch:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔔 Watch: {{action}} by {{sender.login}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Repo:** {{repository.full_name}}
+                    **Action:** {{action}}
+
+  repository:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏷️ Repository change: {{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Action:** {{action}}
+                    **Repo:** {{repository.full_name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View repo"
+                    url: "{{repository.html_url}}"
+                    type: primary
+
+  deployment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚢 Deployment: {{deployment.environment}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Ref:** {{deployment.ref}}
+                    **Environment:** {{deployment.environment}}
+                    **Actor:** {{sender.login}}
+
+  deployment_status:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📣 Deployment status: {{deployment_status.state}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Ref:** {{deployment.ref}}
+                    **State:** {{deployment_status.state}}
+                    **Description:** {{deployment_status.description}}
+
+  package:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📦 Package event: {{action}} {{package.name | default('package')}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Package:** {{package.name}}
+                    **Action:** {{action}}
+
+  project:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📋 Project: {{action}} {{project.name}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Project:** {{project.name}}
+                    **Action:** {{action}}
+
+  project_card:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🃏 Project Card: {{action}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Card:** {{project_card.note | default('No note')}}
+                    **Action:** {{action}}
+
+  project_column:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📐 Project Column: {{action}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Column:** {{project_column.name}}
+                    **Action:** {{action}}
+
+  milestone:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏁 Milestone: {{action}} {{milestone.title}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Milestone:** {{milestone.title}}
+                    **Description:** {{milestone.description}}
+
+  team:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "👥 Team event: {{action}} {{team.name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Team:** {{team.name}}
+                    **Action:** {{action}}
+
+  membership:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "➕ Membership: {{action}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Member:** {{member.user.login}}
+                    **Action:** {{action}}
+
+  member:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "👤 Member event: {{action}} {{member.login}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Member:** {{member.login}}
+                    **Action:** {{action}}
+
+  organization:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏢 Organization change: {{action}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Organization:** {{organization.login}}
+                    **Member:** {{membership.user.login | default('N/A')}}
+
+  check_run:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ Check Run: {{check_run.name}} {{check_run.status}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Check:** {{check_run.name}}
+                    **Status:** {{check_run.status}}
+                    **Conclusion:** {{check_run.conclusion}}
+
+  check_suite:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🧪 Check Suite: {{action}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Conclusion:** {{check_suite.conclusion | default('N/A')}}
+                    **Head SHA:** {{check_suite.head_sha}}
+
+  workflow_run:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⚙️ Workflow: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Workflow:** {{workflow.name}}
+                    **Run ID:** {{workflow_run.id}}
+                    **Status:** {{workflow_run.status}}
+
+  status:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔁 Status update: {{state}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Context:** {{context}}
+                    **State:** {{state}}
+
+  page_build:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📄 Page Build: {{action}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Repo:** {{repository.full_name}}
+                    **Action:** {{action}}
+
+  public:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🌐 Repository made public: {{repository.full_name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Repository:** {{repository.full_name}} is now public
+
+  security_advisory:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔒 Security Advisory: {{action}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Summary:** {{security_advisory.summary | default('See advisory for details')}}
+                    **Severity:** {{security_advisory.severity | default('N/A')}}

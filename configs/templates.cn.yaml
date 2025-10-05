@@ -1,0 +1,992 @@
+# =========================================
+# templates.yaml (Chinese)
+# -----------------------------------------
+# 每个模板现在包含一个 `payloads` 列表，每个 payload 带有 `tags` 用于选择。
+# 特殊规则：
+# - push 的 force push 使用 red 模板 (tag: force)
+# - PR closed 且 merged 使用 purple，否则使用 red (tags: closed, merged/unmerged)
+# - Issues 根据 issue type 使用不同模板 (bug/feature/task)，否则默认黄色带 ⚠️ 表情
+# =========================================
+
+templates:
+  push:
+    payloads:
+      - tags: [push, default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💾 新推送：{{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    {{pusher.name}} 推送了 {{commits | length}} 个提交到分支 **{{ref}}**
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看提交详情"
+                    url: "{{compare_url}}"
+                    type: primary
+
+      - tags: [push, force]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚨 强制推送：{{repository.full_name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ⚠️ **检测到强制推送**，操作人：{{sender.login}}，分支：**{{ref}}**
+                    可能已重写历史。提交数：{{commits | length}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看提交详情"
+                    url: "{{compare_url}}"
+                    type: primary
+
+  pull_request:
+    payloads:
+      - tags: [pr, closed, merged]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔮 Pull Request 已合并：#{{pull_request.number}} {{pull_request.title}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **合并者：** {{sender.login}}
+                    **PR：** #{{pull_request.number}} {{pull_request.title}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+      - tags: [pr, closed, unmerged]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ PR 关闭（未合并）：#{{pull_request.number}} {{pull_request.title}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **PR 未合并即关闭**，触发者：{{sender.login}}
+                    **PR：** #{{pull_request.number}} {{pull_request.title}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+      - tags: [pr, default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔀 Pull Request {{action}}：{{pull_request.title}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **作者：** {{sender.login}}
+                    **PR 编号：** #{{pull_request.number}}
+                    **状态：** {{pull_request.state}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 PR"
+                    url: "{{pull_request.html_url}}"
+                    type: primary
+
+  issues:
+    payloads:
+      - tags: [issue, type:bug]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🐞 Bug：{{issue.title}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    🐛 **发现 Bug**，报告者：{{sender.login}}
+                    **Issue 编号：** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:feature]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✨ Feature：{{issue.title}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ✨ **功能需求**，提出者：{{sender.login}}
+                    **Issue 编号：** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:task]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📝 任务：{{issue.title}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    📝 **任务**，创建者：{{sender.login}}
+                    **Issue 编号：** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [issue, type:unknown]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⚠️ Issue：{{issue.title}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ⚠️ **未知类型 Issue**，创建者：{{sender.login}}
+                    **Issue 编号：** #{{issue.number}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+  # 其余事件使用默认 payloads
+  release:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚀 发布：{{release.tag_name}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **发布者：** {{release.author.login}}
+                    **标题：** {{release.name}}
+                    **说明：** {{release.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Release"
+                    url: "{{release.html_url}}"
+                    type: primary
+
+  discussion:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 新讨论：{{discussion.title}}"
+              template: "teal"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **作者：** {{sender.login}}
+                    **分类：** {{discussion.category.name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看讨论"
+                    url: "{{discussion.html_url}}"
+                    type: primary
+
+  pull_request_review:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📝 PR 审查 {{action}}：#{{pull_request.number}}"
+              template: "cyan"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **审查者：** {{review.user.login}}
+                    **PR：** #{{pull_request.number}} {{pull_request.title}}
+                    **结论：** {{review.state}}
+                    {{review.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看审查"
+                    url: "{{review.html_url}}"
+                    type: primary
+
+  pull_request_review_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 PR 审查评论：#{{pull_request.number}}"
+              template: "cyan"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **作者：** {{sender.login}}
+                    **PR：** #{{pull_request.number}}
+                    **评论：** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看评论"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  issue_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 Issue 评论：#{{issue.number}}"
+              template: "orange"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **作者：** {{sender.login}}
+                    **Issue：** #{{issue.number}} {{issue.title}}
+                    **评论：** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看评论"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  discussion_comment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "💬 讨论评论：{{discussion.title}}"
+              template: "teal"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **作者：** {{sender.login}}
+                    **讨论：** {{discussion.title}}
+                    **评论：** {{comment.body}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看评论"
+                    url: "{{comment.html_url}}"
+                    type: primary
+
+  gollum:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📚 Wiki 更新：{{repository.full_name}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **推送者：** {{sender.login}}
+                    **变更：** {{pages | length}} 个页面已更新
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看仓库"
+                    url: "{{repository.html_url}}"
+                    type: primary
+
+  create:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✨ 新创建：{{ref_type}} 在 {{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **创建者：** {{sender.login}}
+                    **类型：** {{ref_type}}  名称：{{ref}}
+
+  delete:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🗑️ 删除：{{ref_type}} 在 {{repository.full_name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **触发者：** {{sender.login}}
+                    **删除：** {{ref_type}} {{ref}}
+
+  fork:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🍴 Fork：{{forkee.full_name}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Fork者：** {{sender.login}}
+                    **目标仓库：** {{forkee.full_name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看Fork仓库"
+                    url: "{{forkee.html_url}}"
+                    type: primary
+
+  star:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⭐ 仰慕：{{action}} by {{sender.login}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **仓库：** {{repository.full_name}}
+                    **动作：** {{action}}
+
+  watch:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔔 Watch：{{action}} by {{sender.login}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **仓库：** {{repository.full_name}}
+                    **动作：** {{action}}
+
+  repository:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏷️ 仓库变更：{{repository.full_name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **动作：** {{action}}
+                    **仓库：** {{repository.full_name}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看仓库"
+                    url: "{{repository.html_url}}"
+                    type: primary
+
+  deployment:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🚢 部署：{{deployment.environment}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **应用：** {{deployment.ref}}
+                    **环境：** {{deployment.environment}}
+                    **发起人：** {{sender.login}}
+
+  deployment_status:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📣 部署状态：{{deployment_status.state}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **部署：** {{deployment.ref}}
+                    **状态：** {{deployment_status.state}}
+                    **描述：** {{deployment_status.description}}
+
+  package:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📦 包事件：{{action}} {{package.name | default('package')}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **包名：** {{package.name}}
+                    **动作：** {{action}}
+
+  project:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📋 项目：{{action}} {{project.name}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **项目：** {{project.name}}
+                    **动作：** {{action}}
+
+  project_card:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🃏 项目卡片：{{action}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **卡片：** {{project_card.note | default('无注释')}}
+                    **动作：** {{action}}
+
+  project_column:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📐 项目列：{{action}}"
+              template: "brown"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **列名：** {{project_column.name}}
+                    **动作：** {{action}}
+
+  milestone:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏁 里程碑：{{action}} {{milestone.title}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **里程碑：** {{milestone.title}}
+                    **描述：** {{milestone.description}}
+
+  team:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "👥 团队事件：{{action}} {{team.name}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **团队：** {{team.name}}
+                    **动作：** {{action}}
+
+  membership:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "➕ 成员加入/移除：{{action}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **成员：** {{member.user.login}}
+                    **动作：** {{action}}
+
+  member:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "👤 成员事件：{{action}} {{member.login}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **成员：** {{member.login}}
+                    **动作：** {{action}}
+
+  organization:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏢 组织成员变更：{{action}}"
+              template: "blue"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **组织：** {{organization.login}}
+                    **成员：** {{membership.user.login | default('N/A')}}
+
+  check_run:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ Check Run：{{check_run.name}} {{check_run.status}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **检查：** {{check_run.name}}
+                    **状态：** {{check_run.status}}
+                    **结论：** {{check_run.conclusion}}
+
+  check_suite:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🧪 Check Suite：{{action}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **结论：** {{check_suite.conclusion | default('N/A')}}
+                    **提交：** {{check_suite.head_sha}}
+
+  workflow_run:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "⚙️ Workflow：{{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
+              template: "purple"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **工作流：** {{workflow.name}}
+                    **运行：** {{workflow_run.id}}
+                    **状态：** {{workflow_run.status}}
+
+  status:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔁 状态更新：{{state}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **上下文：** {{context}}
+                    **状态：** {{state}}
+
+  page_build:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📄 Page Build：{{action}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **仓库：** {{repository.full_name}}
+                    **动作：** {{action}}
+
+  public:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🌐 仓库公开：{{repository.full_name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **仓库已公开：** {{repository.full_name}}
+
+  security_advisory:
+    payloads:
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🔒 安全通告：{{action}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **通告：** {{security_advisory.summary | default('详情请查看安全通告')}}
+                    **严重度：** {{security_advisory.severity | default('N/A')}}
