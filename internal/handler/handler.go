@@ -337,5 +337,16 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 		}
 	}
 
+	// package event
+	if eventType == "package" {
+		if pkg, ok := payload["package"].(map[string]any); ok {
+			data["package"] = pkg
+			if name, ok := pkg["name"]; ok {
+				data["package_name"] = name
+			}
+		}
+		data["action"] = payload["action"]
+	}
+
 	return data
 }

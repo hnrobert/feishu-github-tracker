@@ -94,25 +94,29 @@ func replacePlaceholders(obj any, data map[string]any) {
 // {{key | length}} with values from data. Supports dotted paths and the length operator.
 func replacePlaceholdersInString(s string, data map[string]any) string {
 	// regex: group1 = path (a.b.c), group2 = optional 'length'
-	re := regexp.MustCompile(`\{\{\s*([a-zA-Z0-9_\.]+)\s*(?:\|\s*(length)\s*)?\}\}`)
+	// patterns:
+	// {{path}} or {{path | length}} or {{path | default('fallback')}}
+	re := regexp.MustCompile(`\{\{\s*([a-zA-Z0-9_\.]+)\s*(?:\|\s*(length)\s*|\|\s*default\(\'([^']*)\'\)\s*)?\}\}`)
 	return re.ReplaceAllStringFunc(s, func(m string) string {
 		parts := re.FindStringSubmatch(m)
 		if len(parts) < 2 {
 			return m
 		}
 		path := parts[1]
-		op := ""
-		if len(parts) >= 3 {
-			op = parts[2]
-		}
+		// parts[2] is length if present; parts[3] is default value if present
+		opLength := parts[2]
+		defaultVal := parts[3]
 
 		// resolve dotted path
 		val, ok := getValueByPath(path, data)
 		if !ok {
-			return m // leave unchanged if not found
+			if defaultVal != "" {
+				return defaultVal
+			}
+			return m // leave unchanged if not found and no default
 		}
 
-		if op == "length" {
+		if opLength == "length" {
 			switch t := val.(type) {
 			case []any:
 				return fmt.Sprintf("%d", len(t))
