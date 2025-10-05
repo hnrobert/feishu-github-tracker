@@ -1,14 +1,36 @@
 {
     "cSpell.words": [
+        "Buildx",
         "color",
+        "delaycompress",
         "demilestoned",
+        "endscript",
+        "extldflags",
         "feishu",
         "forkee",
+        "GOARCH",
+        "gobwas",
+        "golangci",
         "gollum",
+        "GOOS",
+        "gopkg",
+        "healthcheck",
         "labeled",
+        "ldflags",
         "milestoned",
+        "myorg",
+        "myrepo",
+        "notifempty",
+        "postrotate",
         "prereleased",
         "rerequested",
-        "unlabeled"
+        "resp",
+        "sharedscripts",
+        "timezone",
+        "tmpl",
+        "tzdata",
+        "unlabeled",
+        "yourdomain",
+        "zoneinfo"
     ]
 }

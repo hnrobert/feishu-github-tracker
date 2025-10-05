@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+DEPLOYMENT.md
+CONFIGURATION.md
+
+# CI/CD
+.github
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Build artifacts
+dist/
+bin/
+dist/
+feishu-github-tracker
+webhook
+*.exe
+
+# Logs
+log/
+*.log
+
+# Test files
+*_test.go
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config overrides
+*.local.yaml
