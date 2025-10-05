@@ -67,6 +67,10 @@ event_sets:
         - develop
         - release/*
     pull_request:
+      branches:
+        - main
+        - develop
+        - release/*
       types:
         - opened
         - closed
@@ -91,6 +95,8 @@ events:
     branches:
       - "*"
   pull_request:
+    branches:
+      - "*"
     types:
       - opened
       - closed
