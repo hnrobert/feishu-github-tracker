@@ -27,8 +27,11 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    {{pusher.name}} 推送了 {{commits | length}} 个提交到分支 **{{ref}}**
+                    {{pusher.name}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+
+                    **提交信息：**
+                    {{commit_messages_joined | default(commit_message | default(pull_request.body | default('无提交信息'))) }}
               - tag: action
                 actions:
                   - tag: button
@@ -54,9 +57,12 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **检测到强制推送**，操作人：{{sender.login}}，分支：**{{ref}}**
+                    ⚠️ **检测到强制推送**，操作人：{{sender.login}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}
                     可能已重写历史。提交数：{{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+
+                    **提交信息：**
+                    {{commit_messages_joined | default(commit_message | default('无提交信息')) }}
               - tag: action
                 actions:
                   - tag: button
@@ -86,6 +92,9 @@ templates:
                   content: |
                     **合并者：** {{sender.login}}
                     **PR：** #{{pull_request.number}} {{pull_request.title}}
+
+                    **合并提交 / PR 描述：**
+                    {{pull_request.body | default(commit_message | default('无详情'))}}
               - tag: action
                 actions:
                   - tag: button
@@ -113,6 +122,9 @@ templates:
                   content: |
                     **PR 未合并即关闭**，触发者：{{sender.login}}
                     **PR：** #{{pull_request.number}} {{pull_request.title}}
+
+                    **PR 描述：**
+                    {{pull_request.body | default('无详情')}}
               - tag: action
                 actions:
                   - tag: button
@@ -141,6 +153,9 @@ templates:
                     **作者：** {{sender.login}}
                     **PR 编号：** #{{pull_request.number}}
                     **状态：** {{pull_request.state}}
+
+                    **PR 描述 / 最新提交信息：**
+                    {{pull_request.body | default(commit_message | default('无详情'))}}
               - tag: action
                 actions:
                   - tag: button
@@ -489,7 +504,7 @@ templates:
                   tag: lark_md
                   content: |
                     **创建者：** {{sender.login}}
-                    **类型：** {{ref_type}}  名称：{{ref}}
+                    **类型：** {{ref_type}}  名称： {{ref}}
 
   delete:
     payloads:

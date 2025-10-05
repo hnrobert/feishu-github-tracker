@@ -26,8 +26,11 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    {{pusher.name}} pushed {{commits | length}} commits to **{{ref}}**
+                    {{pusher.name}} pushed {{commits | length}} commits to **{{branch_name}}** {{branch_link_md | default('')}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+
+                    **Commit messages:**
+                    {{commit_messages_joined | default(commit_message | default(pull_request.body | default('No commit messages'))) }}
               - tag: action
                 actions:
                   - tag: button
@@ -53,9 +56,12 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    🚨 **Force push detected** by {{sender.login}} on **{{ref}}**
+                    🚨 **Force push detected** by {{sender.login}} on **{{branch_name}}** {{branch_link_md | default('')}}
                     This may have rewritten history. Commits: {{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+
+                    **Commit messages:**
+                    {{commit_messages_joined | default(commit_message | default('No commit messages')) }}
               - tag: action
                 actions:
                   - tag: button
@@ -85,6 +91,9 @@ templates:
                   content: |
                     **PR merged by:** {{sender.login}}
                     **PR:** #{{pull_request.number}} {{pull_request.title}}
+
+                    **Merge commit / PR body:**
+                    {{pull_request.body | default(commit_message | default('No details'))}}
               - tag: action
                 actions:
                   - tag: button
@@ -112,6 +121,9 @@ templates:
                   content: |
                     **PR closed without merge** by {{sender.login}}
                     **PR:** #{{pull_request.number}} {{pull_request.title}}
+
+                    **PR body:**
+                    {{pull_request.body | default('No details')}}
               - tag: action
                 actions:
                   - tag: button
@@ -140,6 +152,9 @@ templates:
                     **Author:** {{sender.login}}
                     **PR #:** #{{pull_request.number}}
                     **State:** {{pull_request.state}}
+
+                    **PR body / latest commit message:**
+                    {{pull_request.body | default(commit_message | default('No details'))}}
               - tag: action
                 actions:
                   - tag: button
