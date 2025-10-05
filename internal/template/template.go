@@ -3,6 +3,7 @@ package template
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
@@ -73,7 +74,7 @@ func replacePlaceholders(obj any, data map[string]any) {
 	case map[string]any:
 		for key, value := range v {
 			if str, ok := value.(string); ok {
-				v[key] = replacePlaceholder(str, data)
+				v[key] = replacePlaceholdersInString(str, data)
 			} else {
 				replacePlaceholders(value, data)
 			}
@@ -81,7 +82,7 @@ func replacePlaceholders(obj any, data map[string]any) {
 	case []any:
 		for i, item := range v {
 			if str, ok := item.(string); ok {
-				v[i] = replacePlaceholder(str, data)
+				v[i] = replacePlaceholdersInString(str, data)
 			} else {
 				replacePlaceholders(item, data)
 			}
@@ -89,24 +90,60 @@ func replacePlaceholders(obj any, data map[string]any) {
 	}
 }
 
-func replacePlaceholder(str string, data map[string]any) string {
-	// Replace {{key}} or {{key.subkey}} placeholders
-	result := str
-	for key, value := range data {
-		placeholder := "{{" + key + "}}"
-		valueStr := fmt.Sprintf("%v", value)
-		result = strings.ReplaceAll(result, placeholder, valueStr)
+// replacePlaceholdersInString replaces placeholders like {{key}}, {{key.subkey}} and
+// {{key | length}} with values from data. Supports dotted paths and the length operator.
+func replacePlaceholdersInString(s string, data map[string]any) string {
+	// regex: group1 = path (a.b.c), group2 = optional 'length'
+	re := regexp.MustCompile(`\{\{\s*([a-zA-Z0-9_\.]+)\s*(?:\|\s*(length)\s*)?\}\}`)
+	return re.ReplaceAllStringFunc(s, func(m string) string {
+		parts := re.FindStringSubmatch(m)
+		if len(parts) < 2 {
+			return m
+		}
+		path := parts[1]
+		op := ""
+		if len(parts) >= 3 {
+			op = parts[2]
+		}
 
-		// Handle nested keys
-		if nestedMap, ok := value.(map[string]any); ok {
-			for nestedKey, nestedValue := range nestedMap {
-				nestedPlaceholder := "{{" + key + "." + nestedKey + "}}"
-				nestedValueStr := fmt.Sprintf("%v", nestedValue)
-				result = strings.ReplaceAll(result, nestedPlaceholder, nestedValueStr)
+		// resolve dotted path
+		val, ok := getValueByPath(path, data)
+		if !ok {
+			return m // leave unchanged if not found
+		}
+
+		if op == "length" {
+			switch t := val.(type) {
+			case []any:
+				return fmt.Sprintf("%d", len(t))
+			case string:
+				return fmt.Sprintf("%d", len(t))
+			case map[string]any:
+				return fmt.Sprintf("%d", len(t))
+			default:
+				return fmt.Sprintf("%v", val)
 			}
 		}
+
+		return fmt.Sprintf("%v", val)
+	})
+}
+
+// getValueByPath resolves dotted paths like 'repository.full_name' from data map.
+func getValueByPath(path string, data map[string]any) (interface{}, bool) {
+	parts := strings.Split(path, ".")
+	var cur interface{} = data
+	for _, p := range parts {
+		if m, ok := cur.(map[string]any); ok {
+			if v, exists := m[p]; exists {
+				cur = v
+				continue
+			}
+			return nil, false
+		}
+		return nil, false
 	}
-	return result
+	return cur, true
 }
 
 // DetermineTags determines which tags to use based on the webhook payload

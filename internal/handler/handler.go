@@ -221,13 +221,20 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 	case "push":
 		data["ref"] = payload["ref"]
 		data["compare_url"] = payload["compare"]
+		// include commits list and its count for templates
 		if commits, ok := payload["commits"].([]any); ok {
 			data["commits_count"] = len(commits)
+			data["commits"] = commits
 			if len(commits) > 0 {
 				if commit, ok := commits[0].(map[string]any); ok {
 					data["commit_message"] = commit["message"]
 				}
 			}
+		}
+
+		// include pusher object so templates can reference {{pusher.name}}
+		if pusher, ok := payload["pusher"].(map[string]any); ok {
+			data["pusher"] = pusher
 		}
 		data["forced"] = payload["forced"]
 
