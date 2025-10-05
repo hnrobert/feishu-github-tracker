@@ -371,6 +371,15 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 					}
 				}
 			}
+
+			// issue markdown link (title -> url)
+			if iu, ok := issue["html_url"].(string); ok {
+				if it, ok2 := issue["title"].(string); ok2 && it != "" {
+					data["issue_link_md"] = fmt.Sprintf("[#%v %s](%s)", issue["number"], it, iu)
+				} else {
+					data["issue_link_md"] = iu
+				}
+			}
 		}
 		data["action"] = payload["action"]
 

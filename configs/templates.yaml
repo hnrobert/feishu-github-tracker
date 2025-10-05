@@ -27,6 +27,7 @@ templates:
                   tag: lark_md
                   content: |
                     {{pusher.name}} pushed {{commits | length}} commits to **{{ref}}**
+                    {{repository_link_md | default('')}} {{branch_link_md | default('')}}
               - tag: action
                 actions:
                   - tag: button
@@ -54,6 +55,7 @@ templates:
                   content: |
                     🚨 **Force push detected** by {{sender.login}} on **{{ref}}**
                     This may have rewritten history. Commits: {{commits | length}}
+                    {{repository_link_md | default('')}} {{branch_link_md | default('')}}
               - tag: action
                 actions:
                   - tag: button
@@ -165,8 +167,8 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    🐛 **Bug reported** by {{sender.login}}
-                    **Issue #:** #{{issue.number}}
+                    🐛 **Bug reported** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -192,8 +194,8 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ✨ **Feature request** by {{sender.login}}
-                    **Issue #:** #{{issue.number}}
+                    ✨ **Feature request** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -219,8 +221,8 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    📝 **Task created** by {{sender.login}}
-                    **Issue #:** #{{issue.number}}
+                    📝 **Task created** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -246,8 +248,8 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **Issue (type unknown)** by {{sender.login}}
-                    **Issue #:** #{{issue.number}}
+                    ⚠️ **Issue (type unknown)** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
