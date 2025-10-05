@@ -1,0 +1,131 @@
+name: Sync Develop Branch
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  sync-develop:
+    name: Sync develop branch with main
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # 获取完整的 git 历史，以便进行分支操作
+          fetch-depth: 0
+          # 使用 GitHub Token 进行身份验证
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all branches
+        run: |
+          git fetch origin main
+          git fetch origin develop
+
+      - name: Check if develop branch exists
+        id: check-develop
+        run: |
+          if git show-ref --verify --quiet refs/remotes/origin/develop; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "✅ develop branch exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "❌ develop branch does not exist"
+          fi
+
+      - name: Create develop branch if it doesn't exist
+        if: steps.check-develop.outputs.exists == 'false'
+        run: |
+          echo "🔧 Creating develop branch from main..."
+          git checkout -b develop
+          git push origin develop
+          echo "✅ develop branch created and pushed"
+
+      - name: Sync develop with main
+        if: steps.check-develop.outputs.exists == 'true'
+        run: |
+          echo "🔄 Syncing develop branch with main..."
+
+          # 切换到 develop 分支
+          git checkout develop
+
+          # 获取当前分支的最新提交 hash
+          DEVELOP_BEFORE=$(git rev-parse HEAD)
+          echo "📋 develop branch before sync: $DEVELOP_BEFORE"
+
+          # 获取 main 分支的最新提交 hash
+          MAIN_COMMIT=$(git rev-parse origin/main)
+          echo "📋 main branch commit: $MAIN_COMMIT"
+
+          # 检查是否需要同步
+          if [ "$DEVELOP_BEFORE" = "$MAIN_COMMIT" ]; then
+            echo "✅ develop branch is already up to date with main"
+            exit 0
+          fi
+
+          # 尝试快进合并 main 到 develop
+          echo "🚀 Attempting fast-forward merge..."
+          if git merge --ff-only origin/main; then
+            echo "✅ Fast-forward merge successful"
+            
+            # 推送更新到远程 develop 分支
+            git push origin develop
+            
+            DEVELOP_AFTER=$(git rev-parse HEAD)
+            echo "📋 develop branch after sync: $DEVELOP_AFTER"
+            echo "🎉 develop branch successfully synced with main"
+            
+          else
+            echo "⚠️ Fast-forward merge failed, there might be conflicts or diverged commits"
+            echo "📋 This usually happens when develop has commits that are not in main"
+            echo "🔍 Checking for diverged commits..."
+            
+            # 检查 develop 是否有 main 没有的提交
+            DIVERGED_COMMITS=$(git rev-list --count origin/main..develop)
+            echo "📊 Number of commits in develop not in main: $DIVERGED_COMMITS"
+            
+            if [ "$DIVERGED_COMMITS" -gt 0 ]; then
+              echo "⚠️ develop branch has $DIVERGED_COMMITS commits that are not in main"
+              echo "🔧 This requires manual intervention or a different sync strategy"
+              echo "📋 Diverged commits:"
+              git log --oneline origin/main..develop
+              
+              echo "💡 Consider creating a pull request to merge these changes to main first"
+              exit 1
+            else
+              echo "❌ Unexpected merge failure"
+              exit 1
+            fi
+          fi
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## 🔄 Develop Branch Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: Push to main branch" >> $GITHUB_STEP_SUMMARY
+          echo "- **Main commit**: \`$(git rev-parse origin/main)\`" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.check-develop.outputs.exists }}" = "true" ]; then
+            echo "- **Develop branch**: Existed and processed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Develop branch**: Created from main" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ **Result**: develop branch is now in sync with main" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Result**: Sync failed - manual intervention may be required" >> $GITHUB_STEP_SUMMARY
+          fi
