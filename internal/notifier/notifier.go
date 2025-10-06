@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
-	"github.com/hnrobert/feishu-github-tracker/pkg/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 // Notifier handles sending notifications to Feishu webhooks

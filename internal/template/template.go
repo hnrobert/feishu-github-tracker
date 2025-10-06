@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
-	"github.com/hnrobert/feishu-github-tracker/pkg/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 // SelectTemplate selects the appropriate template based on event type and tags

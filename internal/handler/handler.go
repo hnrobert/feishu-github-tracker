@@ -15,7 +15,7 @@ import (
 	"github.com/hnrobert/feishu-github-tracker/internal/matcher"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 	"github.com/hnrobert/feishu-github-tracker/internal/template"
-	"github.com/hnrobert/feishu-github-tracker/pkg/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 // Handler handles GitHub webhook requests

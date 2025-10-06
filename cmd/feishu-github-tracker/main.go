@@ -13,7 +13,7 @@ import (
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/handler"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
-	"github.com/hnrobert/feishu-github-tracker/pkg/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 func main() {
@@ -71,14 +71,7 @@ func main() {
 		w.Write([]byte("OK"))
 	})
 
-	addr := fmt.Sprintf("%s:%d", cfg.Server.Server.Host, cfg.Server.Server.Port)
-	srv := &http.Server{
-		Addr:         addr,
-		Handler:      mux,
-		ReadTimeout:  time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		IdleTimeout:  60 * time.Second,
-	}
+	srv := NewServer(cfg, mux)
 
 	// Start server in a goroutine
 	go func() {
@@ -105,4 +98,16 @@ func main() {
 	}
 
 	logger.Info("Server stopped")
+}
+
+// NewServer creates an *http.Server configured from cfg and handler.
+func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
+	addr := fmt.Sprintf("%s:%d", cfg.Server.Server.Host, cfg.Server.Server.Port)
+	return &http.Server{
+		Addr:         addr,
+		Handler:      handler,
+		ReadTimeout:  time.Duration(cfg.Server.Server.Timeout) * time.Second,
+		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
 }

@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
-	"github.com/hnrobert/feishu-github-tracker/pkg/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 func TestResolveURL(t *testing.T) {
