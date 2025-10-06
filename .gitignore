@@ -27,3 +27,6 @@ go.work.sum
 bin/
 log/*
 !log/.gitkeep
+
+# docker-compose use docker-compose.yml in default, ignore this
+docker-compose.yaml
