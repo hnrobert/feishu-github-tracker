@@ -1,13 +1,12 @@
 # Handler data map
 
-This document lists the top-level keys the handler populates in the `data` map that templates use.
-Keys are grouped logically (top-level groups) and then by event; within each event the keys are alphabetical.
+This file documents the top-level keys the handler populates in the `data` map used by templates.
 
-Use this reference when authoring templates. If you add or change keys in code, update this file and add tests.
+Keys are grouped into families. Each family has a `Common` subsection listing keys shared across the family's events. Event sections only list keys that are specific to that event (i.e., not repeated in the family's Common list). Keys are alphabetized inside each list.
 
 ## Global / common fields
 
-These keys are populated for most events when the respective objects exist in the payload.
+These keys are useful across many events when the corresponding objects are present in the payload.
 
 - `repo_full_name` (string) — repository.full_name
 - `repo_name` (string) — repository.name
@@ -19,271 +18,306 @@ These keys are populated for most events when the respective objects exist in th
 - `sender_link_md` (string) — markdown link to the sender profile (e.g. "[user](https://github.com/user)")
 - `sender_name` (string) — sender.login
 
-## Event groups (hierarchical)
-
-Top-level groups help you find related events quickly. Each event below lists the keys the handler sets for that event.
-
-### Code & repository events
-
-- push
-
-  - `branch_link_md` (string)
-  - `branch_name` (string)
-  - `branch_url` (string)
-  - `commit_authors` ([]string)
-  - `commit_authors_with_links` ([]string)
-  - `commit_authors_with_links_joined` (string)
-  - `commit_authors_joined` (string)
-  - `commit_message` (string) — first commit message
-  - `commit_messages` ([]string)
-  - `commit_messages_joined` (string)
-  - `commits` (array) — raw commits array from the payload
-  - `commits_count` (int)
-  - `compare_url` (string)
-  - `forced` (bool)
-  - `pusher` (object)
-  - `pusher_link_md` (string)
-  - `ref` (string)
-
-- create
-
-  - `master_branch` (string)
-  - `ref` (string)
-  - `ref_type` (string)
-
-- delete
-
-  - `ref` (string)
-  - `ref_type` (string)
-
-- fork
-
-  - `forkee` (object)
-  - `forkee_full_name` (string)
-  - `forkee_url` (string)
-
-- repository
-
-  - `repository` (object)
-  - `repo_full_name` (string)
-  - `repo_url` (string)
-
-- gollum (wiki)
-  - `pages` (array)
-  - `repository` (object)
-  - `repo_full_name` (string)
-  - `repo_url` (string)
-
-### Pull request family
-
-- pull_request
-
-  - `action` (string)
-  - `pr_base_branch_link_md` (string)
-  - `pr_base_ref` (string)
-  - `pr_body` (string)
-  - `pr_head_branch_link_md` (string)
-  - `pr_head_ref` (string)
-  - `pr_merged` (bool)
-  - `pr_number` (int)
-  - `pr_state` (string)
-  - `pr_title` (string)
-  - `pr_url` (string)
-  - `pull_request` (object)
-  - `pr_user_link_md` (string)
-
-- pull_request_review
-
-  - `action` (string)
-  - `pr_number` (int)
-  - `pr_title` (string)
-  - `pr_url` (string)
-  - `pull_request` (object)
-  - `review` (object)
-  - `review_body` (string)
-  - `review_state` (string)
-  - `review_url` (string)
-  - `review_user_link_md` (string)
-
-- pull_request_review_comment
-  - `comment_body` (string)
-  - `comment_url` (string)
-  - `comment_user_link_md` (string)
-  - `pr_number` (int)
-  - `pr_title` (string)
-  - `pr_url` (string)
-
-### Issue family
-
-- issues
-
-  - `action` (string)
-  - `issue` (object)
-  - `issue_body` (string)
-  - `issue_link_md` (string)
-  - `issue_number` (int)
-  - `issue_state` (string)
-  - `issue_title` (string)
-  - `issue_type` (string)
-  - `issue_type_name` (string)
-  - `issue_url` (string)
-  - `issue_user_link_md` (string)
+---
 
-- issue_comment
-  - `comment_body` (string)
-  - `comment` (object)
-  - `comment_url` (string)
-  - `comment_user_link_md` (string)
-  - `issue` (object)
-  - `issue_number` (int)
-  - `issue_title` (string)
-  - `issue_url` (string)
+## Code & repository events
 
-### Discussion family
+### Common
 
-- discussion
+- `repo_full_name` (string)
+- `repo_name` (string)
+- `repo_url` (string)
+- `repository` (object)
 
-  - `action` (string)
-  - `discussion` (object)
-  - `discussion_body` (string)
-  - `discussion_title` (string)
-  - `discussion_url` (string)
-  - `discussion_user_link_md` (string)
+### push (event-specific)
 
-- discussion_comment
-  - `comment` (object)
-  - `comment_body` (string)
-  - `comment_url` (string)
-  - `comment_user_link_md` (string)
-  - `discussion` (object)
-  - `discussion_title` (string)
-  - `discussion_url` (string)
+- `branch_link_md` (string)
+- `branch_name` (string)
+- `branch_url` (string)
+- `commit_authors` ([]string)
+- `commit_authors_with_links` ([]string)
+- `commit_authors_with_links_joined` (string)
+- `commit_authors_joined` (string)
+- `commit_message` (string)
+- `commit_messages` ([]string)
+- `commit_messages_joined` (string)
+- `commits` (array)
+- `commits_count` (int)
+- `compare_url` (string)
+- `forced` (bool)
+- `pusher` (object)
+- `pusher_link_md` (string)
+- `ref` (string)
 
-### Release & packages
+### create
 
-- release
+- `master_branch` (string)
+- `ref` (string)
+- `ref_type` (string)
 
-  - `action` (string)
-  - `release` (object)
-  - `release_body` (string)
-  - `release_name` (string)
-  - `release_tag` (string)
-  - `release_url` (string)
+### delete
 
-- package
-  - `action` (string)
-  - `package` (object)
-  - `package_link_md` (string)
-  - `package_name` (string)
-  - `package_publisher_link_md` (string)
-  - `package_tag_name` (string)
-  - `package_type` (string)
-  - `package_version` (string)
-  - `package_version_name` (string)
+- `ref` (string)
+- `ref_type` (string)
 
-### CI / deployment / status
+### fork
 
-- deployment
+- `forkee` (object)
+- `forkee_full_name` (string)
+- `forkee_url` (string)
 
-  - `action` (string)
-  - `deployment` (object)
-  - `deployment_id` (any)
-  - `deployment_url` (string)
+### gollum (wiki)
 
-- deployment_status
+- `pages` (array)
 
-  - `deployment_status` (object)
+---
 
-- check_run
+## Pull request family
 
-  - `check_run` (object)
+### Common
 
-- check_suite
+- `pr_number` (int)
+- `pr_title` (string)
+- `pr_url` (string)
+- `pull_request` (object)
 
-  - `action` (string)
-  - `check_suite` (object)
+### pull_request
 
-- workflow_run
+- `action` (string)
+- `pr_base_branch_link_md` (string)
+- `pr_base_ref` (string)
+- `pr_body` (string)
+- `pr_head_branch_link_md` (string)
+- `pr_head_ref` (string)
+- `pr_merged` (bool)
+- `pr_state` (string)
+- `pr_user_link_md` (string)
 
-  - `action` (string)
-  - `workflow_name` (string)
-  - `workflow_run` (object)
+### pull_request_review
 
-- status
-  - `status` (object)
-  - `status_state` (string)
+- `action` (string)
+- `review` (object)
+- `review_body` (string)
+- `review_state` (string)
+- `review_url` (string)
+- `review_user_link_md` (string)
 
-### Project & board
+### pull_request_review_comment
 
-- project
+- `comment_body` (string)
+- `comment_url` (string)
+- `comment_user_link_md` (string)
 
-  - `action` (string)
-  - `project` (object)
-  - `project_name` (string)
-  - `project_url` (string)
+---
 
-- project_card
+## Issue family
 
-  - `project_card` (object)
+### Common
 
-- project_column
+- `issue` (object)
+- `issue_number` (int)
+- `issue_title` (string)
+- `issue_url` (string)
 
-  - `project_column` (object)
-  - `project_column_name` (string)
+### issues
 
-- milestone
-  - `action` (string)
-  - `milestone` (object)
-  - `milestone_description` (string)
-  - `milestone_title` (string)
+- `action` (string)
+- `issue_body` (string)
+- `issue_link_md` (string)
+- `issue_state` (string)
+- `issue_type` (string)
+- `issue_type_name` (string)
+- `issue_user_link_md` (string)
 
-### Access, membership & teams
+### issue_comment
 
-- team
+- `comment` (object)
+- `comment_body` (string)
+- `comment_url` (string)
+- `comment_user_link_md` (string)
 
-  - `team` (object)
+---
 
-- membership
+## Discussion family
 
-  - `action` (string)
-  - `membership` (object)
+### Common
 
-- member
+- `discussion` (object)
+- `discussion_title` (string)
+- `discussion_url` (string)
 
-  - `action` (string)
-  - `member` (object)
-  - `member_login` (string)
+### discussion
 
-- organization
-  - `organization` (object)
-  - `organization_login` (string)
+- `action` (string)
+- `discussion_body` (string)
+- `discussion_user_link_md` (string)
 
-### Pages
+### discussion_comment
 
-- page_build
-  - `page_build` (object)
+- `comment` (object)
+- `comment_body` (string)
+- `comment_url` (string)
+- `comment_user_link_md` (string)
 
-### Community & visibility
+---
 
-- public
+## Release & packages
 
-  - `action` (string)
-  - `repository` (object)
+### Common
 
-- star
+- `action` (string)
 
-  - `action` (string)
+### release
 
-- watch
-  - `action` (string)
-  - `repository` (object)
+- `release` (object)
+- `release_body` (string)
+- `release_name` (string)
+- `release_tag` (string)
+- `release_url` (string)
 
-### Security
+### package
 
-- security_advisory
-  - `action` (string)
-  - `security_advisory` (object)
-  - `security_advisory_id` (string)
+- `package` (object)
+- `package_link_md` (string)
+- `package_name` (string)
+- `package_publisher_link_md` (string)
+- `package_tag_name` (string)
+- `package_type` (string)
+- `package_version` (string)
+- `package_version_name` (string)
+
+---
+
+## CI / deployment / status
+
+### Common
+
+- `action` (string)
+- `deployment` (object)
+- `deployment_status` (object)
+- `status` (object)
+
+### deployment
+
+- `deployment_id` (any)
+- `deployment_url` (string)
+
+### deployment_status
+
+- (see deployment_status object)
+
+### check_run
+
+- (see check_run object)
+
+### check_suite
+
+- `action` (string)
+
+### workflow_run
+
+- `action` (string)
+- `workflow_name` (string)
+- `workflow_run` (object)
+
+### status
+
+- `status_state` (string)
+
+---
+
+## Project & board
+
+### Common
+
+- `action` (string)
+- `project` (object)
+- `project_card` (object)
+- `project_column` (object)
+
+### project
+
+- `project_name` (string)
+- `project_url` (string)
+
+### project_card
+
+- (see project_card object)
+
+### project_column
+
+- `project_column_name` (string)
+
+### milestone
+
+- `action` (string)
+- `milestone` (object)
+- `milestone_description` (string)
+- `milestone_title` (string)
+
+---
+
+## Access, membership & teams
+
+### Common
+
+- `action` (string)
+- `member` (object)
+- `membership` (object)
+- `team` (object)
+
+### member
+
+- `member_login` (string)
+
+### organization
+
+- `organization` (object)
+- `organization_login` (string)
+
+---
+
+## Pages
+
+### Common
+
+- `page_build` (object)
+
+---
+
+## Community & visibility
+
+### Common
+
+- `action` (string)
+- `repository` (object)
+
+### public
+
+- (see repository object)
+
+### star
+
+- (use `action`)
+
+### watch
+
+- (see repository object)
+
+---
+
+## Security
+
+### Common
+
+- `action` (string)
+- `security_advisory` (object)
+
+### security_advisory
+
+- `security_advisory_id` (string)
+
+---
 
 ## Notes
 
