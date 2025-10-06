@@ -27,7 +27,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    {{pusher.name}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}
+                    {{pusher_link_md | default(pusher.name)}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 
                     **提交信息：**
@@ -57,7 +57,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **检测到强制推送**，操作人：{{sender.login}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}
+                    **检测到强制推送**，操作人：{{sender_link_md | default(sender.login)}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}
                     可能已重写历史。提交数：{{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 
@@ -90,7 +90,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **合并者：** {{sender.login}}
+                    **合并者：** {{sender_link_md | default(sender.login)}}
                     **PR：** #{{pull_request.number}} {{pull_request.title}}
 
                     **合并提交 / PR 描述：**
@@ -120,7 +120,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **PR 未合并即关闭**，触发者：{{sender.login}}
+                    **PR 未合并即关闭**，触发者：{{sender_link_md | default(sender.login)}}
                     **PR：** #{{pull_request.number}} {{pull_request.title}}
 
                     **PR 描述：**
@@ -150,7 +150,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **作者：** {{sender.login}}
+                    **作者：** {{sender_link_md | default(sender.login)}}
                     **PR 编号：** #{{pull_request.number}}
                     **状态：** {{pull_request.state}}
 
@@ -183,7 +183,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    🐛 **发现 Bug**，报告者：{{sender.login}} {{issue_user_link_md | default('')}}
+                    🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -210,7 +210,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ✨ **功能需求**，提出者：{{sender.login}} {{issue_user_link_md | default('')}}
+                    ✨ **功能需求**，提出者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -237,7 +237,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    📝 **任务**，创建者：{{sender.login}} {{issue_user_link_md | default('')}}
+                    📝 **任务**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -264,7 +264,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **未知类型 Issue**，创建者：{{sender.login}} {{issue_user_link_md | default('')}}
+                    ⚠️ **未知类型 Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -324,7 +324,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **作者：** {{sender.login}}
+                    **作者：** {{sender_link_md | default(sender.login)}}
                     **分类：** {{discussion.category.name}}
               - tag: action
                 actions:
@@ -353,7 +353,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **审查者：** {{review.user.login}}
+                    **审查者：** {{review_user_link_md | default(review.user.login)}}
                     **PR：** #{{pull_request.number}} {{pull_request.title}}
                     **结论：** {{review.state}}
                     {{review.body}}
@@ -384,7 +384,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **作者：** {{sender.login}}
+                    **作者：** {{sender_link_md | default(sender.login)}}
                     **PR：** #{{pull_request.number}}
                     **评论：** {{comment.body}}
               - tag: action
@@ -414,7 +414,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **作者：** {{sender.login}}
+                    **作者：** {{sender_link_md | default(sender.login)}}
                     **Issue：** #{{issue.number}} {{issue.title}}
                     **评论：** {{comment.body}}
               - tag: action
@@ -444,7 +444,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **作者：** {{sender.login}}
+                    **作者：** {{sender_link_md | default(sender.login)}}
                     **讨论：** {{discussion.title}}
                     **评论：** {{comment.body}}
               - tag: action
@@ -474,7 +474,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **推送者：** {{sender.login}}
+                    **推送者：** {{sender_link_md | default(sender.login)}}
                     **变更：** {{pages | length}} 个页面已更新
               - tag: action
                 actions:
@@ -503,7 +503,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **创建者：** {{sender.login}}
+                    **创建者：** {{sender_link_md | default(sender.login)}}
                     **类型：** {{ref_type}}  名称： {{ref}}
 
   delete:
@@ -524,7 +524,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **触发者：** {{sender.login}}
+                    **触发者：** {{sender_link_md | default(sender.login)}}
                     **删除：** {{ref_type}} {{ref}}
 
   fork:
@@ -545,7 +545,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Fork者：** {{sender.login}}
+                    **Fork者：** {{sender_link_md | default(sender.login)}}
                     **目标仓库：** {{forkee.full_name}}
               - tag: action
                 actions:
@@ -567,7 +567,7 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "⭐ 仰慕：{{action}} by {{sender.login}}"
+                content: "⭐ 仰慕：{{action}} by {{sender_link_md | default(sender.login)}}"
               template: "yellow"
             elements:
               - tag: div
@@ -588,7 +588,7 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "🔔 Watch：{{action}} by {{sender.login}}"
+                content: "🔔 Watch：{{action}} by {{sender_link_md | default(sender.login)}}"
               template: "yellow"
             elements:
               - tag: div
@@ -647,7 +647,7 @@ templates:
                   content: |
                     **应用：** {{deployment.ref}}
                     **环境：** {{deployment.environment}}
-                    **发起人：** {{sender.login}}
+                    **发起人：** {{sender_link_md | default(sender.login)}}
 
   deployment_status:
     payloads:

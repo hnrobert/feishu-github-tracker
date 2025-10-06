@@ -26,7 +26,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    {{pusher.name}} pushed {{commits | length}} commits to **{{branch_name}}** {{branch_link_md | default('')}}
+                    {{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}** {{branch_link_md | default('')}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 
                     **Commit messages:**
@@ -56,7 +56,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Force push detected** by {{sender.login}} on **{{branch_name}}** {{branch_link_md | default('')}}
+                    **Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}** {{branch_link_md | default('')}}
                     This may have rewritten history. Commits: {{commits | length}}
                     {{repository_link_md | default('')}} {{branch_link_md | default('')}}
 
@@ -89,7 +89,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **PR merged by:** {{sender.login}}
+                    **PR merged by:** {{sender_link_md | default(sender.login)}}
                     **PR:** #{{pull_request.number}} {{pull_request.title}}
 
                     **Merge commit / PR body:**
@@ -119,7 +119,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **PR closed without merge** by {{sender.login}}
+                    **PR closed without merge** by {{sender_link_md | default(sender.login)}}
                     **PR:** #{{pull_request.number}} {{pull_request.title}}
 
                     **PR body:**
@@ -149,7 +149,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Author:** {{sender.login}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
                     **PR #:** #{{pull_request.number}}
                     **State:** {{pull_request.state}}
 
@@ -182,7 +182,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    🐛 **Bug reported** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -209,7 +209,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ✨ **Feature request** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    ✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -236,7 +236,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    📝 **Task created** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    📝 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -263,7 +263,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **Issue (type unknown)** by {{sender.login}} {{issue_user_link_md | default('')}}
+                    ⚠️ **Issue (type unknown)** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue #:** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -324,7 +324,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Author:** {{sender.login}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
                     **Category:** {{discussion.category.name}}
               - tag: action
                 actions:
@@ -353,7 +353,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Reviewer:** {{review.user.login}}
+                    **Reviewer:** {{review_user_link_md | default(review.user.login)}}
                     **PR:** #{{pull_request.number}} {{pull_request.title}}
                     **Conclusion:** {{review.state}}
                     {{review.body}}
@@ -384,7 +384,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Author:** {{sender.login}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
                     **PR:** #{{pull_request.number}}
                     **Comment:** {{comment.body}}
               - tag: action
@@ -414,7 +414,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Author:** {{sender.login}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
                     **Issue:** #{{issue.number}} {{issue.title}}
                     **Comment:** {{comment.body}}
               - tag: action
@@ -444,7 +444,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Author:** {{sender.login}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
                     **Discussion:** {{discussion.title}}
                     **Comment:** {{comment.body}}
               - tag: action
@@ -474,7 +474,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Pusher:** {{sender.login}}
+                    **Pusher:** {{sender_link_md | default(sender.login)}}
                     **Changes:** {{pages | length}} pages updated
               - tag: action
                 actions:
@@ -503,7 +503,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Creator:** {{sender.login}}
+                    **Creator:** {{sender_link_md | default(sender.login)}}
                     **Type:** {{ref_type}}  Name: {{ref}}
 
   delete:
@@ -524,7 +524,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Actor:** {{sender.login}}
+                    **Actor:** {{sender_link_md | default(sender.login)}}
                     **Deleted:** {{ref_type}} {{ref}}
 
   fork:
@@ -545,7 +545,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Forker:** {{sender.login}}
+                    **Forker:** {{sender_link_md | default(sender.login)}}
                     **Forked repo:** {{forkee.full_name}}
               - tag: action
                 actions:
@@ -567,7 +567,7 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "⭐ {{action}} by {{sender.login}}"
+                content: "⭐ {{action}} by {{sender_link_md | default(sender.login)}}"
               template: "yellow"
             elements:
               - tag: div
@@ -588,7 +588,7 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "🔔 Watch: {{action}} by {{sender.login}}"
+                content: "🔔 Watch: {{action}} by {{sender_link_md | default(sender.login)}}"
               template: "yellow"
             elements:
               - tag: div
@@ -647,7 +647,7 @@ templates:
                   content: |
                     **Ref:** {{deployment.ref}}
                     **Environment:** {{deployment.environment}}
-                    **Actor:** {{sender.login}}
+                    **Actor:** {{sender_link_md | default(sender.login)}}
 
   deployment_status:
     payloads:
