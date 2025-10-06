@@ -12,10 +12,10 @@ import (
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 	"github.com/hnrobert/feishu-github-tracker/internal/matcher"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 	"github.com/hnrobert/feishu-github-tracker/internal/template"
-	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
 // Handler handles GitHub webhook requests
@@ -621,7 +621,16 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 					}
 
 					// now build package link markdown preferring updated pkg["html_url"]
-					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
+					// prefer registry_package.html_url when available (GitHub Packages event payload)
+					if rp, okrp := payload["registry_package"].(map[string]any); okrp {
+						if rh, okh := rp["html_url"].(string); okh && rh != "" {
+							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
+						} else if pv, okpv := rp["package_version"].(map[string]any); okpv {
+							if ph, okph := pv["html_url"].(string); okph && ph != "" {
+								data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, ph)
+							}
+						}
+					} else if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
 						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
 					}
 				}

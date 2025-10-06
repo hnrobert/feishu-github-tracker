@@ -12,8 +12,8 @@ import (
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/handler"
-	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 )
 
 func main() {
@@ -75,7 +75,7 @@ func main() {
 
 	// Start server in a goroutine
 	go func() {
-		logger.Info("Server listening on %s", addr)
+		logger.Info("Server listening on %s", srv.Addr)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			logger.Error("Server error: %v", err)
 			os.Exit(1)

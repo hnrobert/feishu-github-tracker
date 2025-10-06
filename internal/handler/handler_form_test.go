@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
-	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 )
 
 func TestServeHTTP_FormEncodedPayload(t *testing.T) {
