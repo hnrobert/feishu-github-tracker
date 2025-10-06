@@ -25,5 +25,5 @@ go.work.sum
 .env
 
 bin/
-logs/*
-!logs/.gitkeep
+log/*
+!log/.gitkeep
