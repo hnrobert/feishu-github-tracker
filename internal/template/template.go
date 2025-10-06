@@ -93,44 +93,144 @@ func replacePlaceholders(obj any, data map[string]any) {
 // replacePlaceholdersInString replaces placeholders like {{key}}, {{key.subkey}} and
 // {{key | length}} with values from data. Supports dotted paths and the length operator.
 func replacePlaceholdersInString(s string, data map[string]any) string {
-	// regex: group1 = path (a.b.c), group2 = optional 'length'
-	// patterns:
-	// {{path}} or {{path | length}} or {{path | default('fallback')}}
-	re := regexp.MustCompile(`\{\{\s*([a-zA-Z0-9_\.]+)\s*(?:\|\s*(length)\s*|\|\s*default\(\'([^']*)\'\)\s*)?\}\}`)
+	re := regexp.MustCompile(`\{\{\s*(.+?)\s*\}\}`)
 	return re.ReplaceAllStringFunc(s, func(m string) string {
 		parts := re.FindStringSubmatch(m)
 		if len(parts) < 2 {
 			return m
 		}
-		path := parts[1]
-		// parts[2] is length if present; parts[3] is default value if present
-		opLength := parts[2]
-		defaultVal := parts[3]
-
-		// resolve dotted path
-		val, ok := getValueByPath(path, data)
+		expr := parts[1]
+		val, ok := evalExpression(expr, data)
 		if !ok {
-			if defaultVal != "" {
-				return defaultVal
-			}
-			return m // leave unchanged if not found and no default
+			return m
 		}
-
-		if opLength == "length" {
-			switch t := val.(type) {
-			case []any:
-				return fmt.Sprintf("%d", len(t))
-			case string:
-				return fmt.Sprintf("%d", len(t))
-			case map[string]any:
-				return fmt.Sprintf("%d", len(t))
-			default:
-				return fmt.Sprintf("%v", val)
-			}
-		}
-
 		return fmt.Sprintf("%v", val)
 	})
+}
+
+// evalExpression evaluates an expression like:
+// path | length | default(other | default('fallback'))
+// Supports nested default(...) where the default argument can be a quoted literal
+// or another expression.
+func evalExpression(expr string, data map[string]any) (any, bool) {
+	tokens := splitTopLevelPipes(expr)
+	if len(tokens) == 0 {
+		return nil, false
+	}
+	// first token is a path
+	first := strings.TrimSpace(tokens[0])
+	cur, ok := getValueByPath(first, data)
+
+	// process filters
+	for i := 1; i < len(tokens); i++ {
+		filter := strings.TrimSpace(tokens[i])
+		if filter == "length" {
+			// compute length of current value regardless of ok
+			switch t := cur.(type) {
+			case []any:
+				cur = len(t)
+				ok = true
+			case string:
+				cur = len(t)
+				ok = true
+			case map[string]any:
+				cur = len(t)
+				ok = true
+			default:
+				// can't compute length
+				cur = fmt.Sprintf("%v", cur)
+				ok = true
+			}
+			continue
+		}
+
+		if strings.HasPrefix(filter, "default(") && strings.HasSuffix(filter, ")") {
+			// default arg inside parentheses
+			inner := strings.TrimSpace(filter[len("default(") : len(filter)-1])
+			// if current exists and is non-empty string, keep it
+			if ok {
+				if s, isStr := cur.(string); isStr && s == "" {
+					// treat empty string as missing, fall through to default
+				} else {
+					// current present; skip default
+					continue
+				}
+			}
+
+			// evaluate inner: if quoted literal, return that; else evaluate as expression
+			if (strings.HasPrefix(inner, "'") && strings.HasSuffix(inner, "'")) || (strings.HasPrefix(inner, "\"") && strings.HasSuffix(inner, "\"")) {
+				// strip quotes
+				lit := inner[1 : len(inner)-1]
+				cur = lit
+				ok = true
+			} else {
+				// inner might itself be an expression (contain pipes)
+				v, vok := evalExpression(inner, data)
+				if vok {
+					cur = v
+					ok = true
+				} else {
+					ok = false
+				}
+			}
+			continue
+		}
+
+		// unknown filter: ignore
+	}
+
+	return cur, ok
+}
+
+// splitTopLevelPipes splits an expression into tokens separated by top-level | characters
+// i.e. it ignores | characters inside parentheses or quotes.
+func splitTopLevelPipes(s string) []string {
+	var res []string
+	var cur strings.Builder
+	depth := 0
+	inSingle := false
+	inDouble := false
+	for _, r := range s {
+		switch r {
+		case '|':
+			if depth == 0 && !inSingle && !inDouble {
+				res = append(res, cur.String())
+				cur.Reset()
+				continue
+			}
+			cur.WriteRune(r)
+		case '(':
+			if !inSingle && !inDouble {
+				depth++
+			}
+			cur.WriteRune(r)
+		case ')':
+			if !inSingle && !inDouble && depth > 0 {
+				depth--
+			}
+			cur.WriteRune(r)
+		case '\'':
+			if !inDouble {
+				inSingle = !inSingle
+			}
+			cur.WriteRune(r)
+		case '"':
+			if !inSingle {
+				inDouble = !inDouble
+			}
+			cur.WriteRune(r)
+		default:
+			cur.WriteRune(r)
+		}
+	}
+	if cur.Len() > 0 {
+		res = append(res, cur.String())
+	}
+	// trim tokens
+	for i := range res {
+		res[i] = strings.TrimSpace(res[i])
+	}
+	return res
 }
 
 // getValueByPath resolves dotted paths like 'repository.full_name' from data map.
