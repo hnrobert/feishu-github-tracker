@@ -167,6 +167,33 @@ templates:
 
   issues:
     payloads:
+      - tags: [issue, typed]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✏️ Issue typed: {{issue.title}}"
+              template: "yellow"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    ✏️ **Issue typed**，操作人：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
       - tags: [issue, type:bug]
         payload:
           msg_type: interactive
@@ -184,7 +211,7 @@ templates:
                   tag: lark_md
                   content: |
                     🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
-                    **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -211,7 +238,7 @@ templates:
                   tag: lark_md
                   content: |
                     ✨ **功能需求**，提出者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
-                    **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -238,7 +265,7 @@ templates:
                   tag: lark_md
                   content: |
                     📝 **任务**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
-                    **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
@@ -265,7 +292,7 @@ templates:
                   tag: lark_md
                   content: |
                     ⚠️ **未知类型 Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
-                    **Issue 编号：** #{{issue.number}} {{issue_link_md | default(issue.html_url | default(''))}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
                   - tag: button
