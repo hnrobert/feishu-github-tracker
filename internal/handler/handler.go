@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
@@ -64,12 +65,39 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Parse payload
+	// Parse payload based on content type
 	var payload map[string]any
-	if err := json.Unmarshal(body, &payload); err != nil {
-		logger.Error("Failed to parse JSON payload: %v", err)
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
+	contentType := r.Header.Get("Content-Type")
+
+	if strings.Contains(contentType, "application/x-www-form-urlencoded") {
+		// GitHub form-encoded webhook payload is in the "payload" form field
+		// Parse the form data from the body
+		values, err := url.ParseQuery(string(body))
+		if err != nil {
+			logger.Error("Failed to parse form data: %v", err)
+			http.Error(w, "Failed to parse form data", http.StatusBadRequest)
+			return
+		}
+
+		payloadStr := values.Get("payload")
+		if payloadStr == "" {
+			logger.Error("Missing payload field in form data")
+			http.Error(w, "Missing payload field", http.StatusBadRequest)
+			return
+		}
+
+		if err := json.Unmarshal([]byte(payloadStr), &payload); err != nil {
+			logger.Error("Failed to parse JSON payload from form: %v", err)
+			http.Error(w, "Invalid JSON in payload field", http.StatusBadRequest)
+			return
+		}
+	} else {
+		// Default to JSON parsing
+		if err := json.Unmarshal(body, &payload); err != nil {
+			logger.Error("Failed to parse JSON payload: %v", err)
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
 	}
 
 	logger.Info("Received %s event", eventType)
