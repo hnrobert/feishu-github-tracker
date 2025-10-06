@@ -92,7 +92,7 @@ func MatchEvent(eventType string, action string, ref string, payload map[string]
 func matchBranches(ref string, branches []any) bool {
 	// Extract branch name from ref (refs/heads/main -> main)
 	branchName := ref
-	if after, ok :=strings.CutPrefix(ref, "refs/heads/"); ok  {
+	if after, ok := strings.CutPrefix(ref, "refs/heads/"); ok {
 		branchName = after
 	}
 

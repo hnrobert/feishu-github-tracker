@@ -277,10 +277,49 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 		}
 
 	case "issues":
+		// include the action name as a tag so templates can match specific actions
+		if action, ok := payload["action"].(string); ok && action != "" {
+			tags = append(tags, action)
+		}
+
+		// Try to infer issue type from explicit `type` object (provider-specific)
+		issueTypeName := ""
 		if issue, ok := payload["issue"].(map[string]any); ok {
-			if labels, ok := issue["labels"].([]any); ok {
-				issueType := getIssueType(labels)
-				tags = append(tags, "issue", "type:"+issueType)
+			if tmap, ok2 := issue["type"].(map[string]any); ok2 {
+				if name, ok3 := tmap["name"].(string); ok3 {
+					issueTypeName = name
+				}
+			}
+		}
+		// also check top-level payload.type (some providers include it there)
+		if issueTypeName == "" {
+			if tmap, ok := payload["type"].(map[string]any); ok {
+				if name, ok2 := tmap["name"].(string); ok2 {
+					issueTypeName = name
+				}
+			}
+		}
+
+		if issueTypeName != "" {
+			// normalize common known values
+			lower := strings.ToLower(issueTypeName)
+			if strings.Contains(lower, "bug") {
+				lower = "bug"
+			} else if strings.Contains(lower, "feature") {
+				lower = "feature"
+			} else if strings.Contains(lower, "task") {
+				lower = "task"
+			}
+			tags = append(tags, "issue", "type:"+lower)
+		} else {
+			// fallback to label-based detection
+			if issue, ok := payload["issue"].(map[string]any); ok {
+				if labels, ok := issue["labels"].([]any); ok {
+					issueType := getIssueType(labels)
+					tags = append(tags, "issue", "type:"+issueType)
+				} else {
+					tags = append(tags, "issue", "type:unknown")
+				}
 			} else {
 				tags = append(tags, "issue", "type:unknown")
 			}

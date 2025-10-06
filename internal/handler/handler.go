@@ -408,6 +408,43 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 					data["issue_link_md"] = iu
 				}
 			}
+
+			// determine issue type for templates (try explicit type object, then payload.type, then labels)
+			issueTypeName := ""
+			if tmap, ok := issue["type"].(map[string]any); ok {
+				if name, ok2 := tmap["name"].(string); ok2 {
+					issueTypeName = name
+				}
+			}
+			if issueTypeName == "" {
+				if tmap, ok := payload["type"].(map[string]any); ok {
+					if name, ok2 := tmap["name"].(string); ok2 {
+						issueTypeName = name
+					}
+				}
+			}
+
+			// fallback: inspect labels
+			issueTypeNormalized := "unknown"
+			if issueTypeName != "" {
+				lower := strings.ToLower(issueTypeName)
+				if strings.Contains(lower, "bug") {
+					issueTypeNormalized = "bug"
+				} else if strings.Contains(lower, "feature") {
+					issueTypeNormalized = "feature"
+				} else if strings.Contains(lower, "task") {
+					issueTypeNormalized = "task"
+				} else {
+					issueTypeNormalized = lower
+				}
+			} else {
+				if labels, ok := issue["labels"].([]any); ok {
+					issueTypeNormalized = detectIssueTypeFromLabels(labels)
+				}
+			}
+
+			data["issue_type_name"] = issueTypeName
+			data["issue_type"] = issueTypeNormalized
 		}
 		data["action"] = payload["action"]
 
@@ -594,4 +631,27 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 	}
 
 	return data
+}
+
+// detectIssueTypeFromLabels inspects issue labels and returns a normalized type
+// (bug/feature/task/unknown). This mirrors the logic in template.getIssueType
+// but is duplicated here to avoid package cycles.
+func detectIssueTypeFromLabels(labels []any) string {
+	for _, label := range labels {
+		if labelMap, ok := label.(map[string]any); ok {
+			if name, ok := labelMap["name"].(string); ok {
+				lowerName := strings.ToLower(name)
+				if strings.Contains(lowerName, "bug") {
+					return "bug"
+				}
+				if strings.Contains(lowerName, "feature") {
+					return "feature"
+				}
+				if strings.Contains(lowerName, "task") {
+					return "task"
+				}
+			}
+		}
+	}
+	return "unknown"
 }
