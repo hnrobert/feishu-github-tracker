@@ -21,7 +21,6 @@ func TestInitCreatesLogFileAndWrites(t *testing.T) {
 	Error("error message %s", "e")
 
 	// check log file exists
-	logFile := filepath.Join(dir, "feishu-github-tracker-"+""+".log")
 	// Since logger uses current date in filename, match the prefix instead
 	entries, err := os.ReadDir(dir)
 	if err != nil {
