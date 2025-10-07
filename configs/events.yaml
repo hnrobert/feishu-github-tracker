@@ -110,6 +110,15 @@ events:
       - review_request_removed
       - ready_for_review
       - converted_to_draft
+      - auto_merge_enabled
+      - auto_merge_disabled
+      - dequeued
+      - enqueued
+      - edited
+      - locked
+      - unlocked
+      - milestoned
+      - demilestoned
   pull_request_review:
     types:
       - submitted
@@ -133,6 +142,13 @@ events:
       - milestoned
       - demilestoned
       - transferred
+      - deleted
+      - pinned
+      - unpinned
+      - locked
+      - unlocked
+      - typed
+      - untyped
   issue_comment:
     types:
       - created
@@ -266,3 +282,189 @@ events:
       - published
       - updated
       - withdrawn
+  commit_comment:
+    types:
+      - created
+  deploy_key:
+    types:
+      - created
+      - deleted
+  code_scanning_alert:
+    types:
+      - appeared_in_branch
+      - closed_by_user
+      - created
+      - fixed
+      - reopened
+      - reopened_by_user
+  dependabot_alert:
+    types:
+      - auto_dismissed
+      - auto_reopened
+      - created
+      - dismissed
+      - fixed
+      - reintroduced
+      - reopened
+  secret_scanning_alert:
+    types:
+      - created
+      - publicly_leaked
+      - reopened
+      - resolved
+      - validated
+  repository_import:
+  repository_ruleset:
+    types:
+      - created
+      - deleted
+      - edited
+  repository_vulnerability_alert:
+    types:
+      - create
+      - dismiss
+      - reopen
+      - resolve
+  label:
+    types:
+      - created
+      - deleted
+      - edited
+
+  branch_protection_configuration:
+    types:
+      - disabled
+      - enabled
+  branch_protection_rule:
+    types:
+      - created
+      - deleted
+      - edited
+  custom_property:
+    types:
+      - created
+      - deleted
+      - promote_to_enterprise
+      - updated
+  custom_property_values:
+    types:
+      - updated
+  deployment_protection_rule:
+    types:
+      - requested
+  deployment_review:
+    types:
+      - approved
+      - rejected
+      - requested
+  github_app_authorization:
+    types:
+      - revoked
+  installation:
+    types:
+      - created
+      - deleted
+      - new_permissions_accepted
+      - suspend
+      - unsuspend
+  installation_repositories:
+    types:
+      - added
+      - removed
+  installation_target:
+    types:
+      - renamed
+  issue_dependencies:
+    types:
+      - blocked_by_added
+      - blocked_by_removed
+      - blocking_added
+      - blocking_removed
+  marketplace_purchase:
+    types:
+      - cancelled
+      - changed
+      - pending_change
+      - pending_change_cancelled
+      - purchased
+  merge_group:
+    types:
+      - checks_requested
+      - destroyed
+  meta:
+    types:
+      - deleted
+  org_block:
+    types:
+      - blocked
+      - unblocked
+  registry_package:
+    types:
+      - published
+      - updated
+  repository_advisory:
+    types:
+      - published
+      - reported
+  repository_dispatch:
+  secret_scanning_alert_location:
+    types:
+      - created
+  secret_scanning_scan:
+    types:
+      - completed
+  security_and_analysis:
+  sponsorship:
+    types:
+      - cancelled
+      - created
+      - edited
+      - pending_cancellation
+      - pending_tier_change
+      - tier_changed
+  sub_issues:
+    types:
+      - parent_issue_added
+      - parent_issue_removed
+      - sub_issue_added
+      - sub_issue_removed
+  team_add:
+  projects_v2:
+    types:
+      - closed
+      - created
+      - deleted
+      - edited
+      - reopened
+  projects_v2_item:
+    types:
+      - archived
+      - converted
+      - created
+      - deleted
+      - edited
+      - reordered
+      - restored
+  projects_v2_status_update:
+    types:
+      - created
+      - deleted
+      - edited
+  pull_request_review_thread:
+    types:
+      - resolved
+      - unresolved
+  workflow_dispatch:
+  workflow_job:
+    types:
+      - completed
+      - in_progress
+      - queued
+      - waiting
+  personal_access_token_request:
+    types:
+      - approved
+      - cancelled
+      - created
+      - denied
+  ping:

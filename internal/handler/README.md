@@ -389,6 +389,361 @@ These keys are useful across many events when the corresponding objects are pres
 - Types listed are best-effort based on the typical payload shape. Templates should guard against missing keys.
 - If you change code to add/remove keys, update this document and add unit tests that assert the presence and shape of the new keys.
 
+---
+
+## Additional Event Families
+
+### Branch protection
+
+#### Common
+
+- `action` (string)
+- `repository` (object)
+
+- Tags: `[default]` for branch_protection_configuration, branch_protection_rule.
+- Condition: use family tag.
+
+#### branch_protection_configuration
+
+- `branch_protection_configuration` (object)
+
+#### branch_protection_rule
+
+- `rule` (object)
+- `rule_name` (string)
+- `branch_protection_rule` (object)
+
+---
+
+### Custom properties
+
+#### custom_property
+
+- `action` (string)
+- `definition` (object)
+- `property_name` (string)
+- `custom_property` (object)
+
+#### custom_property_values
+
+- `action` (string)
+- `new_property_values` (array)
+- `old_property_values` (array)
+- `custom_property_values` (object)
+
+---
+
+### Deployment protection & review
+
+#### deployment_protection_rule
+
+- `action` (string)
+- `environment` (string)
+- `deployment` (object)
+- `deployment_callback_url` (string)
+- `deployment_protection_rule` (object)
+
+#### deployment_review
+
+- `action` (string)
+- `approver` (object)
+- `approver_login` (string)
+- `approver_link_md` (string)
+- `comment` (string)
+- `workflow_run` (object)
+- `deployment_review` (object)
+
+---
+
+### GitHub App lifecycle
+
+#### github_app_authorization
+
+- `action` (string)
+- `github_app_authorization` (object)
+
+#### installation
+
+- `action` (string)
+- `installation` (object)
+- `installation_id` (int)
+- `repositories` (array)
+- `repositories_count` (int)
+- `installation_event` (object)
+
+#### installation_repositories
+
+- `action` (string)
+- `repositories_added` (array)
+- `repositories_added_count` (int)
+- `repositories_removed` (array)
+- `repositories_removed_count` (int)
+- `repository_selection` (string)
+- `installation_repositories` (object)
+
+#### installation_target
+
+- `action` (string)
+- `account` (object)
+- `account_login` (string)
+- `changes` (object)
+- `old_login` (string)
+- `target_type` (string)
+- `installation_target` (object)
+
+---
+
+### Issue dependencies
+
+#### issue_dependencies
+
+- `action` (string)
+- `blocked_issue` (object)
+- `blocked_issue_number` (int)
+- `blocked_issue_title` (string)
+- `blocking_issue` (object)
+- `blocking_issue_number` (int)
+- `blocking_issue_title` (string)
+- `blocking_issue_repo` (object)
+- `blocking_issue_repo_name` (string)
+- `issue_dependencies` (object)
+
+---
+
+### Marketplace
+
+#### marketplace_purchase
+
+- `action` (string)
+- `marketplace_purchase` (object)
+- `account_login` (string)
+- `plan_name` (string)
+- `previous_marketplace_purchase` (object)
+- `effective_date` (string)
+
+---
+
+### Merge queue
+
+#### merge_group
+
+- `action` (string)
+- `merge_group` (object)
+- `head_sha` (string)
+- `head_ref` (string)
+- `base_sha` (string)
+- `base_ref` (string)
+
+---
+
+### Webhooks & Meta
+
+#### meta
+
+- `action` (string)
+- `hook` (object)
+- `hook_id` (int)
+- `hook_type` (string)
+- `meta` (object)
+
+#### ping
+
+- `zen` (string)
+- `hook` (object)
+- `hook_id` (int)
+- `hook_type` (string)
+- `ping` (object)
+
+---
+
+### Organization blocking
+
+#### org_block
+
+- `action` (string)
+- `blocked_user` (object)
+- `blocked_user_login` (string)
+- `blocked_user_link_md` (string)
+- `org_block` (object)
+
+---
+
+### Packages (legacy)
+
+#### registry_package
+
+- `action` (string)
+- `registry_package` (object)
+- `package_name` (string)
+- `package_type` (string)
+- `package_version` (string)
+
+---
+
+### Repository security & advisories
+
+#### repository_advisory
+
+- `action` (string)
+- `repository_advisory` (object)
+- `advisory_id` (string)
+- `advisory_summary` (string)
+- `advisory_severity` (string)
+
+#### repository_dispatch
+
+- `event_type` (string)
+- `client_payload` (object)
+- `repository_dispatch` (object)
+
+#### secret_scanning_alert_location
+
+- `action` (string)
+- `alert` (object)
+- `alert_number` (int)
+- `location` (object)
+- `location_type` (string)
+- `secret_scanning_alert_location` (object)
+
+#### secret_scanning_scan
+
+- `action` (string)
+- `scan` (object)
+- `scan_status` (string)
+- `scan_completed_at` (string)
+- `secret_scanning_scan` (object)
+
+#### security_and_analysis
+
+- `changes` (object)
+- `security_and_analysis` (object)
+
+---
+
+### Sponsorship
+
+#### sponsorship
+
+- `action` (string)
+- `sponsorship` (object)
+- `sponsor_login` (string)
+- `sponsor_link_md` (string)
+- `sponsorable_login` (string)
+- `tier_name` (string)
+- `tier_monthly_price_cents` (int)
+- `tier_monthly_price_dollars` (float)
+
+---
+
+### Sub-issues
+
+#### sub_issues
+
+- `action` (string)
+- `parent_issue` (object)
+- `parent_issue_number` (int)
+- `parent_issue_title` (string)
+- `sub_issue` (object)
+- `sub_issue_number` (int)
+- `sub_issue_title` (string)
+- `sub_issues` (object)
+
+---
+
+### Team management
+
+#### team_add
+
+- `team` (object)
+- `team_name` (string)
+- `team_slug` (string)
+- `team_add` (object)
+
+---
+
+### Projects V2
+
+#### projects_v2
+
+- `action` (string)
+- `projects_v2` (object)
+- `project_id` (int)
+- `project_title` (string)
+- `project_description` (string)
+
+#### projects_v2_item
+
+- `action` (string)
+- `projects_v2_item` (object)
+- `item_id` (int)
+- `item_node_id` (string)
+- `project_node_id` (string)
+- `content_node_id` (string)
+- `content_type` (string)
+- `changes` (object)
+
+#### projects_v2_status_update
+
+- `action` (string)
+- `projects_v2_status_update` (object)
+- `status_update_id` (int)
+- `status_update_body` (string)
+- `status` (string)
+
+---
+
+### Pull request review threads
+
+#### pull_request_review_thread
+
+- `action` (string)
+- `pull_request` (object)
+- `pr_number` (int)
+- `pr_title` (string)
+- `pr_url` (string)
+- `thread` (object)
+- `thread_id` (string)
+- `thread_comments` (array)
+- `thread_comments_count` (int)
+- `pull_request_review_thread` (object)
+
+---
+
+### Workflows
+
+#### workflow_dispatch
+
+- `workflow` (string)
+- `inputs` (object)
+- `ref` (string)
+- `workflow_dispatch` (object)
+
+#### workflow_job
+
+- `action` (string)
+- `workflow_job` (object)
+- `job_id` (int)
+- `job_name` (string)
+- `job_status` (string)
+- `job_conclusion` (string)
+- `job_url` (string)
+- `run_id` (int)
+
+---
+
+### Personal access tokens
+
+#### personal_access_token_request
+
+- `action` (string)
+- `personal_access_token_request` (object)
+- `request_id` (int)
+- `token_owner_login` (string)
+- `token_name` (string)
+- `token_expired` (bool)
+
+---
+
 ## How to extend
 
 - Add a small, focused `prepare<Event>Data` function that populates only the keys templates need.
