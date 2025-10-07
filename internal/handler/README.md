@@ -20,6 +20,8 @@ General handling rules used by the codebase:
 - The handler exposes convenience fields (e.g., `issue_type`, `issue_type_name`, `sender_link_md`) and detection helpers so templates can both select by tags and render using the same keys.
 - If no template payload matches a refined tag set, the system falls back to a payload tagged with `[default]` for that event family.
 
+- Special note for `workflow_run`: the handler inspects `workflow_run.status` and `workflow_run.conclusion` and will append tags like `completed` plus an outcome tag such as `success` or `failure` (when available). This enables templates to provide outcome-specific payloads (for example `[workflow_run, completed, success]` vs `[workflow_run, completed, failure]`).
+
 See the family sections below for which tags are used in the shipped templates and a short note about how they are produced.
 
 ## Global / common fields
@@ -255,6 +257,17 @@ These keys are useful across many events when the corresponding objects are pres
 - `action` (string)
 - `workflow_name` (string)
 - `workflow_run` (object)
+- `workflow_run_number` (int) — the run number (normalized to an integer when possible)
+- `workflow_head_branch` (string) — the head branch for the run
+- `workflow_head_sha` (string) — the commit SHA the run ran against
+- `workflow_run_url` (string) — the run html_url
+- `workflow_run_link_md` (string) — markdown link to the run (e.g. "[#123](https://github.com/owner/repo/actions/runs/123)")
+- `workflow_repo_full_name` (string) — repository.full_name for the workflow's repository
+- `workflow_repo_url` (string) — repository.html_url for the workflow's repository
+- `workflow_repository_link_md` (string) — markdown link to the repository (e.g. "[owner/repo](https://github.com/owner/repo)")
+
+- Tags: `[workflow_run, completed, success]`, `[workflow_run, completed, failure]`, `[default]`.
+- Condition: the handler appends `completed` when `workflow_run.status == "completed"` and appends `success` or `failure` when `workflow_run.conclusion` matches those values; non-completed statuses (e.g. `in_progress`) are emitted as tags as well so templates may opt to match them.
 
 ### status
 
