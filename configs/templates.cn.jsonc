@@ -765,9 +765,13 @@
     },
     "issues": {
       "payloads": [
+        // ============================================
+        // 高优先级：操作 + 类型 组合模板
+        // ============================================
         {
           "tags": [
-            "typed"
+            "opened",
+            "type:bug"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -778,7 +782,821 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "✏️ Issue typed: {{issue.title}}"
+                  "content": "🐛 Bug 报告：{{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "opened",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✨ 新功能请求：{{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✨ **新功能请求**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看功能"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "opened",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📋 任务创建：{{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📋 **任务创建**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看任务"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:bug"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Bug 已修复：{{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Bug 已修复**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ 功能已完成：{{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **功能已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看功能"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ 任务已完成：{{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **任务已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看任务"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:bug"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Bug 已重新开启：{{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Bug 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 功能已重新开启：{{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **功能已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看功能"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 任务已重新开启：{{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **任务已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看任务"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ============================================
+        // 中等优先级：单独操作模板
+        // ============================================
+        {
+          "tags": [
+            "opened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 Issue 已开启：{{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📝 **Issue 已开启**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Issue 已关闭：{{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Issue 已关闭**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Issue 已重新开启：{{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Issue 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "assigned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👤 Issue 已分配：{{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "👤 **Issue 已分配**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**分配给：** {{assignee_link_md}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unassigned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👤 Issue 已取消分配：{{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "👤 **Issue 已取消分配**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**移除分配：** {{assignee_link_md}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "edited"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✏️ Issue 已编辑：{{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✏️ **Issue 已编辑**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**标题改自：** {{changes_title_from}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "milestoned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🎯 里程碑已添加：{{issue.title}}"
+                },
+                "template": "turquoise"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🎯 **里程碑已添加**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**里程碑：** {{milestone_title}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "demilestoned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🎯 里程碑已移除：{{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🎯 **里程碑已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**移除里程碑：** {{milestone_title}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "transferred"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📦 Issue 已转移：{{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📦 **Issue 已转移**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**转移到仓库：** {{changes_new_repository_full_name}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "deleted"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🗑️ Issue 已删除：{{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🗑️ **Issue 已删除**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "pinned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📌 Issue 已置顶：{{issue.title}}"
                 },
                 "template": "yellow"
               },
@@ -787,7 +1605,136 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue typed**，操作人：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "📌 **Issue 已置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unpinned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📌 Issue 已取消置顶：{{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📌 **Issue 已取消置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "locked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔒 Issue 已锁定：{{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔒 **Issue 已锁定**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**原因：** {{issue.active_lock_reason}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unlocked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔓 Issue 已解锁：{{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔓 **Issue 已解锁**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -821,7 +1768,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🏷️ 标签添加: {{labeled_label_name}} - {{issue.title}}"
+                  "content": "🏷️ 标签已添加：{{labeled_label_name}} - {{issue.title}}"
                 },
                 "template": "teal"
               },
@@ -830,7 +1777,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**由：** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -851,6 +1798,138 @@
             }
           }
         },
+        {
+          "tags": [
+            "unlabeled"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏷️ 标签已移除：{{labeled_label_name}} - {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "typed"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✏️ Issue 已设置类型：{{issue.title}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✏️ **Issue 已设置类型**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**类型：** {{issue_type}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "untyped"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✏️ Issue 类型已移除：{{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✏️ **Issue 类型已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ============================================
+        // 低优先级：仅类型模板（回退）
+        // ============================================
         {
           "tags": [
             "type:bug"

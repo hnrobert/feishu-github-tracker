@@ -765,6 +765,1082 @@
     },
     "issues": {
       "payloads": [
+        // ============================================
+        // High-priority: Action + Type Combinations
+        // ============================================
+        {
+          "tags": [
+            "opened",
+            "type:bug"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🐛 Bug reported: {{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "opened",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✨ Feature request: {{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Feature"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "opened",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📋 Task created: {{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📋 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Task"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:bug"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Bug fixed: {{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Bug fixed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Feature completed: {{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Feature completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Feature"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Task completed: {{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Task completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Task"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:bug"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Bug reopened: {{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Bug reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Bug"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:feature"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Feature reopened: {{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Feature reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Feature"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened",
+            "type:task"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Task reopened: {{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Task reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Task"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ============================================
+        // Medium-priority: Single Action Templates
+        // ============================================
+        {
+          "tags": [
+            "opened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 Issue opened: {{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📝 **Issue opened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Issue closed: {{issue.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✅ **Issue closed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "reopened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Issue reopened: {{issue.title}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔄 **Issue reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "assigned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👤 Issue assigned: {{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "👤 **Issue assigned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Assignee:** {{assignee_link_md}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unassigned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👤 Issue unassigned: {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "👤 **Issue unassigned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Removed assignee:** {{assignee_link_md}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "edited"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✏️ Issue edited: {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✏️ **Issue edited** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**Title changed from:** {{changes_title_from}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "milestoned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🎯 Milestone added: {{issue.title}}"
+                },
+                "template": "turquoise"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🎯 **Milestone added** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Milestone:** {{milestone_title}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "demilestoned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🎯 Milestone removed: {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🎯 **Milestone removed** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Removed milestone:** {{milestone_title}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "transferred"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📦 Issue transferred: {{issue.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📦 **Issue transferred** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**To repository:** {{changes_new_repository_full_name}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "deleted"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🗑️ Issue deleted: {{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🗑️ **Issue deleted** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "pinned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📌 Issue pinned: {{issue.title}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📌 **Issue pinned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unpinned"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📌 Issue unpinned: {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "📌 **Issue unpinned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "locked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔒 Issue locked: {{issue.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔒 **Issue locked** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**Reason:** {{issue.active_lock_reason}}{{/if}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unlocked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔓 Issue unlocked: {{issue.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "🔓 **Issue unlocked** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "labeled"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏷️ Label added: {{labeled_label_name}} on {{issue.title}}"
+                },
+                "template": "teal"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "unlabeled"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏷️ Label removed: {{labeled_label_name}} from {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
         {
           "tags": [
             "typed"
@@ -787,7 +1863,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "✏️ **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**Type:** {{issue_type}}{{/if}}"
                   }
                 },
                 {
@@ -808,6 +1884,52 @@
             }
           }
         },
+        {
+          "tags": [
+            "untyped"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✏️ Issue type removed: {{issue.title}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "✏️ **Issue type removed** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Issue"
+                      },
+                      "url": "{{issue.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ============================================
+        // Low-priority: Type-only Templates (Fallbacks)
+        // ============================================
         {
           "tags": [
             "type:bug"

@@ -11,6 +11,9 @@ func prepareIssuesData(data map[string]any, payload map[string]any) {
 		data["issue_title"] = issue["title"]
 		data["issue_url"] = issue["html_url"]
 		data["issue_state"] = issue["state"]
+		if stateReason, ok := issue["state_reason"].(string); ok {
+			data["issue_state_reason"] = stateReason
+		}
 		data["issue_body"] = issue["body"]
 		data["issue"] = issue
 
@@ -111,6 +114,42 @@ func prepareIssuesData(data map[string]any, payload map[string]any) {
 			// if label has a URL, provide a markdown link
 			if lurl, lok3 := lab["url"].(string); lok3 && lurl != "" {
 				data["labeled_label_link_md"] = fmt.Sprintf("[%s](%s)", lname, lurl)
+			}
+		}
+	}
+
+	// Extract assignee information (for assigned/unassigned actions)
+	if assignee, ok := payload["assignee"].(map[string]any); ok {
+		if login, ok2 := assignee["login"].(string); ok2 && login != "" {
+			data["assignee_login"] = login
+			if url, ok3 := assignee["html_url"].(string); ok3 && url != "" {
+				data["assignee_link_md"] = fmt.Sprintf("[%s](%s)", login, url)
+			}
+		}
+	}
+
+	// Extract milestone information (for milestoned/demilestoned actions)
+	if milestone, ok := payload["milestone"].(map[string]any); ok {
+		if title, ok2 := milestone["title"].(string); ok2 && title != "" {
+			data["milestone_title"] = title
+			if url, ok3 := milestone["html_url"].(string); ok3 && url != "" {
+				data["milestone_link_md"] = fmt.Sprintf("[%s](%s)", title, url)
+			}
+		}
+	}
+
+	// Extract changes information (for edited/transferred actions)
+	if changes, ok := payload["changes"].(map[string]any); ok {
+		// Title changes
+		if titleChange, ok2 := changes["title"].(map[string]any); ok2 {
+			if from, ok3 := titleChange["from"].(string); ok3 {
+				data["changes_title_from"] = from
+			}
+		}
+		// Repository transfer
+		if repoChange, ok2 := changes["new_repository"].(map[string]any); ok2 {
+			if fullName, ok3 := repoChange["full_name"].(string); ok3 {
+				data["changes_new_repository_full_name"] = fullName
 			}
 		}
 	}
