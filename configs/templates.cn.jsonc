@@ -497,6 +497,279 @@
     },
     "discussion": {
       "payloads": [
+        // ========== Discussion Created（绿色）==========
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 新讨论已创建"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**标题：** {{discussion.title}}\n**作者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{discussion.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "参与讨论"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Answered（紫色）==========
+        {
+          "tags": [
+            "answered"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ 讨论已被回答"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**回答者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此讨论已标记了答案"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看答案"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Locked（橙色）==========
+        {
+          "tags": [
+            "locked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔒 讨论已锁定"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**锁定者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此讨论已被锁定"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看讨论"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Unlocked（绿色）==========
+        {
+          "tags": [
+            "unlocked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "� 讨论已解锁"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**解锁者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此讨论现已开放评论"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "参与讨论"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Closed（灰色）==========
+        {
+          "tags": [
+            "closed"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📋 讨论已关闭"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**关闭者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看讨论"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（青色）==========
         {
           "tags": [
             "default"
@@ -510,17 +783,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "💬 新讨论：{{discussion.title}}"
+                  "content": "💬 讨论 {{action}}"
                 },
-                "template": "teal"
+                "template": "turquoise"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**分类：** {{discussion.category.name}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2378,6 +2654,39 @@
         }
       ]
     },
+    "page_build": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📄 页面构建：{{action}}"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repository.full_name}}\n**操作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
     "ping": {
       "payloads": [
         {
@@ -2592,7 +2901,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔮 Pull Request 已合并：#{{pull_request.number}} {{pull_request.title}}"
+                  "content": "🔮 Pull Request 已合并"
                 },
                 "template": "purple"
               },
@@ -2601,8 +2910,21 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**合并者：** {{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**合并提交 / PR 描述：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**合并者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pr_body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2613,7 +2935,7 @@
                         "tag": "plain_text",
                         "content": "查看 PR"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{pr_url}}",
                       "type": "primary"
                     }
                   ]
@@ -2636,7 +2958,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ PR 关闭（未合并）：#{{pull_request.number}} {{pull_request.title}}"
+                  "content": "❌ Pull Request 关闭（未合并）"
                 },
                 "template": "red"
               },
@@ -2645,8 +2967,20 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR 未合并即关闭**，触发者：{{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**PR 描述：**\n{{pull_request.body | default('无详情')}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**关闭者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此 PR 未合并即关闭"
+                    }
+                  ]
                 },
                 {
                   "tag": "action",
@@ -2657,7 +2991,324 @@
                         "tag": "plain_text",
                         "content": "查看 PR"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{pr_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR 新建（绿色）==========
+        {
+          "tags": [
+            "opened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔀 新 Pull Request 已创建"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pr_body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "审查 PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR 重新打开（绿色）==========
+        {
+          "tags": [
+            "reopened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Pull Request 已重新打开"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**重新打开者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR 同步更新（蓝色）==========
+        {
+          "tags": [
+            "synchronize"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "� Pull Request 已更新"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**更新者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "新提交已推送到此 PR"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看变更"
+                      },
+                      "url": "{{pr_url}}/files",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR 准备审查（绿色）==========
+        {
+          "tags": [
+            "ready_for_review"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Pull Request 已准备好审查"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此 PR 已准备好接受审查"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "立即审查"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "converted_to_draft"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 Pull Request 已转为草稿"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**转换者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此 PR 现在处于草稿模式"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "review_requested"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👁️ 请求审查"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**请求者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "审查 PR"
+                      },
+                      "url": "{{pr_url}}",
                       "type": "primary"
                     }
                   ]
@@ -2679,17 +3330,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔀 Pull Request {{action}}：{{pull_request.title}}"
+                  "content": "🔀 Pull Request {{action}}"
                 },
-                "template": "green"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**PR 编号：** #{{pull_request.number}}\n**状态：** {{pull_request.state}}\n\n**PR 描述 / 最新提交信息：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**动作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2700,8 +3354,8 @@
                         "tag": "plain_text",
                         "content": "查看 PR"
                       },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
+                      "url": "{{pr_url}}",
+                      "type": "default"
                     }
                   ]
                 }
@@ -2930,6 +3584,228 @@
     },
     "release": {
       "payloads": [
+        // ========== Release Published（绿色）==========
+        {
+          "tags": [
+            "published"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚀 版本已发布"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{release.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看发布"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Prereleased（橙色）==========
+        {
+          "tags": [
+            "prereleased"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔶 预发布版本已发布"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "⚠️ 这是一个预发布版本"
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{release.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看预发布"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Created/Draft（灰色）==========
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 草稿发布已创建"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**创建者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "这是一个草稿发布（尚未发布）"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看草稿"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Deleted（红色）==========
+        {
+          "tags": [
+            "deleted"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🗑️ 发布已删除"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**删除者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此发布已被删除"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（绿色）==========
         {
           "tags": [
             "default"
@@ -2943,17 +3819,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚀 发布：{{release.tag_name}}"
+                  "content": "🚀 发布 {{action}}"
                 },
-                "template": "purple"
+                "template": "green"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**发布者：** {{release.author.login}}\n**标题：** {{release.name}}\n**说明：** {{release.body}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2962,7 +3841,7 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "查看 Release"
+                        "content": "查看发布"
                       },
                       "url": "{{release.html_url}}",
                       "type": "primary"
@@ -3405,6 +4284,7 @@
     },
     "workflow_run": {
       "payloads": [
+        // ========== Workflow Success（绿色）==========
         {
           "tags": [
             "completed",
@@ -3419,7 +4299,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "✅ 工作流成功: {{workflow.name}}"
+                  "content": "✅ 工作流执行成功"
                 },
                 "template": "green"
               },
@@ -3428,13 +4308,40 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "✅ 所有检查已通过"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看运行"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
                 }
               ]
             }
           }
         },
+        // ========== Workflow Failure（红色）==========
         {
           "tags": [
             "completed",
@@ -3449,7 +4356,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ 工作流失败: {{workflow.name}}"
+                  "content": "❌ 工作流执行失败"
                 },
                 "template": "red"
               },
@@ -3458,13 +4365,153 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "❌ 工作流执行失败"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看日志"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "danger"
+                    }
+                  ]
                 }
               ]
             }
           }
         },
+        // ========== Workflow Cancelled（黄色）==========
+        {
+          "tags": [
+            "completed",
+            "cancelled"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⚠️ 工作流已取消"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**取消者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "此工作流运行已被取消"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看运行"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Workflow In Progress（蓝色）==========
+        {
+          "tags": [
+            "in_progress"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⏳ 工作流运行中"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "⏳ 工作流正在运行中..."
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看进度"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（紫色）==========
         {
           "tags": [
             "default"
@@ -3478,7 +4525,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "⚙️ 工作流: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
+                  "content": "⚙️ 工作流 {{action}}"
                 },
                 "template": "purple"
               },
@@ -3487,8 +4534,25 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**状态：** {{workflow_run.conclusion | default(workflow_run.status)}}\n**操作：** {{action}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看运行"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
                 }
               ]
             }

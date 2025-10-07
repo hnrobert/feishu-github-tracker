@@ -497,6 +497,279 @@
     },
     "discussion": {
       "payloads": [
+        // ========== Discussion Created（绿色）==========
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 New Discussion Created"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Title:** {{discussion.title}}\n**Author:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{discussion.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Join Discussion"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Answered（紫色）==========
+        {
+          "tags": [
+            "answered"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Discussion Answered"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Answered by:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "An answer has been marked for this discussion"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Answer"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Locked（橙色）==========
+        {
+          "tags": [
+            "locked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔒 Discussion Locked"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Locked by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This discussion has been locked"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Discussion"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Unlocked（绿色）==========
+        {
+          "tags": [
+            "unlocked"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔓 Discussion Unlocked"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Unlocked by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This discussion is now open for comments"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Join Discussion"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Discussion Closed（灰色）==========
+        {
+          "tags": [
+            "closed"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📋 Discussion Closed"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Closed by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Discussion"
+                      },
+                      "url": "{{discussion.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（青色）==========
         {
           "tags": [
             "default"
@@ -510,17 +783,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "💬 New Discussion: {{discussion.title}}"
+                  "content": "💬 Discussion {{action}}"
                 },
-                "template": "teal"
+                "template": "turquoise"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Category:** {{discussion.category.name}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2668,7 +2944,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔮 Pull Request merged: #{{pull_request.number}} {{pull_request.title}}"
+                  "content": "🔮 Pull Request Merged"
                 },
                 "template": "purple"
               },
@@ -2677,8 +2953,21 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR merged by:** {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**Merge commit / PR body:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pr_body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2689,7 +2978,7 @@
                         "tag": "plain_text",
                         "content": "View PR"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{pr_url}}",
                       "type": "primary"
                     }
                   ]
@@ -2698,6 +2987,7 @@
             }
           }
         },
+        // ========== PR Closed 未 Merge（红色，匹配 GitHub #cf222e）==========
         {
           "tags": [
             "closed",
@@ -2712,7 +3002,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ Pull Request closed (not merged): #{{pull_request.number}} {{pull_request.title}}"
+                  "content": "❌ Pull Request Closed (Not Merged)"
                 },
                 "template": "red"
               },
@@ -2721,8 +3011,20 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR closed without merge** by {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**PR body:**\n{{pull_request.body | default('No details')}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This PR was closed without merging"
+                    }
+                  ]
                 },
                 {
                   "tag": "action",
@@ -2733,7 +3035,64 @@
                         "tag": "plain_text",
                         "content": "View PR"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{pr_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR Opened（绿色）==========
+        {
+          "tags": [
+            "opened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔀 New Pull Request Opened"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pr_body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Review PR"
+                      },
+                      "url": "{{pr_url}}",
                       "type": "primary"
                     }
                   ]
@@ -2742,6 +3101,269 @@
             }
           }
         },
+        // ========== PR Reopened（绿色）==========
+        {
+          "tags": [
+            "reopened"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔄 Pull Request Reopened"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR Synchronize（更新，蓝色）==========
+        {
+          "tags": [
+            "synchronize"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "� Pull Request Updated"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "New commits pushed to this PR"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Changes"
+                      },
+                      "url": "{{pr_url}}/files",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR Ready for Review（绿色）==========
+        {
+          "tags": [
+            "ready_for_review"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Pull Request Ready for Review"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This PR is ready for review"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Review Now"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR Converted to Draft（灰色）==========
+        {
+          "tags": [
+            "converted_to_draft"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 Pull Request Converted to Draft"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Converted by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This PR is now in draft mode"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== PR Review Requested（橙色）==========
+        {
+          "tags": [
+            "review_requested"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👁️ Review Requested"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Requested by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Review PR"
+                      },
+                      "url": "{{pr_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（兜底，蓝色）==========
         {
           "tags": [
             "default"
@@ -2755,17 +3377,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔀 Pull Request {{action}}: {{pull_request.title}}"
+                  "content": "🔀 Pull Request {{action}}"
                 },
-                "template": "green"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**PR #:** #{{pull_request.number}}\n**State:** {{pull_request.state}}\n\n**PR body / latest commit message:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -2776,8 +3401,8 @@
                         "tag": "plain_text",
                         "content": "View PR"
                       },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
+                      "url": "{{pr_url}}",
+                      "type": "default"
                     }
                   ]
                 }
@@ -3006,6 +3631,228 @@
     },
     "release": {
       "payloads": [
+        // ========== Release Published（绿色）==========
+        {
+          "tags": [
+            "published"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚀 Release Published"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{release.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Release"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Prereleased（橙色）==========
+        {
+          "tags": [
+            "prereleased"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔶 Pre-release Published"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "⚠️ This is a pre-release version"
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{release.body}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Pre-release"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Created/Draft（灰色）==========
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 Release Draft Created"
+                },
+                "template": "grey"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Created by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This is a draft release (not published yet)"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Draft"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Release Deleted（红色）==========
+        {
+          "tags": [
+            "deleted"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🗑️ Release Deleted"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Deleted by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This release has been deleted"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（绿色）==========
         {
           "tags": [
             "default"
@@ -3019,17 +3866,20 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚀 Release: {{release.tag_name}}"
+                  "content": "🚀 Release {{action}}"
                 },
-                "template": "purple"
+                "template": "green"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Author:** {{release.author.login}}\n**Title:** {{release.name}}\n**Notes:** {{release.body}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
                 },
                 {
                   "tag": "action",
@@ -3481,6 +4331,7 @@
     },
     "workflow_run": {
       "payloads": [
+        // ========== Workflow Success（绿色）==========
         {
           "tags": [
             "completed",
@@ -3495,7 +4346,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "✅ Workflow succeeded: {{workflow.name}}"
+                  "content": "✅ Workflow Succeeded"
                 },
                 "template": "green"
               },
@@ -3504,13 +4355,40 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "✅ All checks passed"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Run"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
                 }
               ]
             }
           }
         },
+        // ========== Workflow Failure（红色）==========
         {
           "tags": [
             "completed",
@@ -3525,7 +4403,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ Workflow failed: {{workflow.name}}"
+                  "content": "❌ Workflow Failed"
                 },
                 "template": "red"
               },
@@ -3534,13 +4412,153 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "❌ Workflow execution failed"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Logs"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "danger"
+                    }
+                  ]
                 }
               ]
             }
           }
         },
+        // ========== Workflow Cancelled（黄色）==========
+        {
+          "tags": [
+            "completed",
+            "cancelled"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⚠️ Workflow Cancelled"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Cancelled by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "This workflow run was cancelled"
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Run"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Workflow In Progress（蓝色）==========
+        {
+          "tags": [
+            "in_progress"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⏳ Workflow Running"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "note",
+                  "elements": [
+                    {
+                      "tag": "plain_text",
+                      "content": "⏳ Workflow is currently running..."
+                    }
+                  ]
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "Watch Progress"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        // ========== Default（紫色）==========
         {
           "tags": [
             "default"
@@ -3554,7 +4572,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "⚙️ Workflow: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
+                  "content": "⚙️ Workflow {{action}}"
                 },
                 "template": "purple"
               },
@@ -3563,8 +4581,25 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
+                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n**Action:** {{action}}"
                   }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Run"
+                      },
+                      "url": "{{workflow_run.html_url}}",
+                      "type": "default"
+                    }
+                  ]
                 }
               ]
             }
