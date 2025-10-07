@@ -1176,7 +1176,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**包名：** {{package_link_md | default(package.name)}}\n**操作：** {{action}}\n**类型：** {{package.package_type | default('')}}\n**版本/Tag：** {{package.version | default('')}} {{package.tag_name | default('')}}\n**发布者：** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
+                    "content": "**包名：** {{package_link_md | default(package.name)}}\n**操作：** {{action}}\n**类型：** {{package.package_type | default('')}}\n**版本/Tag：** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**发布者：** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
                   }
                 }
               ]

@@ -1176,7 +1176,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Package:** {{package_link_md | default(package.name)}}\n**Action:** {{action}}\n**Type:** {{package.package_type | default('')}}\n**Version/Tag:** {{package.version | default('')}} {{package.tag_name | default('')}}\n**Published by:** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
+                    "content": "**Package:** {{package_link_md | default(package.name)}}\n**Action:** {{action}}\n**Type:** {{package.package_type | default('')}}\n**Version/Tag:** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**Published by:** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
                   }
                 }
               ]

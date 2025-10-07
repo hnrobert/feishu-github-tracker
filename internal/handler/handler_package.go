@@ -17,11 +17,21 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 				if pv, okpv := payload["package_version"].(map[string]any); okpv {
 					if vname, vok := pv["version"].(string); vok && vname != "" {
 						pkg["version"] = vname
+						// default to version (often a digest)
 						pkg["tag_name"] = vname
 						data["package_version_name"] = vname
 					}
 					if purl, okurl := pv["html_url"].(string); okurl && purl != "" {
 						pkg["html_url"] = purl
+					}
+					// For container packages, a human-friendly tag may be present in container_metadata.tag.name
+					if cm, okcm := pv["container_metadata"].(map[string]any); okcm {
+						if tagObj, okt := cm["tag"].(map[string]any); okt {
+							if tname, tokk := tagObj["name"].(string); tokk && tname != "" {
+								pkg["tag_name"] = tname
+								data["package_tag_name"] = tname
+							}
+						}
 					}
 					if up, okuk := pv["uploader"].(map[string]any); okuk {
 						if login, lok := up["login"].(string); lok {
@@ -87,6 +97,15 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 						if ph, okph := pvRp["html_url"].(string); okph && ph != "" && !isOwnerPackagesURL(ph) {
 							finalURL = ph
 						}
+						// extract container tag name from registry_package.package_version.container_metadata.tag.name when available
+						if cm, okcm := pvRp["container_metadata"].(map[string]any); okcm {
+							if tagObj, okt := cm["tag"].(map[string]any); okt {
+								if tname, tokk := tagObj["name"].(string); tokk && tname != "" {
+									pkg["tag_name"] = tname
+									data["package_tag_name"] = tname
+								}
+							}
+						}
 					}
 					if finalURL == "" {
 						if rh, okh := rp["html_url"].(string); okh && rh != "" && !isOwnerPackagesURL(rh) {
@@ -137,6 +156,55 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 
 				if finalURL != "" {
 					data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, finalURL)
+				}
+
+				// Prepare tag display: if there's a tag, present it as a markdown link to the
+				// best known URL for that tag/version. If there's no tag, do not set
+				// package_tag_name (templates can treat it as null/absent).
+				if tval, okt := pkg["tag_name"].(string); okt && tval != "" {
+					// prefer package_version.html_url or finalURL as the target for the tag link
+					target := ""
+					// check payload.package_version
+					if pv, okpv := payload["package_version"].(map[string]any); okpv {
+						if ph, okph := pv["html_url"].(string); okph && ph != "" {
+							target = ph
+						}
+					}
+					// if still empty, prefer registry_package.package_version.html_url
+					if target == "" {
+						if rp, okrp := payload["registry_package"].(map[string]any); okrp {
+							if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
+								if ph, okph := pvRp["html_url"].(string); okph && ph != "" {
+									target = ph
+								}
+							}
+						}
+					}
+					// if still empty, use finalURL (which may point to package or repo page)
+					if target == "" {
+						target = finalURL
+					}
+					// if still empty and we have repo info, construct a repo container page with tag query
+					if target == "" {
+						if repoObj, okrepo := payload["repository"].(map[string]any); okrepo {
+							if full, okfull := repoObj["full_name"].(string); okfull && full != "" {
+								// escape tag name for URL
+								imported := tval
+								// avoid importing net/url at top multiple times; build simple escaped string
+								// use QueryEscape for safety
+								target = fmt.Sprintf("https://github.com/%s/pkgs/container/%s?tag=%s", full, pname, strings.ReplaceAll(imported, " ", "%20"))
+							}
+						}
+					}
+					// finally set the markdown link; if no target, set plain tag string
+					if target != "" {
+						data["package_tag_name"] = fmt.Sprintf("[%s](%s)", tval, target)
+					} else {
+						data["package_tag_name"] = tval
+					}
+				} else {
+					// no tag found: ensure templates see it as absent / None
+					delete(data, "package_tag_name")
 				}
 			}
 		}
