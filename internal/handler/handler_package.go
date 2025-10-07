@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -69,19 +70,73 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 						}
 					}
 				}
-				if rp, okrp := payload["registry_package"].(map[string]any); okrp {
-					// prefer registry_package.package_version.html_url when available
-					if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
-						if ph, okph := pvRp["html_url"].(string); okph && ph != "" {
-							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, ph)
-						} else if rh, okh := rp["html_url"].(string); okh && rh != "" {
-							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
-						}
-					} else if rh, okh := rp["html_url"].(string); okh && rh != "" {
-						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
+				// Helper to detect owner-level /packages/<id> URLs which are less useful
+				isOwnerPackagesURL := func(u string) bool {
+					if u == "" {
+						return false
 					}
-				} else if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
-					data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
+					// match e.g. https://github.com/owner/packages/12345 or .../packages/12345
+					re := regexp.MustCompile(`/packages/\d+$`)
+					return re.MatchString(u)
+				}
+
+				finalURL := ""
+				// prefer registry_package.package_version.html_url when available and not an owner-level packages id
+				if rp, okrp := payload["registry_package"].(map[string]any); okrp {
+					if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
+						if ph, okph := pvRp["html_url"].(string); okph && ph != "" && !isOwnerPackagesURL(ph) {
+							finalURL = ph
+						}
+					}
+					if finalURL == "" {
+						if rh, okh := rp["html_url"].(string); okh && rh != "" && !isOwnerPackagesURL(rh) {
+							finalURL = rh
+						}
+					}
+				}
+
+				// fallback to pkg.html_url if available and not owner-level packages id
+				if finalURL == "" {
+					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" && !isOwnerPackagesURL(purl) {
+						finalURL = purl
+					}
+				}
+
+				// If we still have no usable URL and this is a container package, prefer the repo-based container page
+				if finalURL == "" {
+					if ptype, okpt := pkg["package_type"].(string); okpt && strings.ToUpper(ptype) == "CONTAINER" {
+						if repoObj, okrepo := payload["repository"].(map[string]any); okrepo {
+							if full, okfull := repoObj["full_name"].(string); okfull && full != "" {
+								finalURL = fmt.Sprintf("https://github.com/%s/pkgs/container/%s", full, pname)
+							}
+						}
+					}
+				}
+
+				// Last resort: accept any available registry URL even if owner-level
+				if finalURL == "" {
+					if rp, okrp := payload["registry_package"].(map[string]any); okrp {
+						if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
+							if ph, okph := pvRp["html_url"].(string); okph && ph != "" {
+								finalURL = ph
+							}
+						}
+						if finalURL == "" {
+							if rh, okh := rp["html_url"].(string); okh && rh != "" {
+								finalURL = rh
+							}
+						}
+					}
+				}
+
+				if finalURL == "" {
+					if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
+						finalURL = purl
+					}
+				}
+
+				if finalURL != "" {
+					data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, finalURL)
 				}
 			}
 		}
