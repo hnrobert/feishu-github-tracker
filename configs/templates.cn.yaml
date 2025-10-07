@@ -948,6 +948,48 @@ templates:
 
   check_run:
     payloads:
+      - tags: [completed, success]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ 检查通过：{{check_run.name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **检查：** {{check_run.name}}
+                    **仓库：** {{repository_link_md | default('')}}
+                    **状态：** {{check_run.status}}
+                    **结论：** {{check_run.conclusion}}
+
+      - tags: [completed, failure]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ 检查失败：{{check_run.name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **检查：** {{check_run.name}}
+                    **仓库：** {{repository_link_md | default('')}}
+                    **状态：** {{check_run.status}}
+                    **结论：** {{check_run.conclusion}}
+
       - tags: [default]
         payload:
           msg_type: interactive
@@ -965,6 +1007,7 @@ templates:
                   tag: lark_md
                   content: |
                     **检查：** {{check_run.name}}
+                    **仓库：** {{repository_link_md | default('')}}
                     **状态：** {{check_run.status}}
                     **结论：** {{check_run.conclusion}}
 

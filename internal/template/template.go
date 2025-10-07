@@ -381,6 +381,32 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 			tags = append(tags, "default")
 		}
 
+	case "check_run":
+		// Mirror workflow_run semantics for check runs: emit completion and conclusion
+		if cr, ok := payload["check_run"].(map[string]any); ok {
+			if status, ok := cr["status"].(string); ok && status != "" {
+				if status == "completed" {
+					tags = append(tags, "completed")
+					if concl, ok := cr["conclusion"].(string); ok && concl != "" {
+						if concl == "success" || concl == "failure" {
+							tags = append(tags, concl)
+						} else {
+							tags = append(tags, "default")
+						}
+					} else {
+						tags = append(tags, "default")
+					}
+				} else {
+					// non-completed statuses
+					tags = append(tags, status)
+				}
+			} else {
+				tags = append(tags, "default")
+			}
+		} else {
+			tags = append(tags, "default")
+		}
+
 	default:
 		tags = append(tags, "default")
 	}

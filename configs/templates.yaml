@@ -950,6 +950,48 @@ templates:
 
   check_run:
     payloads:
+      - tags: [completed, success]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ Check Succeeded: {{check_run.name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Check:** {{check_run.name}}
+                    **Repo:** {{repository_link_md | default('')}}
+                    **Status:** {{check_run.status}}
+                    **Conclusion:** {{check_run.conclusion}}
+
+      - tags: [completed, failure]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ Check Failed: {{check_run.name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Check:** {{check_run.name}}
+                    **Repo:** {{repository_link_md | default('')}}
+                    **Status:** {{check_run.status}}
+                    **Conclusion:** {{check_run.conclusion}}
+
       - tags: [default]
         payload:
           msg_type: interactive
@@ -967,6 +1009,7 @@ templates:
                   tag: lark_md
                   content: |
                     **Check:** {{check_run.name}}
+                    **Repo:** {{repository_link_md | default('')}}
                     **Status:** {{check_run.status}}
                     **Conclusion:** {{check_run.conclusion}}
 
