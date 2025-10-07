@@ -247,3 +247,7 @@ log/*
 
 # docker-compose use docker-compose.yml in default, ignore this
 docker-compose.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
