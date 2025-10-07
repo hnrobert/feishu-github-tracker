@@ -6,27 +6,28 @@
 
 一个用于接收 GitHub Webhook 并转发到飞书机器人的中间件服务。支持灵活的配置、事件过滤和自定义消息模板。
 
-## ✨ 特性
+## 写在前面
 
-- 🔄 **自动转发**：接收 GitHub Webhook 事件并转发到飞书机器人
-- 🎯 **灵活匹配**：支持通配符模式匹配仓库和分支
-- 🎨 **自定义模板**：支持为不同事件类型定制飞书消息卡片
-- 🔐 **安全验证**：支持 GitHub Webhook 签名验证
-- 📊 **完整日志**：详细的事件处理日志，方便问题排查
-- 🐳 **容器化部署**：提供 Docker 和 Docker Compose 支持
-- ⚡ **高性能**：使用 Go 编写，轻量高效
+### 为什么有这个项目
+
+首先，众所周知，飞书在目前没有一个官方的 GitHub 集成（至少在国内是这样，也许之前有，后来因为种种原因总之是没了）。虽然可以通过 GitMaya 等第三方服务实现，但不是不完善（比如 GitMaya 2024 年初还在更新的，结果现在是不可用状态），要不就是操作比较复杂（胡言乱语无法理解）或者通过 `workflow` 实现（太麻烦），要不就是过于简单，无法满足实际需求。
+
+所以，我决定自己动手写一个，主要目标是：
+
+- 简单易用：配置简单，Docker Compose 开箱即用，基于 GitHub 的 Webhook 实现
+- 灵活可定制：支持多种事件过滤和自定义消息模板，只要替换现有的 `configs/templates.yaml` 就可以满足大部分的模版定制需求，修改
+- 高效稳定：使用 Go 语言编写，性能优越
+- 安全可靠：支持签名验证，防止伪造请求
+- 开源免费：MIT 许可证，欢迎自开分支或者贡献回来（plz）
 
 ## 📋 支持的 GitHub 事件
 
-支持所有主要的 GitHub Webhook 事件，包括但不限于：
+支持所有的 GitHub Webhook 事件
 
-- `push` - 代码推送
-- `pull_request` - Pull Request 相关
-- `issues` - Issue 相关
-- `release` - 发布相关
-- `discussion` - 讨论相关
-- `star`, `fork`, `watch` - 仓库关注相关
-- 更多事件详见 [configs/events.yaml](configs/events.yaml)
+- 详见 [configs/events.yaml](configs/events.yaml)
+- 对应的处理方法以及详见 [internal/handler/](internal/handler/)
+- 默认提供的消息模板详见 [configs/templates.yaml](configs/templates.yaml)
+- 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 对发出消息的格式做相应的修改
 
 ## 🚀 快速开始
 
@@ -203,13 +204,19 @@ templates:
           # Force push 的特殊模板...
 ```
 
-模板支持占位符替换，如：
+模板支持 `占位符替换` ，如：
 
 - `{{repo_name}}` - 仓库名称
 - `{{sender_name}}` - 触发者
 - `{{pr_title}}` - PR 标题
 - `{{issue_number}}` - Issue 编号
-- 更多占位符详见代码中的 `prepareTemplateData` 函数
+
+以及一些 `tag` 的判断，如：
+
+- `[push, force]` - 仅当是 force push 时使用该模板
+- `[pull_request, closed, merged]` - 仅当 PR 被合并时
+
+更多 `占位符` 和 `tag` 相关说明详见我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md))
 
 ## 🔧 高级功能
 

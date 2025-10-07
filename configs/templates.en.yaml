@@ -26,8 +26,9 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    {{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}** {{branch_link_md | default('')}}
-                    {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+                    {{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}**
+
+                    **Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}
 
                     **Commit messages:**
                     {{commit_messages_joined | default(commit_message | default(pull_request.body | default('No commit messages'))) }}
@@ -56,9 +57,10 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}** {{branch_link_md | default('')}}
+                    **Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}**
                     This may have rewritten history. Commits: {{commits | length}}
-                    {{repository_link_md | default('')}} {{branch_link_md | default('')}}
+
+                    **Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}
 
                     **Commit messages:**
                     {{commit_messages_joined | default(commit_message | default('No commit messages')) }}

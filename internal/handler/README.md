@@ -4,6 +4,24 @@ This file documents the top-level keys the handler populates in the `data` map u
 
 Keys are grouped into families. Each family has a `Common` subsection listing keys shared across the family's events. Event sections only list keys that are specific to that event (i.e., not repeated in the family's Common list). Keys are alphabetized inside each list.
 
+## Tagging and template selection (overview)
+
+Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.yaml` carries a `tags` list (examples: `tags: [issue, type:feature]`, `tags: [push, force]`, or `tags: [pr, closed, merged]`).
+
+- What `tags` mean: the first element is typically the event family (e.g. `issue`, `push`, `pr`). Additional elements refine the selection (for example `type:feature` narrows issue templates to feature-type issues).
+- Why we have `tags: [issue, type:feature]`: the handler detects an issue's semantic type (bug/feature/task/unknown) from either a `type` field in the payload or from labels (see `detectIssueTypeFromLabels` in the handler). When an issue is classified as a feature, templates tagged with `type:feature` become selectable so you can show a different card (color, wording, actions) for feature requests.
+  Where tags come from:
+  - static template configuration (`configs/templates*.yaml`) — authors declare the tags they want a payload to match.
+  - runtime tag detection in code — the handler and template selection helpers derive tags from payload shape and content (for example: `push` vs `push+force`, PR `closed` + `merged` vs `closed` + `unmerged`, issue `type:...`).
+
+General handling rules used by the codebase:
+
+- Templates are evaluated in priority order using tag matching. A more specific tag set (e.g. `pr, closed, merged`) will be preferred over a generic `pr, default` payload when tags match.
+- The handler exposes convenience fields (e.g., `issue_type`, `issue_type_name`, `sender_link_md`) and detection helpers so templates can both select by tags and render using the same keys.
+- If no template payload matches a refined tag set, the system falls back to a payload tagged with `[default]` for that event family.
+
+See the family sections below for which tags are used in the shipped templates and a short note about how they are produced.
+
 ## Global / common fields
 
 These keys are useful across many events when the corresponding objects are present in the payload.
@@ -20,7 +38,7 @@ These keys are useful across many events when the corresponding objects are pres
 
 ---
 
-## Code & repository events
+## Code & repository events family
 
 ### Common
 
@@ -28,6 +46,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `repo_name` (string)
 - `repo_url` (string)
 - `repository` (object)
+
+- Tags: push → `[push, default]`, `[push, force]`; create/delete/fork/gollum/repository → `[default]`.
+- Condition: `payload.forced == true` → use `force`; otherwise use family tag.
 
 ### push (event-specific)
 
@@ -81,6 +102,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `pr_url` (string)
 - `pull_request` (object)
 
+- Tags: `[pr, closed, merged]`, `[pr, closed, unmerged]`, `[pr, default]`.
+- Condition: `action == "closed" && pull_request.merged == true` → `closed,merged`; `action == "closed" && pull_request.merged == false` → `closed,unmerged`; else `pr,default`.
+
 ### pull_request
 
 - `action` (string)
@@ -119,6 +143,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `issue_title` (string)
 - `issue_url` (string)
 
+- Tags: `[issue, typed]`, `[issue, type:bug]`, `[issue, type:feature]`, `[issue, type:task]`, `[issue, type:unknown]`.
+- Condition: `issue.type` if present; otherwise inferred from labels via `detectIssueTypeFromLabels`.
+
 ### issues
 
 - `action` (string)
@@ -146,6 +173,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `discussion_title` (string)
 - `discussion_url` (string)
 
+- Tags: `[default]`.
+- Condition: use family tag `discussion` (no extra qualifiers).
+
 ### discussion
 
 - `action` (string)
@@ -166,6 +196,9 @@ These keys are useful across many events when the corresponding objects are pres
 ### Common
 
 - `action` (string)
+
+- Tags: `release` → `[default]`; `package` → `[default]`.
+- Condition: use family tag (`release` / `package`).
 
 ### release
 
@@ -196,6 +229,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `deployment` (object)
 - `deployment_status` (object)
 - `status` (object)
+
+- Tags: `[default]` for deployment, deployment_status, check_run, check_suite, workflow_run, status.
+- Condition: use family tag (shipped templates don't add qualifiers).
 
 ### deployment
 
@@ -235,6 +271,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `project_card` (object)
 - `project_column` (object)
 
+- Tags: `[default]` for project, project_card, project_column.
+- Condition: use family tag.
+
 ### project
 
 - `project_name` (string)
@@ -266,6 +305,9 @@ These keys are useful across many events when the corresponding objects are pres
 - `membership` (object)
 - `team` (object)
 
+- Tags: `[default]` for membership, member, team, organization.
+- Condition: use family tag; templates may vary on `action`.
+
 ### member
 
 - `member_login` (string)
@@ -283,6 +325,9 @@ These keys are useful across many events when the corresponding objects are pres
 
 - `page_build` (object)
 
+- Tags: `[default]`.
+- Condition: use family tag `page_build`.
+
 ---
 
 ## Community & visibility
@@ -291,6 +336,9 @@ These keys are useful across many events when the corresponding objects are pres
 
 - `action` (string)
 - `repository` (object)
+
+- Tags: `[default]` for public, star, watch.
+- Condition: use family tag; `action` often contains the qualifier.
 
 ### public
 
@@ -312,6 +360,9 @@ These keys are useful across many events when the corresponding objects are pres
 
 - `action` (string)
 - `security_advisory` (object)
+
+- Tags: `[default]`.
+- Condition: use family tag `security_advisory`.
 
 ### security_advisory
 
