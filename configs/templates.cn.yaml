@@ -935,6 +935,48 @@ templates:
 
   workflow_run:
     payloads:
+      - tags: [workflow_run, completed, success]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ 工作流成功: {{workflow.name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **工作流:** {{workflow_run_link_md | default(workflow.name)}}
+                    **仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **运行 #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **状态:** {{workflow_run.conclusion | default(workflow_run.status)}}
+
+      - tags: [workflow_run, completed, failure]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ 工作流失败: {{workflow.name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **工作流:** {{workflow_run_link_md | default(workflow.name)}}
+                    **仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **运行 #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **状态:** {{workflow_run.conclusion | default(workflow_run.status)}}
+
       - tags: [default]
         payload:
           msg_type: interactive
@@ -944,16 +986,17 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "⚙️ Workflow：{{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
+                content: "⚙️ 工作流: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
               template: "purple"
             elements:
               - tag: div
                 text:
                   tag: lark_md
                   content: |
-                    **工作流：** {{workflow.name}}
-                    **运行：** {{workflow_run.id}}
-                    **状态：** {{workflow_run.status}}
+                    **工作流:** {{workflow_run_link_md | default(workflow.name)}}
+                    **仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **运行 #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **状态:** {{workflow_run.conclusion | default(workflow_run.status)}}
 
   status:
     payloads:
@@ -967,27 +1010,6 @@ templates:
               title:
                 tag: plain_text
                 content: "🔁 状态更新：{{state}}"
-              template: "gray"
-            elements:
-              - tag: div
-                text:
-                  tag: lark_md
-                  content: |
-                    **上下文：** {{context}}
-                    **状态：** {{state}}
-
-  page_build:
-    payloads:
-      - tags: [default]
-        payload:
-          msg_type: interactive
-          card:
-            config:
-              wide_screen_mode: true
-            header:
-              title:
-                tag: plain_text
-                content: "📄 Page Build：{{action}}"
               template: "gray"
             elements:
               - tag: div

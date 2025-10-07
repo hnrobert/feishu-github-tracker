@@ -937,6 +937,48 @@ templates:
 
   workflow_run:
     payloads:
+      - tags: [workflow_run, completed, success]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "✅ Workflow succeeded: {{workflow.name}}"
+              template: "green"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Workflow:** {{workflow_run_link_md | default(workflow.name)}}
+                    **Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **Run #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **Status:** {{workflow_run.conclusion | default(workflow_run.status)}}
+
+      - tags: [workflow_run, completed, failure]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "❌ Workflow failed: {{workflow.name}}"
+              template: "red"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Workflow:** {{workflow_run_link_md | default(workflow.name)}}
+                    **Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **Run #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **Status:** {{workflow_run.conclusion | default(workflow_run.status)}}
+
       - tags: [default]
         payload:
           msg_type: interactive
@@ -953,9 +995,10 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    **Workflow:** {{workflow.name}}
-                    **Run ID:** {{workflow_run.id}}
-                    **Status:** {{workflow_run.status}}
+                    **Workflow:** {{workflow_run_link_md | default(workflow.name)}}
+                    **Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}
+                    **Run #:** {{workflow_run_number | default(workflow_run.id)}}
+                    **Status:** {{workflow_run.conclusion | default(workflow_run.status)}}
 
   status:
     payloads:

@@ -325,6 +325,35 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 			}
 		}
 
+	case "workflow_run":
+		// For workflow runs, emit tags that describe completion and outcome so
+		// templates can select success/failure-specific payloads.
+		if wr, ok := payload["workflow_run"].(map[string]any); ok {
+			if status, ok := wr["status"].(string); ok && status != "" {
+				if status == "completed" {
+					tags = append(tags, "completed")
+					if concl, ok := wr["conclusion"].(string); ok && concl != "" {
+						// common conclusions: success, failure, cancelled
+						// only append success/failure so templates can match them; otherwise fall back
+						if concl == "success" || concl == "failure" {
+							tags = append(tags, concl)
+						} else {
+							tags = append(tags, "default")
+						}
+					} else {
+						tags = append(tags, "default")
+					}
+				} else {
+					// non-completed statuses (in_progress, queued, etc.)
+					tags = append(tags, status)
+				}
+			} else {
+				tags = append(tags, "default")
+			}
+		} else {
+			tags = append(tags, "default")
+		}
+
 	default:
 		tags = append(tags, "default")
 	}
