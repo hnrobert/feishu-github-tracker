@@ -3,13 +3,14 @@ package handler
 import (
 	"testing"
 
-	"github.com/hnrobert/feishu-github-tracker/internal/config"
-	"github.com/hnrobert/feishu-github-tracker/internal/logger"
-	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
+
+	"github.com/hnrobert/feishu-github-tracker/internal/config"
+	"github.com/hnrobert/feishu-github-tracker/internal/logger"
+	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
 )
 
 func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
@@ -182,5 +183,35 @@ func TestPrepareTemplateData_IssueLinks(t *testing.T) {
 	}
 	if _, ok := data["issue_user_link_md"]; !ok {
 		t.Fatalf("expected issue_user_link_md in prepared data")
+	}
+}
+
+func TestPrepareTemplateData_PackageURL(t *testing.T) {
+	cfg := &config.Config{}
+	n := notifier.New(config.FeishuBotsConfig{})
+	h := New(cfg, n)
+
+	payload := map[string]any{
+		"action": "published",
+		"package": map[string]any{
+			"name":         "feishu-github-tracker",
+			"package_type": "CONTAINER",
+		},
+		"repository": map[string]any{"full_name": "hnrobert/feishu-github-tracker"},
+	}
+
+	data := h.prepareTemplateData("package", payload)
+
+	v, ok := data["package_link_md"]
+	if !ok {
+		t.Fatalf("expected package_link_md in prepared data")
+	}
+	s, ok := v.(string)
+	if !ok {
+		t.Fatalf("package_link_md should be a string")
+	}
+	want := "[feishu-github-tracker](https://github.com/hnrobert/feishu-github-tracker/pkgs/container/feishu-github-tracker)"
+	if s != want {
+		t.Fatalf("package_link_md mismatch: got %q want %q", s, want)
 	}
 }

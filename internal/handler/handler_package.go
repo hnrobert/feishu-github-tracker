@@ -1,6 +1,9 @@
 package handler
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // preparePackageData handles "package" event specific data extraction and
 // builds markdown links preferring registry_package.html_url when present.
@@ -56,6 +59,16 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 					pkg["tag_name"] = ptag
 				}
 
+				// If this is a CONTAINER package, prefer the GitHub package page under the repo:
+				// https://github.com/{owner}/{repo}/pkgs/container/{package_name}
+				if ptype, okpt := pkg["package_type"].(string); okpt && strings.ToUpper(ptype) == "CONTAINER" {
+					if repoObj, okrepo := payload["repository"].(map[string]any); okrepo {
+						if full, okfull := repoObj["full_name"].(string); okfull && full != "" {
+							purl := fmt.Sprintf("https://github.com/%s/pkgs/container/%s", full, pname)
+							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)
+						}
+					}
+				}
 				if rp, okrp := payload["registry_package"].(map[string]any); okrp {
 					// prefer registry_package.package_version.html_url when available
 					if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
