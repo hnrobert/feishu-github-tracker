@@ -1,7 +1,6 @@
-// Converted from templates.yaml — comments removed.
 {
   "templates": {
-    "push": {
+    "branch_protection_rule": {
       "payloads": [
         {
           "tags": [
@@ -16,7 +15,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "💾 New Push: {{repository.full_name}}"
+                  "content": "🛡️ Branch Protection {{action}}"
                 },
                 "template": "blue"
               },
@@ -25,30 +24,21 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "{{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}**\n\n**Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('No commit messages'))) }}\n"
+                    "content": "**Rule:** {{rule_name}}\n**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View commits"
-                      },
-                      "url": "{{compare_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
           }
-        },
+        }
+      ]
+    },
+    "check_run": {
+      "payloads": [
         {
           "tags": [
-            "force"
+            "completed",
+            "success"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -59,7 +49,37 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚨 Force Push: {{repository.full_name}}"
+                  "content": "✅ Check Succeeded: {{check_run.name}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "completed",
+            "failure"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ Check Failed: {{check_run.name}}"
                 },
                 "template": "red"
               },
@@ -68,7 +88,135 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}**\nThis may have rewritten history. Commits: {{commits | length}}\n\n**Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default('No commit messages')) }}\n"
+                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Check Run: {{check_run.name}} {{check_run.status}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "check_suite": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🧪 Check Suite: {{action}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n**Repo:** {{repository_link_md | default('')}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "code_scanning_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔍 Code Scanning Alert {{action}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Alert:** {{alert_rule_description}}\n**Severity:** {{alert_rule_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "commit_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 Commit Comment"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Commit:** {{commit_sha_short}}\n**Author:** {{sender_link_md}}\n**Comment:** {{comment_body}}\n"
                   }
                 },
                 {
@@ -78,9 +226,9 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "View commits"
+                        "content": "View Comment"
                       },
-                      "url": "{{compare_url}}",
+                      "url": "{{comment_html_url}}",
                       "type": "primary"
                     }
                   ]
@@ -91,12 +239,11 @@
         }
       ]
     },
-    "pull_request": {
+    "create": {
       "payloads": [
         {
           "tags": [
-            "closed",
-            "merged"
+            "default"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -107,40 +254,29 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔮 Pull Request merged: #{{pull_request.number}} {{pull_request.title}}"
+                  "content": "✨ Created: {{ref_type}} in {{repository.full_name}}"
                 },
-                "template": "purple"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR merged by:** {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**Merge commit / PR body:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                    "content": "**Creator:** {{sender_link_md | default(sender.login)}}\n**Type:** {{ref_type}}  Name: {{ref}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View PR"
-                      },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
           }
-        },
+        }
+      ]
+    },
+    "delete": {
+      "payloads": [
         {
           "tags": [
-            "closed",
-            "unmerged"
+            "default"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -151,7 +287,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ Pull Request closed (not merged): #{{pull_request.number}} {{pull_request.title}}"
+                  "content": "🗑️ Deleted: {{ref_type}} in {{repository.full_name}}"
                 },
                 "template": "red"
               },
@@ -160,22 +296,136 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR closed without merge** by {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**PR body:**\n{{pull_request.body | default('No details')}}\n"
+                    "content": "**Actor:** {{sender_link_md | default(sender.login)}}\n**Deleted:** {{ref_type}} {{ref}}\n"
                   }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "dependabot_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🤖 Dependabot Alert {{action}}"
                 },
+                "template": "orange"
+              },
+              "elements": [
                 {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View PR"
-                      },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Package:** {{alert_package_name}}\n**Severity:** {{alert_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚢 Deployment: {{deployment.environment}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Ref:** {{deployment.ref}}\n**Environment:** {{deployment.environment}}\n**Actor:** {{sender_link_md | default(sender.login)}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment_review": {
+      "payloads": [
+        {
+          "tags": [
+            "approved"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Deployment Approved"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n**Comment:** {{comment}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "rejected"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ Deployment Rejected"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n**Comment:** {{comment}}\n"
+                  }
                 }
               ]
             }
@@ -194,7 +444,40 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔀 Pull Request {{action}}: {{pull_request.title}}"
+                  "content": "🔔 Deployment Review {{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment_status": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📣 Deployment status: {{deployment_status.state}}"
                 },
                 "template": "green"
               },
@@ -203,7 +486,40 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**PR #:** #{{pull_request.number}}\n**State:** {{pull_request.state}}\n\n**PR body / latest commit message:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                    "content": "**Ref:** {{deployment.ref}}\n**State:** {{deployment_status.state}}\n**Description:** {{deployment_status.description}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "discussion": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 New Discussion: {{discussion.title}}"
+                },
+                "template": "teal"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Category:** {{discussion.category.name}}\n"
                   }
                 },
                 {
@@ -213,9 +529,230 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "View PR"
+                        "content": "View Discussion"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "discussion_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 Discussion Comment: {{discussion.title}}"
+                },
+                "template": "teal"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Discussion:** {{discussion.title}}\n**Comment:** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Comment"
+                      },
+                      "url": "{{comment.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "fork": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🍴 Fork: {{forkee.full_name}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Forker:** {{sender_link_md | default(sender.login)}}\n**Forked repo:** {{forkee.full_name}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View fork"
+                      },
+                      "url": "{{forkee.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "gollum": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📚 Wiki Update: {{repository.full_name}}"
+                },
+                "template": "gray"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Pusher:** {{sender_link_md | default(sender.login)}}\n**Changes:** {{pages | length}} pages updated\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View repo"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "installation": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🤖 GitHub App {{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**App:** {{app_name}}\n**Action:** {{action}}\n**Installer:** {{sender_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "issue_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 Issue Comment: #{{issue.number}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Issue:** #{{issue.number}} {{issue.title}}\n**Comment:** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Comment"
+                      },
+                      "url": "{{comment.html_url}}",
                       "type": "primary"
                     }
                   ]
@@ -531,7 +1068,7 @@
         }
       ]
     },
-    "release": {
+    "label": {
       "payloads": [
         {
           "tags": [
@@ -546,336 +1083,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚀 Release: {{release.tag_name}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Author:** {{release.author.login}}\n**Title:** {{release.name}}\n**Notes:** {{release.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Release"
-                      },
-                      "url": "{{release.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "discussion": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 New Discussion: {{discussion.title}}"
-                },
-                "template": "teal"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Category:** {{discussion.category.name}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Discussion"
-                      },
-                      "url": "{{discussion.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📝 PR Review {{action}}: #{{pull_request.number}}"
-                },
-                "template": "cyan"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Reviewer:** {{review_user_link_md | default(review.user.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n**Conclusion:** {{review.state}}\n{{review.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Review"
-                      },
-                      "url": "{{review.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 PR Review Comment: #{{pull_request.number}}"
-                },
-                "template": "cyan"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}}\n**Comment:** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Comment"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "issue_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 Issue Comment: #{{issue.number}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Issue:** #{{issue.number}} {{issue.title}}\n**Comment:** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Comment"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "discussion_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 Discussion Comment: {{discussion.title}}"
-                },
-                "template": "teal"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Discussion:** {{discussion.title}}\n**Comment:** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Comment"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "gollum": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📚 Wiki Update: {{repository.full_name}}"
-                },
-                "template": "gray"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Pusher:** {{sender_link_md | default(sender.login)}}\n**Changes:** {{pages | length}} pages updated\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View repo"
-                      },
-                      "url": "{{repository.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "create": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✨ Created: {{ref_type}} in {{repository.full_name}}"
+                  "content": "🏷️ Label {{action}}"
                 },
                 "template": "blue"
               },
@@ -884,7 +1092,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Creator:** {{sender_link_md | default(sender.login)}}\n**Type:** {{ref_type}}  Name: {{ref}}\n"
+                    "content": "**Label:** {{label_name}}\n**Action:** {{action}}\n**Repository:** {{repository_link_md}}\n"
                   }
                 }
               ]
@@ -893,7 +1101,7 @@
         }
       ]
     },
-    "delete": {
+    "member": {
       "payloads": [
         {
           "tags": [
@@ -908,153 +1116,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🗑️ Deleted: {{ref_type}} in {{repository.full_name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Actor:** {{sender_link_md | default(sender.login)}}\n**Deleted:** {{ref_type}} {{ref}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "fork": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🍴 Fork: {{forkee.full_name}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Forker:** {{sender_link_md | default(sender.login)}}\n**Forked repo:** {{forkee.full_name}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View fork"
-                      },
-                      "url": "{{forkee.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "star": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "⭐ {{action}} by {{sender_link_md | default(sender.login)}}"
-                },
-                "template": "yellow"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "watch": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔔 Watch: {{action}} by {{sender_link_md | default(sender.login)}}"
-                },
-                "template": "yellow"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "repository": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏷️ Repository change: {{repository.full_name}}"
+                  "content": "👤 Member event: {{action}} {{member.login}}"
                 },
                 "template": "blue"
               },
@@ -1063,22 +1125,8 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Action:** {{action}}\n**Repo:** {{repository.full_name}}\n"
+                    "content": "**Member:** {{member.login}}\n**Action:** {{action}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View repo"
-                      },
-                      "url": "{{repository.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
@@ -1086,7 +1134,7 @@
         }
       ]
     },
-    "deployment": {
+    "membership": {
       "payloads": [
         {
           "tags": [
@@ -1101,16 +1149,16 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚢 Deployment: {{deployment.environment}}"
+                  "content": "➕ Membership: {{action}}"
                 },
-                "template": "green"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Ref:** {{deployment.ref}}\n**Environment:** {{deployment.environment}}\n**Actor:** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**Member:** {{member.user.login}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -1119,7 +1167,7 @@
         }
       ]
     },
-    "deployment_status": {
+    "merge_group": {
       "payloads": [
         {
           "tags": [
@@ -1134,16 +1182,82 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "📣 Deployment status: {{deployment_status.state}}"
+                  "content": "🔀 Merge Queue {{action}}"
                 },
-                "template": "green"
+                "template": "purple"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Ref:** {{deployment.ref}}\n**State:** {{deployment_status.state}}\n**Description:** {{deployment_status.description}}\n"
+                    "content": "**Head SHA:** {{merge_group_head_sha}}\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "milestone": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏁 Milestone: {{action}} {{milestone.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Milestone:** {{milestone.title}}\n**Description:** {{milestone.description}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "organization": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏢 Organization change: {{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Organization:** {{organization.login}}\n**Member:** {{membership.user.login | default('N/A')}}\n"
                   }
                 }
               ]
@@ -1177,6 +1291,72 @@
                   "text": {
                     "tag": "lark_md",
                     "content": "**Package:** {{package_link_md | default(package.name)}}\n**Action:** {{action}}\n**Type:** {{package.package_type | default('')}}\n**Version/Tag:** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**Published by:** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "page_build": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📄 Page Build: {{action}}"
+                },
+                "template": "gray"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ping": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏓 Webhook Ping"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Zen:** {{zen}}\n**Hook ID:** {{hook_id}}\n"
                   }
                 }
               ]
@@ -1284,7 +1464,7 @@
         }
       ]
     },
-    "milestone": {
+    "projects_v2": {
       "payloads": [
         {
           "tags": [
@@ -1299,7 +1479,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🏁 Milestone: {{action}} {{milestone.title}}"
+                  "content": "📋 Project {{action}}"
                 },
                 "template": "blue"
               },
@@ -1308,424 +1488,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Milestone:** {{milestone.title}}\n**Description:** {{milestone.description}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "team": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "👥 Team event: {{action}} {{team.name}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Team:** {{team.name}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "membership": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "➕ Membership: {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Member:** {{member.user.login}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "member": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "👤 Member event: {{action}} {{member.login}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Member:** {{member.login}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "organization": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏢 Organization change: {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Organization:** {{organization.login}}\n**Member:** {{membership.user.login | default('N/A')}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "check_run": {
-      "payloads": [
-        {
-          "tags": [
-            "completed",
-            "success"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ Check Succeeded: {{check_run.name}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "completed",
-            "failure"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "❌ Check Failed: {{check_run.name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ Check Run: {{check_run.name}} {{check_run.status}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "check_suite": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🧪 Check Suite: {{action}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n**Repo:** {{repository_link_md | default('')}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "workflow_run": {
-      "payloads": [
-        {
-          "tags": [
-            "completed",
-            "success"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ Workflow succeeded: {{workflow.name}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "completed",
-            "failure"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "❌ Workflow failed: {{workflow.name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "⚙️ Workflow: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "status": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔁 Status update: {{state}}"
-                },
-                "template": "gray"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Context:** {{context}}\n**State:** {{state}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "page_build": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📄 Page Build: {{action}}"
-                },
-                "template": "gray"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                    "content": "**Project:** {{project_title}}\n**Action:** {{action}}\n**Creator:** {{sender_link_md}}\n"
                   }
                 }
               ]
@@ -1767,6 +1530,485 @@
         }
       ]
     },
+    "pull_request": {
+      "payloads": [
+        {
+          "tags": [
+            "closed",
+            "merged"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔮 Pull Request merged: #{{pull_request.number}} {{pull_request.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**PR merged by:** {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**Merge commit / PR body:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "unmerged"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ Pull Request closed (not merged): #{{pull_request.number}} {{pull_request.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**PR closed without merge** by {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n\n**PR body:**\n{{pull_request.body | default('No details')}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔀 Pull Request {{action}}: {{pull_request.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**PR #:** #{{pull_request.number}}\n**State:** {{pull_request.state}}\n\n**PR body / latest commit message:**\n{{pull_request.body | default(commit_message | default('No details'))}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 PR Review {{action}}: #{{pull_request.number}}"
+                },
+                "template": "cyan"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Reviewer:** {{review_user_link_md | default(review.user.login)}}\n**PR:** #{{pull_request.number}} {{pull_request.title}}\n**Conclusion:** {{review.state}}\n{{review.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Review"
+                      },
+                      "url": "{{review.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 PR Review Comment: #{{pull_request.number}}"
+                },
+                "template": "cyan"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**PR:** #{{pull_request.number}}\n**Comment:** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Comment"
+                      },
+                      "url": "{{comment.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review_thread": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 PR Review Thread {{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**PR:** #{{pull_request.number}} {{pull_request.title}}\n**Thread:** {{thread_comments | length}} comments\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "push": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💾 New Push: {{repository.full_name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}**\n\n**Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('No commit messages'))) }}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View commits"
+                      },
+                      "url": "{{compare_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "force"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚨 Force Push: {{repository.full_name}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}**\nThis may have rewritten history. Commits: {{commits | length}}\n\n**Repository:** {{repository_link_md | default('')}} · {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default('No commit messages')) }}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View commits"
+                      },
+                      "url": "{{compare_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "release": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚀 Release: {{release.tag_name}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{release.author.login}}\n**Title:** {{release.name}}\n**Notes:** {{release.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Release"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "repository": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏷️ Repository change: {{repository.full_name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Action:** {{action}}\n**Repo:** {{repository.full_name}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View repo"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "secret_scanning_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔐 Secret Scanning Alert {{action}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Secret Type:** {{alert_secret_type}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
     "security_advisory": {
       "payloads": [
         {
@@ -1792,6 +2034,200 @@
                   "text": {
                     "tag": "lark_md",
                     "content": "**Summary:** {{security_advisory.summary | default('See advisory for details')}}\n**Severity:** {{security_advisory.severity | default('N/A')}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "sponsorship": {
+      "payloads": [
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💖 New Sponsor!"
+                },
+                "template": "pink"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Sponsor:** {{sponsor_login}}\n**Tier:** {{tier_name}}\n**Amount:** ${{tier_monthly_price_in_dollars}}/month\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💖 Sponsorship {{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Sponsor:** {{sponsor_login}}\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "star": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⭐ {{action}} by {{sender_link_md | default(sender.login)}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "status": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔁 Status update: {{state}}"
+                },
+                "template": "gray"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Context:** {{context}}\n**State:** {{state}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "team": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👥 Team event: {{action}} {{team.name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Team:** {{team.name}}\n**Action:** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "watch": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔔 Watch: {{action}} by {{sender_link_md | default(sender.login)}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -1921,11 +2357,12 @@
         }
       ]
     },
-    "branch_protection_rule": {
+    "workflow_run": {
       "payloads": [
         {
           "tags": [
-            "default"
+            "completed",
+            "success"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -1936,40 +2373,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🛡️ Branch Protection {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Rule:** {{rule_name}}\n**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "deployment_review": {
-      "payloads": [
-        {
-          "tags": [
-            "approved"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ Deployment Approved"
+                  "content": "✅ Workflow succeeded: {{workflow.name}}"
                 },
                 "template": "green"
               },
@@ -1978,7 +2382,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n**Comment:** {{comment}}\n"
+                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]
@@ -1987,7 +2391,8 @@
         },
         {
           "tags": [
-            "rejected"
+            "completed",
+            "failure"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -1998,7 +2403,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ Deployment Rejected"
+                  "content": "❌ Workflow failed: {{workflow.name}}"
                 },
                 "template": "red"
               },
@@ -2007,7 +2412,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n**Comment:** {{comment}}\n"
+                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]
@@ -2027,73 +2432,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 Deployment Review {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Reviewer:** {{sender_link_md}}\n**Environment:** {{environment}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "installation": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🤖 GitHub App {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**App:** {{app_name}}\n**Action:** {{action}}\n**Installer:** {{sender_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "merge_group": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔀 Merge Queue {{action}}"
+                  "content": "⚙️ Workflow: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
                 },
                 "template": "purple"
               },
@@ -2102,347 +2441,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Head SHA:** {{merge_group_head_sha}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "sponsorship": {
-      "payloads": [
-        {
-          "tags": [
-            "created"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💖 New Sponsor!"
-                },
-                "template": "pink"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Sponsor:** {{sponsor_login}}\n**Tier:** {{tier_name}}\n**Amount:** ${{tier_monthly_price_in_dollars}}/month\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💖 Sponsorship {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Sponsor:** {{sponsor_login}}\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "code_scanning_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔍 Code Scanning Alert {{action}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Alert:** {{alert_rule_description}}\n**Severity:** {{alert_rule_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "dependabot_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🤖 Dependabot Alert {{action}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Package:** {{alert_package_name}}\n**Severity:** {{alert_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "secret_scanning_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔐 Secret Scanning Alert {{action}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Secret Type:** {{alert_secret_type}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "projects_v2": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📋 Project {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Project:** {{project_title}}\n**Action:** {{action}}\n**Creator:** {{sender_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review_thread": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 PR Review Thread {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**PR:** #{{pull_request.number}} {{pull_request.title}}\n**Thread:** {{thread_comments | length}} comments\n**Action:** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "commit_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 Commit Comment"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Commit:** {{commit_sha_short}}\n**Author:** {{sender_link_md}}\n**Comment:** {{comment_body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "View Comment"
-                      },
-                      "url": "{{comment_html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "label": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏷️ Label {{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Label:** {{label_name}}\n**Action:** {{action}}\n**Repository:** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "ping": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏓 Webhook Ping"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Zen:** {{zen}}\n**Hook ID:** {{hook_id}}\n"
+                    "content": "**Workflow:** {{workflow_run_link_md | default(workflow.name)}}\n**Repo:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**Run #:** {{workflow_run_number | default(workflow_run.id)}}\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]

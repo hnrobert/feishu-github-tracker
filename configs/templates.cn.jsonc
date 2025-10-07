@@ -1,7 +1,6 @@
-// Converted from templates.cn.yaml — comments removed.
 {
   "templates": {
-    "push": {
+    "branch_protection_rule": {
       "payloads": [
         {
           "tags": [
@@ -16,7 +15,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "💾 新推送：{{repository.full_name}}"
+                  "content": "🛡️ 分支保护{{action}}"
                 },
                 "template": "blue"
               },
@@ -25,30 +24,21 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "{{pusher_link_md | default(pusher.name)}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('无提交信息'))) }}\n"
+                    "content": "**规则：** {{rule_name}}\n**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看提交详情"
-                      },
-                      "url": "{{compare_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
           }
-        },
+        }
+      ]
+    },
+    "check_run": {
+      "payloads": [
         {
           "tags": [
-            "force"
+            "completed",
+            "success"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -59,7 +49,37 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚨 强制推送：{{repository.full_name}}"
+                  "content": "✅ 检查通过：{{check_run.name}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "completed",
+            "failure"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ 检查失败：{{check_run.name}}"
                 },
                 "template": "red"
               },
@@ -68,7 +88,135 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**检测到强制推送**，操作人：{{sender_link_md | default(sender.login)}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}\n可能已重写历史。提交数：{{commits | length}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default('无提交信息')) }}\n"
+                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ Check Run：{{check_run.name}} {{check_run.status}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "check_suite": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🧪 Check Suite：{{action}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**结论：** {{check_suite.conclusion | default('N/A')}}\n**提交：** {{check_suite.head_sha}}\n**仓库：** {{repository_link_md | default('')}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "code_scanning_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔍 代码扫描警告{{action}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**警告：** {{alert_rule_description}}\n**严重度：** {{alert_rule_severity}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "commit_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 提交评论"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**提交：** {{commit_sha_short}}\n**作者：** {{sender_link_md}}\n**评论：** {{comment_body}}\n"
                   }
                 },
                 {
@@ -78,9 +226,9 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "查看提交详情"
+                        "content": "查看评论"
                       },
-                      "url": "{{compare_url}}",
+                      "url": "{{comment_html_url}}",
                       "type": "primary"
                     }
                   ]
@@ -91,12 +239,11 @@
         }
       ]
     },
-    "pull_request": {
+    "create": {
       "payloads": [
         {
           "tags": [
-            "closed",
-            "merged"
+            "default"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -107,40 +254,29 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔮 Pull Request 已合并：#{{pull_request.number}} {{pull_request.title}}"
+                  "content": "✨ 新创建：{{ref_type}} 在 {{repository.full_name}}"
                 },
-                "template": "purple"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**合并者：** {{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**合并提交 / PR 描述：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                    "content": "**创建者：** {{sender_link_md | default(sender.login)}}\n**类型：** {{ref_type}}  名称： {{ref}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看 PR"
-                      },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
           }
-        },
+        }
+      ]
+    },
+    "delete": {
+      "payloads": [
         {
           "tags": [
-            "closed",
-            "unmerged"
+            "default"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -151,7 +287,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ PR 关闭（未合并）：#{{pull_request.number}} {{pull_request.title}}"
+                  "content": "🗑️ 删除：{{ref_type}} 在 {{repository.full_name}}"
                 },
                 "template": "red"
               },
@@ -160,22 +296,136 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**PR 未合并即关闭**，触发者：{{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**PR 描述：**\n{{pull_request.body | default('无详情')}}\n"
+                    "content": "**触发者：** {{sender_link_md | default(sender.login)}}\n**删除：** {{ref_type}} {{ref}}\n"
                   }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "dependabot_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🤖 Dependabot警告{{action}}"
                 },
+                "template": "orange"
+              },
+              "elements": [
                 {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看 PR"
-                      },
-                      "url": "{{pull_request.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**包：** {{alert_package_name}}\n**严重度：** {{alert_severity}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚢 部署：{{deployment.environment}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**应用：** {{deployment.ref}}\n**环境：** {{deployment.environment}}\n**发起人：** {{sender_link_md | default(sender.login)}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment_review": {
+      "payloads": [
+        {
+          "tags": [
+            "approved"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "✅ 部署已批准"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n**评论：** {{comment}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "rejected"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ 部署已拒绝"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n**评论：** {{comment}}\n"
+                  }
                 }
               ]
             }
@@ -194,7 +444,40 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔀 Pull Request {{action}}：{{pull_request.title}}"
+                  "content": "🔔 部署审核{{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment_status": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📣 部署状态：{{deployment_status.state}}"
                 },
                 "template": "green"
               },
@@ -203,7 +486,40 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**PR 编号：** #{{pull_request.number}}\n**状态：** {{pull_request.state}}\n\n**PR 描述 / 最新提交信息：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                    "content": "**部署：** {{deployment.ref}}\n**状态：** {{deployment_status.state}}\n**描述：** {{deployment_status.description}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "discussion": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 新讨论：{{discussion.title}}"
+                },
+                "template": "teal"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**分类：** {{discussion.category.name}}\n"
                   }
                 },
                 {
@@ -213,9 +529,230 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "查看 PR"
+                        "content": "查看讨论"
                       },
-                      "url": "{{pull_request.html_url}}",
+                      "url": "{{discussion.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "discussion_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 讨论评论：{{discussion.title}}"
+                },
+                "template": "teal"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**讨论：** {{discussion.title}}\n**评论：** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看评论"
+                      },
+                      "url": "{{comment.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "fork": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🍴 Fork：{{forkee.full_name}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Fork者：** {{sender_link_md | default(sender.login)}}\n**目标仓库：** {{forkee.full_name}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看Fork仓库"
+                      },
+                      "url": "{{forkee.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "gollum": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📚 Wiki 更新：{{repository.full_name}}"
+                },
+                "template": "gray"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**推送者：** {{sender_link_md | default(sender.login)}}\n**变更：** {{pages | length}} 个页面已更新\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看仓库"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "installation": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🤖 GitHub应用{{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**应用：** {{app_name}}\n**操作：** {{action}}\n**安装者：** {{sender_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "issue_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 Issue 评论：#{{issue.number}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**Issue：** #{{issue.number}} {{issue.title}}\n**评论：** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看评论"
+                      },
+                      "url": "{{comment.html_url}}",
                       "type": "primary"
                     }
                   ]
@@ -531,7 +1068,7 @@
         }
       ]
     },
-    "release": {
+    "label": {
       "payloads": [
         {
           "tags": [
@@ -546,336 +1083,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚀 发布：{{release.tag_name}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**发布者：** {{release.author.login}}\n**标题：** {{release.name}}\n**说明：** {{release.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看 Release"
-                      },
-                      "url": "{{release.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "discussion": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 新讨论：{{discussion.title}}"
-                },
-                "template": "teal"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**分类：** {{discussion.category.name}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看讨论"
-                      },
-                      "url": "{{discussion.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📝 PR 审查 {{action}}：#{{pull_request.number}}"
-                },
-                "template": "cyan"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**审查者：** {{review_user_link_md | default(review.user.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n**结论：** {{review.state}}\n{{review.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看审查"
-                      },
-                      "url": "{{review.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 PR 审查评论：#{{pull_request.number}}"
-                },
-                "template": "cyan"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}}\n**评论：** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看评论"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "issue_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 Issue 评论：#{{issue.number}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**Issue：** #{{issue.number}} {{issue.title}}\n**评论：** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看评论"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "discussion_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 讨论评论：{{discussion.title}}"
-                },
-                "template": "teal"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**讨论：** {{discussion.title}}\n**评论：** {{comment.body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看评论"
-                      },
-                      "url": "{{comment.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "gollum": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📚 Wiki 更新：{{repository.full_name}}"
-                },
-                "template": "gray"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**推送者：** {{sender_link_md | default(sender.login)}}\n**变更：** {{pages | length}} 个页面已更新\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看仓库"
-                      },
-                      "url": "{{repository.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "create": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✨ 新创建：{{ref_type}} 在 {{repository.full_name}}"
+                  "content": "🏷️ 标签{{action}}"
                 },
                 "template": "blue"
               },
@@ -884,7 +1092,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**创建者：** {{sender_link_md | default(sender.login)}}\n**类型：** {{ref_type}}  名称： {{ref}}\n"
+                    "content": "**标签：** {{label_name}}\n**操作：** {{action}}\n**仓库：** {{repository_link_md}}\n"
                   }
                 }
               ]
@@ -893,7 +1101,7 @@
         }
       ]
     },
-    "delete": {
+    "member": {
       "payloads": [
         {
           "tags": [
@@ -908,153 +1116,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🗑️ 删除：{{ref_type}} 在 {{repository.full_name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**触发者：** {{sender_link_md | default(sender.login)}}\n**删除：** {{ref_type}} {{ref}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "fork": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🍴 Fork：{{forkee.full_name}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**Fork者：** {{sender_link_md | default(sender.login)}}\n**目标仓库：** {{forkee.full_name}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看Fork仓库"
-                      },
-                      "url": "{{forkee.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "star": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "⭐ 仰慕：{{action}} by {{sender_link_md | default(sender.login)}}"
-                },
-                "template": "yellow"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "watch": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔔 Watch：{{action}} by {{sender_link_md | default(sender.login)}}"
-                },
-                "template": "yellow"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "repository": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏷️ 仓库变更：{{repository.full_name}}"
+                  "content": "👤 成员事件：{{action}} {{member.login}}"
                 },
                 "template": "blue"
               },
@@ -1063,22 +1125,8 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**动作：** {{action}}\n**仓库：** {{repository.full_name}}\n"
+                    "content": "**成员：** {{member.login}}\n**动作：** {{action}}\n"
                   }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看仓库"
-                      },
-                      "url": "{{repository.html_url}}",
-                      "type": "primary"
-                    }
-                  ]
                 }
               ]
             }
@@ -1086,7 +1134,7 @@
         }
       ]
     },
-    "deployment": {
+    "membership": {
       "payloads": [
         {
           "tags": [
@@ -1101,16 +1149,16 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🚢 部署：{{deployment.environment}}"
+                  "content": "➕ 成员加入/移除：{{action}}"
                 },
-                "template": "green"
+                "template": "blue"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**应用：** {{deployment.ref}}\n**环境：** {{deployment.environment}}\n**发起人：** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**成员：** {{member.user.login}}\n**动作：** {{action}}\n"
                   }
                 }
               ]
@@ -1119,7 +1167,7 @@
         }
       ]
     },
-    "deployment_status": {
+    "merge_group": {
       "payloads": [
         {
           "tags": [
@@ -1134,16 +1182,82 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "📣 部署状态：{{deployment_status.state}}"
+                  "content": "🔀 合并队列{{action}}"
                 },
-                "template": "green"
+                "template": "purple"
               },
               "elements": [
                 {
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**部署：** {{deployment.ref}}\n**状态：** {{deployment_status.state}}\n**描述：** {{deployment_status.description}}\n"
+                    "content": "**头部SHA：** {{merge_group_head_sha}}\n**操作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "milestone": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏁 里程碑：{{action}} {{milestone.title}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**里程碑：** {{milestone.title}}\n**描述：** {{milestone.description}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "organization": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏢 组织成员变更：{{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**组织：** {{organization.login}}\n**成员：** {{membership.user.login | default('N/A')}}\n"
                   }
                 }
               ]
@@ -1177,6 +1291,39 @@
                   "text": {
                     "tag": "lark_md",
                     "content": "**包名：** {{package_link_md | default(package.name)}}\n**操作：** {{action}}\n**类型：** {{package.package_type | default('')}}\n**版本/Tag：** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**发布者：** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ping": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏓 Webhook测试"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**禅语：** {{zen}}\n**Hook ID：** {{hook_id}}\n"
                   }
                 }
               ]
@@ -1284,7 +1431,7 @@
         }
       ]
     },
-    "milestone": {
+    "projects_v2": {
       "payloads": [
         {
           "tags": [
@@ -1299,7 +1446,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🏁 里程碑：{{action}} {{milestone.title}}"
+                  "content": "📋 项目{{action}}"
                 },
                 "template": "blue"
               },
@@ -1308,391 +1455,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**里程碑：** {{milestone.title}}\n**描述：** {{milestone.description}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "team": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "👥 团队事件：{{action}} {{team.name}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**团队：** {{team.name}}\n**动作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "membership": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "➕ 成员加入/移除：{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**成员：** {{member.user.login}}\n**动作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "member": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "👤 成员事件：{{action}} {{member.login}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**成员：** {{member.login}}\n**动作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "organization": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏢 组织成员变更：{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**组织：** {{organization.login}}\n**成员：** {{membership.user.login | default('N/A')}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "check_run": {
-      "payloads": [
-        {
-          "tags": [
-            "completed",
-            "success"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ 检查通过：{{check_run.name}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "completed",
-            "failure"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "❌ 检查失败：{{check_run.name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ Check Run：{{check_run.name}} {{check_run.status}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**检查：** {{check_run.name}}\n**仓库：** {{repository_link_md | default('')}}\n**状态：** {{check_run.status}}\n**结论：** {{check_run.conclusion}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "check_suite": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🧪 Check Suite：{{action}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**结论：** {{check_suite.conclusion | default('N/A')}}\n**提交：** {{check_suite.head_sha}}\n**仓库：** {{repository_link_md | default('')}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "workflow_run": {
-      "payloads": [
-        {
-          "tags": [
-            "completed",
-            "success"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ 工作流成功: {{workflow.name}}"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "completed",
-            "failure"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "❌ 工作流失败: {{workflow.name}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "⚙️ 工作流: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
-                },
-                "template": "purple"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "status": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔁 状态更新：{{state}}"
-                },
-                "template": "gray"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
+                    "content": "**项目：** {{project_title}}\n**操作：** {{action}}\n**创建者：** {{sender_link_md}}\n"
                   }
                 }
               ]
@@ -1734,6 +1497,485 @@
         }
       ]
     },
+    "pull_request": {
+      "payloads": [
+        {
+          "tags": [
+            "closed",
+            "merged"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔮 Pull Request 已合并：#{{pull_request.number}} {{pull_request.title}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**合并者：** {{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**合并提交 / PR 描述：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "closed",
+            "unmerged"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "❌ PR 关闭（未合并）：#{{pull_request.number}} {{pull_request.title}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**PR 未合并即关闭**，触发者：{{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n\n**PR 描述：**\n{{pull_request.body | default('无详情')}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔀 Pull Request {{action}}：{{pull_request.title}}"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**PR 编号：** #{{pull_request.number}}\n**状态：** {{pull_request.state}}\n\n**PR 描述 / 最新提交信息：**\n{{pull_request.body | default(commit_message | default('无详情'))}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 PR"
+                      },
+                      "url": "{{pull_request.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "📝 PR 审查 {{action}}：#{{pull_request.number}}"
+                },
+                "template": "cyan"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**审查者：** {{review_user_link_md | default(review.user.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n**结论：** {{review.state}}\n{{review.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看审查"
+                      },
+                      "url": "{{review.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review_comment": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 PR 审查评论：#{{pull_request.number}}"
+                },
+                "template": "cyan"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**PR：** #{{pull_request.number}}\n**评论：** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看评论"
+                      },
+                      "url": "{{comment.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pull_request_review_thread": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 PR审核讨论{{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**PR：** #{{pull_request.number}} {{pull_request.title}}\n**讨论：** {{thread_comments | length}} 条评论\n**操作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "push": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💾 新推送：{{repository.full_name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "{{pusher_link_md | default(pusher.name)}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('无提交信息'))) }}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看提交详情"
+                      },
+                      "url": "{{compare_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "force"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚨 强制推送：{{repository.full_name}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**检测到强制推送**，操作人：{{sender_link_md | default(sender.login)}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}\n可能已重写历史。提交数：{{commits | length}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default('无提交信息')) }}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看提交详情"
+                      },
+                      "url": "{{compare_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "release": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🚀 发布：{{release.tag_name}}"
+                },
+                "template": "purple"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**发布者：** {{release.author.login}}\n**标题：** {{release.name}}\n**说明：** {{release.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看 Release"
+                      },
+                      "url": "{{release.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "repository": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🏷️ 仓库变更：{{repository.full_name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**动作：** {{action}}\n**仓库：** {{repository.full_name}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "查看仓库"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "secret_scanning_alert": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔐 密钥扫描警告{{action}}"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**密钥类型：** {{alert_secret_type}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
     "security_advisory": {
       "payloads": [
         {
@@ -1759,6 +2001,200 @@
                   "text": {
                     "tag": "lark_md",
                     "content": "**通告：** {{security_advisory.summary | default('详情请查看安全通告')}}\n**严重度：** {{security_advisory.severity | default('N/A')}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "sponsorship": {
+      "payloads": [
+        {
+          "tags": [
+            "created"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💖 新赞助者！"
+                },
+                "template": "pink"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**赞助者：** {{sponsor_login}}\n**等级：** {{tier_name}}\n**金额：** ${{tier_monthly_price_in_dollars}}/月\n"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💖 赞助{{action}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**赞助者：** {{sponsor_login}}\n**操作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "star": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "⭐ 仰慕：{{action}} by {{sender_link_md | default(sender.login)}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "status": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔁 状态更新：{{state}}"
+                },
+                "template": "gray"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "team": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "👥 团队事件：{{action}} {{team.name}}"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**团队：** {{team.name}}\n**动作：** {{action}}\n"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "watch": {
+      "payloads": [
+        {
+          "tags": [
+            "default"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔔 Watch：{{action}} by {{sender_link_md | default(sender.login)}}"
+                },
+                "template": "yellow"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**仓库：** {{repository.full_name}}\n**动作：** {{action}}\n"
                   }
                 }
               ]
@@ -1888,11 +2324,12 @@
         }
       ]
     },
-    "branch_protection_rule": {
+    "workflow_run": {
       "payloads": [
         {
           "tags": [
-            "default"
+            "completed",
+            "success"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -1903,40 +2340,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🛡️ 分支保护{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**规则：** {{rule_name}}\n**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "deployment_review": {
-      "payloads": [
-        {
-          "tags": [
-            "approved"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "✅ 部署已批准"
+                  "content": "✅ 工作流成功: {{workflow.name}}"
                 },
                 "template": "green"
               },
@@ -1945,7 +2349,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n**评论：** {{comment}}\n"
+                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]
@@ -1954,7 +2358,8 @@
         },
         {
           "tags": [
-            "rejected"
+            "completed",
+            "failure"
           ],
           "payload": {
             "msg_type": "interactive",
@@ -1965,7 +2370,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "❌ 部署已拒绝"
+                  "content": "❌ 工作流失败: {{workflow.name}}"
                 },
                 "template": "red"
               },
@@ -1974,7 +2379,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n**评论：** {{comment}}\n"
+                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]
@@ -1994,73 +2399,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 部署审核{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**审核者：** {{sender_link_md}}\n**环境：** {{environment}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "installation": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🤖 GitHub应用{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**应用：** {{app_name}}\n**操作：** {{action}}\n**安装者：** {{sender_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "merge_group": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔀 合并队列{{action}}"
+                  "content": "⚙️ 工作流: {{workflow.name}} {{workflow_run.conclusion | default(workflow_run.status)}}"
                 },
                 "template": "purple"
               },
@@ -2069,347 +2408,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**头部SHA：** {{merge_group_head_sha}}\n**操作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "sponsorship": {
-      "payloads": [
-        {
-          "tags": [
-            "created"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💖 新赞助者！"
-                },
-                "template": "pink"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**赞助者：** {{sponsor_login}}\n**等级：** {{tier_name}}\n**金额：** ${{tier_monthly_price_in_dollars}}/月\n"
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💖 赞助{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**赞助者：** {{sponsor_login}}\n**操作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "code_scanning_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔍 代码扫描警告{{action}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**警告：** {{alert_rule_description}}\n**严重度：** {{alert_rule_severity}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "dependabot_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🤖 Dependabot警告{{action}}"
-                },
-                "template": "orange"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**包：** {{alert_package_name}}\n**严重度：** {{alert_severity}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "secret_scanning_alert": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🔐 密钥扫描警告{{action}}"
-                },
-                "template": "red"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**密钥类型：** {{alert_secret_type}}\n**状态：** {{alert_state}}\n**仓库：** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "projects_v2": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "📋 项目{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**项目：** {{project_title}}\n**操作：** {{action}}\n**创建者：** {{sender_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "pull_request_review_thread": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 PR审核讨论{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**PR：** #{{pull_request.number}} {{pull_request.title}}\n**讨论：** {{thread_comments | length}} 条评论\n**操作：** {{action}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "commit_comment": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "💬 提交评论"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**提交：** {{commit_sha_short}}\n**作者：** {{sender_link_md}}\n**评论：** {{comment_body}}\n"
-                  }
-                },
-                {
-                  "tag": "action",
-                  "actions": [
-                    {
-                      "tag": "button",
-                      "text": {
-                        "tag": "plain_text",
-                        "content": "查看评论"
-                      },
-                      "url": "{{comment_html_url}}",
-                      "type": "primary"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "label": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏷️ 标签{{action}}"
-                },
-                "template": "blue"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**标签：** {{label_name}}\n**操作：** {{action}}\n**仓库：** {{repository_link_md}}\n"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "ping": {
-      "payloads": [
-        {
-          "tags": [
-            "default"
-          ],
-          "payload": {
-            "msg_type": "interactive",
-            "card": {
-              "config": {
-                "wide_screen_mode": true
-              },
-              "header": {
-                "title": {
-                  "tag": "plain_text",
-                  "content": "🏓 Webhook测试"
-                },
-                "template": "green"
-              },
-              "elements": [
-                {
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": "**禅语：** {{zen}}\n**Hook ID：** {{hook_id}}\n"
+                    "content": "**工作流:** {{workflow_run_link_md | default(workflow.name)}}\n**仓库:** {{workflow_repository_link_md | default(workflow_repo_full_name)}}\n**运行 #:** {{workflow_run_number | default(workflow_run.id)}}\n**状态:** {{workflow_run.conclusion | default(workflow_run.status)}}\n"
                   }
                 }
               ]
