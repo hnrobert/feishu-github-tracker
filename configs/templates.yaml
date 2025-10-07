@@ -10,7 +10,7 @@
 templates:
   push:
     payloads:
-      - tags: [push, default]
+      - tags: [default]
         payload:
           msg_type: interactive
           card:
@@ -41,7 +41,7 @@ templates:
                     url: "{{compare_url}}"
                     type: primary
 
-      - tags: [push, force]
+      - tags: [force]
         payload:
           msg_type: interactive
           card:
@@ -75,7 +75,7 @@ templates:
 
   pull_request:
     payloads:
-      - tags: [pr, closed, merged]
+      - tags: [closed, merged]
         payload:
           msg_type: interactive
           card:
@@ -105,7 +105,7 @@ templates:
                     url: "{{pull_request.html_url}}"
                     type: primary
 
-      - tags: [pr, closed, unmerged]
+      - tags: [closed, unmerged]
         payload:
           msg_type: interactive
           card:
@@ -135,7 +135,7 @@ templates:
                     url: "{{pull_request.html_url}}"
                     type: primary
 
-      - tags: [pr, default]
+      - tags: [default]
         payload:
           msg_type: interactive
           card:
@@ -168,7 +168,7 @@ templates:
 
   issues:
     payloads:
-      - tags: [issue, typed]
+      - tags: [typed]
         payload:
           msg_type: interactive
           card:
@@ -195,7 +195,7 @@ templates:
                     url: "{{issue.html_url}}"
                     type: primary
 
-      - tags: [issue, type:bug]
+      - tags: [type:bug]
         payload:
           msg_type: interactive
           card:
@@ -222,7 +222,7 @@ templates:
                     url: "{{issue.html_url}}"
                     type: primary
 
-      - tags: [issue, type:feature]
+      - tags: [type:feature]
         payload:
           msg_type: interactive
           card:
@@ -249,7 +249,7 @@ templates:
                     url: "{{issue.html_url}}"
                     type: primary
 
-      - tags: [issue, type:task]
+      - tags: [type:task]
         payload:
           msg_type: interactive
           card:
@@ -294,6 +294,34 @@ templates:
                   content: |
                     ⚠️ **Issue (type unknown)** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
                     **Issue:** {{issue_link_md | default(issue.html_url | default(''))}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "View Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
+      - tags: [default]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "📝 Issue: {{issue.title}}"
+              template: "gray"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **Issue:** {{issue_link_md | default(issue.html_url | default(''))}}
+                    **Author:** {{sender_link_md | default(sender.login)}}
+                    **State:** {{issue.state | default('unknown')}}
               - tag: action
                 actions:
                   - tag: button
