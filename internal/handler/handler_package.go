@@ -57,12 +57,15 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 				}
 
 				if rp, okrp := payload["registry_package"].(map[string]any); okrp {
-					if rh, okh := rp["html_url"].(string); okh && rh != "" {
-						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
-					} else if pv, okpv := rp["package_version"].(map[string]any); okpv {
-						if ph, okph := pv["html_url"].(string); okph && ph != "" {
+					// prefer registry_package.package_version.html_url when available
+					if pvRp, okpv := rp["package_version"].(map[string]any); okpv {
+						if ph, okph := pvRp["html_url"].(string); okph && ph != "" {
 							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, ph)
+						} else if rh, okh := rp["html_url"].(string); okh && rh != "" {
+							data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
 						}
+					} else if rh, okh := rp["html_url"].(string); okh && rh != "" {
+						data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, rh)
 					}
 				} else if purl, ok3 := pkg["html_url"].(string); ok3 && purl != "" {
 					data["package_link_md"] = fmt.Sprintf("[%s](%s)", pname, purl)

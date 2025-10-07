@@ -711,7 +711,7 @@ templates:
             header:
               title:
                 tag: plain_text
-                content: "📦 Package event: {{action}} {{package.name | default('package')}}"
+                content: "📦 Package: {{action}} {{package.name | default('package')}}"
               template: "purple"
             elements:
               - tag: div
