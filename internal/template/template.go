@@ -251,8 +251,15 @@ func getValueByPath(path string, data map[string]any) (any, bool) {
 }
 
 // DetermineTags determines which tags to use based on the webhook payload
+// The event type is ALWAYS included as the first tag automatically
 func DetermineTags(eventType string, payload map[string]any) []string {
+	// Event type is ALWAYS the first tag
 	tags := []string{eventType}
+
+	// Extract action if present - this becomes a tag for all events
+	if action, ok := payload["action"].(string); ok && action != "" {
+		tags = append(tags, action)
+	}
 
 	switch eventType {
 	case "push":
@@ -272,15 +279,11 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 					tags = append(tags, "closed", "unmerged")
 				}
 			}
-		} else {
-			tags = append(tags, "default")
 		}
+		// Note: 'action' tag was already added above if present
 
 	case "issues":
-		// include the action name as a tag so templates can match specific actions
-		if action, ok := payload["action"].(string); ok && action != "" {
-			tags = append(tags, action)
-		}
+		// Action tag already added above
 
 		// Try to infer issue type from explicit `type` object (provider-specific)
 		issueTypeName := ""
@@ -357,57 +360,54 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 		// templates can select success/failure-specific payloads.
 		if wr, ok := payload["workflow_run"].(map[string]any); ok {
 			if status, ok := wr["status"].(string); ok && status != "" {
+				tags = append(tags, status)
 				if status == "completed" {
-					tags = append(tags, "completed")
 					if concl, ok := wr["conclusion"].(string); ok && concl != "" {
 						// common conclusions: success, failure, cancelled
-						// only append success/failure so templates can match them; otherwise fall back
-						if concl == "success" || concl == "failure" {
-							tags = append(tags, concl)
-						} else {
-							tags = append(tags, "default")
-						}
-					} else {
-						tags = append(tags, "default")
+						tags = append(tags, concl)
 					}
-				} else {
-					// non-completed statuses (in_progress, queued, etc.)
-					tags = append(tags, status)
 				}
-			} else {
-				tags = append(tags, "default")
 			}
-		} else {
-			tags = append(tags, "default")
+		}
+
+	case "workflow_job":
+		// Similar to workflow_run
+		if wj, ok := payload["workflow_job"].(map[string]any); ok {
+			if status, ok := wj["status"].(string); ok && status != "" {
+				tags = append(tags, status)
+			}
+			if concl, ok := wj["conclusion"].(string); ok && concl != "" {
+				tags = append(tags, concl)
+			}
 		}
 
 	case "check_run":
 		// Mirror workflow_run semantics for check runs: emit completion and conclusion
 		if cr, ok := payload["check_run"].(map[string]any); ok {
 			if status, ok := cr["status"].(string); ok && status != "" {
+				tags = append(tags, status)
 				if status == "completed" {
-					tags = append(tags, "completed")
 					if concl, ok := cr["conclusion"].(string); ok && concl != "" {
-						if concl == "success" || concl == "failure" {
-							tags = append(tags, concl)
-						} else {
-							tags = append(tags, "default")
-						}
-					} else {
-						tags = append(tags, "default")
+						tags = append(tags, concl)
 					}
-				} else {
-					// non-completed statuses
-					tags = append(tags, status)
 				}
-			} else {
-				tags = append(tags, "default")
 			}
-		} else {
-			tags = append(tags, "default")
 		}
 
-	default:
+	case "check_suite":
+		// Similar to check_run
+		if cs, ok := payload["check_suite"].(map[string]any); ok {
+			if status, ok := cs["status"].(string); ok && status != "" {
+				tags = append(tags, status)
+			}
+			if concl, ok := cs["conclusion"].(string); ok && concl != "" {
+				tags = append(tags, concl)
+			}
+		}
+	}
+
+	// Add "default" tag if no specific tags were added (other than event type and action)
+	if len(tags) <= 2 { // only event type and possibly action
 		tags = append(tags, "default")
 	}
 

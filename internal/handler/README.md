@@ -6,37 +6,74 @@ Keys are grouped into families. Each family has a `Common` subsection listing ke
 
 ## Tagging and template selection (overview)
 
-Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.jsonc` carries a `tags` list (examples: `tags: [issue, type:feature]`, `tags: [push, force]`, or `tags: [pr, closed, merged]`).
+Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.jsonc` carries a `tags` list (examples: `tags: ["issues", "opened"]`, `tags: ["push", "force"]`, or `tags: ["pull_request", "closed", "merged"]`).
 
-- What `tags` mean: the first element is typically the event family (e.g. `issue`, `push`, `pr`). Additional elements refine the selection (for example `type:feature` narrows issue templates to feature-type issues).
-- Why we have `tags: [issue, type:feature]`: the handler detects an issue's semantic type (bug/feature/task/unknown) from either a `type` field in the payload or from labels (see `detectIssueTypeFromLabels` in the handler). When an issue is classified as a feature, templates tagged with `type:feature` become selectable so you can show a different card (color, wording, actions) for feature requests.
-  Where tags come from:
-  - static template configuration (`configs/templates*.yaml`) — authors declare the tags they want a payload to match.
-  - runtime tag detection in code — the handler and template selection helpers derive tags from payload shape and content (for example: `push` vs `push+force`, PR `closed` + `merged` vs `closed` + `unmerged`, issue `type:...`).
+### How tags work
 
-General handling rules used by the codebase:
+1. **Event type is ALWAYS a tag**: The first tag is always the event type (e.g., `push`, `pull_request`, `issues`, `workflow_run`). This is added automatically and does not need to be specified in handler code.
 
-- Templates are evaluated in priority order using tag matching. A more specific tag set (e.g. `pr, closed, merged`) will be preferred over a generic `pr, default` payload when tags match.
-- The handler exposes convenience fields (e.g., `issue_type`, `issue_type_name`, `sender_link_md`) and detection helpers so templates can both select by tags and render using the same keys.
-- If no template payload matches a refined tag set, the system falls back to a payload tagged with `[default]` for that event family.
+2. **Action is automatically a tag**: If the webhook payload contains an `action` field (e.g., `opened`, `closed`, `synchronize`), it is automatically added as a tag. This means all event actions become selectable tags without extra code.
 
-- Special note for `workflow_run`: the handler inspects `workflow_run.status` and `workflow_run.conclusion` and will append tags like `completed` plus an outcome tag such as `success` or `failure` (when available). This enables templates to provide outcome-specific payloads (for example `[workflow_run, completed, success]` vs `[workflow_run, completed, failure]`).
+3. **Additional context tags**: Some events add context-specific tags:
 
-See the family sections below for which tags are used in the shipped templates and a short note about how they are produced.
+   - `push` events add `force` for force pushes
+   - `pull_request` with `action=closed` adds `merged` or `unmerged` based on merge status
+   - `issues` events add `type:bug`, `type:feature`, `type:task` based on issue labels or type field
+   - `workflow_run`, `workflow_job`, `check_run`, `check_suite` add status tags like `completed`, `in_progress`, `queued` and conclusion tags like `success`, `failure`, `cancelled`
+
+4. **Default tag**: If no specific tags are added beyond event type and action, a `default` tag is appended as a fallback.
+
+### Tag matching priority
+
+Templates are evaluated in priority order using tag matching. A template with more matching tags scores higher:
+
+- Template with tags `["pull_request", "closed", "merged"]` matches better than `["pull_request", "default"]` when the PR is closed and merged
+- Template with tags `["issues", "opened", "type:bug"]` matches better than `["issues", "opened"]` for bug issues
+
+### Common data preparation
+
+Handler uses modular common data functions:
+
+- `prepareRepoData()` - Adds repository fields (all events with repository)
+- `prepareSenderData()` - Adds sender fields (all events with sender)
+- `prepareOrgData()` - Adds organization fields (org-level events)
+- `prepareInstallationCommonData()` - Adds installation fields (GitHub App events)
+- `prepareCommonData()` - Convenience wrapper calling all above functions
+
+Individual handlers can call specific common functions as needed instead of always calling `prepareCommonData()`.
 
 ## Global / common fields
 
-These keys are useful across many events when the corresponding objects are present in the payload.
+These keys are provided by common data preparation functions:
+
+### Repository fields (from `prepareRepoData`)
 
 - `repo_full_name` (string) — repository.full_name
 - `repo_name` (string) — repository.name
 - `repo_url` (string) — repository.html_url
 - `repository` (object) — the raw `repository` object from the payload
 - `repository_link_md` (string) — markdown link to the repository (e.g. "[owner/repo](https://github.com/owner/repo)")
+
+### Sender fields (from `prepareSenderData`)
+
 - `sender` (object) — the raw `sender` object from the payload
 - `sender_avatar` (string) — sender.avatar_url
 - `sender_link_md` (string) — markdown link to the sender profile (e.g. "[user](https://github.com/user)")
 - `sender_name` (string) — sender.login
+- `sender_url` (string) — sender.html_url
+
+### Organization fields (from `prepareOrgData`)
+
+- `organization` (object) — the raw `organization` object from the payload
+- `org_avatar` (string) — organization.avatar_url
+- `org_link_md` (string) — markdown link to the organization (e.g. "[OrgName](https://github.com/OrgName)")
+- `org_name` (string) — organization.login
+- `org_url` (string) — organization.html_url
+
+### Installation fields (from `prepareInstallationCommonData`)
+
+- `installation` (object) — the raw `installation` object from the payload
+- `installation_id` (number) — installation.id
 
 ---
 
@@ -44,10 +81,10 @@ These keys are useful across many events when the corresponding objects are pres
 
 ### Common
 
-- `repo_full_name` (string)
-- `repo_name` (string)
-- `repo_url` (string)
-- `repository` (object)
+All these events call `prepareRepoData()` and `prepareSenderData()`:
+
+- `repo_full_name`, `repo_name`, `repo_url`, `repository`, `repository_link_md`
+- `sender`, `sender_avatar`, `sender_link_md`, `sender_name`, `sender_url`
 
 - Tags: push → `[push, default]`, `[push, force]`; create/delete/fork/gollum/repository → `[default]`.
 - Condition: `payload.forced == true` → use `force`; otherwise use family tag.
