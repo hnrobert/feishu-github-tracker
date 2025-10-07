@@ -1566,7 +1566,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**结论：** {{check_suite.conclusion | default('N/A')}}\n**提交：** {{check_suite.head_sha}}\n"
+                    "content": "**结论：** {{check_suite.conclusion | default('N/A')}}\n**提交：** {{check_suite.head_sha}}\n**仓库：** {{repository_link_md | default('')}}\n"
                   }
                 }
               ]

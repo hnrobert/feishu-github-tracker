@@ -1566,7 +1566,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n"
+                    "content": "**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n**Repo:** {{repository_link_md | default('')}}\n"
                   }
                 }
               ]
