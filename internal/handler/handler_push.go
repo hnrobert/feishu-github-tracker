@@ -36,15 +36,17 @@ func preparePushData(data map[string]any, payload map[string]any) {
 
 		if len(msgs) > 0 {
 			data["commit_messages"] = msgs
+			// always prefix each commit message with a dash for consistent list formatting
 			joined := ""
 			for i, m := range msgs {
 				if i == 0 {
-					joined = m
+					joined = "- " + m
 				} else {
 					joined = joined + "\n- " + m
 				}
 			}
 			data["commit_messages_joined"] = joined
+			// keep raw first commit message available separately
 			data["commit_message"] = msgs[0]
 		}
 		if len(authors) > 0 {
