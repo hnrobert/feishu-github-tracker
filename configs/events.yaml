@@ -9,91 +9,363 @@
 # 注意：如果在模板里包含了一个完整事件（例如使用 `push:`），
 # 并且在该事件下没有进一步指定分支/类型等条件，我们会把它视为“全选”（匹配该事件的所有子类型）。
 event_sets:
-  # "basic" 模板：适合中小型项目（将事件的完整定义原样列出，可在模板里覆盖或细化）
-  basic:
-    push:
-    pull_request:
-    pull_request_review:
-    pull_request_review_comment:
-    issues:
-    issue_comment:
-    discussion:
-    discussion_comment:
-    release:
-    package:
-
   # "all" 模板：包含GitHub支持的全部事件（每个事件都列出完整定义，便于模板内直接细化）
   all:
-    push:
-    pull_request:
-    pull_request_review:
-    pull_request_review_comment:
-    issues:
-    issue_comment:
+    branch_protection_configuration:
+    branch_protection_rule:
+    branches:
+    check_run:
+    check_suite:
+    code_scanning_alert:
+    commit_comment:
+    create:
+    custom_property:
+    custom_property_values:
+    delete:
+    dependabot_alert:
+    deploy_key:
+    deployment:
+    deployment_protection_rule:
+    deployment_review:
+    deployment_status:
     discussion:
     discussion_comment:
-    release:
-    gollum:
-    create:
-    delete:
     fork:
-    star:
-    watch:
-    repository:
-    deployment:
-    deployment_status:
+    github_app_authorization:
+    gollum:
+    installation:
+    installation_repositories:
+    installation_target:
+    issue_comment:
+    issue_dependencies:
+    issues:
+    label:
+    marketplace_purchase:
+    member:
+    membership:
+    merge_group:
+    meta:
+    milestone:
+    org_block:
+    organization:
     package:
+    page_build:
+    personal_access_token_request:
+    ping:
     project:
     project_card:
     project_column:
-    milestone:
-    team:
-    membership:
-    member:
-    organization:
-    check_run:
-    check_suite:
-    workflow_run:
-    status:
-    page_build:
+    projects_v2:
+    projects_v2_item:
+    projects_v2_status_update:
     public:
+    pull_request:
+    pull_request_review:
+    pull_request_review_comment:
+    pull_request_review_thread:
+    push:
+    registry_package:
+    release:
+    repository:
+    repository_advisory:
+    repository_dispatch:
+    repository_import:
+    repository_ruleset:
+    repository_vulnerability_alert:
+    secret_scanning_alert:
+    secret_scanning_alert_location:
+    secret_scanning_scan:
     security_advisory:
-
+    security_and_analysis:
+    sponsorship:
+    star:
+    status:
+    sub_issues:
+    team:
+    team_add:
+    types:
+    watch:
+    workflow_dispatch:
+    workflow_job:
+    workflow_run:
+  
+  # "basic" 模板：适合中小型项目（将事件的完整定义原样列出，可在模板里覆盖或细化）
+  basic:
+    discussion:
+    discussion_comment:
+    issue_comment:
+    issues:
+    package:
+    pull_request:
+    pull_request_review:
+    pull_request_review_comment:
+    push:
+    release:
+  
   # 自定义模板：可按需添加事件并细化自定义新的 event_sets（示例）
   custom:
-    push:
-      branches:
-        - main
-        - develop
-        - release/*
-    pull_request:
-      branches:
-        - main
-        - develop
-        - release/*
-      types:
-        - opened
-        - closed
-        - reopened
-    issues:
-      types:
-        - opened
-        - closed
-        - reopened
-    release:
-      types:
-        - published
-        - edited
     discussion:
       types:
         - created
         - answered
+    issues:
+      types:
+        - opened
+        - closed
+        - reopened
+    pull_request:
+      branches:
+        - main
+        - develop
+        - release/*
+      types:
+        - opened
+        - closed
+        - reopened
+    push:
+      branches:
+        - main
+        - develop
+        - release/*
+    release:
+      types:
+        - published
+        - edited
 
 # 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用
 events:
-  push:
-    branches:
-      - "*"
+  branch_protection_configuration:
+    types:
+      - disabled
+      - enabled
+  branch_protection_rule:
+    types:
+      - created
+      - deleted
+      - edited
+  check_run:
+    types:
+      - created
+      - completed
+      - rerequested
+      - requested_action
+  check_suite:
+    types:
+      - completed
+      - requested
+      - rerequested
+  code_scanning_alert:
+    types:
+      - appeared_in_branch
+      - closed_by_user
+      - created
+      - fixed
+      - reopened
+      - reopened_by_user
+  commit_comment:
+    types:
+      - created
+  create:
+  custom_property:
+    types:
+      - created
+      - deleted
+      - promote_to_enterprise
+      - updated
+  custom_property_values:
+    types:
+      - updated
+  delete:
+  dependabot_alert:
+    types:
+      - auto_dismissed
+      - auto_reopened
+      - created
+      - dismissed
+      - fixed
+      - reintroduced
+      - reopened
+  deploy_key:
+    types:
+      - created
+      - deleted
+  deployment:
+  deployment_protection_rule:
+    types:
+      - requested
+  deployment_review:
+    types:
+      - approved
+      - rejected
+      - requested
+  deployment_status:
+  discussion:
+    types:
+      - created
+      - edited
+      - deleted
+      - transferred
+      - pinned
+      - unpinned
+      - locked
+      - unlocked
+      - labeled
+      - unlabeled
+      - answered
+      - unanswered
+  discussion_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  fork:
+  github_app_authorization:
+    types:
+      - revoked
+  gollum:
+  installation:
+    types:
+      - created
+      - deleted
+      - new_permissions_accepted
+      - suspend
+      - unsuspend
+  installation_repositories:
+    types:
+      - added
+      - removed
+  installation_target:
+    types:
+      - renamed
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  issue_dependencies:
+    types:
+      - blocked_by_added
+      - blocked_by_removed
+      - blocking_added
+      - blocking_removed
+  issues:
+    types:
+      - opened
+      - closed
+      - reopened
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - edited
+      - milestoned
+      - demilestoned
+      - transferred
+      - deleted
+      - pinned
+      - unpinned
+      - locked
+      - unlocked
+      - typed
+      - untyped
+  label:
+    types:
+      - created
+      - deleted
+      - edited
+  marketplace_purchase:
+    types:
+      - cancelled
+      - changed
+      - pending_change
+      - pending_change_cancelled
+      - purchased
+  member:
+    types:
+      - added
+      - removed
+      - edited
+  membership:
+    types:
+      - added
+      - removed
+  merge_group:
+    types:
+      - checks_requested
+      - destroyed
+  meta:
+    types:
+      - deleted
+  milestone:
+    types:
+      - created
+      - closed
+      - opened
+      - edited
+      - deleted
+  org_block:
+    types:
+      - blocked
+      - unblocked
+  organization:
+    types:
+      - member_added
+      - member_removed
+      - member_invited
+  package:
+    types:
+      - published
+      - updated
+  page_build:
+  personal_access_token_request:
+    types:
+      - approved
+      - cancelled
+      - created
+      - denied
+  ping:
+  project:
+    types:
+      - created
+      - updated
+      - closed
+      - reopened
+      - deleted
+  project_card:
+    types:
+      - created
+      - moved
+      - converted
+      - edited
+      - deleted
+  project_column:
+    types:
+      - created
+      - updated
+      - moved
+      - deleted
+  projects_v2:
+    types:
+      - closed
+      - created
+      - deleted
+      - edited
+      - reopened
+  projects_v2_item:
+    types:
+      - archived
+      - converted
+      - created
+      - deleted
+      - edited
+      - reordered
+      - restored
+  projects_v2_status_update:
+    types:
+      - created
+      - deleted
+      - edited
+  public:
   pull_request:
     branches:
       - "*"
@@ -129,50 +401,17 @@ events:
       - created
       - edited
       - deleted
-  issues:
+  pull_request_review_thread:
     types:
-      - opened
-      - closed
-      - reopened
-      - assigned
-      - unassigned
-      - labeled
-      - unlabeled
-      - edited
-      - milestoned
-      - demilestoned
-      - transferred
-      - deleted
-      - pinned
-      - unpinned
-      - locked
-      - unlocked
-      - typed
-      - untyped
-  issue_comment:
+      - resolved
+      - unresolved
+  push:
+    branches:
+      - "*"
+  registry_package:
     types:
-      - created
-      - edited
-      - deleted
-  discussion:
-    types:
-      - created
-      - edited
-      - deleted
-      - transferred
-      - pinned
-      - unpinned
-      - locked
-      - unlocked
-      - labeled
-      - unlabeled
-      - answered
-      - unanswered
-  discussion_comment:
-    types:
-      - created
-      - edited
-      - deleted
+      - published
+      - updated
   release:
     types:
       - published
@@ -182,17 +421,6 @@ events:
       - deleted
       - prereleased
       - released
-  gollum:
-  create:
-  delete:
-  fork:
-  star:
-    types:
-      - created
-      - deleted
-  watch:
-    types:
-      - started
   repository:
     types:
       - created
@@ -204,115 +432,11 @@ events:
       - transferred
       - publicized
       - privatized
-  deployment:
-  deployment_status:
-  package:
+  repository_advisory:
     types:
       - published
-      - updated
-  project:
-    types:
-      - created
-      - updated
-      - closed
-      - reopened
-      - deleted
-  project_card:
-    types:
-      - created
-      - moved
-      - converted
-      - edited
-      - deleted
-  project_column:
-    types:
-      - created
-      - updated
-      - moved
-      - deleted
-  milestone:
-    types:
-      - created
-      - closed
-      - opened
-      - edited
-      - deleted
-  team:
-    types:
-      - created
-      - deleted
-      - edited
-      - added_to_repository
-      - removed_from_repository
-  membership:
-    types:
-      - added
-      - removed
-  member:
-    types:
-      - added
-      - removed
-      - edited
-  organization:
-    types:
-      - member_added
-      - member_removed
-      - member_invited
-  check_run:
-    types:
-      - created
-      - completed
-      - rerequested
-      - requested_action
-  check_suite:
-    types:
-      - completed
-      - requested
-      - rerequested
-  workflow_run:
-    types:
-      - completed
-      - requested
-      - in_progress
-  status:
-  page_build:
-  public:
-  security_advisory:
-    types:
-      - published
-      - updated
-      - withdrawn
-  commit_comment:
-    types:
-      - created
-  deploy_key:
-    types:
-      - created
-      - deleted
-  code_scanning_alert:
-    types:
-      - appeared_in_branch
-      - closed_by_user
-      - created
-      - fixed
-      - reopened
-      - reopened_by_user
-  dependabot_alert:
-    types:
-      - auto_dismissed
-      - auto_reopened
-      - created
-      - dismissed
-      - fixed
-      - reintroduced
-      - reopened
-  secret_scanning_alert:
-    types:
-      - created
-      - publicly_leaked
-      - reopened
-      - resolved
-      - validated
+      - reported
+  repository_dispatch:
   repository_import:
   repository_ruleset:
     types:
@@ -325,94 +449,24 @@ events:
       - dismiss
       - reopen
       - resolve
-  label:
+  secret_scanning_alert:
     types:
       - created
-      - deleted
-      - edited
-
-  branch_protection_configuration:
-    types:
-      - disabled
-      - enabled
-  branch_protection_rule:
-    types:
-      - created
-      - deleted
-      - edited
-  custom_property:
-    types:
-      - created
-      - deleted
-      - promote_to_enterprise
-      - updated
-  custom_property_values:
-    types:
-      - updated
-  deployment_protection_rule:
-    types:
-      - requested
-  deployment_review:
-    types:
-      - approved
-      - rejected
-      - requested
-  github_app_authorization:
-    types:
-      - revoked
-  installation:
-    types:
-      - created
-      - deleted
-      - new_permissions_accepted
-      - suspend
-      - unsuspend
-  installation_repositories:
-    types:
-      - added
-      - removed
-  installation_target:
-    types:
-      - renamed
-  issue_dependencies:
-    types:
-      - blocked_by_added
-      - blocked_by_removed
-      - blocking_added
-      - blocking_removed
-  marketplace_purchase:
-    types:
-      - cancelled
-      - changed
-      - pending_change
-      - pending_change_cancelled
-      - purchased
-  merge_group:
-    types:
-      - checks_requested
-      - destroyed
-  meta:
-    types:
-      - deleted
-  org_block:
-    types:
-      - blocked
-      - unblocked
-  registry_package:
-    types:
-      - published
-      - updated
-  repository_advisory:
-    types:
-      - published
-      - reported
-  repository_dispatch:
+      - publicly_leaked
+      - reopened
+      - resolved
+      - validated
   secret_scanning_alert_location:
     types:
       - created
   secret_scanning_scan:
     types:
       - completed
+  security_advisory:
+    types:
+      - published
+      - updated
+      - withdrawn
   security_and_analysis:
   sponsorship:
     types:
@@ -422,38 +476,28 @@ events:
       - pending_cancellation
       - pending_tier_change
       - tier_changed
+  star:
+    types:
+      - created
+      - deleted
+  status:
   sub_issues:
     types:
       - parent_issue_added
       - parent_issue_removed
       - sub_issue_added
       - sub_issue_removed
+  team:
+    types:
+      - created
+      - deleted
+      - edited
+      - added_to_repository
+      - removed_from_repository
   team_add:
-  projects_v2:
+  watch:
     types:
-      - closed
-      - created
-      - deleted
-      - edited
-      - reopened
-  projects_v2_item:
-    types:
-      - archived
-      - converted
-      - created
-      - deleted
-      - edited
-      - reordered
-      - restored
-  projects_v2_status_update:
-    types:
-      - created
-      - deleted
-      - edited
-  pull_request_review_thread:
-    types:
-      - resolved
-      - unresolved
+      - started
   workflow_dispatch:
   workflow_job:
     types:
@@ -461,10 +505,8 @@ events:
       - in_progress
       - queued
       - waiting
-  personal_access_token_request:
+  workflow_run:
     types:
-      - approved
-      - cancelled
-      - created
-      - denied
-  ping:
+      - completed
+      - requested
+      - in_progress
