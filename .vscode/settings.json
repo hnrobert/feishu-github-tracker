@@ -21,6 +21,7 @@
         "healthcheck",
         "labeled",
         "ldflags",
+        "lname",
         "milestoned",
         "myorg",
         "myrepo",

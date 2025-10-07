@@ -273,7 +273,7 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 				}
 			}
 		} else {
-			tags = append(tags, "pr", "default")
+			tags = append(tags, "default")
 		}
 
 	case "issues":
@@ -310,18 +310,45 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 			} else if strings.Contains(lower, "task") {
 				lower = "task"
 			}
-			tags = append(tags, "issue", "type:"+lower)
+			tags = append(tags, "type:"+lower)
 		} else {
 			// fallback to label-based detection
 			if issue, ok := payload["issue"].(map[string]any); ok {
 				if labels, ok := issue["labels"].([]any); ok {
 					issueType := getIssueType(labels)
-					tags = append(tags, "issue", "type:"+issueType)
+					tags = append(tags, "type:"+issueType)
+					// also expose each label as a tag: label:<name> (sanitized)
+					reSan := regexp.MustCompile(`[^a-z0-9_-]`)
+					for _, l := range labels {
+						if lm, lok := l.(map[string]any); lok {
+							if lname, lok2 := lm["name"].(string); lok2 && lname != "" {
+								tn := strings.ToLower(lname)
+								tn = strings.ReplaceAll(tn, " ", "_")
+								tn = reSan.ReplaceAllString(tn, "")
+								tags = append(tags, "label:"+tn)
+							}
+						}
+					}
 				} else {
-					tags = append(tags, "issue", "type:unknown")
+					tags = append(tags, "type:unknown")
 				}
 			} else {
-				tags = append(tags, "issue", "type:unknown")
+				tags = append(tags, "type:unknown")
+			}
+		}
+
+		// if this is a labeled/unlabeled action and the payload contains a single label
+		if lab, lok := payload["label"].(map[string]any); lok {
+			if lname, lok2 := lab["name"].(string); lok2 && lname != "" {
+				tn := strings.ToLower(lname)
+				tn = strings.ReplaceAll(tn, " ", "_")
+				reSan := regexp.MustCompile(`[^a-z0-9_-]`)
+				tn = reSan.ReplaceAllString(tn, "")
+				// add both generic labeled tag and label-specific tag
+				tags = append(tags, "label:"+tn)
+				if action, ok := payload["action"].(string); ok && action == "labeled" {
+					tags = append(tags, "labeled", "labeled:"+tn)
+				}
 			}
 		}
 

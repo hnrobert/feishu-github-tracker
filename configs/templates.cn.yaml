@@ -194,6 +194,34 @@ templates:
                     url: "{{issue.html_url}}"
                     type: primary
 
+      - tags: [labeled]
+        payload:
+          msg_type: interactive
+          card:
+            config:
+              wide_screen_mode: true
+            header:
+              title:
+                tag: plain_text
+                content: "🏷️ 标签添加: {{labeled_label_name}} - {{issue.title}}"
+              template: "teal"
+            elements:
+              - tag: div
+                text:
+                  tag: lark_md
+                  content: |
+                    **标签：** {{labeled_label_link_md | default(labeled_label_name)}}
+                    **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
+                    **由：** {{sender_link_md | default(sender.login)}}
+              - tag: action
+                actions:
+                  - tag: button
+                    text:
+                      tag: plain_text
+                      content: "查看 Issue"
+                    url: "{{issue.html_url}}"
+                    type: primary
+
       - tags: [type:bug]
         payload:
           msg_type: interactive
@@ -275,7 +303,7 @@ templates:
                     url: "{{issue.html_url}}"
                     type: primary
 
-      - tags: [issue, type:unknown]
+      - tags: [type:unknown]
         payload:
           msg_type: interactive
           card:
@@ -291,7 +319,7 @@ templates:
                 text:
                   tag: lark_md
                   content: |
-                    ⚠️ **未知类型 Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}
+                    ⚠️ **Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}
                     **Issue：** {{issue_link_md | default(issue.html_url | default(''))}}
               - tag: action
                 actions:
@@ -963,7 +991,7 @@ templates:
 
   workflow_run:
     payloads:
-      - tags: [workflow_run, completed, success]
+      - tags: [completed, success]
         payload:
           msg_type: interactive
           card:
@@ -984,7 +1012,7 @@ templates:
                     **运行 #:** {{workflow_run_number | default(workflow_run.id)}}
                     **状态:** {{workflow_run.conclusion | default(workflow_run.status)}}
 
-      - tags: [workflow_run, completed, failure]
+      - tags: [completed, failure]
         payload:
           msg_type: interactive
           card:
