@@ -1,9 +1,12 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -57,7 +60,7 @@ type FeishuBot struct {
 	URL   string `yaml:"url"`
 }
 
-// TemplatesConfig represents templates.yaml
+// TemplatesConfig represents templates.jsonc (JSONC)
 type TemplatesConfig struct {
 	Templates map[string]EventTemplate `yaml:"templates"`
 }
@@ -76,37 +79,58 @@ func Load(configDir string) (*Config, error) {
 	cfg := &Config{}
 
 	// Load server.yaml
-	if err := loadYAML(filepath.Join(configDir, "server.yaml"), &cfg.Server); err != nil {
+	if err := loadConfigFile(filepath.Join(configDir, "server.yaml"), &cfg.Server); err != nil {
 		return nil, fmt.Errorf("failed to load server.yaml: %w", err)
 	}
 
 	// Load repos.yaml
-	if err := loadYAML(filepath.Join(configDir, "repos.yaml"), &cfg.Repos); err != nil {
+	if err := loadConfigFile(filepath.Join(configDir, "repos.yaml"), &cfg.Repos); err != nil {
 		return nil, fmt.Errorf("failed to load repos.yaml: %w", err)
 	}
 
 	// Load events.yaml
-	if err := loadYAML(filepath.Join(configDir, "events.yaml"), &cfg.Events); err != nil {
+	if err := loadConfigFile(filepath.Join(configDir, "events.yaml"), &cfg.Events); err != nil {
 		return nil, fmt.Errorf("failed to load events.yaml: %w", err)
 	}
 
 	// Load feishu-bots.yaml
-	if err := loadYAML(filepath.Join(configDir, "feishu-bots.yaml"), &cfg.FeishuBots); err != nil {
+	if err := loadConfigFile(filepath.Join(configDir, "feishu-bots.yaml"), &cfg.FeishuBots); err != nil {
 		return nil, fmt.Errorf("failed to load feishu-bots.yaml: %w", err)
 	}
 
-	// Load templates.yaml
-	if err := loadYAML(filepath.Join(configDir, "templates.yaml"), &cfg.Templates); err != nil {
-		return nil, fmt.Errorf("failed to load templates.yaml: %w", err)
+	// Load templates.jsonc (JSONC is required)
+	templatesJSONC := filepath.Join(configDir, "templates.jsonc")
+	if err := loadConfigFile(templatesJSONC, &cfg.Templates); err != nil {
+		return nil, fmt.Errorf("failed to load templates.jsonc: %w", err)
 	}
 
 	return cfg, nil
 }
 
-func loadYAML(path string, out any) error {
+// loadConfigFile loads either YAML or JSONC (JSON with comments) based on file extension
+func loadConfigFile(path string, out any) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
+
+	if strings.HasSuffix(path, ".jsonc") || strings.HasSuffix(path, ".json") {
+		// strip comments and unmarshal as JSON
+		cleaned := stripJSONCComments(string(data))
+		return json.Unmarshal([]byte(cleaned), out)
+	}
+
+	// default to YAML
 	return yaml.Unmarshal(data, out)
+}
+
+// stripJSONCComments removes // and /* */ style comments from JSONC input.
+func stripJSONCComments(s string) string {
+	// Remove /* ... */ block comments
+	reBlock := regexp.MustCompile(`/\*[\s\S]*?\*/`)
+	s = reBlock.ReplaceAllString(s, "")
+	// Remove // line comments
+	reLine := regexp.MustCompile(`(?m)//.*$`)
+	s = reLine.ReplaceAllString(s, "")
+	return s
 }

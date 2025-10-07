@@ -133,7 +133,7 @@ tail -f log/feishu-github-tracker-*.log
 
 - 阅读 [CONFIGURATION.md](CONFIGURATION.md) 了解详细配置选项
 - 阅读 [DEPLOYMENT.md](DEPLOYMENT.md) 了解生产环境部署
-- 自定义消息模板（编辑 `configs/templates.yaml`）
+  自定义消息模板（编辑 `configs/templates.jsonc` ）
 - 添加更多仓库和机器人配置
 
 ## 示例场景

@@ -15,7 +15,7 @@
 所以，我决定自己动手写一个，主要目标是：
 
 - 简单易用：配置简单，Docker Compose 开箱即用，基于 GitHub 的 Webhook 实现
-- 灵活可定制：支持多种事件过滤和自定义消息模板，只要替换现有的 `configs/templates.yaml` 就可以满足大部分的模版定制需求，修改
+- 灵活可定制：支持多种事件过滤和自定义消息模板，只要替换现有的 `configs/templates.jsonc` 就可以满足大部分的模版定制需求。
 - 高效稳定：使用 Go 语言编写，性能优越
 - 安全可靠：支持签名验证，防止伪造请求
 - 开源免费：MIT 许可证，欢迎自开分支或者贡献回来（plz）
@@ -26,7 +26,7 @@
 
 - 详见 [configs/events.yaml](configs/events.yaml)
 - 对应的处理方法以及详见 [internal/handler/](internal/handler/)
-- 默认提供的消息模板详见 [configs/templates.yaml](configs/templates.yaml)
+- 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 对发出消息的格式做相应的修改
 
 ## 🚀 快速开始
@@ -53,7 +53,7 @@ feishu-github-tracker/
 │   ├── repos.yaml
 │   ├── events.yaml
 │   ├── feishu-bots.yaml
-│   └── templates.yaml
+│   └── templates.jsonc
 ├── log/                 # 日志文件目录
 ├── Dockerfile           # Docker 镜像构建
 ├── docker-compose.yml   # Docker Compose 配置
@@ -183,7 +183,7 @@ event_sets:
 
 具体参考 [./configs/events.yaml](./configs/events.yaml) 中的详细内容
 
-### templates.yaml
+### templates.jsonc
 
 定义飞书消息卡片模板。支持为不同事件类型和状态定义多个模板变体。当前已经包括了所有你需要的常用事件的模板，你可以根据自己的需要进行修改和扩展。
 

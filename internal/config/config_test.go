@@ -49,14 +49,19 @@ feishu_bots:
 `
 
 	templatesYAML := `
-templates:
-  push:
-    payloads:
-      - tags: [default]
-        payload:
-          msg_type: "text"
-          content:
-            text: "test"
+{
+	// templates.jsonc
+	"templates": {
+		"push": {
+			"payloads": [
+				{
+					"tags": ["default"],
+					"payload": { "msg_type": "text", "content": { "text": "test" } }
+				}
+			]
+		}
+	}
+}
 `
 
 	// Write test config files
@@ -65,7 +70,7 @@ templates:
 		"repos.yaml":       reposYAML,
 		"events.yaml":      eventsYAML,
 		"feishu-bots.yaml": botsYAML,
-		"templates.yaml":   templatesYAML,
+		"templates.jsonc":  templatesYAML,
 	}
 
 	for name, content := range files {

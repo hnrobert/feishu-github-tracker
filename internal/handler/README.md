@@ -6,7 +6,7 @@ Keys are grouped into families. Each family has a `Common` subsection listing ke
 
 ## Tagging and template selection (overview)
 
-Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.yaml` carries a `tags` list (examples: `tags: [issue, type:feature]`, `tags: [push, force]`, or `tags: [pr, closed, merged]`).
+Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.jsonc` carries a `tags` list (examples: `tags: [issue, type:feature]`, `tags: [push, force]`, or `tags: [pr, closed, merged]`).
 
 - What `tags` mean: the first element is typically the event family (e.g. `issue`, `push`, `pr`). Additional elements refine the selection (for example `type:feature` narrows issue templates to feature-type issues).
 - Why we have `tags: [issue, type:feature]`: the handler detects an issue's semantic type (bug/feature/task/unknown) from either a `type` field in the payload or from labels (see `detectIssueTypeFromLabels` in the handler). When an issue is classified as a feature, templates tagged with `type:feature` become selectable so you can show a different card (color, wording, actions) for feature requests.
