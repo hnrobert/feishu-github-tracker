@@ -1,0 +1,62 @@
+name: "Setup Go with Cache"
+description: "Set up Go environment with module cache optimization"
+inputs:
+  go-version:
+    description: "Go version to use"
+    required: false
+    default: "1.21"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - name: Get GOMODCACHE
+      id: gomodcache
+      shell: bash
+      run: echo "path=$(go env GOMODCACHE)" >> $GITHUB_OUTPUT
+
+    - name: Prepare temp cache directory
+      id: cacheprep
+      shell: bash
+      run: |
+        echo "cache_tmp=${RUNNER_TEMP}/gomodcache_cache" >> $GITHUB_OUTPUT
+        mkdir -p "${RUNNER_TEMP}/gomodcache_cache"
+
+    - name: Cache Go modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ steps.cacheprep.outputs.cache_tmp }}
+          ~/.cache/go-build
+        key: ${{ runner.os }}-go-v3-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-v3-
+
+    - name: Populate GOMODCACHE
+      shell: bash
+      run: |
+        set -euo pipefail
+        GOMODCACHE=${{ steps.gomodcache.outputs.path }}
+        CACHE_TMP=${{ steps.cacheprep.outputs.cache_tmp }}
+        echo "GOMODCACHE=${GOMODCACHE}"
+        echo "CACHE_TMP=${CACHE_TMP}"
+        if [ -d "${GOMODCACHE}" ] && [ "$(ls -A "${GOMODCACHE}" 2>/dev/null)" ]; then
+          echo "GOMODCACHE not empty — skipping populate"
+        else
+          echo "GOMODCACHE empty — populating from cache tmp"
+          mkdir -p "${GOMODCACHE}"
+          if command -v rsync >/dev/null 2>&1; then
+            rsync -a "${CACHE_TMP}/" "${GOMODCACHE}/" || true
+          else
+            cp -a "${CACHE_TMP}/." "${GOMODCACHE}/" || true
+          fi
+          echo "Populate complete"
+        fi
+
+    - name: Download dependencies
+      shell: bash
+      run: go mod download

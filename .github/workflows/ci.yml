@@ -12,8 +12,6 @@ on:
       - "go.sum"
   pull_request:
     branches: [main, develop]
-  release:
-    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -24,54 +22,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - name: Setup Go with cache
+        uses: ./.github/actions/setup-go
         with:
           go-version: "1.21"
-
-      - name: Get GOMODCACHE
-        id: gomodcache
-        run: echo "path=$(go env GOMODCACHE)" >> $GITHUB_OUTPUT
-
-      - name: Prepare temp cache directory
-        id: cacheprep
-        run: |
-          echo "cache_tmp=${RUNNER_TEMP}/gomodcache_cache" >> $GITHUB_OUTPUT
-          mkdir -p "${RUNNER_TEMP}/gomodcache_cache"
-
-      - name: Cache Go modules (restore into temp dir)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ${{ steps.cacheprep.outputs.cache_tmp }}
-            ~/.cache/go-build
-          key: ${{ runner.os }}-go-v3-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-v3-
-
-      - name: Populate GOMODCACHE if empty (skip if already present)
-        run: |
-          set -euo pipefail
-          GOMODCACHE=${{ steps.gomodcache.outputs.path }}
-          CACHE_TMP=${{ steps.cacheprep.outputs.cache_tmp }}
-          echo "GOMODCACHE=${GOMODCACHE}"
-          echo "CACHE_TMP=${CACHE_TMP}"
-          if [ -d "${GOMODCACHE}" ] && [ "$(ls -A "${GOMODCACHE}" 2>/dev/null)" ]; then
-            echo "GOMODCACHE not empty — skipping populate"
-          else
-            echo "GOMODCACHE empty — populating from cache tmp"
-            mkdir -p "${GOMODCACHE}"
-            # Use rsync where available; fallback to cp -a
-            if command -v rsync >/dev/null 2>&1; then
-              rsync -a "${CACHE_TMP}/" "${GOMODCACHE}/" || true
-            else
-              cp -a "${CACHE_TMP}/." "${GOMODCACHE}/" || true
-            fi
-            echo "Populate complete"
-          fi
-
-      - name: Download dependencies
-        run: go mod download
 
       - name: Run tests
         run: go test -v ./...
@@ -87,8 +41,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - name: Setup Go with cache
+        uses: ./.github/actions/setup-go
         with:
           go-version: "1.21"
 
@@ -106,7 +60,7 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'push' || github.event_name == 'release'
+    if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'))
     permissions:
       contents: read
       packages: write
@@ -119,19 +73,15 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
           if [ "${BRANCH}" = "main" ]; then
-          echo "tag=latest" >> $GITHUB_OUTPUT
+            echo "tag=latest" >> $GITHUB_OUTPUT
           elif [ "${BRANCH}" = "develop" ]; then
-          echo "tag=develop" >> $GITHUB_OUTPUT
-          else
-          echo "tag=skip" >> $GITHUB_OUTPUT
+            echo "tag=develop" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up Docker Buildx
-        if: steps.tag.outputs.tag != 'skip'
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to GitHub Container Registry
-        if: steps.tag.outputs.tag != 'skip'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -139,7 +89,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        if: steps.tag.outputs.tag != 'skip'
         uses: docker/build-push-action@v5
         with:
           provenance: false # Disable provenance to avoid unknown/unknown
