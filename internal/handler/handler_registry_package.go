@@ -24,6 +24,15 @@ func prepareRegistryPackageData(data map[string]any, payload map[string]any) {
 			if versionStr, ok := version["version"].(string); ok {
 				data["package_version"] = versionStr
 			}
+
+			// Extract container tag name from container_metadata.tag.name
+			if cm, okcm := version["container_metadata"].(map[string]any); okcm {
+				if tagObj, okt := cm["tag"].(map[string]any); okt {
+					if tagName, tokk := tagObj["name"].(string); tokk && tagName != "" {
+						data["package_tag_name"] = tagName
+					}
+				}
+			}
 		}
 	}
 }
