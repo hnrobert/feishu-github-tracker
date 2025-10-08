@@ -29,13 +29,46 @@ jobs:
         with:
           go-version: "1.21"
 
-      - name: Cache Go modules
+      - name: Get GOMODCACHE
+        id: gomodcache
+        run: echo "path=$(go env GOMODCACHE)" >> $GITHUB_OUTPUT
+
+      - name: Prepare temp cache directory
+        id: cacheprep
+        run: |
+          echo "cache_tmp=${RUNNER_TEMP}/gomodcache_cache" >> $GITHUB_OUTPUT
+          mkdir -p "${RUNNER_TEMP}/gomodcache_cache"
+
+      - name: Cache Go modules (restore into temp dir)
         uses: actions/cache@v4
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-v2-${{ hashFiles('**/go.sum') }}
+          path: |
+            ${{ steps.cacheprep.outputs.cache_tmp }}
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-v3-${{ hashFiles('**/go.sum') }}
           restore-keys: |
-            ${{ runner.os }}-go-v2-
+            ${{ runner.os }}-go-v3-
+
+      - name: Populate GOMODCACHE if empty (skip if already present)
+        run: |
+          set -euo pipefail
+          GOMODCACHE=${{ steps.gomodcache.outputs.path }}
+          CACHE_TMP=${{ steps.cacheprep.outputs.cache_tmp }}
+          echo "GOMODCACHE=${GOMODCACHE}"
+          echo "CACHE_TMP=${CACHE_TMP}"
+          if [ -d "${GOMODCACHE}" ] && [ "$(ls -A "${GOMODCACHE}" 2>/dev/null)" ]; then
+            echo "GOMODCACHE not empty — skipping populate"
+          else
+            echo "GOMODCACHE empty — populating from cache tmp"
+            mkdir -p "${GOMODCACHE}"
+            # Use rsync where available; fallback to cp -a
+            if command -v rsync >/dev/null 2>&1; then
+              rsync -a "${CACHE_TMP}/" "${GOMODCACHE}/" || true
+            else
+              cp -a "${CACHE_TMP}/." "${GOMODCACHE}/" || true
+            fi
+            echo "Populate complete"
+          fi
 
       - name: Download dependencies
         run: go mod download
