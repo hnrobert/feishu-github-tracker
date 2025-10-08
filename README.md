@@ -29,6 +29,8 @@
 - 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 对发出消息的格式做相应的修改
 
+  注意：模板引擎的语法、过滤器和条件块示例详见 `internal/template/README.md`，里面有占位符示例和进阶用法。
+
 ## 🚀 快速开始
 
 参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速部署和测试。

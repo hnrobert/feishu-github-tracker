@@ -23,6 +23,8 @@ Templates are chosen by matching a set of tags. Each template payload in `config
 
 4. **Default tag**: If no specific tags are added beyond event type and action, a `default` tag is appended as a fallback.
 
+> Note: For details on template substitution (placeholders, filters, and supported `{{#if ...}}{{/if}}` conditional blocks), see `internal/template/README.md`. It is recommended to read that document before editing `configs/templates*.jsonc`.
+
 ### Tag matching priority
 
 Templates are evaluated in priority order using tag matching. A template with more matching tags scores higher:
