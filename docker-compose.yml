@@ -12,11 +12,15 @@ services:
       - "4594:4594"
     volumes:
       - ./configs:/app/configs:ro
-      - ./log:/app/log
+      - ./logs:/app/logs
     environment:
       - CONFIG_DIR=/app/configs
-      - LOG_DIR=/app/log
+      - LOG_DIR=/app/logs
       - TZ=Asia/Shanghai
+
+    # If you want to disable configuration hot reload, change to ["/app/feishu-github-tracker"]
+    entrypoint: ["/app/feishu-github-tracker", "--reload"]
+
     # healthcheck:
     #   test:
     #     [

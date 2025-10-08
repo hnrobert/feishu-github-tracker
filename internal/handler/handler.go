@@ -20,20 +20,46 @@ import (
 
 // Handler handles GitHub webhook requests
 type Handler struct {
-	config   *config.Config
-	notifier *notifier.Notifier
+	config    *config.Config
+	notifier  *notifier.Notifier
+	hotReload bool
+	configDir string
 }
 
 // New creates a new Handler
 func New(cfg *config.Config, n *notifier.Notifier) *Handler {
 	return &Handler{
-		config:   cfg,
-		notifier: n,
+		config:    cfg,
+		notifier:  n,
+		hotReload: false,
+		configDir: "",
 	}
+}
+
+// EnableHotReload enables configuration hot reload on each webhook request
+func (h *Handler) EnableHotReload(configDir string) {
+	h.hotReload = true
+	h.configDir = configDir
+	logger.Info("Hot reload enabled for config directory: %s", configDir)
 }
 
 // ServeHTTP handles incoming webhook requests
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// Hot reload configuration if enabled
+	if h.hotReload && h.configDir != "" {
+		logger.Debug("Reloading configuration from %s", h.configDir)
+		cfg, err := config.Load(h.configDir)
+		if err != nil {
+			logger.Error("Failed to reload configuration: %v", err)
+			// Continue with old config instead of failing
+		} else {
+			h.config = cfg
+			// Update notifier with new config
+			h.notifier = notifier.New(cfg.FeishuBots)
+			logger.Debug("Configuration reloaded successfully")
+		}
+	}
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return

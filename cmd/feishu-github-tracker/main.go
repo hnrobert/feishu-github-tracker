@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -17,6 +18,10 @@ import (
 )
 
 func main() {
+	// Parse command line flags
+	enableReload := flag.Bool("reload", false, "Enable configuration hot reload on each webhook request")
+	flag.Parse()
+
 	// Determine config directory
 	configDir := os.Getenv("CONFIG_DIR")
 	if configDir == "" {
@@ -26,7 +31,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Failed to get executable path: %v\n", err)
 			os.Exit(1)
 		}
-		configDir = filepath.Join(filepath.Dir(execPath), "config")
+		configDir = filepath.Join(filepath.Dir(execPath), "configs")
 	}
 
 	// Load configuration
@@ -44,7 +49,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Failed to get executable path: %v\n", err)
 			os.Exit(1)
 		}
-		logDir = filepath.Join(filepath.Dir(execPath), "log")
+		logDir = filepath.Join(filepath.Dir(execPath), "logs")
 	}
 
 	// Initialize logger
@@ -56,12 +61,16 @@ func main() {
 	logger.Info("Starting GitHub to Feishu webhook forwarder")
 	logger.Info("Config directory: %s", configDir)
 	logger.Info("Log directory: %s", logDir)
+	logger.Info("Hot reload enabled: %v", *enableReload)
 
 	// Create notifier
 	n := notifier.New(cfg.FeishuBots)
 
-	// Create handler
+	// Create handler with hot reload support
 	h := handler.New(cfg, n)
+	if *enableReload {
+		h.EnableHotReload(configDir)
+	}
 
 	// Setup HTTP server
 	mux := http.NewServeMux()

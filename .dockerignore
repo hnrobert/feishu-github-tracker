@@ -28,7 +28,7 @@ webhook
 *.exe
 
 # Logs
-log/
+logs/
 *.log
 
 # Test files

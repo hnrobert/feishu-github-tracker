@@ -242,8 +242,8 @@ __marimo__/
 .streamlit/secrets.toml
 
 bin/
-log/*
-!log/.gitkeep
+logs/*
+!logs/.gitkeep
 
 # docker-compose use docker-compose.yml in default, ignore this
 docker-compose.yaml

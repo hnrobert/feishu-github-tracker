@@ -25,7 +25,7 @@
 支持所有的 GitHub Webhook 事件
 
 - 详见 [configs/events.yaml](configs/events.yaml)
-- 对应的处理方法以及详见 [internal/handler/](internal/handler/)
+- 对应的处理方法以及文档详见 [internal/handler/](internal/handler/)
 - 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 对发出消息的格式做相应的修改
 
@@ -54,7 +54,7 @@ feishu-github-tracker/
 │   ├── events.yaml
 │   ├── feishu-bots.yaml
 │   └── templates.jsonc
-├── log/                 # 日志文件目录
+├── logs/                 # 日志文件目录
 ├── Dockerfile           # Docker 镜像构建
 ├── docker-compose.yml   # Docker Compose 配置
 ├── Makefile            # 构建脚本
@@ -99,53 +99,6 @@ feishu_bots:
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz'
 ```
 
-### repos.yaml
-
-配置仓库匹配规则和通知目标：
-
-```yaml
-repos:
-  # 示例：针对特定项目定义更详细监听
-  - pattern: 'CompPsyUnion/motion-vote-backend'
-    events:
-      push: # 直接引用 events.yaml 中的事件
-        branches: # 可以进一步细化，覆盖 events.yaml 中的默认配置
-          - main
-          - develop
-      pull_request: # 同理
-        types:
-          - opened
-          - closed
-          - reopened
-      issues: # 如果不细化，直接监听所有 types
-      release:
-    notify_to:
-      - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
-      - 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz' # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
-
-  # 示例：匹配实验性项目（使用 glob 模式）
-  - pattern: 'CompPsyUnion/experimental-*'
-    events:
-      all: # 直接应用 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
-    notify_to:
-      - dev-team # 引用 feishu-bots.yaml 的 alias
-
-  # 示例：匹配所有个人项目
-  - pattern: 'hnrobert/*'
-    events:
-      custom: # 直接应用 event_sets: 中定义的的模板
-    notify_to:
-      - ops-team # 引用 feishu-bots.yaml 的 alias
-
-  # 示例：匹配所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
-  - pattern: '*'
-    events:
-      basic: # 应用 events.yaml 内 event_sets: 中定义的的模板。可以理解将 basic 里的事件展开添加到该仓库监听
-      project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
-    notify_to:
-      - org-notify # 引用 feishu-bots.yaml 的 alias
-```
-
 ### events.yaml
 
 定义事件模板和具体事件配置：
@@ -182,6 +135,55 @@ event_sets:
 ```
 
 具体参考 [./configs/events.yaml](./configs/events.yaml) 中的详细内容
+
+### repos.yaml
+
+配置仓库匹配规则和通知目标：
+
+```yaml
+repos:
+  # 示例：针对特定项目定义更详细监听
+  - pattern: 'CompPsyUnion/motion-vote-backend'
+    events:
+      push: # 直接引用 events.yaml 中的事件
+        branches: # 可以进一步细化，覆盖 events.yaml 中的默认配置
+          - main
+          - develop
+      pull_request: # 同理
+        branches:
+          - main
+        types:
+          - opened
+          - closed
+          - reopened
+      issues: # 如果不细化，直接监听所有 types
+      release:
+    notify_to:
+      - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
+      - 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz' # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
+
+  # 示例：匹配实验性项目（使用 glob 模式）
+  - pattern: 'CompPsyUnion/experimental-*'
+    events:
+      all: # 直接应用 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
+    notify_to:
+      - dev-team # 引用 feishu-bots.yaml 的 alias
+
+  # 示例：匹配所有个人项目
+  - pattern: 'hnrobert/*'
+    events:
+      custom: # 直接应用 event_sets: 中定义的的模板
+    notify_to:
+      - ops-team # 引用 feishu-bots.yaml 的 alias
+
+  # 示例：匹配所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
+  - pattern: '*'
+    events:
+      basic: # 应用 events.yaml 内 event_sets: 中定义的的模板。可以理解将 basic 里的事件展开添加到该仓库监听
+      project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
+    notify_to:
+      - org-notify # 引用 feishu-bots.yaml 的 alias
+```
 
 ### templates.jsonc
 
@@ -258,7 +260,7 @@ curl http://localhost:4594/health
 
 日志同时输出到控制台和文件：
 
-- 文件位置：`log/feishu-github-tracker-YYYY-MM-DD.log`
+- 文件位置：`logs/feishu-github-tracker-YYYY-MM-DD.log`
 - 每天自动创建新的日志文件
 - 日志级别可在 `server.yaml` 中配置
 
@@ -288,8 +290,8 @@ make fmt
 
 ## 📝 环境变量
 
-- `CONFIG_DIR` - 配置文件目录路径（默认：`./config`）
-- `LOG_DIR` - 日志文件目录路径（默认：`./log`）
+- `CONFIG_DIR` - 配置文件目录路径（默认：`./configs`）
+- `LOG_DIR` - 日志文件目录路径（默认：`./logs`）
 - `TZ` - 时区设置（默认：`Asia/Shanghai`）
 
 ## 🤝 贡献

@@ -42,7 +42,7 @@
 
    ```bash
    git add .
-   git commit -m "Add amazing feature"
+   git commit -m "feat: add an amazing feature"
    ```
 
 5. **推送到 Fork**
