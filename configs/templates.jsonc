@@ -1,6 +1,5 @@
 // Template configuration file
 // This file defines all Feishu message card templates for GitHub events (English version)
-
 {
   "templates": {
     "branch_protection_configuration": {
@@ -27,7 +26,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -73,7 +72,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -152,7 +151,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -198,7 +197,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -244,7 +243,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -383,7 +382,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -429,7 +428,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -475,7 +474,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -554,7 +553,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -600,7 +599,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -646,7 +645,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -725,7 +724,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -771,7 +770,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -817,7 +816,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -863,7 +862,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -909,7 +908,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -955,7 +954,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1048,7 +1047,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1131,7 +1130,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1177,7 +1176,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1223,7 +1222,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1269,7 +1268,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1319,7 +1318,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1431,7 +1430,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1477,7 +1476,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1523,7 +1522,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1569,7 +1568,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1615,7 +1614,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1661,7 +1660,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1707,7 +1706,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1757,7 +1756,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1803,7 +1802,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1886,7 +1885,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2023,7 +2022,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2106,7 +2105,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Title:** {{discussion.title}}\n**Author:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Title:** {{discussion.title}}\n**Author:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2162,7 +2161,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Answered by:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Discussion:** {{discussion.title}}\n**Answered by:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2217,7 +2216,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Locked by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Discussion:** {{discussion.title}}\n**Locked by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2272,7 +2271,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Unlocked by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Discussion:** {{discussion.title}}\n**Unlocked by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2327,7 +2326,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Closed by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Discussion:** {{discussion.title}}\n**Closed by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2373,7 +2372,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Discussion:** {{discussion.title}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Discussion:** {{discussion.title}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}\n**Category:** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2419,7 +2418,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2465,7 +2464,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2511,7 +2510,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2557,7 +2556,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2603,7 +2602,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2649,7 +2648,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2695,7 +2694,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2741,7 +2740,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2834,7 +2833,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2880,7 +2879,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2926,7 +2925,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3023,7 +3022,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3149,7 +3148,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3195,7 +3194,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3241,7 +3240,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3287,7 +3286,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3333,7 +3332,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3383,7 +3382,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3429,7 +3428,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3479,7 +3478,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3572,7 +3571,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3618,7 +3617,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3664,7 +3663,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3714,7 +3713,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3760,7 +3759,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3806,7 +3805,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3852,7 +3851,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5349,7 +5348,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5395,7 +5394,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5441,7 +5440,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5491,7 +5490,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5537,7 +5536,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5583,7 +5582,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5629,7 +5628,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5675,7 +5674,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5754,7 +5753,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5800,7 +5799,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5846,7 +5845,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5925,7 +5924,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5971,7 +5970,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6050,7 +6049,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6096,7 +6095,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6146,7 +6145,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6225,7 +6224,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6271,7 +6270,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6317,7 +6316,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6363,7 +6362,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6409,7 +6408,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6459,7 +6458,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6505,7 +6504,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6584,7 +6583,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6630,7 +6629,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6676,7 +6675,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6755,7 +6754,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6801,7 +6800,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6884,7 +6883,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6930,7 +6929,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6976,7 +6975,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7022,7 +7021,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7134,7 +7133,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7180,7 +7179,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7226,7 +7225,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7272,7 +7271,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7318,7 +7317,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7397,7 +7396,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7443,7 +7442,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7489,7 +7488,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7535,7 +7534,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7581,7 +7580,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7660,7 +7659,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7706,7 +7705,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7752,7 +7751,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7798,7 +7797,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7877,7 +7876,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7923,7 +7922,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7969,7 +7968,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8015,7 +8014,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8061,7 +8060,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8111,7 +8110,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8157,7 +8156,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8203,7 +8202,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8249,7 +8248,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8295,7 +8294,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8341,7 +8340,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8387,7 +8386,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8437,7 +8436,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8483,7 +8482,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8529,7 +8528,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8613,7 +8612,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8670,7 +8669,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8725,7 +8724,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8781,7 +8780,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8827,7 +8826,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8882,7 +8881,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8937,7 +8936,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Converted by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Converted by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8992,7 +8991,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Requested by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Requested by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9038,7 +9037,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9084,7 +9083,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9130,7 +9129,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9176,7 +9175,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9222,7 +9221,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9268,7 +9267,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9314,7 +9313,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9360,7 +9359,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9406,7 +9405,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9452,7 +9451,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9498,7 +9497,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9544,7 +9543,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9590,7 +9589,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9636,7 +9635,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9682,7 +9681,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9775,7 +9774,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9821,7 +9820,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9867,7 +9866,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9960,7 +9959,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10006,7 +10005,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10052,7 +10051,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10131,7 +10130,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10177,7 +10176,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10317,7 +10316,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Package:** {{package_name}}\n**Type:** {{package_type | upper}}\n**Version:** {{package_version}}\n**Published by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10330,10 +10329,10 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "View Details"
+                        "content": "View Package"
                       },
                       "url": "{{repository.html_url}}",
-                      "type": "default"
+                      "type": "primary"
                     }
                   ]
                 }
@@ -10354,7 +10353,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 Registry Package Updated"
+                  "content": "� Registry Package Updated"
                 },
                 "template": "blue"
               },
@@ -10363,7 +10362,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Package:** {{package_name}}\n**Type:** {{package_type | upper}}\n**Version:** {{package_version}}\n**Updated by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10376,7 +10375,7 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "View Details"
+                        "content": "View Package"
                       },
                       "url": "{{repository.html_url}}",
                       "type": "default"
@@ -10413,7 +10412,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10469,7 +10468,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Published by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10534,7 +10533,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Created by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Created by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10589,7 +10588,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Deleted by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Version:** {{release.tag_name}}\n**Deleted by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10630,7 +10629,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Version:** {{release.tag_name}}\n**Release Name:** {{release.name}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10676,7 +10675,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10722,7 +10721,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10768,7 +10767,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10861,7 +10860,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10907,7 +10906,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10953,7 +10952,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10999,7 +10998,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11045,7 +11044,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11091,7 +11090,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11137,7 +11136,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11183,7 +11182,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11229,7 +11228,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11279,7 +11278,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11325,7 +11324,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11375,7 +11374,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11425,7 +11424,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11475,7 +11474,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11521,7 +11520,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11567,7 +11566,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11617,7 +11616,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11663,7 +11662,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11709,7 +11708,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11755,7 +11754,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11834,7 +11833,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11880,7 +11879,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11926,7 +11925,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11972,7 +11971,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12018,7 +12017,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12068,7 +12067,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12118,7 +12117,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12197,7 +12196,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12243,7 +12242,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12289,7 +12288,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12339,7 +12338,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12447,7 +12446,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12493,7 +12492,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12539,7 +12538,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12585,7 +12584,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12631,7 +12630,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12710,7 +12709,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12756,7 +12755,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12839,7 +12838,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12885,7 +12884,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12931,7 +12930,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12977,7 +12976,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13056,7 +13055,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13102,7 +13101,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13148,7 +13147,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13194,7 +13193,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13240,7 +13239,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13290,7 +13289,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13369,7 +13368,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13419,7 +13418,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13586,7 +13585,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13632,7 +13631,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13678,7 +13677,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13729,7 +13728,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13785,7 +13784,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13841,7 +13840,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Cancelled by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Cancelled by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13896,7 +13895,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13951,7 +13950,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n**Action:** {{action}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n**Action:** {{action}}"
                   }
                 },
                 {
@@ -13997,7 +13996,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repository:** {{repo_name_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
                   }
                 },
                 {

@@ -1,6 +1,5 @@
 // 中文模板配置文件
 // 此文件定义了所有 GitHub 事件的飞书消息卡片模板（中文版）
-
 {
   "templates": {
     "branch_protection_configuration": {
@@ -27,7 +26,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -73,7 +72,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -152,7 +151,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -198,7 +197,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -244,7 +243,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -383,7 +382,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -429,7 +428,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -475,7 +474,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -554,7 +553,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -600,7 +599,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -646,7 +645,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -725,7 +724,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -771,7 +770,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -817,7 +816,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -863,7 +862,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -909,7 +908,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -955,7 +954,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1048,7 +1047,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1131,7 +1130,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1177,7 +1176,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1223,7 +1222,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1269,7 +1268,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1319,7 +1318,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1431,7 +1430,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1477,7 +1476,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1523,7 +1522,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1569,7 +1568,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1615,7 +1614,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1661,7 +1660,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1707,7 +1706,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1757,7 +1756,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1803,7 +1802,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -1886,7 +1885,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2023,7 +2022,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2106,7 +2105,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**标题：** {{discussion.title}}\n**作者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**标题：** {{discussion.title}}\n**作者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2162,7 +2161,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**回答者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**回答者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2217,7 +2216,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**锁定者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**锁定者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2272,7 +2271,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**解锁者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**解锁者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2327,7 +2326,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**关闭者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**关闭者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2373,7 +2372,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**讨论：** {{discussion.title}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
                   }
                 },
                 {
@@ -2419,7 +2418,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2465,7 +2464,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2511,7 +2510,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2557,7 +2556,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2603,7 +2602,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2649,7 +2648,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2695,7 +2694,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2741,7 +2740,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2834,7 +2833,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2880,7 +2879,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -2926,7 +2925,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3023,7 +3022,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3149,7 +3148,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3195,7 +3194,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3241,7 +3240,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3287,7 +3286,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3333,7 +3332,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3383,7 +3382,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3429,7 +3428,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3479,7 +3478,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3572,7 +3571,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3618,7 +3617,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3664,7 +3663,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3714,7 +3713,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3760,7 +3759,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3806,7 +3805,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -3852,7 +3851,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5306,7 +5305,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5352,7 +5351,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5398,7 +5397,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5448,7 +5447,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5494,7 +5493,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5540,7 +5539,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5586,7 +5585,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5632,7 +5631,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5711,7 +5710,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5757,7 +5756,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5803,7 +5802,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5882,7 +5881,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -5928,7 +5927,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6007,7 +6006,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6053,7 +6052,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6103,7 +6102,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6182,7 +6181,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6228,7 +6227,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6274,7 +6273,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6320,7 +6319,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6366,7 +6365,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6416,7 +6415,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6462,7 +6461,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6541,7 +6540,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6587,7 +6586,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6633,7 +6632,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6712,7 +6711,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6758,7 +6757,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6841,7 +6840,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6887,7 +6886,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6933,7 +6932,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -6979,7 +6978,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7091,7 +7090,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7137,7 +7136,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7183,7 +7182,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7229,7 +7228,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7275,7 +7274,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7354,7 +7353,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7400,7 +7399,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7446,7 +7445,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7492,7 +7491,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7538,7 +7537,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7617,7 +7616,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7663,7 +7662,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7709,7 +7708,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7755,7 +7754,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7834,7 +7833,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7880,7 +7879,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7926,7 +7925,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -7972,7 +7971,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8018,7 +8017,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8068,7 +8067,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8114,7 +8113,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8160,7 +8159,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8206,7 +8205,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8252,7 +8251,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8298,7 +8297,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8344,7 +8343,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8394,7 +8393,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8440,7 +8439,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8486,7 +8485,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8570,7 +8569,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**合并者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**合并者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8627,7 +8626,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**关闭者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**关闭者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8682,7 +8681,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8738,7 +8737,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**重新打开者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**重新打开者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8784,7 +8783,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**更新者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**更新者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8839,7 +8838,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
                   }
                 },
                 {
@@ -8894,7 +8893,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**转换者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**转换者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8949,7 +8948,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**请求者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**请求者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -8995,7 +8994,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**动作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**动作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9041,7 +9040,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9087,7 +9086,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9133,7 +9132,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9179,7 +9178,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9225,7 +9224,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9271,7 +9270,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9317,7 +9316,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9363,7 +9362,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9409,7 +9408,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9455,7 +9454,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9501,7 +9500,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9547,7 +9546,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9593,7 +9592,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9639,7 +9638,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9732,7 +9731,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9778,7 +9777,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9824,7 +9823,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9917,7 +9916,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -9963,7 +9962,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10009,7 +10008,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10088,7 +10087,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10134,7 +10133,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10265,7 +10264,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 注册表包 已发布"
+                  "content": "� 注册表包已发布"
                 },
                 "template": "green"
               },
@@ -10274,7 +10273,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**包名：** {{package_name}}\n**类型：** {{package_type | upper}}\n**版本：** {{package_version}}\n**发布者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10287,10 +10286,10 @@
                       "tag": "button",
                       "text": {
                         "tag": "plain_text",
-                        "content": "查看详情"
+                        "content": "查看包"
                       },
                       "url": "{{repository.html_url}}",
-                      "type": "default"
+                      "type": "primary"
                     }
                   ]
                 }
@@ -10311,7 +10310,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 注册表包 已更新"
+                  "content": "🔔 仓库包 已更新"
                 },
                 "template": "blue"
               },
@@ -10320,7 +10319,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**包名：** {{package_name}}\n**类型：** {{package_type | upper}}\n**版本：** {{package_version}}\n**更新者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10370,7 +10369,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10426,7 +10425,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10491,7 +10490,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**创建者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**创建者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10546,7 +10545,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**删除者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**删除者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10587,7 +10586,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10633,7 +10632,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10679,7 +10678,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10725,7 +10724,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10818,7 +10817,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10864,7 +10863,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10910,7 +10909,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -10956,7 +10955,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11002,7 +11001,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11048,7 +11047,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11094,7 +11093,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11140,7 +11139,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11186,7 +11185,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11236,7 +11235,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11282,7 +11281,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11332,7 +11331,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11382,7 +11381,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11432,7 +11431,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11478,7 +11477,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11524,7 +11523,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11574,7 +11573,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11620,7 +11619,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11666,7 +11665,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11712,7 +11711,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11791,7 +11790,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11837,7 +11836,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11883,7 +11882,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11929,7 +11928,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -11975,7 +11974,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12025,7 +12024,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12075,7 +12074,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12154,7 +12153,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12200,7 +12199,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12246,7 +12245,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12296,7 +12295,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12404,7 +12403,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12450,7 +12449,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12496,7 +12495,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12542,7 +12541,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12588,7 +12587,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12667,7 +12666,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12713,7 +12712,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12796,7 +12795,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12842,7 +12841,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12888,7 +12887,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -12934,7 +12933,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13013,7 +13012,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13059,7 +13058,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13105,7 +13104,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13151,7 +13150,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13197,7 +13196,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13247,7 +13246,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13326,7 +13325,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13376,7 +13375,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13543,7 +13542,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13589,7 +13588,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13635,7 +13634,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13686,7 +13685,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13742,7 +13741,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13798,7 +13797,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**取消者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**取消者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13853,7 +13852,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
                   }
                 },
                 {
@@ -13908,7 +13907,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**状态：** {{workflow_run.conclusion | default(workflow_run.status)}}\n**操作：** {{action}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**状态：** {{workflow_run.conclusion | default(workflow_run.status)}}\n**操作：** {{action}}"
                   }
                 },
                 {
@@ -13954,7 +13953,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**仓库：** {{repo_name_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                    "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
                   }
                 },
                 {

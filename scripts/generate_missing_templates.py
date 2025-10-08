@@ -311,7 +311,7 @@ def generate_template(event, tag, is_chinese=False):
                         "tag": "div",
                         "text": {
                             "tag": "lark_md",
-                            "content": f"**{repo_label}** {{{{repo_name_md}}}}\n**{action_label}** {{{{action}}}}\n**{user_label}** {{{{sender_link_md}}}}"
+                            "content": f"**{repo_label}** {{{{repository_link_md}}}}\n**{action_label}** {{{{action}}}}\n**{user_label}** {{{{sender_link_md}}}}"
                         }
                     },
                     {

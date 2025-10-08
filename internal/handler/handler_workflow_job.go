@@ -30,10 +30,16 @@ func prepareWorkflowJobData(data map[string]any, payload map[string]any) {
 
 		if htmlURL, ok := job["html_url"].(string); ok {
 			data["job_url"] = htmlURL
+			data["job_html_url"] = htmlURL
 		}
 
 		if runID, ok := job["run_id"].(float64); ok {
 			data["run_id"] = int(runID)
+		}
+
+		// Extract workflow name
+		if workflowName, ok := job["workflow_name"].(string); ok {
+			data["workflow_name"] = workflowName
 		}
 	}
 }
