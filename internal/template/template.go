@@ -93,6 +93,9 @@ func replacePlaceholders(obj any, data map[string]any) {
 // replacePlaceholdersInString replaces placeholders like {{key}}, {{key.subkey}} and
 // {{key | length}} with values from data. Supports dotted paths and the length operator.
 func replacePlaceholdersInString(s string, data map[string]any) string {
+	// First process simple {{#if expr}}...{{/if}} blocks (non-nested)
+	s = processIfBlocks(s, data)
+
 	re := regexp.MustCompile(`\{\{\s*(.+?)\s*\}\}`)
 	return re.ReplaceAllStringFunc(s, func(m string) string {
 		parts := re.FindStringSubmatch(m)
@@ -106,6 +109,62 @@ func replacePlaceholdersInString(s string, data map[string]any) string {
 		}
 		return fmt.Sprintf("%v", val)
 	})
+}
+
+// processIfBlocks evaluates and expands simple {{#if expr}}...{{/if}} blocks.
+// It supports non-nested blocks and will recursively process inner blocks after
+// a block is kept. If the condition is falsy, the entire block is removed.
+func processIfBlocks(s string, data map[string]any) string {
+	// (?s) enables dot to match newline
+	reIf := regexp.MustCompile(`(?s)\{\{\s*#if\s+(.+?)\s*\}\}(.*?)\{\{\s*/if\s*\}\}`)
+	for {
+		loc := reIf.FindStringSubmatchIndex(s)
+		if loc == nil {
+			break
+		}
+		// Extract groups
+		matches := reIf.FindStringSubmatch(s)
+		if len(matches) < 3 {
+			break
+		}
+		condExpr := strings.TrimSpace(matches[1])
+		inner := matches[2]
+
+		val, ok := evalExpression(condExpr, data)
+		if ok && isTruthy(val) {
+			// Keep inner, but process nested ifs inside it
+			processedInner := processIfBlocks(inner, data)
+			// Also replace placeholders inside the kept inner content
+			processedInner = replacePlaceholdersInString(processedInner, data)
+			// Replace the whole match with processedInner
+			s = s[:loc[0]] + processedInner + s[loc[1]:]
+		} else {
+			// Remove whole block
+			s = s[:loc[0]] + s[loc[1]:]
+		}
+	}
+	return s
+}
+
+// isTruthy determines whether a value should be considered true for {{#if}}
+func isTruthy(v any) bool {
+	switch t := v.(type) {
+	case nil:
+		return false
+	case bool:
+		return t
+	case string:
+		return t != ""
+	case int, int32, int64, float32, float64:
+		// numeric zero considered truthy here (like template languages), but treat 0 as false
+		return fmt.Sprintf("%v", t) != "0"
+	case []any:
+		return len(t) > 0
+	case map[string]any:
+		return len(t) > 0
+	default:
+		return true
+	}
 }
 
 // evalExpression evaluates an expression like:

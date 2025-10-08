@@ -107,5 +107,9 @@
     "markdownlint.config": {
         "first-line-h1": false,
         "no-duplicate-heading": false
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "handler.go": "handler_*.go"
     }
 }
