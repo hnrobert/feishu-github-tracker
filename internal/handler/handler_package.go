@@ -14,12 +14,14 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 		if name, ok := pkg["name"]; ok {
 			data["package_name"] = name
 			if pname, ok2 := name.(string); ok2 {
-				if pv, okpv := payload["package_version"].(map[string]any); okpv {
+				// Check pkg["package_version"] instead of payload["package_version"]
+				if pv, okpv := pkg["package_version"].(map[string]any); okpv {
 					if vname, vok := pv["version"].(string); vok && vname != "" {
 						pkg["version"] = vname
 						// default to version (often a digest)
 						pkg["tag_name"] = vname
 						data["package_version_name"] = vname
+						data["package_version"] = vname
 					}
 					if purl, okurl := pv["html_url"].(string); okurl && purl != "" {
 						pkg["html_url"] = purl
@@ -164,8 +166,8 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 				if tval, okt := pkg["tag_name"].(string); okt && tval != "" {
 					// prefer package_version.html_url or finalURL as the target for the tag link
 					target := ""
-					// check payload.package_version
-					if pv, okpv := payload["package_version"].(map[string]any); okpv {
+					// check pkg.package_version (from payload.package.package_version)
+					if pv, okpv := pkg["package_version"].(map[string]any); okpv {
 						if ph, okph := pv["html_url"].(string); okph && ph != "" {
 							target = ph
 						}
