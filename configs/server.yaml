@@ -6,7 +6,7 @@
 
 server:
   host: "0.0.0.0" # Webhook监听主机
-  port: 8080 # Webhook监听端口
+  port: 4594 # Webhook监听端口
   secret: "your_secret" # 用于验证GitHub X-Hub-Signature的密钥
   log_level: "info" # 可选: debug, info, warn, error
   max_payload_size: 5MB # 限制单次Webhook body大小

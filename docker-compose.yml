@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  feishu-github-tracker:
+    image: ghcr.io/hnrobert/feishu-github-tracker:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: feishu-github-tracker
+    restart: unless-stopped
+    ports:
+      - "4594:4594"
+    volumes:
+      - ./configs:/app/configs:ro
+      - ./logs:/app/logs
+    environment:
+      - CONFIG_DIR=/app/configs
+      - LOG_DIR=/app/logs
+      - TZ=Asia/Shanghai
+
+    # If you want to disable configuration hot reload, change to ["/app/feishu-github-tracker"]
+    entrypoint: ["/app/feishu-github-tracker", "--reload"]
+
+    # healthcheck:
+    #   test:
+    #     [
+    #       "CMD-SHELL",
+    #       "wget --quiet --tries=1 --spider http://localhost:4594/health || exit 1",
+    #     ]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 10s
