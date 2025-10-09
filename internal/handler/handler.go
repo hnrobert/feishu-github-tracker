@@ -196,27 +196,60 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 	// Determine tags for template selection
 	tags := template.DetermineTags(eventType, payload)
 
-	// Select template
-	tmpl, err := template.SelectTemplate(eventType, tags, h.config.Templates)
-	if err != nil {
-		return fmt.Errorf("failed to select template: %w", err)
-	}
-
-	// Prepare data for template filling
+	// Prepare data for template filling (common for all templates)
 	data := h.prepareTemplateData(eventType, payload)
 
-	// Fill template
-	filledPayload, err := template.FillTemplate(tmpl, data)
-	if err != nil {
-		return fmt.Errorf("failed to fill template: %w", err)
+	// Group targets by template
+	targetsByTemplate := h.groupTargetsByTemplate(repoPattern.NotifyTo)
+
+	// Process each template group
+	var errs []string
+	for templateName, targets := range targetsByTemplate {
+		logger.Info("Processing %d target(s) with template: %s", len(targets), templateName)
+
+		// Get the appropriate template configuration
+		templatesConfig := h.config.GetTemplateConfig(templateName)
+
+		// Select template
+		tmpl, err := template.SelectTemplate(eventType, tags, templatesConfig)
+		if err != nil {
+			logger.Error("Failed to select template for %s: %v", templateName, err)
+			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
+			continue
+		}
+
+		// Fill template
+		filledPayload, err := template.FillTemplate(tmpl, data)
+		if err != nil {
+			logger.Error("Failed to fill template for %s: %v", templateName, err)
+			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
+			continue
+		}
+
+		// Send notifications to this group
+		if err := h.notifier.Send(targets, filledPayload); err != nil {
+			logger.Error("Failed to send notifications for template %s: %v", templateName, err)
+			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
+		}
 	}
 
-	// Send notifications
-	if err := h.notifier.Send(repoPattern.NotifyTo, filledPayload); err != nil {
-		return fmt.Errorf("failed to send notifications: %w", err)
+	if len(errs) > 0 {
+		return fmt.Errorf("failed to process some templates: %s", strings.Join(errs, "; "))
 	}
 
 	return nil
+}
+
+// groupTargetsByTemplate groups notification targets by their template preference
+func (h *Handler) groupTargetsByTemplate(targets []string) map[string][]string {
+	result := make(map[string][]string)
+
+	for _, target := range targets {
+		templateName := h.config.GetBotTemplate(target)
+		result[templateName] = append(result[templateName], target)
+	}
+
+	return result
 }
 
 func (h *Handler) extractRepoFullName(payload map[string]any) string {
