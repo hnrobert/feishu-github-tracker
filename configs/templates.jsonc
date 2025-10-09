@@ -3902,7 +3902,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -3946,7 +3946,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -3990,7 +3990,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📋 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "📋 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4034,7 +4034,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Bug fixed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Bug fixed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4078,7 +4078,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Feature completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Feature completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4122,7 +4122,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Task completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Task completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4166,7 +4166,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Bug reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Bug reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4210,7 +4210,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Feature reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Feature reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4254,7 +4254,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Task reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Task reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4297,7 +4297,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📝 **Issue opened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "📝 **Issue opened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4340,7 +4340,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Issue closed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Issue closed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4383,7 +4383,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Issue reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Issue reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4426,7 +4426,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "👤 **Issue assigned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Assignee:** {{assignee_link_md}}{{/if}}"
+                    "content": "👤 **Issue assigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Assignee:** {{assignee_link_md}}{{/if}}"
                   }
                 },
                 {
@@ -4469,7 +4469,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "👤 **Issue unassigned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Removed assignee:** {{assignee_link_md}}{{/if}}"
+                    "content": "👤 **Issue unassigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Removed assignee:** {{assignee_link_md}}{{/if}}"
                   }
                 },
                 {
@@ -4512,7 +4512,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue edited** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**Title changed from:** {{changes_title_from}}{{/if}}"
+                    "content": "✏️ **Issue edited** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**Title changed from:** {{changes_title_from}}{{/if}}"
                   }
                 },
                 {
@@ -4555,7 +4555,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🎯 **Milestone added** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Milestone:** {{milestone_title}}{{/if}}"
+                    "content": "🎯 **Milestone added** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Milestone:** {{milestone_title}}{{/if}}"
                   }
                 },
                 {
@@ -4598,7 +4598,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🎯 **Milestone removed** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Removed milestone:** {{milestone_title}}{{/if}}"
+                    "content": "🎯 **Milestone removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Removed milestone:** {{milestone_title}}{{/if}}"
                   }
                 },
                 {
@@ -4641,7 +4641,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📦 **Issue transferred** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**To repository:** {{changes_new_repository_full_name}}{{/if}}"
+                    "content": "📦 **Issue transferred** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**To repository:** {{changes_new_repository_full_name}}{{/if}}"
                   }
                 },
                 {
@@ -4684,7 +4684,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🗑️ **Issue deleted** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "🗑️ **Issue deleted** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 }
               ]
@@ -4713,7 +4713,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📌 **Issue pinned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "📌 **Issue pinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4756,7 +4756,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📌 **Issue unpinned** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "📌 **Issue unpinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4799,7 +4799,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔒 **Issue locked** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**Reason:** {{issue.active_lock_reason}}{{/if}}"
+                    "content": "🔒 **Issue locked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**Reason:** {{issue.active_lock_reason}}{{/if}}"
                   }
                 },
                 {
@@ -4842,7 +4842,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔓 **Issue unlocked** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "🔓 **Issue unlocked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4885,7 +4885,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -4928,7 +4928,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -4971,7 +4971,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**Type:** {{issue_type}}{{/if}}"
+                    "content": "✏️ **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**Type:** {{issue_type}}{{/if}}"
                   }
                 },
                 {
@@ -5014,7 +5014,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue type removed** by {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "✏️ **Issue type removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -5057,7 +5057,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5100,7 +5100,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5143,7 +5143,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📝 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "📝 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5186,7 +5186,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "⚠️ **Issue** by {{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "⚠️ **Issue** by {{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5229,7 +5229,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**Label:** {{labeled_label_link_md | default(labeled_label_name)}}\n**By:** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -5272,7 +5272,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**Author:** {{sender_link_md | default(sender.login)}}\n**State:** {{issue.state | default('unknown')}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**Author:** {{sender_link_md | default(sender.login)}}\n**State:** {{issue.state | default('unknown')}}\n"
                   }
                 },
                 {
@@ -12671,7 +12671,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "⭐ {{action}} by {{sender_link_md | default(sender.login)}}"
+                  "content": "⭐ {{action}} by {{sender_name | default(sender.login)}}"
                 },
                 "template": "yellow"
               },
@@ -13330,7 +13330,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🔔 Watch: {{action}} by {{sender_link_md | default(sender.login)}}"
+                  "content": "🔔 Watch: {{action}} by {{sender_name | default(sender.login)}}"
                 },
                 "template": "yellow"
               },
