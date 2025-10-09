@@ -9,7 +9,7 @@
 # 注意：如果在模板里包含了一个完整事件（例如使用 `push:`），
 # 并且在该事件下没有进一步指定分支/类型等条件，我们会把它视为“全选”（匹配该事件的所有子类型）。
 event_sets:
-  # "all" 模板：包含GitHub支持的全部事件（每个事件都列出完整定义，便于模板内直接细化）
+  # "all" 模板：包含GitHub支持的全部事件（包含所有事件）
   all:
     branch_protection_configuration:
     branch_protection_rule:
@@ -89,7 +89,7 @@ event_sets:
     workflow_job:
     workflow_run:
   
-  # "basic" 模板：适合中小型项目（将事件的完整定义原样列出，可在模板里覆盖或细化）
+  # "basic" 模板：适合中小型项目，一般常用事件
   basic:
     discussion:
     discussion_comment:
@@ -132,7 +132,7 @@ event_sets:
         - published
         - edited
 
-# 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用
+# 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用。如果要 CV 请注意缩进。
 events:
   branch_protection_configuration:
     types:
