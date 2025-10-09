@@ -53,10 +53,27 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			logger.Error("Failed to reload configuration: %v", err)
 			// Continue with old config instead of failing
 		} else {
+			// compare with previous config and log info if different
+			changed := false
+			if h.config != nil {
+				oldB, _ := json.Marshal(h.config)
+				newB, _ := json.Marshal(cfg)
+				if string(oldB) != string(newB) {
+					logger.Info("Configuration changes detected, applying new configuration")
+					changed = true
+				}
+			} else {
+				logger.Info("Configuration loaded")
+				changed = true
+			}
+
 			h.config = cfg
 			// Update notifier with new config
 			h.notifier = notifier.New(cfg.FeishuBots)
-			logger.Debug("Configuration reloaded successfully")
+
+			if !changed {
+				logger.Debug("Configuration reloaded successfully (no changes detected)")
+			}
 		}
 	}
 
@@ -126,7 +143,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	logger.Info("Received %s event", eventType)
+	logger.Debug("Received %s event", eventType)
 	logger.Debug("Payload: %v", payload)
 
 	// Process the webhook
@@ -154,44 +171,89 @@ func (h *Handler) verifySignature(signature string, body []byte) bool {
 }
 
 func (h *Handler) processWebhook(eventType string, payload map[string]any) error {
-	// Extract repository full name
+	// Extract repository full name (may be empty for org-level webhooks or certain events)
 	repoFullName := h.extractRepoFullName(payload)
-	if repoFullName == "" {
-		return fmt.Errorf("failed to extract repository name from payload")
-	}
 
-	logger.Info("Processing event for repository: %s", repoFullName)
+	// Extract organization name (for org-level webhooks)
+	orgName := h.extractOrgName(payload)
 
-	// Match repository pattern
-	repoPattern, err := matcher.MatchRepo(repoFullName, h.config.Repos.Repos)
-	if err != nil {
-		return fmt.Errorf("failed to match repository: %w", err)
-	}
-	if repoPattern == nil {
-		logger.Info("No matching repository pattern found for %s, skipping", repoFullName)
+	// Determine target bots based on repository or organization
+	var repoPattern *config.RepoPattern
+	var err error
+	var targetBots []string
+
+	if repoFullName != "" {
+		// Repository-level webhook
+		logger.Debug("Processing %s event for repository: %s", eventType, repoFullName)
+
+		repoPattern, err = matcher.MatchRepo(repoFullName, h.config.Repos.Repos)
+		if err != nil {
+			return fmt.Errorf("failed to match repository: %w", err)
+		}
+		if repoPattern == nil {
+			logger.Debug("No matching repository pattern found for %s, skipping", repoFullName)
+			return nil
+		}
+
+		logger.Debug("Matched repository pattern: %s", repoPattern.Pattern)
+		targetBots = repoPattern.NotifyTo
+
+	} else if orgName != "" {
+		// Organization-level webhook
+		logger.Debug("Processing %s event for organization: %s", eventType, orgName)
+
+		// Find all repo patterns matching this organization (exact match for org/*)
+		for _, repo := range h.config.Repos.Repos {
+			if repo.Pattern == orgName+"/*" {
+				targetBots = append(targetBots, repo.NotifyTo...)
+			}
+		}
+
+		if len(targetBots) == 0 {
+			logger.Debug("No matching repository patterns found for organization %s (expected pattern: %s/*), skipping", orgName, orgName)
+			return nil
+		}
+
+		// Remove duplicates
+		targetBots = uniqueStrings(targetBots)
+
+	} else {
+		// No repository or organization info
+		logger.Warn("Event %s does not contain repository or organization information, skipping", eventType)
 		return nil
 	}
 
-	logger.Info("Matched repository pattern: %s", repoPattern.Pattern)
+	// For ping events, skip filter and send to all matched bots
+	isPingEvent := (eventType == "ping")
 
-	// Expand events (resolve templates)
-	expandedEvents := matcher.ExpandEvents(
-		repoPattern.Events,
-		h.config.Events.EventSets,
-		h.config.Events.Events,
-	)
+	if !isPingEvent {
+		// For non-ping events, check event filter
+		if repoPattern == nil {
+			logger.Warn("Event %s requires event filtering but no repo pattern matched", eventType)
+			return nil
+		}
 
-	// Extract event details
-	action := h.extractAction(payload)
-	ref := h.extractRef(payload)
+		// Expand events (resolve templates)
+		expandedEvents := matcher.ExpandEvents(
+			repoPattern.Events,
+			h.config.Events.EventSets,
+			h.config.Events.Events,
+		)
 
-	// Match event
-	if !matcher.MatchEvent(eventType, action, ref, payload, expandedEvents) {
-		logger.Info("Event %s (action: %s, ref: %s) does not match configured events, skipping", eventType, action, ref)
-		return nil
+		// Extract event details
+		action := h.extractAction(payload)
+		ref := h.extractRef(payload)
+
+		// Match event
+		if !matcher.MatchEvent(eventType, action, ref, payload, expandedEvents) {
+			logger.Debug("Event %s (action: %s, ref: %s) does not match configured events, skipping", eventType, action, ref)
+			return nil
+		}
+	} else {
+		logger.Debug("Ping event - bypassing filter, will notify all matched bots")
 	}
 
-	logger.Info("Event matched, preparing notification")
+	logger.Info("Event matched: %s, sending notification", eventType)
 
 	// Determine tags for template selection
 	tags := template.DetermineTags(eventType, payload)
@@ -200,12 +262,12 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 	data := h.prepareTemplateData(eventType, payload)
 
 	// Group targets by template
-	targetsByTemplate := h.groupTargetsByTemplate(repoPattern.NotifyTo)
+	targetsByTemplate := h.groupTargetsByTemplate(targetBots)
 
 	// Process each template group
 	var errs []string
 	for templateName, targets := range targetsByTemplate {
-		logger.Info("Processing %d target(s) with template: %s", len(targets), templateName)
+		logger.Debug("Processing %d target(s) with template: %s", len(targets), templateName)
 
 		// Get the appropriate template configuration
 		templatesConfig := h.config.GetTemplateConfig(templateName)
@@ -256,6 +318,15 @@ func (h *Handler) extractRepoFullName(payload map[string]any) string {
 	if repo, ok := payload["repository"].(map[string]any); ok {
 		if fullName, ok := repo["full_name"].(string); ok {
 			return fullName
+		}
+	}
+	return ""
+}
+
+func (h *Handler) extractOrgName(payload map[string]any) string {
+	if org, ok := payload["organization"].(map[string]any); ok {
+		if login, ok := org["login"].(string); ok {
+			return login
 		}
 	}
 	return ""

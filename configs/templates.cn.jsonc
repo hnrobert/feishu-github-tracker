@@ -7019,7 +7019,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🏓 Webhook测试"
+                  "content": "✅ GitHub Webhook 添加成功"
                 },
                 "template": "green"
               },
@@ -7028,7 +7028,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**禅语：** {{zen}}\n**Hook ID：** {{hook_id}}\n"
+                    "content": "**GitHub 寄语：** {{zen}}\n\n{{#repository}}**仓库：** [{{repository.full_name}}]({{repository.html_url}})\n{{/repository}}{{#organization}}**组织：** [{{organization.login}}](https://github.com/{{organization.login}})\n{{/organization}}**Hook ID：** {{hook_id}}\n**Hook 类型：** {{hook_type}}"
                   }
                 }
               ]

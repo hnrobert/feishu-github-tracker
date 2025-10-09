@@ -29,6 +29,21 @@
 - 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 以及 `template` 提供的 `模板引擎的语法` `过滤器` `条件块` 等功能 ([详见文档](internal/template/README.md)) 对发出消息的格式做相应的修改
 
+### 🔔 Webhook 设置提醒
+
+当您在 GitHub 上添加 Webhook 时（无论是仓库级别还是组织级别），GitHub 会发送一个 **ping 事件**来测试 Webhook 配置。本服务会：
+
+1. **自动识别 ping 事件**：无需在 `repos.yaml` 中特别配置
+2. **智能匹配通知目标**：
+   - 对于组织级 webhook：自动发送到配置了该组织所有仓库的飞书 bot, 即仅 `org/*` 模式匹配的仓库
+   - 对于仓库级 webhook：自动发送到配置了该仓库的飞书 bot
+3. **发送成功通知**：向飞书发送一条友好的 Webhook 设置成功消息，包含：
+   - GitHub 禅语（zen message）
+   - Hook ID 和类型
+   - 仓库或组织信息
+
+这样您就能立即确认 Webhook 已正确配置并能正常工作。
+
 ## 🚀 快速开始
 
 参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速部署和测试。

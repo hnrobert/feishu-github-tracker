@@ -7062,7 +7062,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "🏓 Webhook Ping"
+                  "content": "✅ GitHub Webhook Successfully Added"
                 },
                 "template": "green"
               },
@@ -7071,7 +7071,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Zen:** {{zen}}\n**Hook ID:** {{hook_id}}\n"
+                    "content": "**GitHub says:** {{zen}}\n\n{{#repository}}**Repository:** [{{repository.full_name}}]({{repository.html_url}})\n{{/repository}}{{#organization}}**Organization:** [{{organization.login}}](https://github.com/{{organization.login}})\n{{/organization}}**Hook ID:** {{hook_id}}\n**Hook Type:** {{hook_type}}"
                   }
                 }
               ]

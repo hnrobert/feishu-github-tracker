@@ -77,7 +77,8 @@
    - 在 `Content type` 中选什么都可以，都支持
    - 在 `Secret` 中填入你在 `server.yaml` 中配置的 `secret`（如果配置了的话）
    - 选择你想监听的事件类型，可以选 `仅push`，也可以选 `Everything` 然后在这个项目的 [configs/events.yaml](configs/events.yaml) 中更详细地选择你想要监听每个事件什么类型甚至什么分支上的事件；如果想要简单一些，也选择 `Let me select individual events` 然后勾选需要的事件，而在这边的 [./configs/repos.yaml](configs/repos.yaml) 你想监听的项目中选择 `all:`
-   - 点击 `Add webhook` 保存，如果前面的步骤没有错误，稍等片刻你应该就可以在群组中收到第一个成功的通知了
+   - 点击 `Add webhook` 保存
+   - **✅ 成功提示**：如果前面的步骤没有错误，几秒钟后你会在飞书群组中收到一条 "GitHub Webhook 添加成功" 的通知（这是 GitHub 发送的 ping 事件）。这表示 Webhook 已正确配置并能正常工作！
 
 7. 简要调试
 
