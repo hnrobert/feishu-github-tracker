@@ -122,7 +122,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Rule:** {{rule_name}}\n**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Rule:** {{rule_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -294,7 +294,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                    "content": "**Repository:** {{repository_link_md | default('')}}\n**Check:** {{check_run.name}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
                   }
                 }
               ]
@@ -324,7 +324,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                    "content": "Repository:** {{repository_link_md | default('')}}\n**Check:** {{check_run.name}}\n****Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
                   }
                 }
               ]
@@ -353,7 +353,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Check:** {{check_run.name}}\n**Repo:** {{repository_link_md | default('')}}\n**Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
+                    "content": "Repository:** {{repository_link_md | default('')}}\n**Check:** {{check_run.name}}\n****Status:** {{check_run.status}}\n**Conclusion:** {{check_run.conclusion}}\n"
                   }
                 }
               ]
@@ -524,7 +524,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n**Repo:** {{repository_link_md | default('')}}\n"
+                    "content": "**Repository:** {{repository_link_md | default('')}}\n**Conclusion:** {{check_suite.conclusion | default('N/A')}}\n**Head SHA:** {{check_suite.head_sha}}\n"
                   }
                 }
               ]
@@ -695,7 +695,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Alert:** {{alert_rule_description}}\n**Severity:** {{alert_rule_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Alert:** {{alert_rule_description}}\n**Severity:** {{alert_rule_severity}}\n**State:** {{alert_state}}\n"
                   }
                 }
               ]
@@ -1401,7 +1401,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Package:** {{alert_package_name}}\n**Severity:** {{alert_severity}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Package:** {{alert_package_name}}\n**Severity:** {{alert_severity}}\n**State:** {{alert_state}}\n"
                   }
                 }
               ]
@@ -2975,7 +2975,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Forker:** {{sender_link_md | default(sender.login)}}\n**Forked repo:** {{forkee.full_name}}\n"
+                    "content": "**Forked repo to:** {{forkee.full_name}}\n**Forker:** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -5319,7 +5319,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Label:** {{label_name}}\n**Action:** {{action}}\n**Repository:** {{repository_link_md}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Label:** {{label_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -6850,7 +6850,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                    "content": "**Repository:** {{repository.full_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -10817,7 +10817,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Action:** {{action}}\n**Repo:** {{repository.full_name}}\n"
+                    "content": "**Repository:** {{repository.full_name}}\n**Action:** {{action}}\n"
                   }
                 },
                 {
@@ -11804,7 +11804,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Secret Type:** {{alert_secret_type}}\n**State:** {{alert_state}}\n**Repository:** {{repository_link_md}}\n"
+                    "content": "**Repository:** {{repository_link_md}}\n**Secret Type:** {{alert_secret_type}}\n**State:** {{alert_state}}\n"
                   }
                 }
               ]
@@ -12680,7 +12680,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                    "content": "**Repository:** {{repository.full_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
@@ -13339,7 +13339,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Repo:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                    "content": "**Repository:** {{repository.full_name}}\n**Action:** {{action}}\n"
                   }
                 }
               ]
