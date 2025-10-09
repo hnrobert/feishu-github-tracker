@@ -46,6 +46,9 @@ events:
 feishu_bots:
   - alias: "test-bot"
     url: "https://example.com/webhook"
+  - alias: "test-bot-cn"
+    url: "https://example.com/webhook-cn"
+    template: "cn"
 `
 
 	templatesYAML := `
@@ -64,13 +67,30 @@ feishu_bots:
 }
 `
 
+	templatesCnYAML := `
+{
+	// templates.cn.jsonc
+	"templates": {
+		"push": {
+			"payloads": [
+				{
+					"tags": ["default"],
+					"payload": { "msg_type": "text", "content": { "text": "测试" } }
+				}
+			]
+		}
+	}
+}
+`
+
 	// Write test config files
 	files := map[string]string{
-		"server.yaml":      serverYAML,
-		"repos.yaml":       reposYAML,
-		"events.yaml":      eventsYAML,
-		"feishu-bots.yaml": botsYAML,
-		"templates.jsonc":  templatesYAML,
+		"server.yaml":        serverYAML,
+		"repos.yaml":         reposYAML,
+		"events.yaml":        eventsYAML,
+		"feishu-bots.yaml":   botsYAML,
+		"templates.jsonc":    templatesYAML,
+		"templates.cn.jsonc": templatesCnYAML,
 	}
 
 	for name, content := range files {
@@ -99,7 +119,50 @@ feishu_bots:
 		t.Errorf("Expected 1 repo, got %d", len(cfg.Repos.Repos))
 	}
 
-	if len(cfg.FeishuBots.FeishuBots) != 1 {
-		t.Errorf("Expected 1 bot, got %d", len(cfg.FeishuBots.FeishuBots))
+	if len(cfg.FeishuBots.FeishuBots) != 2 {
+		t.Errorf("Expected 2 bots, got %d", len(cfg.FeishuBots.FeishuBots))
+	}
+
+	// Test template loading
+	if len(cfg.Templates) != 2 {
+		t.Errorf("Expected 2 templates (default + cn), got %d", len(cfg.Templates))
+	}
+
+	if _, ok := cfg.Templates["default"]; !ok {
+		t.Error("Expected default template to be loaded")
+	}
+
+	if _, ok := cfg.Templates["cn"]; !ok {
+		t.Error("Expected cn template to be loaded")
+	}
+
+	// Test GetBotTemplate
+	if tmpl := cfg.GetBotTemplate("test-bot"); tmpl != "default" {
+		t.Errorf("Expected default template for test-bot, got %s", tmpl)
+	}
+
+	if tmpl := cfg.GetBotTemplate("test-bot-cn"); tmpl != "cn" {
+		t.Errorf("Expected cn template for test-bot-cn, got %s", tmpl)
+	}
+
+	if tmpl := cfg.GetBotTemplate("non-existent"); tmpl != "default" {
+		t.Errorf("Expected default template for non-existent bot, got %s", tmpl)
+	}
+
+	// Test GetTemplateConfig
+	defaultTmpl := cfg.GetTemplateConfig("default")
+	if _, ok := defaultTmpl.Templates["push"]; !ok {
+		t.Error("Expected push template in default config")
+	}
+
+	cnTmpl := cfg.GetTemplateConfig("cn")
+	if _, ok := cnTmpl.Templates["push"]; !ok {
+		t.Error("Expected push template in cn config")
+	}
+
+	// Test fallback for non-existent template
+	fallbackTmpl := cfg.GetTemplateConfig("non-existent")
+	if _, ok := fallbackTmpl.Templates["push"]; !ok {
+		t.Error("Expected fallback to default template")
 	}
 }

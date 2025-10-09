@@ -51,11 +51,32 @@
 
    - 编辑 `./configs/` 目录下的配置文件，参考 [README.md](README.md) or [configs](configs/) 目录下的示例配置文件的注释说明。你最可能需要修改的有下面几个内容：
      - [./configs/server.yaml](configs/server.yaml)：修改服务器监听地址和端口
-     - [./configs/feishu-bots.yaml](configs/feishu-bots.yaml)：配置飞书机器人的 Webhook URL 和别名
+     - [./configs/feishu-bots.yaml](configs/feishu-bots.yaml)：配置飞书机器人的 Webhook URL 和别名（可选配置模板）
      - [./configs/repos.yaml](configs/repos.yaml)：配置需要监听的 GitHub 仓库和事件，以及对应的通知对象
+     - [./configs/templates.jsonc](configs/templates.jsonc)：默认消息模板（可选：创建/使用 `templates.<自定义名称，如「cn」>.jsonc` 自定义模板）
    - 修改后保存，程序会在下一次收到 GitHub Webhook 请求时自动热重载最新配置。
 
-5. 简要调试
+5. 多模板配置（可选）
+
+   如果需要为不同的飞书 bot 配置不同的消息模板（如中英文双语），可以：
+
+   ```bash
+   # 复制默认模板创建中文模板
+   cp ./configs/templates.jsonc ./configs/templates.cn.jsonc
+   ```
+
+   然后在 `./configs/feishu-bots.yaml` 中指定模板：
+
+   ```yaml
+   feishu_bots:
+     - alias: 'team-cn'
+       url: 'https://open.feishu.cn/open-apis/bot/v2/hook/cn-webhook'
+       template: 'cn' # 使用中文模板
+   ```
+
+   详细说明请参考 [多模板配置指南](docs/MULTI_TEMPLATE.md)。
+
+6. 简要调试
 
    - 若没有收到通知，请检查：
      - GitHub Webhook 配置（Payload URL、Secret、事件类型）
