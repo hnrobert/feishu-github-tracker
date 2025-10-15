@@ -88,7 +88,7 @@ event_sets:
     workflow_dispatch:
     workflow_job:
     workflow_run:
-  
+
   # "basic" 模板：适合中小型项目，一般常用事件
   basic:
     discussion:
@@ -101,7 +101,7 @@ event_sets:
     pull_request_review_comment:
     push:
     release:
-  
+
   # 自定义模板：可按需添加事件并细化自定义新的 event_sets（示例）
   custom:
     discussion:
@@ -131,6 +131,28 @@ event_sets:
       types:
         - published
         - edited
+
+  org:
+    organization:
+    org_block:
+    team:
+    team_add:
+    member:
+    membership:
+    repository:
+    repository_vulnerability_alert:
+    secret_scanning_alert:
+    secret_scanning_alert_location:
+    security_advisory:
+    security_and_analysis:
+    github_app_authorization:
+    installation:
+    installation_repositories:
+    installation_target:
+    marketplace_purchase:
+    sponsorship:
+    personal_access_token_request:
+    meta:
 
 # 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用。如果要 CV 请注意缩进。
 events:
