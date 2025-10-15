@@ -169,16 +169,22 @@ feishu_bots:
 
 // TestLoadRealTemplates tests loading the actual templates.jsonc and templates.cn.jsonc files
 // This test is skipped by default as the real template files are very large and may have formatting issues
-func TestLoadRealTemplates(t *testing.T) {
-	t.Skip("Skipping real templates test - use integration tests instead")
 
-	// Get the project root (go up from internal/config to project root)
+func TestLoadRealTemplates(t *testing.T) {
+	// Use real templates from the project's configs directory.
+	// This test requires the files to exist in the repository root.
 	projectRoot := filepath.Join("..", "..", "configs")
 
-	// Check if templates.jsonc exists
+	// Ensure templates.jsonc exists
 	templatesPath := filepath.Join(projectRoot, "templates.jsonc")
 	if _, err := os.Stat(templatesPath); os.IsNotExist(err) {
-		t.Skip("Skipping test: templates.jsonc not found at", templatesPath)
+		t.Fatalf("Required file missing: %s", templatesPath)
+	}
+
+	// Ensure templates.cn.jsonc exists
+	templatesCnPath := filepath.Join(projectRoot, "templates.cn.jsonc")
+	if _, err := os.Stat(templatesCnPath); os.IsNotExist(err) {
+		t.Fatalf("Required file missing: %s", templatesCnPath)
 	}
 
 	// Test loading templates.jsonc

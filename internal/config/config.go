@@ -175,11 +175,38 @@ func loadConfigFile(path string, out any) error {
 	if strings.HasSuffix(path, ".jsonc") || strings.HasSuffix(path, ".json") {
 		// strip comments and unmarshal as JSON
 		cleaned := stripJSONCComments(string(data))
-		return json.Unmarshal([]byte(cleaned), out)
+		if err := json.Unmarshal([]byte(cleaned), out); err != nil {
+			// If it's a syntax error, try to compute line/column
+			if serr, ok := err.(*json.SyntaxError); ok {
+				line, col := offsetToLineCol([]byte(cleaned), serr.Offset)
+				return fmt.Errorf("%w at line %d column %d (offset %d)", err, line, col, serr.Offset)
+			}
+			return err
+		}
+		return nil
 	}
 
 	// default to YAML
 	return yaml.Unmarshal(data, out)
+}
+
+// offsetToLineCol converts a 1-based byte offset into line and column numbers (1-based)
+func offsetToLineCol(b []byte, offset int64) (int, int) {
+	if offset <= 0 {
+		return 1, 1
+	}
+	var line = 1
+	var col = 1
+	var i int64
+	for i = 0; i < offset-1 && i < int64(len(b)); i++ {
+		if b[i] == '\n' {
+			line++
+			col = 1
+		} else {
+			col++
+		}
+	}
+	return line, col
 }
 
 // stripJSONCComments removes // and /* */ style comments from JSONC input.
