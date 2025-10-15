@@ -156,26 +156,31 @@ event_sets:
 
 # 下面是完整事件列表，供模板引用或自定义精细化配置，也可以直接在 repos.yaml 中每个仓库的 events 中使用。如果要 CV 请注意缩进。
 events:
+  # 在仓库分支保护配置启用/禁用时触发（仓库或组织级别的分支保护设置变更）
   branch_protection_configuration:
     types:
       - disabled
       - enabled
+  # 当单个分支保护规则被创建/删除/编辑时触发
   branch_protection_rule:
     types:
       - created
       - deleted
       - edited
+  # 单个 check run 的生命周期事件（CI 检查）
   check_run:
     types:
       - created
       - completed
       - rerequested
       - requested_action
+  # check suite（多个 check run 的集合）相关事件
   check_suite:
     types:
       - completed
       - requested
       - rerequested
+  # 代码扫描发现的告警/漏洞相关事件
   code_scanning_alert:
     types:
       - appeared_in_branch
@@ -184,20 +189,26 @@ events:
       - fixed
       - reopened
       - reopened_by_user
+  # 对 commit 的评论
   commit_comment:
     types:
       - created
+  # 创建分支或标签时触发
   create:
+  # 自定义属性（如项目自定义字段）被操作时触发
   custom_property:
     types:
       - created
       - deleted
       - promote_to_enterprise
       - updated
+  # 自定义属性的值发生变更时触发
   custom_property_values:
     types:
       - updated
+  # 删除分支或标签时触发
   delete:
+  # Dependabot 报警相关事件
   dependabot_alert:
     types:
       - auto_dismissed
@@ -207,20 +218,26 @@ events:
       - fixed
       - reintroduced
       - reopened
+  # 部署密钥创建/删除
   deploy_key:
     types:
       - created
       - deleted
+  # 部署（deployment）创建或相关操作
   deployment:
+  # 部署保护规则请求（如需要人工批准）
   deployment_protection_rule:
     types:
       - requested
+  # 部署审查（批准/拒绝/请求）
   deployment_review:
     types:
       - approved
       - rejected
       - requested
+  # 部署状态更新
   deployment_status:
+  # 仓库讨论（discussion）及其状态变更
   discussion:
     types:
       - created
@@ -235,16 +252,21 @@ events:
       - unlabeled
       - answered
       - unanswered
+  # 对讨论的评论
   discussion_comment:
     types:
       - created
       - edited
       - deleted
+  # 仓库被 fork
   fork:
+  # GitHub App 授权/撤销等事件
   github_app_authorization:
     types:
       - revoked
+  # wiki (gollum) 页面变更
   gollum:
+  # GitHub App 安装/卸载/权限变更
   installation:
     types:
       - created
@@ -252,24 +274,29 @@ events:
       - new_permissions_accepted
       - suspend
       - unsuspend
+  # 安装的仓库被添加或移除
   installation_repositories:
     types:
       - added
       - removed
+  # 安装目标（target）被重命名等
   installation_target:
     types:
       - renamed
+  # issue 上的评论
   issue_comment:
     types:
       - created
       - edited
       - deleted
+  # issue 依赖关系变更
   issue_dependencies:
     types:
       - blocked_by_added
       - blocked_by_removed
       - blocking_added
       - blocking_removed
+  # issue 本身的生命周期（打开/关闭/重新打开等）
   issues:
     types:
       - opened
@@ -290,11 +317,13 @@ events:
       - unlocked
       - typed
       - untyped
+  # 标签操作（创建/删除/编辑）
   label:
     types:
       - created
       - deleted
       - edited
+  # Marketplace 购买/变更事件
   marketplace_purchase:
     types:
       - cancelled
@@ -302,22 +331,27 @@ events:
       - pending_change
       - pending_change_cancelled
       - purchased
+  # 组织成员（member）被添加/移除/编辑
   member:
     types:
       - added
       - removed
       - edited
+  # 团队成员关系变更（membership）
   membership:
     types:
       - added
       - removed
+  # merge group 相关事件（例如 checks 请求被创建/销毁）
   merge_group:
     types:
       - checks_requested
       - destroyed
+  # 元数据事件（如 meta 信息被删除）
   meta:
     types:
       - deleted
+  # milestone 生命周期事件
   milestone:
     types:
       - created
@@ -325,27 +359,34 @@ events:
       - opened
       - edited
       - deleted
+  # 组织阻止（block）/解锁用户
   org_block:
     types:
       - blocked
       - unblocked
+  # 组织级别操作（成员/邀请等）
   organization:
     types:
       - member_added
       - member_removed
       - member_invited
+  # 包（package）发布/更新事件
   package:
     types:
       - published
       - updated
+  # GitHub Pages 构建事件
   page_build:
+  # 个人访问令牌请求（PAT）相关的审批/创建/拒绝等
   personal_access_token_request:
     types:
       - approved
       - cancelled
       - created
       - denied
+  # Webhook 的 ping（当创建 webhook 时 GitHub 发送以测试连通性）
   ping:
+  # classic project（项目）的事件（创建/更新/关闭等）
   project:
     types:
       - created
@@ -353,6 +394,7 @@ events:
       - closed
       - reopened
       - deleted
+  # project 卡片的变更
   project_card:
     types:
       - created
@@ -360,12 +402,14 @@ events:
       - converted
       - edited
       - deleted
+  # project 列的变更
   project_column:
     types:
       - created
       - updated
       - moved
       - deleted
+  # projects v2（新版项目）整体事件
   projects_v2:
     types:
       - closed
@@ -373,6 +417,7 @@ events:
       - deleted
       - edited
       - reopened
+  # projects v2 中单个 item 的事件
   projects_v2_item:
     types:
       - archived
@@ -382,12 +427,15 @@ events:
       - edited
       - reordered
       - restored
+  # projects v2 状态更新
   projects_v2_status_update:
     types:
       - created
       - deleted
       - edited
+  # 仓库从私有变为公开等 public 事件
   public:
+  # Pull Request 事件（创建/同步/合并等）
   pull_request:
     branches:
       - "*"
@@ -413,27 +461,33 @@ events:
       - unlocked
       - milestoned
       - demilestoned
+  # pull request 的代码评审（review）相关事件
   pull_request_review:
     types:
       - submitted
       - edited
       - dismissed
+  # pull request 中的 review comment（审查评论）
   pull_request_review_comment:
     types:
       - created
       - edited
       - deleted
+  # review comment 线程（thread）被解决/未解决
   pull_request_review_thread:
     types:
       - resolved
       - unresolved
+  # push 事件（提交被推送到仓库）——通常关心分支过滤
   push:
     branches:
       - "*"
+  # 注册到 package registry 的包的发布/更新事件
   registry_package:
     types:
       - published
       - updated
+  # release（发布）相关事件，例如创建/发布/撤销预发布
   release:
     types:
       - published
@@ -443,6 +497,7 @@ events:
       - deleted
       - prereleased
       - released
+  # 仓库本身的生命周期事件（创建/删除/归档/重命名等）
   repository:
     types:
       - created
@@ -454,23 +509,29 @@ events:
       - transferred
       - publicized
       - privatized
+  # 与安全或合规相关的仓库建议或公告
   repository_advisory:
     types:
       - published
       - reported
+  # repository_dispatch：手动/外部触发的自定义事件
   repository_dispatch:
+  # repository_import：仓库导入相关事件（例如从另一个平台导入）
   repository_import:
+  # 仓库规则集（ruleset）创建/删除/编辑
   repository_ruleset:
     types:
       - created
       - deleted
       - edited
+  # 仓库漏洞告警（vulnerability alert）
   repository_vulnerability_alert:
     types:
       - create
       - dismiss
       - reopen
       - resolve
+  # Secret scanning 报警（如检测到泄露的密钥）
   secret_scanning_alert:
     types:
       - created
@@ -478,18 +539,23 @@ events:
       - reopened
       - resolved
       - validated
+  # 密钥泄露位置相关通知
   secret_scanning_alert_location:
     types:
       - created
+  # 密钥扫描任务完成事件
   secret_scanning_scan:
     types:
       - completed
+  # 安全通告（advisory）发布/更新/撤回等
   security_advisory:
     types:
       - published
       - updated
       - withdrawn
+  # 与安全及分析相关的设置变更
   security_and_analysis:
+  # 赞助（sponsorship）相关事件，例如创建/取消等
   sponsorship:
     types:
       - cancelled
@@ -498,17 +564,21 @@ events:
       - pending_cancellation
       - pending_tier_change
       - tier_changed
+  # star（给仓库加星）事件
   star:
     types:
       - created
       - deleted
+  # 状态（status）通常与 CI 状态/Checks 相关
   status:
+  # 子任务/子 issue 相关事件（如果使用子 issue 功能）
   sub_issues:
     types:
       - parent_issue_added
       - parent_issue_removed
       - sub_issue_added
       - sub_issue_removed
+  # 团队（team）相关的创建/删除/编辑及权限变化
   team:
     types:
       - created
@@ -516,17 +586,22 @@ events:
       - edited
       - added_to_repository
       - removed_from_repository
+  # team_add：将团队添加到仓库的简短事件
   team_add:
+  # watch/star 事件（用户开始关注/开始看仓库）
   watch:
     types:
       - started
+  # workflow_dispatch：手动触发的 GitHub Actions workflow
   workflow_dispatch:
+  # workflow_job：GitHub Actions 中单个 job 的状态更新
   workflow_job:
     types:
       - completed
       - in_progress
       - queued
       - waiting
+  # workflow_run：整个 workflow 的运行生命周期事件
   workflow_run:
     types:
       - completed
