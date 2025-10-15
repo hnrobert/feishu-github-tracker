@@ -60,16 +60,18 @@ func TestServeHTTP_FormEncodedPayload(t *testing.T) {
 				"push": map[string]any{"ref": "*"},
 			},
 		},
-		Templates: config.TemplatesConfig{
-			Templates: map[string]config.EventTemplate{
-				"push": {
-					Payloads: []config.PayloadTemplate{
-						{
-							Tags: []string{"push", "default"},
-							Payload: map[string]any{
-								"msg_type": "text",
-								"content": map[string]any{
-									"text": "Test push: {{repository.full_name}}",
+		Templates: map[string]config.TemplatesConfig{
+			"default": {
+				Templates: map[string]config.EventTemplate{
+					"push": {
+						Payloads: []config.PayloadTemplate{
+							{
+								Tags: []string{"push", "default"},
+								Payload: map[string]any{
+									"msg_type": "text",
+									"content": map[string]any{
+										"text": "Test push: {{repository.full_name}}",
+									},
 								},
 							},
 						},

@@ -26,3 +26,16 @@ func preparePingData(data map[string]any, payload map[string]any) {
 
 	data["ping"] = payload
 }
+
+// uniqueStrings returns a slice with duplicate strings removed
+func uniqueStrings(input []string) []string {
+	seen := make(map[string]bool)
+	result := []string{}
+	for _, str := range input {
+		if !seen[str] {
+			seen[str] = true
+			result = append(result, str)
+		}
+	}
+	return result
+}

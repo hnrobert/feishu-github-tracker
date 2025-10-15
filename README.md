@@ -6,6 +6,8 @@
 
 一个用于接收 GitHub Webhook 并转发到飞书机器人的中间件服务。支持灵活的配置、事件过滤和自定义消息模板。
 
+![logo](./assets/images/logo.png)
+
 ## 写在前面
 
 ### 为什么有这个项目
@@ -27,13 +29,66 @@
 - 详见 [configs/events.yaml](configs/events.yaml)
 - 对应的处理方法以及文档详见 [internal/handler/](internal/handler/)
 - 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
-- 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 对发出消息的格式做相应的修改
+- 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 以及 `template` 提供的 `模板引擎的语法` `过滤器` `条件块` 等功能 ([详见文档](internal/template/README.md)) 对发出消息的格式做相应的修改
 
-  注意：模板引擎的语法、过滤器和条件块示例详见 `internal/template/README.md`，里面有占位符示例和进阶用法。
+### 🔔 Webhook 设置提醒
+
+当您在 GitHub 上添加 Webhook 时（无论是仓库级别还是组织级别），GitHub 会发送一个 **ping 事件**来测试 Webhook 配置。本服务会：
+
+1. **自动识别 ping 事件**：无需在 `repos.yaml` 中特别配置
+2. **智能匹配通知目标**：
+   - 对于组织级 webhook：自动发送到配置了该组织所有仓库的飞书 bot, 即仅 `org-name/*` 模式匹配的仓库
+   - 对于仓库级 webhook：自动发送到配置了该仓库的飞书 bot
+3. **发送成功通知**：向飞书发送一条友好的 Webhook 设置成功消息，包含：
+   - GitHub 禅语（zen message）
+   - Hook ID 和类型
+   - 仓库或组织信息
+
+这样您就能立即确认 Webhook 已正确配置并能正常工作。
+
+### 消息演示
+
+#### Misc
+
+<img width="675" height="500" alt="image" src="https://github.com/user-attachments/assets/5f47b742-f004-4162-9ae6-9872554dc784" />
+
+<img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/7f5a3b31-ecc5-4403-9bc5-96baa433d4bf" />
+
+#### 支持双语，可以快速切换（所有卡片都有对应）
+
+<img width="675" height="521" alt="image" src="https://github.com/user-attachments/assets/21143037-9132-42c9-b3b4-3b0d6075ede9" />
+
+#### Workflow 通知
+
+<img width="675" height="737" alt="image" src="https://github.com/user-attachments/assets/583e6e94-86b2-4597-943e-17f879b089cc" />
+
+#### Release
+
+<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae9-595f07fe4040" />
+
+#### Issue 相关
+
+<img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/476027ea-8ac9-49f8-a72e-ec377e4f8786" />
+
+#### PR 相关
+
+<img width="675" height="786" alt="image" src="https://github.com/user-attachments/assets/0078b45c-52a5-45e2-90f1-7d09017f149b" />
+
+#### 其他事件（Star，Watch，等等，只要 GitHub 支持的我们都支持，详见上方说明）
+
+<img width="675" height="380" alt="image" src="https://github.com/user-attachments/assets/7c720de2-ffa9-4bb1-9cdb-156eef435c90" />
 
 ## 🚀 快速开始
 
-参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速部署和测试。
+参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速自建服务器部署和测试。
+
+### 体验/使用现成服务（适合自己部署成本/难度较高的用户）
+
+当然我们也有部署好的服务（<https://feishu-github-tracker.hnrobert.space/webhook>，直接 call 是没效果的，需要在我的服务器上更新配置才能转发到你那里 😈）可供大家使用或者尝试（下方邮件联系我获取试用和少量技术支持）。由于当前的服务是部署在个人服务器上需要运维成本，且配置当前依然需要人力维护，如果想要长期使用，需联系我付费 25¥ (含**永久使用权** + **1 年的不限次数配置更新&技术支持**，1 年后如需要更新配置或者技术支持，也请续费 10¥/年~~辛苦费~~)。
+
+当然为了鼓励大家参与开源，**如果你能提一个有效的 PR（修复 bug 或者添加功能（请先提 issue））且最终被合并，或者提出一个详细的包含修复方法的 bug report issue**，试用款可以全额退回，后续也不需要支出任何额外费用。
+
+如有想法可以邮件联系我：[hnrobert@qq.com](mailto:hnrobert@qq.com)
 
 ## 📁 项目结构
 
@@ -99,7 +154,33 @@ feishu_bots:
 
   - alias: 'org-notify'
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz'
+
+  - alias: 'org-cn-notify'
+    url: 'https://open.feishu.cn/open-apis/bot/v2/hook/aaaaaaa'
+    template: 'cn' # 可选：指定使用的消息模板，默认为 'default'
 ```
+
+**多模板支持**：
+
+从 v1.1.0 开始，支持为不同的飞书 bot 配置不同的消息模板。这在以下场景特别有用：
+
+- 中英文双语团队，需要发送不同语言的通知
+- 不同团队需要不同格式的消息
+- 测试环境和生产环境使用不同的消息格式
+
+配置方法：
+
+1. 在 `feishu-bots.yaml` 中为 bot 指定 `template` 字段（可选）
+2. 在 `configs/` 目录下创建对应的模板文件，命名格式为 `templates.<name>.jsonc`
+
+例如：
+
+- `templates.jsonc` - 默认模板（必需）
+- `templates.cn.jsonc` - 中文模板
+- `templates.en.jsonc` - 英文模板
+- `templates.simple.jsonc` - 简化模板
+
+如果某个 bot 没有指定 `template` 字段，或指定的模板文件不存在，将自动使用 `templates.jsonc` 作为默认模板。
 
 ### events.yaml
 

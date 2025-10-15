@@ -14,3 +14,7 @@ feishu_bots:
 
   - alias: "org-notify"
     url: "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz"
+
+  - alias: "org-cn-notify"
+    url: "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz"
+    template: "cn"
