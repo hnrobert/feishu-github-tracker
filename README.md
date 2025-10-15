@@ -44,6 +44,38 @@
 
 这样您就能立即确认 Webhook 已正确配置并能正常工作。
 
+### 消息演示
+
+#### Misc
+
+<img width="675" height="500" alt="image" src="https://github.com/user-attachments/assets/5f47b742-f004-4162-9ae6-9872554dc784" />
+
+<img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/7f5a3b31-ecc5-4403-9bc5-96baa433d4bf" />
+
+#### 支持双语，可以快速切换（所有卡片都有对应）
+
+<img width="675" height="521" alt="image" src="https://github.com/user-attachments/assets/21143037-9132-42c9-b3b4-3b0d6075ede9" />
+
+#### Workflow 通知
+
+<img width="675" height="737" alt="image" src="https://github.com/user-attachments/assets/583e6e94-86b2-4597-943e-17f879b089cc" />
+
+#### Release
+
+<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae9-595f07fe4040" />
+
+#### Issue 相关
+
+<img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/476027ea-8ac9-49f8-a72e-ec377e4f8786" />
+
+#### PR 相关
+
+<img width="675" height="786" alt="image" src="https://github.com/user-attachments/assets/0078b45c-52a5-45e2-90f1-7d09017f149b" />
+
+#### 其他事件（Star，Watch，等等，只要 GitHub 支持的我们都支持，详见上方说明）
+
+<img width="675" height="380" alt="image" src="https://github.com/user-attachments/assets/7c720de2-ffa9-4bb1-9cdb-156eef435c90" />
+
 ## 🚀 快速开始
 
 参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速自建服务器部署和测试。
