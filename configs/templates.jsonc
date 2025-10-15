@@ -7071,7 +7071,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**GitHub says:** {{zen}}\n\n{{#repository}}**Repository:** [{{repository.full_name}}]({{repository.html_url}})\n{{/repository}}{{#organization}}**Organization:** [{{organization.login}}](https:\/\/github.com/{{organization.login}})\n{{/organization}}**Hook ID:** {{hook_id}}\n**Hook Type:** {{hook_type}}" // fuck jsonc
+                    "content": "**GitHub says:** {{zen}}\n\n{{#if repository}}**Repository:** [{{repository.full_name}}]({{repository.html_url}})\n{{/if}}{{#if organization}}**Organization:** [{{organization.login}}](https:\/\/github.com/{{organization.login}})\n{{/if}}**Hook ID:** {{hook_id}}\n**Hook Type:** {{hook_type}}" // fuck jsonc
                   }
                 }
               ]

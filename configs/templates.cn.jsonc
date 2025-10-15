@@ -7028,7 +7028,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**GitHub 寄语：** {{zen}}\n\n{{#repository}}**仓库：** [{{repository.full_name}}]({{repository.html_url}})\n{{/repository}}{{#organization}}**组织：** [{{organization.login}}](https:\/\/github.com/{{organization.login}})\n{{/organization}}**Hook ID：** {{hook_id}}\n**Hook 类型：** {{hook_type}}" // fuck jsonc
+                    "content": "**GitHub 寄语：** {{zen}}\n\n{{#if repository}}**仓库：** [{{repository.full_name}}]({{repository.html_url}})\n{{/if}}{{#if organization}}**组织：** [{{organization.login}}](https:\/\/github.com/{{organization.login}})\n{{/if}}**Hook ID：** {{hook_id}}\n**Hook 类型：** {{hook_type}}" // fuck jsonc
                   }
                 }
               ]
