@@ -14,7 +14,7 @@
 
 首先，众所周知，飞书在目前没有一个官方的 GitHub 集成（至少在国内是这样，也许之前有，后来因为种种原因总之是没了）。虽然可以通过 GitMaya 等第三方服务实现，但不是不完善（比如 GitMaya 2024 年初还在更新的，结果现在是不可用状态），要不就是操作比较复杂（胡言乱语无法理解）或者通过 `workflow` 实现（太麻烦），要不就是过于简单，无法满足实际需求。
 
-所以，我决定自己动手写一个，主要目标是：
+所以，我还是决定直接搓一个给大伙用了。我这边的主要目标是：
 
 - 简单易用：配置简单，Docker Compose 开箱即用，基于 GitHub 的 Webhook 实现
 - 灵活可定制：支持多种事件过滤和自定义消息模板，只要替换现有的 `configs/templates.jsonc` 就可以满足大部分的模版定制需求。
@@ -22,18 +22,23 @@
 - 安全可靠：支持签名验证，防止伪造请求
 - 开源免费：MIT 许可证，欢迎自开分支或者贡献回来（plz）
 
-## 📋 支持的 GitHub 事件
+### TODO
 
-支持所有的 GitHub Webhook 事件
+- [ ] 计划添加基于 `html` 模板的 `web` 管理页面（类似 [lumgr](https://github.com/hnrobert/lumgr)）, 方便查看日志 / 修改配置 / 监控状态等（目前只能通过修改配置文件和查看日志来维护）
+- [ ] 计划添加更多的事件模板（目前已经包含了大部分常用事件的模板，后续会根据反馈继续完善）
+
+## 支持的 GitHub 事件
+
+目前支持所有的 GitHub Webhook 事件
 
 - 详见 [configs/events.yaml](configs/events.yaml)
 - 对应的处理方法以及文档详见 [internal/handler/](internal/handler/)
 - 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 以及 `template` 提供的 `模板引擎的语法` `过滤器` `条件块` 等功能 ([详见文档](internal/template/README.md)) 对发出消息的格式做相应的修改
 
-### 🔔 Webhook 设置提醒
+### Webhook 设置提醒
 
-当您在 GitHub 上添加 Webhook 时（无论是仓库级别还是组织级别），GitHub 会发送一个 **ping 事件**来测试 Webhook 配置。本服务会：
+当你在 GitHub 上添加 Webhook 时（无论是仓库级别还是组织级别），GitHub 会发送一个 **ping 事件**来测试 Webhook 配置。本服务会：
 
 1. **自动识别 ping 事件**：无需在 `repos.yaml` 中特别配置
 2. **智能匹配通知目标**：
@@ -44,41 +49,65 @@
    - Hook ID 和类型
    - 仓库或组织信息
 
-这样您就能立即确认 Webhook 已正确配置并能正常工作。
+这样你就能立即确认 Webhook 已正确配置并能正常工作。
 
 ### 消息演示
 
-#### Misc
+<details open>
+<summary>Misc</summary>
 
 <img width="675" height="500" alt="image" src="https://github.com/user-attachments/assets/5f47b742-f004-4162-9ae6-9872554dc784" />
 
 <img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/7f5a3b31-ecc5-4403-9bc5-96baa433d4bf" />
 
-#### 支持双语，可以快速切换（所有卡片都有对应）
+</details>
+
+<details>
+<summary>支持双语 / Bilingual support（所有卡片都有对应）</summary>
+
+- 支持中英文双语快速切换
+- 所有事件卡片均有对应的中英文版本
+- 模板可通过 `configs/templates.cn.jsonc` 和 `configs/templates.en.jsonc` 自定义
 
 <img width="675" height="521" alt="image" src="https://github.com/user-attachments/assets/21143037-9132-42c9-b3b4-3b0d6075ede9" />
 
-#### Workflow 通知
+</details>
+
+<details>
+<summary>Workflow 通知 / Workflow notifications</summary>
 
 <img width="675" height="737" alt="image" src="https://github.com/user-attachments/assets/583e6e94-86b2-4597-943e-17f879b089cc" />
 
-#### Release
+</details>
 
-<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae9-595f07fe4040" />
+<details>
+<summary>Release 通知 / Release notifications</summary>
 
-#### Issue 相关
+<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae6-595f07fe4040" />
+
+</details>
+
+<details>
+<summary>Issue 相关 / Issue related</summary>
 
 <img width="675" height="783" alt="image" src="https://github.com/user-attachments/assets/476027ea-8ac9-49f8-a72e-ec377e4f8786" />
 
-#### PR 相关
+</details>
+
+<details>
+<summary>PR 相关 / PR related</summary>
 
 <img width="675" height="786" alt="image" src="https://github.com/user-attachments/assets/0078b45c-52a5-45e2-90f1-7d09017f149b" />
 
-#### 其他事件（Star，Watch，等等，只要 GitHub 支持的我们都支持，详见上方说明）
+</details>
+
+<details>
+<summary>其他事件 / Other events（Star、Watch 等）</summary>
 
 <img width="675" height="380" alt="image" src="https://github.com/user-attachments/assets/7c720de2-ffa9-4bb1-9cdb-156eef435c90" />
 
-## 🚀 快速开始
+</details>
+## 快速开始
 
 参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速自建服务器部署和测试。
 
@@ -90,7 +119,7 @@
 
 如有想法可以邮件联系我：[hnrobert@qq.com](mailto:hnrobert@qq.com)
 
-## 📁 项目结构
+## 项目结构
 
 ```text
 feishu-github-tracker/
@@ -118,7 +147,7 @@ feishu-github-tracker/
 └── README.md
 ```
 
-## ⚙️ 配置说明
+## 配置说明
 
 ### server.yaml
 
@@ -303,7 +332,7 @@ templates:
 
 更多 `占位符` 和 `tag` 相关说明详见我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md))
 
-## 🔧 高级功能
+## 高级功能
 
 ### 事件过滤
 
@@ -329,7 +358,7 @@ templates:
 1. **别名引用**：引用 `feishu-bots.yaml` 中定义的 alias
 2. **直接 URL**：直接提供完整的飞书 Webhook URL
 
-## 📊 监控和维护
+## 监控和维护
 
 ### 健康检查
 
@@ -347,7 +376,7 @@ curl http://localhost:4594/health
 - 每天自动创建新的日志文件
 - 日志级别可在 `server.yaml` 中配置
 
-## 🛠️ 开发
+## 开发
 
 ### 构建
 
@@ -371,27 +400,27 @@ make test
 make fmt
 ```
 
-## 📝 环境变量
+## 环境变量
 
 - `CONFIG_DIR` - 配置文件目录路径（默认：`./configs`）
 - `LOG_DIR` - 日志文件目录路径（默认：`./logs`）
 - `TZ` - 时区设置（默认：`Asia/Shanghai`）
 
-## 🤝 贡献
+## 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-## 📄 许可证
+## 许可证
 
 本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
 
-## 🙏 致谢
+## 致谢
 
 - [gobwas/glob](https://github.com/gobwas/glob) - Glob 模式匹配
 - [go-yaml/yaml](https://github.com/go-yaml/yaml) - YAML 解析
 - [Feishu Open Platform](https://open.feishu.cn/) - 飞书开放平台
 
-## 📮 联系方式
+## 联系方式
 
 - 作者: hnrobert
 - 项目地址: <https://github.com/hnrobert/feishu-github-tracker>
