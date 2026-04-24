@@ -83,7 +83,7 @@
 <details>
 <summary>Release 通知 / Release notifications</summary>
 
-<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae6-595f07fe4040" />
+<img width="675" height="794" alt="image" src="https://github.com/user-attachments/assets/0fb7870e-ae87-4785-9ae9-595f07fe4040" />
 
 </details>
 
