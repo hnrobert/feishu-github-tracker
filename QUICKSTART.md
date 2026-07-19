@@ -1,6 +1,6 @@
 # 快速开始
 
-这是一个 1 分钟快速上手指南：当前镜像默认已将 `configs` 打包进镜像，并默认启用配置热重载；使用 `docker-compose` 启动时，本地的 `./configs` 和 `./logs` 会自动挂载到容器中（如果本地不存在会自动创建新文件夹/放入默认配置），方便实时编辑和查看日志。
+这是一个 1 分钟快速上手指南：镜像包含不可变的默认配置，并默认启用配置热重载。使用 Compose 启动时，程序会将缺失的默认配置文件初始化到本地 `./configs`，已有文件不会被覆盖；`./configs` 和 `./logs` 随后挂载到容器中，方便实时编辑和查看日志。
 
 1. 准备（可选两种方式）
 
@@ -26,20 +26,32 @@
 
 2. 启动（推荐）
 
+  <details><summary>docker compose(现代compose)</summary>
+
+   ```bash
+   docker compose up -d
+   # 查看实时日志
+   docker compose logs -f
+   ```
+
+  </details>
+  <details><summary>docker-compose(早期compose)</summary>
+
    ```bash
    docker-compose up -d
    # 查看实时日志
    docker-compose logs -f
    ```
 
+   </details>
    说明：
 
-   - 默认镜像包含已经打包的配置文件，容器启动后会自动把配置目录和日志目录同步到宿主机：
-     - 本地 `./configs` <-> 容器 `/app/configs`
-     - 本地 `./logs` <-> 容器 `/app/logs`
-   - 镜像默认启用热重载（每次收到 webhook 请求时会尝试重新加载配置），因此修改 `./configs/` 目录下的配置后无需重启容器即可生效。
+- 首次启动时，程序会将镜像中的默认配置文件复制到本地配置目录；已有配置文件不会被覆盖：
+  - 本地 `./configs` <-> 容器 `/app/configs`
+  - 本地 `./logs` <-> 容器 `/app/logs`
+- 镜像默认启用热重载（每次收到 webhook 请求时会尝试重新加载配置），因此修改 `./configs/` 目录下的配置后无需重启容器即可生效。
 
-3. 访问健康检查
+1. 访问健康检查
 
    服务默认监听在 4594 端口：
 
@@ -47,7 +59,7 @@
    http://localhost:4594/health
    ```
 
-4. 修改配置
+2. 修改配置
 
    - 编辑 `./configs/` 目录下的配置文件，参考 [README.md](README.md) or [configs](configs/) 目录下的示例配置文件的注释说明。你最可能需要修改的有下面几个内容：
      - [./configs/server.yaml](configs/server.yaml)：修改服务器监听地址，端口和自定义一个 `secret`（如果需要的话，如果测试用可以不设置）
@@ -57,7 +69,7 @@
      - [./configs/templates.jsonc](configs/templates.jsonc)：默认消息模板（可选：创建/使用 `templates.<自定义名称，如「cn」>.jsonc` 自定义模板）
    - 修改后保存，程序会在下一次收到 GitHub Webhook 请求时自动热重载最新配置。
 
-5. 多模板配置（可选）
+3. 多模板配置（可选）
 
    如果需要为不同的飞书 bot 配置不同的消息模板（如中英文双语），可以在 `./configs/feishu-bots.yaml` 中指定模板：
 
@@ -70,7 +82,7 @@
 
    也可以根据现有的修改并创建新的模版文件 `templates.<自定义名称>.jsonc`，然后在 `feishu-bots.yaml` 中引用。
 
-6. 添加 GitHub Webhook
+4. 添加 GitHub Webhook
 
    - 进入你想监听的 GitHub 仓库，点击 `Settings` -> `Webhooks` -> `Add webhook`
    - 在 `Payload URL` 中填入你的服务器地址，例如 `http://your-domain-or-ip:4594/webhook`
@@ -80,7 +92,7 @@
    - 点击 `Add webhook` 保存
    - **✅ 成功提示**：如果前面的步骤没有错误，几秒钟后你会在飞书群组中收到一条 "GitHub Webhook 添加成功" 的通知（这是 GitHub 发送的 ping 事件）。这表示 Webhook 已正确配置并能正常工作！
 
-7. 简要调试
+5. 简要调试
 
    - 若没有收到通知，请检查：
      - GitHub Webhook 配置（Payload URL、Secret、事件类型）
