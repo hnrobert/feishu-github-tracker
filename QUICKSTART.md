@@ -25,13 +25,22 @@
      ```
 
 2. 启动（推荐）
+  <details><summary>docker-compose(早期compose)</summary>
+
+   ```bash
+   docker compose up -d
+   # 查看实时日志
+   docker compose logs -f
+   ```
+  </details>
+  <details><summary>docker compose(现代compose)</summary>
 
    ```bash
    docker-compose up -d
    # 查看实时日志
    docker-compose logs -f
    ```
-
+   </details>
    说明：
 
    - 默认镜像包含已经打包的配置文件，容器启动后会自动把配置目录和日志目录同步到宿主机：
