@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   feishu-github-tracker:
     image: ghcr.io/hnrobert/feishu-github-tracker:latest
@@ -11,7 +9,7 @@ services:
     ports:
       - "4594:4594"
     volumes:
-      - ./configs:/app/configs:ro
+      - ./configs:/app/configs
       - ./logs:/app/logs
     environment:
       - CONFIG_DIR=/app/configs
