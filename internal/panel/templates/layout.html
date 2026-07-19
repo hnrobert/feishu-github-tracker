@@ -1,0 +1,711 @@
+{{define "nav"}}
+<nav class="nav">
+  {{if .Authed}}
+  <a class="{{if eq .CurrentPage "dashboard"}}active{{end}}" href="/">
+    仪表盘<small>Dashboard</small>
+  </a>
+  <a class="{{if startsWith .CurrentPage "repo"}}active{{end}}" href="/repos">
+    仓库规则<small>Repo Rules</small>
+  </a>
+  <a class="{{if startsWith .CurrentPage "bot"}}active{{end}}" href="/bots">
+    飞书机器人<small>Feishu Bots</small>
+  </a>
+  <a class="{{if eq .CurrentPage "events"}}active{{end}}" href="/events">
+    事件<small>Events</small>
+  </a>
+  <a class="{{if startsWith .CurrentPage "template"}}active{{end}}" href="/templates">
+    消息模板<small>Templates</small>
+  </a>
+  <a class="{{if eq .CurrentPage "server_settings"}}active{{end}}" href="/settings">
+    服务设置<small>Server Settings</small>
+  </a>
+  {{else}}
+  <a class="{{if eq .CurrentPage "login"}}active{{end}}" href="/login">登录 / Login</a>
+  {{end}}
+</nav>
+{{end}}
+
+{{define "layout"}}
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{block "title" .}}feishu-github-tracker{{end}}</title>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f5f8fc;
+      --card: #ffffff;
+      --text: #071C37;
+      --muted: #5b6b85;
+      --placeholder: #9aa7bd;
+      --accent: #4EACF8;
+      --accent-strong: #2f97e0;
+      --accent-soft: rgba(78, 172, 248, .12);
+      --danger: #ef4444;
+      --danger-soft: rgba(239, 68, 68, .10);
+      --ok: #16a34a;
+      --ok-soft: rgba(22, 163, 74, .10);
+      --border: #e3e9f2;
+      --shadow: 0 12px 40px rgba(7, 28, 55, .08);
+      --shadow-sm: 0 2px 8px rgba(7, 28, 55, .06);
+    }
+
+    html {
+      background-color: var(--bg);
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, #eaf4fd 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ::placeholder {
+      color: var(--placeholder);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 248px;
+      flex: 0 0 248px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-soft);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px 16px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .brand .logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(78, 172, 248, .35);
+    }
+
+    .brand small {
+      display: block;
+      font-weight: 500;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav .sectionLabel {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      padding: 14px 10px 6px;
+    }
+
+    .nav a {
+      display: flex;
+      flex-direction: column;
+      padding: 9px 12px;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 550;
+      border: 1px solid transparent;
+      transition: background .12s, border-color .12s;
+    }
+
+    .nav a small {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .nav a:hover {
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    .nav a.active {
+      background: var(--accent-soft);
+      border-color: rgba(78, 172, 248, .35);
+      color: var(--accent-strong);
+    }
+
+    .nav a.active small {
+      color: var(--accent-strong);
+    }
+
+    .main {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 26px 30px 60px;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .pageHead {
+      margin-bottom: 18px;
+    }
+
+    .pageHead h2 {
+      font-size: 22px;
+    }
+
+    .pageHead .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat .num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent-strong);
+      line-height: 1.1;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 550;
+      margin: 12px 0 6px;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color .12s, box-shadow .12s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(78, 172, 248, .18);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    textarea.code-lg {
+      min-height: 420px;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .row>* {
+      flex: 1 1 220px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 550;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .12s, border-color .12s, transform .05s;
+    }
+
+    .btn:hover {
+      background: var(--bg-soft);
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .btn.danger {
+      background: var(--bg);
+      border-color: rgba(239, 68, 68, .4);
+      color: var(--danger);
+    }
+
+    .btn.danger:hover {
+      background: var(--danger-soft);
+    }
+
+    .btn.small {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      font-weight: 600;
+      background: var(--bg-soft);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(78, 172, 248, .04);
+    }
+
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      background: var(--bg-soft);
+      color: var(--text);
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid rgba(78, 172, 248, .25);
+      margin: 1px 2px 1px 0;
+    }
+
+    .pill.muted {
+      background: var(--bg-soft);
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    .flash {
+      padding: 11px 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .flash.ok {
+      border-color: rgba(22, 163, 74, .35);
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .flash.err {
+      border-color: rgba(239, 68, 68, .35);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .kv {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 8px 16px;
+      font-size: 14px;
+    }
+
+    .kv .k {
+      color: var(--muted);
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 10px;
+      font-size: 14px;
+    }
+
+    .foot {
+      padding: 20px 30px 30px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    /* Mobile top bar + drawer */
+    .mobileTop {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, .9);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .menuBtn {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+    }
+
+    .menuBtn span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+    }
+
+    .menuOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 28, 55, .45);
+      z-index: 100;
+    }
+
+    #menuOpen:checked~.menuOverlay {
+      display: block;
+    }
+
+    #menuOpen:checked~.shell {
+      pointer-events: none;
+    }
+
+    .menuPanel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      max-width: 80vw;
+      height: 100vh;
+      background: var(--bg-soft);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform .18s;
+      z-index: 101;
+    }
+
+    #menuOpen:checked~.menuOverlay .menuPanel {
+      transform: translateX(0);
+    }
+
+    .menuHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 920px) {
+      .sidebar {
+        display: none;
+      }
+
+      .mobileTop {
+        display: flex;
+      }
+
+      .grid.two,
+      .grid.three,
+      .grid.four {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 16px 16px 50px;
+      }
+
+      .row>* {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {{if .HideNav}}
+  <div class="shell">
+    <main class="main">
+      <div class="wrap" style="max-width: 460px;">
+        {{if .Flash}}
+        <div class="flash {{.FlashKind}}">{{.Flash}}</div>
+        {{end}}
+        {{block "content" .}}{{end}}
+      </div>
+    </main>
+  </div>
+  {{else}}
+  <input id="menuOpen" type="checkbox" hidden />
+
+  <header class="mobileTop">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <label for="menuOpen" class="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </label>
+      <strong>feishu-github-tracker</strong>
+    </div>
+    {{if .Authed}}
+    <form method="post" action="/logout" style="margin:0;">
+      <button class="btn small" type="submit">退出 / Logout</button>
+    </form>
+    {{end}}
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/">
+        <span class="logo">F</span>
+        <span>feishu-github-tracker<small>管理面板 / Admin Panel</small></span>
+      </a>
+
+      {{template "nav" .}}
+    </aside>
+
+    <main class="main">
+      <div class="wrap">
+        <div class="topbar">
+          {{if .Authed}}
+          <span class="muted" style="font-size:13px;">{{.Username}}</span>
+          <form method="post" action="/logout" style="margin:0;">
+            <button class="btn small" type="submit">退出 / Logout</button>
+          </form>
+          {{end}}
+        </div>
+
+        {{if .Flash}}
+        <div class="flash {{.FlashKind}}">{{.Flash}}</div>
+        {{end}}
+
+        {{block "content" .}}{{end}}
+      </div>
+    </main>
+  </div>
+
+  <div class="menuOverlay">
+    <div class="menuPanel">
+      <div class="menuHeader">
+        <strong>导航 / Menu</strong>
+        <label for="menuOpen" class="btn small">关闭 / Close</label>
+      </div>
+      {{template "nav" .}}
+    </div>
+  </div>
+
+  <div class="foot">
+    feishu-github-tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
+    管理面板基于 <a href="https://github.com/hnrobert/lumgr">lumgr</a> 风格构建。Panel inspired by lumgr.<br />
+    注意：编辑配置后，需以 <code>-reload</code> 启动或重启进程方可生效。 / Edits apply via <code>-reload</code> or restart.
+  </div>
+  {{end}}
+</body>
+
+</html>
+{{end}}

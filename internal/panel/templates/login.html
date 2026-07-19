@@ -1,0 +1,19 @@
+{{define "title"}}登录 · Login · feishu-github-tracker{{end}}
+{{define "content"}}
+<div class="card">
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+    <span class="logo" style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-strong));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;">F</span>
+    <h2 style="margin:0;">登录 / Login</h2>
+  </div>
+  <div class="muted" style="margin-bottom:16px; font-size:13px;">
+    输入管理员密码以进入管理面板。<br />Enter the admin password to access the management panel.
+  </div>
+  <form method="post" action="/login">
+    <label>管理员密码 / Admin password</label>
+    <input type="password" name="password" autocomplete="current-password" autofocus required />
+    <div class="actions" style="justify-content:flex-end; margin-top:18px;">
+      <button class="btn primary" type="submit">登录 / Sign in</button>
+    </div>
+  </form>
+</div>
+{{end}}

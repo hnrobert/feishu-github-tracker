@@ -1,0 +1,51 @@
+{{define "title"}}仓库规则 · Repos{{end}}
+{{define "content"}}
+<div class="pageHead" style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap;">
+  <div>
+    <h2>仓库规则 / Repo Rules</h2>
+    <div class="sub">仓库匹配模式 → 订阅事件 → 通知目标。按顺序匹配。 / Patterns → events → notify targets. Matched in order.</div>
+  </div>
+  <a class="btn primary" href="/repos/new">+ 新建 / New</a>
+</div>
+
+<div class="card">
+  {{if .Repos}}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>模式 / Pattern</th>
+        <th>事件 / Events</th>
+        <th>通知 / Notify to</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Repos}}
+      <tr>
+        <td>{{.Index}}</td>
+        <td><code>{{.Pattern}}</code></td>
+        <td>
+          {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} 个 / events</span>{{else}}<span class="pill muted">0</span>{{end}}
+        </td>
+        <td>
+          {{if .NotifyTo}}{{range .NotifyTo}}<span class="pill muted">{{.}}</span>{{end}}{{else}}<span class="muted">—</span>{{end}}
+        </td>
+        <td>
+          <div class="actions" style="justify-content:flex-end;">
+            <a class="btn small" href="/repos/edit?index={{.Index}}">编辑 / Edit</a>
+            <form method="post" action="/repos/delete" style="margin:0;">
+              <input type="hidden" name="index" value="{{.Index}}" />
+              <button class="btn small danger" type="submit" onclick="return confirm('删除该仓库规则？ / Delete this repo rule?');">删除</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="empty">暂无仓库规则，点击「新建」添加。 / No repo rules yet — click “New”.</div>
+  {{end}}
+</div>
+{{end}}

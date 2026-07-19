@@ -30,7 +30,17 @@ type ServerConfig struct {
 		MaxPayloadSize string `yaml:"max_payload_size"`
 		Timeout        int    `yaml:"timeout"`
 	} `yaml:"server"`
-	AllowedSources []string `yaml:"allowed_sources"`
+	AllowedSources []string    `yaml:"allowed_sources"`
+	Panel          PanelConfig `yaml:"panel"`
+}
+
+// PanelConfig represents the optional `panel:` block in server.yaml, used to
+// configure the web management panel (admin password + JWT secret).
+type PanelConfig struct {
+	Enabled      bool   `yaml:"enabled,omitempty"`
+	Password     string `yaml:"password,omitempty"`      // plaintext password (hashed at runtime); convenient but less secure
+	PasswordHash string `yaml:"password_hash,omitempty"` // bcrypt hash; preferred over Password
+	Secret       string `yaml:"secret,omitempty"`        // JWT signing secret; falls back to an ephemeral random secret
 }
 
 // ReposConfig represents repos.yaml
@@ -58,7 +68,7 @@ type FeishuBotsConfig struct {
 type FeishuBot struct {
 	Alias    string `yaml:"alias"`
 	URL      string `yaml:"url"`
-	Template string `yaml:"template"` // Optional: template name (e.g., "cn"), defaults to "default"
+	Template string `yaml:"template,omitempty"` // Optional: template name (e.g., "cn"), defaults to "default"
 }
 
 // TemplatesConfig represents templates.jsonc (JSONC)

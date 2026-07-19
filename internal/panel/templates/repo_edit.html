@@ -1,0 +1,35 @@
+{{define "title"}}编辑仓库规则 · Repo Rule{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>{{if lt .EditRepo.Index 0}}新建仓库规则 / New Repo Rule{{else}}编辑仓库规则 / Edit Repo Rule{{end}}</h2>
+  <div class="sub">事件以 YAML 书写；通知目标每行一个（alias 或完整 URL）。 / Events as YAML; one notify target per line (alias or full URL).</div>
+</div>
+
+<form method="post" action="/repos/save" class="card">
+  <input type="hidden" name="index" value="{{.EditRepo.Index}}" />
+
+  <label>模式 / Pattern <span class="muted">(支持 glob，如 <code>org/*</code>)</span></label>
+  <input type="text" name="pattern" value="{{.EditRepo.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
+
+  <div class="row">
+    <div>
+      <label>通知目标 / Notify to <span class="muted">(每行一个 / one per line)</span></label>
+      <textarea name="notify_to" placeholder="dev-team&#10;ops-team&#10;https://open.feishu.cn/open-apis/bot/v2/hook/...">{{.EditRepo.NotifyToRaw}}</textarea>
+    </div>
+    <div>
+      <label>事件订阅 / Events <span class="muted">(YAML)</span></label>
+      <textarea name="events" placeholder="push:&#10;  branches:&#10;    - main&#10;pull_request:&#10;release:">{{.EditRepo.EventsYAML}}</textarea>
+    </div>
+  </div>
+
+  <div class="note">
+    事件可直接引用 events.yaml 中的事件（如 <code>push:</code>），或叠加 <code>event_sets</code> 中的模板名称。
+    / Events may reference events.yaml entries (e.g. <code>push:</code>) or compose <code>event_sets</code> names.
+  </div>
+
+  <div class="actions" style="margin-top:18px;">
+    <button class="btn primary" type="submit">保存 / Save</button>
+    <a class="btn" href="/repos">取消 / Cancel</a>
+  </div>
+</form>
+{{end}}

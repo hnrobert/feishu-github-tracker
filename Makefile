@@ -4,9 +4,9 @@
 build:
 	go build -o bin/feishu-github-tracker ./cmd/feishu-github-tracker
 
-# Run the application locally
+# Run the application locally (with -reload so panel edits apply live)
 run:
-	go run ./cmd/feishu-github-tracker
+	go run ./cmd/feishu-github-tracker -reload
 
 # Run tests
 test:

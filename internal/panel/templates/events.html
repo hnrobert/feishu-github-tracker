@@ -1,0 +1,16 @@
+{{define "title"}}事件 · Events{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>事件 / Events</h2>
+  <div class="sub">编辑 events.yaml 原文（<code>event_sets</code> 与 <code>events</code>）。保存时会校验 YAML 语法。 / Edit the raw events.yaml; YAML is validated on save.</div>
+</div>
+
+<form method="post" action="/events/save" class="card">
+  <label>events.yaml</label>
+  <textarea name="events_yaml" class="code-lg">{{.EventsYAML}}</textarea>
+  <div class="note">注释与格式将被完整保留。 / Comments and formatting are preserved verbatim.</div>
+  <div class="actions" style="margin-top:14px;">
+    <button class="btn primary" type="submit">保存 / Save</button>
+  </div>
+</form>
+{{end}}

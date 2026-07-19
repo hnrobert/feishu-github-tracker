@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"io"
@@ -13,10 +14,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/hnrobert/feishu-github-tracker/internal/auth"
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/handler"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
+	"github.com/hnrobert/feishu-github-tracker/internal/panel"
 )
 
 func main() {
@@ -88,6 +91,26 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
 	})
+
+	// Mount the web management panel at "/" (ServeMux longest-prefix matching
+	// keeps /webhook and /health routed to their handlers above).
+	passHash, jwtSecret := resolvePanelCredentials(cfg)
+	panelApp, err := panel.New(panel.Options{
+		ConfigDir: configDir,
+		LogDir:    logDir,
+		PassHash:  passHash,
+		JWTSecret: jwtSecret,
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to initialize panel: %v\n", err)
+		os.Exit(1)
+	}
+	if panelApp.Enabled() {
+		logger.Info("Management panel enabled at / (login configured)")
+	} else {
+		logger.Info("Management panel mounted at / but login is NOT configured (set panel.password_hash or PANEL_PASSWORD)")
+	}
+	mux.Handle("/", panelApp)
 
 	srv := NewServer(cfg, mux)
 
@@ -208,4 +231,41 @@ func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
 		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
 		IdleTimeout:  60 * time.Second,
 	}
+}
+
+// resolvePanelCredentials derives the panel admin password hash and JWT signing
+// secret. Password precedence: PANEL_PASSWORD env (plaintext, hashed at start)
+// > server.yaml panel.password_hash (bcrypt) > server.yaml panel.password
+// (plaintext, hashed at start). Secret precedence: PANEL_JWT_SECRET env >
+// server.yaml panel.secret > nil (ephemeral random, chosen by the panel).
+func resolvePanelCredentials(cfg *config.Config) (passHash, jwtSecret []byte) {
+	if pw := os.Getenv("PANEL_PASSWORD"); pw != "" {
+		if h, err := auth.HashPassword(pw); err == nil {
+			passHash = []byte(h)
+		}
+	} else if h := cfg.Server.Panel.PasswordHash; h != "" {
+		passHash = []byte(h)
+	} else if pw := cfg.Server.Panel.Password; pw != "" {
+		if h, err := auth.HashPassword(pw); err == nil {
+			passHash = []byte(h)
+		}
+	}
+
+	secretText := os.Getenv("PANEL_JWT_SECRET")
+	if secretText == "" {
+		secretText = cfg.Server.Panel.Secret
+	}
+	if secretText != "" {
+		if decoded, err := base64.RawURLEncoding.DecodeString(secretText); err == nil {
+			jwtSecret = decoded
+		} else {
+			jwtSecret = []byte(secretText)
+		}
+		if len(jwtSecret) < 16 {
+			pad := make([]byte, 16)
+			copy(pad, jwtSecret)
+			jwtSecret = pad
+		}
+	}
+	return passHash, jwtSecret
 }
