@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
+	"io/fs"
 	"net/http"
 	"os"
 	"os/signal"
@@ -32,6 +34,13 @@ func main() {
 			os.Exit(1)
 		}
 		configDir = filepath.Join(filepath.Dir(execPath), "configs")
+	}
+
+	if defaultConfigDir := os.Getenv("DEFAULT_CONFIG_DIR"); defaultConfigDir != "" {
+		if err := initializeConfigDir(defaultConfigDir, configDir); err != nil {
+			fmt.Fprintf(os.Stderr, "Failed to initialize configuration: %v\n", err)
+			os.Exit(1)
+		}
 	}
 
 	// Load configuration
@@ -107,6 +116,86 @@ func main() {
 	}
 
 	logger.Info("Server stopped")
+}
+
+// initializeConfigDir copies default configuration files that do not yet exist.
+// Existing files are never overwritten so user configuration remains intact.
+func initializeConfigDir(defaultConfigDir, configDir string) error {
+	sourceInfo, err := os.Stat(defaultConfigDir)
+	if err != nil {
+		return fmt.Errorf("read default configuration directory: %w", err)
+	}
+	if !sourceInfo.IsDir() {
+		return fmt.Errorf("default configuration path %q is not a directory", defaultConfigDir)
+	}
+
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
+		return fmt.Errorf("create configuration directory: %w", err)
+	}
+
+	return filepath.WalkDir(defaultConfigDir, func(sourcePath string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+
+		relativePath, err := filepath.Rel(defaultConfigDir, sourcePath)
+		if err != nil {
+			return err
+		}
+		if relativePath == "." {
+			return nil
+		}
+
+		targetPath := filepath.Join(configDir, relativePath)
+		if entry.IsDir() {
+			if err := os.MkdirAll(targetPath, 0o755); err != nil {
+				return fmt.Errorf("create configuration subdirectory %q: %w", relativePath, err)
+			}
+			return nil
+		}
+		if !entry.Type().IsRegular() {
+			return fmt.Errorf("default configuration entry %q is not a regular file", relativePath)
+		}
+
+		if _, err := os.Lstat(targetPath); err == nil {
+			return nil
+		} else if !os.IsNotExist(err) {
+			return fmt.Errorf("inspect configuration file %q: %w", relativePath, err)
+		}
+
+		sourceFile, err := os.Open(sourcePath)
+		if err != nil {
+			return fmt.Errorf("open default configuration file %q: %w", relativePath, err)
+		}
+
+		info, err := entry.Info()
+		if err != nil {
+			_ = sourceFile.Close()
+			return fmt.Errorf("read default configuration file metadata %q: %w", relativePath, err)
+		}
+		targetFile, err := os.OpenFile(targetPath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, info.Mode().Perm())
+		if err != nil {
+			_ = sourceFile.Close()
+			return fmt.Errorf("create configuration file %q: %w", relativePath, err)
+		}
+
+		_, copyErr := io.Copy(targetFile, sourceFile)
+		sourceCloseErr := sourceFile.Close()
+		closeErr := targetFile.Close()
+		if copyErr != nil {
+			_ = os.Remove(targetPath)
+			return fmt.Errorf("copy default configuration file %q: %w", relativePath, copyErr)
+		}
+		if sourceCloseErr != nil {
+			_ = os.Remove(targetPath)
+			return fmt.Errorf("close default configuration file %q: %w", relativePath, sourceCloseErr)
+		}
+		if closeErr != nil {
+			_ = os.Remove(targetPath)
+			return fmt.Errorf("close configuration file %q: %w", relativePath, closeErr)
+		}
+		return nil
+	})
 }
 
 // NewServer creates an *http.Server configured from cfg and handler.

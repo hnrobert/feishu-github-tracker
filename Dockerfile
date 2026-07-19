@@ -33,8 +33,9 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 # Copy the binary
 COPY --from=builder /build/feishu-github-tracker /app/feishu-github-tracker
 
-# Copy configuration files (for production use without volume mounts)
-COPY --from=builder /build/configs /app/configs
+# Keep immutable default configuration separate from the writable runtime directory.
+COPY --from=builder /build/configs /app/default-configs
+ENV DEFAULT_CONFIG_DIR=/app/default-configs
 
 # Set working directory
 WORKDIR /app
