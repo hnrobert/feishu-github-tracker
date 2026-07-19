@@ -29,6 +29,7 @@ const sessionTTL = 24 * time.Hour
 type Options struct {
 	ConfigDir string // directory holding server.yaml, repos.yaml, etc.
 	LogDir    string // directory holding delivery logs (for dashboard tail)
+	Username  string // expected admin username for login
 	PassHash  []byte // bcrypt hash of the admin password; if empty, login is disabled
 	JWTSecret []byte // JWT signing secret; if empty, an ephemeral random secret is used
 }
@@ -39,6 +40,7 @@ type App struct {
 	cookieName string
 	cfgDir     string
 	logDir     string
+	username   string
 	passHash   []byte
 	pages      map[string]*template.Template
 	handler    http.Handler
@@ -205,6 +207,7 @@ func New(opts Options) (*App, error) {
 		cookieName: auth.DefaultCookieName,
 		cfgDir:     opts.ConfigDir,
 		logDir:     opts.LogDir,
+		username:   opts.Username,
 		passHash:   opts.PassHash,
 		pages:      pages,
 	}

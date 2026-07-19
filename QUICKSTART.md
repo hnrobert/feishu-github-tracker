@@ -81,10 +81,12 @@
 
      （与 webhook 服务同端口；`/webhook`、`/health` 仍照常工作。）
 
-   - 设置管理员密码（三选一）/ Set an admin password (any one)：
-     - 环境变量 / env（推荐）：`PANEL_PASSWORD=yourpassword`
-     - [./configs/server.yaml](configs/server.yaml) 的 `panel.password_hash`（bcrypt，可用 `htpasswd -bnBC 10 "" yourpassword | tr -d ':\n' | sed 's/^\$2y/\$2a/'` 生成）
-     - [./configs/server.yaml](configs/server.yaml) 的 `panel.password`（明文，启动时自动哈希）
+   - 设置管理员账号 / Configure the admin account：
+     - 用户名 / username：默认 `admin`，可在 [./configs/server.yaml](configs/server.yaml) 的 `panel.username` 或环境变量 `PANEL_USERNAME` 中自定义。 / defaults to `admin`; override via `panel.username` or the `PANEL_USERNAME` env var.
+     - 密码 / password（三选一 / any one）：
+       - 环境变量 / env（推荐）：`PANEL_PASSWORD=yourpassword`
+       - [./configs/server.yaml](configs/server.yaml) 的 `panel.password_hash`（bcrypt，可用 `htpasswd -bnBC 10 "" yourpassword | tr -d ':\n' | sed 's/^\$2y/\$2a/'` 生成）
+       - [./configs/server.yaml](configs/server.yaml) 的 `panel.password`（明文，启动时自动哈希）
 
    - 面板内的修改直接写回 `./configs/` 下的对应文件。配合默认的 `--reload` 启动参数，下一次 webhook 请求即生效；未启用 `--reload` 时需重启进程。/ Edits write back to `./configs/`; with `--reload` (default in compose) they apply on the next webhook, otherwise restart.
 

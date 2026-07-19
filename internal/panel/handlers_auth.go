@@ -32,13 +32,18 @@ func (a *App) handleLoginPost(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/login", "表单解析失败 / invalid form", "err")
 		return
 	}
+	username := r.FormValue("username")
 	password := r.FormValue("password")
+	if username != a.username {
+		a.redirectFlash(w, r, "/login", "用户名或密码错误 / invalid username or password", "err")
+		return
+	}
 	if !auth.VerifyPassword(string(a.passHash), password) {
-		a.redirectFlash(w, r, "/login", "密码错误 / incorrect password", "err")
+		a.redirectFlash(w, r, "/login", "用户名或密码错误 / invalid username or password", "err")
 		return
 	}
 
-	tok, err := auth.SignHS256(a.secret, "admin", true, sessionTTL)
+	tok, err := auth.SignHS256(a.secret, username, true, sessionTTL)
 	if err != nil {
 		http.Error(w, "failed to issue session", http.StatusInternalServerError)
 		return

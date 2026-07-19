@@ -35,9 +35,10 @@ type ServerConfig struct {
 }
 
 // PanelConfig represents the optional `panel:` block in server.yaml, used to
-// configure the web management panel (admin password + JWT secret).
+// configure the web management panel (admin username/password + JWT secret).
 type PanelConfig struct {
 	Enabled      bool   `yaml:"enabled,omitempty"`
+	Username     string `yaml:"username,omitempty"`      // admin login username; defaults to "admin"
 	Password     string `yaml:"password,omitempty"`      // plaintext password (hashed at runtime); convenient but less secure
 	PasswordHash string `yaml:"password_hash,omitempty"` // bcrypt hash; preferred over Password
 	Secret       string `yaml:"secret,omitempty"`        // JWT signing secret; falls back to an ephemeral random secret

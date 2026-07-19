@@ -98,6 +98,7 @@ func main() {
 	panelApp, err := panel.New(panel.Options{
 		ConfigDir: configDir,
 		LogDir:    logDir,
+		Username:  resolvePanelUsername(cfg),
 		PassHash:  passHash,
 		JWTSecret: jwtSecret,
 	})
@@ -268,4 +269,16 @@ func resolvePanelCredentials(cfg *config.Config) (passHash, jwtSecret []byte) {
 		}
 	}
 	return passHash, jwtSecret
+}
+
+// resolvePanelUsername returns the panel admin username. Precedence:
+// PANEL_USERNAME env > server.yaml panel.username > "admin".
+func resolvePanelUsername(cfg *config.Config) string {
+	if u := os.Getenv("PANEL_USERNAME"); u != "" {
+		return u
+	}
+	if u := cfg.Server.Panel.Username; u != "" {
+		return u
+	}
+	return "admin"
 }
