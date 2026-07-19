@@ -29,8 +29,6 @@ const sessionTTL = 24 * time.Hour
 type Options struct {
 	ConfigDir string // directory holding server.yaml, repos.yaml, etc.
 	LogDir    string // directory holding delivery logs (for dashboard tail)
-	Username  string // expected admin username for login
-	PassHash  []byte // bcrypt hash of the admin password; if empty, login is disabled
 	JWTSecret []byte // JWT signing secret; if empty, an ephemeral random secret is used
 }
 
@@ -40,8 +38,6 @@ type App struct {
 	cookieName string
 	cfgDir     string
 	logDir     string
-	username   string
-	passHash   []byte
 	pages      map[string]*template.Template
 	handler    http.Handler
 }
@@ -207,16 +203,25 @@ func New(opts Options) (*App, error) {
 		cookieName: auth.DefaultCookieName,
 		cfgDir:     opts.ConfigDir,
 		logDir:     opts.LogDir,
-		username:   opts.Username,
-		passHash:   opts.PassHash,
 		pages:      pages,
 	}
 	a.handler = a.withAuthContext(a.routes())
 	return a, nil
 }
 
-// Enabled reports whether the panel has login configured.
-func (a *App) Enabled() bool { return len(a.passHash) > 0 }
+// Enabled reports whether a login password can be resolved from env/config
+// (or the built-in admin/admin default).
+func (a *App) Enabled() bool {
+	_, h := resolveCredentials(a.cfgDir)
+	return len(h) > 0
+}
+
+// credentials resolves the current admin username + password hash fresh from
+// server.yaml + environment (so password changes take effect on the next login
+// without a restart).
+func (a *App) credentials() (string, []byte) {
+	return resolveCredentials(a.cfgDir)
+}
 
 // ServeHTTP routes the request through the panel's mux.
 func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {

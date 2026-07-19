@@ -24,6 +24,9 @@ type Handler struct {
 	notifier  *notifier.Notifier
 	hotReload bool
 	configDir string
+	// OnReload, if set, is invoked after a successful hot-reload of config (e.g.
+	// to run file-normalization side effects). It must not panic.
+	OnReload func(configDir string)
 }
 
 // New creates a new Handler
@@ -70,6 +73,11 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			h.config = cfg
 			// Update notifier with new config
 			h.notifier = notifier.New(cfg.FeishuBots)
+
+			// Run optional reload side effects (e.g. panel password normalization).
+			if h.OnReload != nil {
+				h.OnReload(h.configDir)
+			}
 
 			if !changed {
 				logger.Debug("Configuration reloaded successfully (no changes detected)")

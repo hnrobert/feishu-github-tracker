@@ -26,51 +26,69 @@ func (a *App) handleSettings(w http.ResponseWriter, r *http.Request) {
 	a.renderPage(w, "server_settings", data)
 }
 
-// handleSettingsSave persists server.yaml edits. Port/secret changes require a
-// restart to take effect (the running process keeps its original listener).
+// handleSettingsSave persists server.yaml edits via yaml.Node mutation so all
+// existing comments (including the panel `# password: "admin"` hint) are
+// preserved. Port/secret changes require a restart to take effect.
 func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		a.redirectFlash(w, r, "/settings", "表单解析失败 / invalid form", "err")
 		return
 	}
 
-	cfg, err := a.loadConfig()
+	port, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("port")))
+	timeout, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("timeout")))
+	form := struct {
+		host, secret, logLevel, maxPayload string
+		port, timeout                      int
+		allowed                            []string
+	}{
+		host:       strings.TrimSpace(r.FormValue("host")),
+		secret:     strings.TrimSpace(r.FormValue("secret")),
+		logLevel:   strings.TrimSpace(r.FormValue("log_level")),
+		maxPayload: strings.TrimSpace(r.FormValue("max_payload_size")),
+		port:       port,
+		timeout:    timeout,
+		allowed:    splitLines(r.FormValue("allowed_sources")),
+	}
+
+	root, err := loadServerRoot(a.cfgDir)
 	if err != nil {
 		a.redirectFlash(w, r, "/settings", "读取配置失败 / failed to load config", "err")
 		return
 	}
-
-	port, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("port")))
-	timeout, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("timeout")))
-
-	cfg.Server.Server.Host = strings.TrimSpace(r.FormValue("host"))
-	if port > 0 {
-		cfg.Server.Server.Port = port
+	serverMap := ensureMap(root, "server")
+	mapSet(serverMap, "host", form.host)
+	if form.port > 0 {
+		mapSetPlain(serverMap, "port", strconv.Itoa(form.port))
 	}
-	cfg.Server.Server.Secret = strings.TrimSpace(r.FormValue("secret"))
-	cfg.Server.Server.LogLevel = strings.TrimSpace(r.FormValue("log_level"))
-	cfg.Server.Server.MaxPayloadSize = strings.TrimSpace(r.FormValue("max_payload_size"))
-	if timeout > 0 {
-		cfg.Server.Server.Timeout = timeout
+	mapSet(serverMap, "secret", form.secret)
+	mapSet(serverMap, "log_level", form.logLevel)
+	mapSet(serverMap, "max_payload_size", form.maxPayload)
+	if form.timeout > 0 {
+		mapSetPlain(serverMap, "timeout", strconv.Itoa(form.timeout))
 	}
-	cfg.Server.AllowedSources = splitLines(r.FormValue("allowed_sources"))
+	setTopLevelSequence(root, "allowed_sources", form.allowed)
 
-	// Optional panel password rotation: if a new password is provided, hash it
-	// and store as password_hash (clearing any plaintext password).
+	if err := writeServerRoot(a.cfgDir, root); err != nil {
+		a.redirectFlash(w, r, "/settings", "保存失败: "+err.Error(), "err")
+		return
+	}
+
+	// Optional panel password rotation: re-hash and write via the comment-
+	// preserving path. This removes any plaintext password and sets password_hash
+	// with the `# password: "admin"` hint.
+	flash := "服务设置已保存（端口/密钥需重启生效）/ settings saved (port/secret need restart)"
 	if pw := strings.TrimSpace(r.FormValue("panel_password")); pw != "" {
 		hash, err := auth.HashPassword(pw)
 		if err != nil {
 			a.redirectFlash(w, r, "/settings", "密码哈希失败: "+err.Error(), "err")
 			return
 		}
-		cfg.Server.Panel.PasswordHash = hash
-		cfg.Server.Panel.Password = ""
-		cfg.Server.Panel.Enabled = true
+		if err := SetPanelPasswordHash(a.cfgDir, hash); err != nil {
+			a.redirectFlash(w, r, "/settings", "密码保存失败: "+err.Error(), "err")
+			return
+		}
+		flash = "服务设置与面板密码已保存 / settings and panel password saved"
 	}
-
-	if err := SaveYAML(a.cfgDir+"/server.yaml", cfg.Server); err != nil {
-		a.redirectFlash(w, r, "/settings", "保存失败: "+err.Error(), "err")
-		return
-	}
-	a.redirectFlash(w, r, "/settings", "服务设置已保存（端口/密钥需重启生效）/ settings saved (port/secret need restart)", "ok")
+	a.redirectFlash(w, r, "/settings", flash, "ok")
 }

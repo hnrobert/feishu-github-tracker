@@ -14,7 +14,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/hnrobert/feishu-github-tracker/internal/auth"
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/handler"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
@@ -84,6 +83,22 @@ func main() {
 		h.EnableHotReload(configDir)
 	}
 
+	// Normalize the panel password once at startup: if server.yaml has a
+	// plaintext panel.password, convert it to password_hash and drop the
+	// plaintext line. Also run on each hot-reload so manual edits are converted.
+	if changed, err := panel.NormalizePanelPassword(configDir); err != nil {
+		logger.Warn("Panel password normalization failed: %v", err)
+	} else if changed {
+		logger.Info("Converted panel plaintext password to password_hash")
+	}
+	h.OnReload = func(dir string) {
+		if changed, err := panel.NormalizePanelPassword(dir); err != nil {
+			logger.Warn("Panel password normalization failed: %v", err)
+		} else if changed {
+			logger.Info("Converted panel plaintext password to password_hash")
+		}
+	}
+
 	// Setup HTTP server
 	mux := http.NewServeMux()
 	mux.Handle("/webhook", h)
@@ -93,24 +108,18 @@ func main() {
 	})
 
 	// Mount the web management panel at "/" (ServeMux longest-prefix matching
-	// keeps /webhook and /health routed to their handlers above).
-	passHash, jwtSecret := resolvePanelCredentials(cfg)
+	// keeps /webhook and /health routed to their handlers above). The panel
+	// resolves admin username/password from server.yaml + env on each login.
 	panelApp, err := panel.New(panel.Options{
 		ConfigDir: configDir,
 		LogDir:    logDir,
-		Username:  resolvePanelUsername(cfg),
-		PassHash:  passHash,
-		JWTSecret: jwtSecret,
+		JWTSecret: resolvePanelSecret(cfg),
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to initialize panel: %v\n", err)
 		os.Exit(1)
 	}
-	if panelApp.Enabled() {
-		logger.Info("Management panel enabled at / (login configured)")
-	} else {
-		logger.Info("Management panel mounted at / but login is NOT configured (set panel.password_hash or PANEL_PASSWORD)")
-	}
+	logger.Info("Management panel mounted at / (default login: admin / admin)")
 	mux.Handle("/", panelApp)
 
 	srv := NewServer(cfg, mux)
@@ -234,51 +243,30 @@ func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
 	}
 }
 
-// resolvePanelCredentials derives the panel admin password hash and JWT signing
-// secret. Password precedence: PANEL_PASSWORD env (plaintext, hashed at start)
-// > server.yaml panel.password_hash (bcrypt) > server.yaml panel.password
-// (plaintext, hashed at start). Secret precedence: PANEL_JWT_SECRET env >
-// server.yaml panel.secret > nil (ephemeral random, chosen by the panel).
-func resolvePanelCredentials(cfg *config.Config) (passHash, jwtSecret []byte) {
-	if pw := os.Getenv("PANEL_PASSWORD"); pw != "" {
-		if h, err := auth.HashPassword(pw); err == nil {
-			passHash = []byte(h)
-		}
-	} else if h := cfg.Server.Panel.PasswordHash; h != "" {
-		passHash = []byte(h)
-	} else if pw := cfg.Server.Panel.Password; pw != "" {
-		if h, err := auth.HashPassword(pw); err == nil {
-			passHash = []byte(h)
-		}
-	}
-
+// resolvePanelSecret derives the panel JWT signing secret. Precedence:
+// PANEL_JWT_SECRET env > server.yaml panel.secret > nil (the panel then uses
+// an ephemeral random secret, which logs everyone out on restart).
+//
+// Admin username/password are resolved by the panel itself on each login from
+// the same sources, so they don't need to be passed at startup.
+func resolvePanelSecret(cfg *config.Config) []byte {
 	secretText := os.Getenv("PANEL_JWT_SECRET")
 	if secretText == "" {
 		secretText = cfg.Server.Panel.Secret
 	}
-	if secretText != "" {
-		if decoded, err := base64.RawURLEncoding.DecodeString(secretText); err == nil {
-			jwtSecret = decoded
-		} else {
-			jwtSecret = []byte(secretText)
-		}
-		if len(jwtSecret) < 16 {
-			pad := make([]byte, 16)
-			copy(pad, jwtSecret)
-			jwtSecret = pad
-		}
+	if secretText == "" {
+		return nil
 	}
-	return passHash, jwtSecret
-}
-
-// resolvePanelUsername returns the panel admin username. Precedence:
-// PANEL_USERNAME env > server.yaml panel.username > "admin".
-func resolvePanelUsername(cfg *config.Config) string {
-	if u := os.Getenv("PANEL_USERNAME"); u != "" {
-		return u
+	var secret []byte
+	if decoded, err := base64.RawURLEncoding.DecodeString(secretText); err == nil {
+		secret = decoded
+	} else {
+		secret = []byte(secretText)
 	}
-	if u := cfg.Server.Panel.Username; u != "" {
-		return u
+	if len(secret) < 16 {
+		pad := make([]byte, 16)
+		copy(pad, secret)
+		secret = pad
 	}
-	return "admin"
+	return secret
 }
