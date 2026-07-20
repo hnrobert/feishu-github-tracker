@@ -32,7 +32,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{block "title" .}}feishu-github-tracker{{end}}</title>
+  <title>{{block "title" .}}Feishu GitHub Tracker{{end}}</title>
 
   <style>
     *,
@@ -650,7 +650,7 @@
       <label for="menuOpen" class="menuBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </label>
-      <strong>feishu-github-tracker</strong>
+      <strong>Feishu GitHub Tracker</strong>
     </div>
     {{if .Authed}}
     <form method="post" action="/logout" style="margin:0;">
@@ -663,7 +663,7 @@
     <aside class="sidebar">
       <a class="brand" href="/">
         <span class="logo">F</span>
-        <span>feishu-github-tracker<small>管理面板 / Admin Panel</small></span>
+        <span>Feishu GitHub Tracker<small>管理面板 / Admin Panel</small></span>
       </a>
 
       {{template "nav" .}}
@@ -700,7 +700,7 @@
   </div>
 
   <div class="foot">
-    feishu-github-tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
+    Feishu GitHub Tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
     面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。 / Panel edits auto-reload on save; hand-edited files apply via <code>-reload</code> or restart.
   </div>
   {{end}}

@@ -52,14 +52,17 @@
   <h3 style="margin-bottom:8px;">面板账号 / Panel account</h3>
 
   <label>管理员用户名 / Admin username</label>
-  <input type="text" name="panel_username" value="{{.ServerForm.Username}}" placeholder="admin" />
+  <input type="text" name="panel_username" value="{{.ServerForm.Username}}" />
 
   <label>当前密码 / Current password <span class="muted">(修改密码时必填 / required to change password)</span></label>
   <input type="password" name="panel_old_password" autocomplete="current-password" />
 
   <label>新密码 / New password <span class="muted">(留空则不修改 / leave blank to keep)</span></label>
   <input type="password" name="panel_password" autocomplete="new-password" />
-  <div class="note">修改密码需提供当前密码；新密码将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Changing the password requires the current password; the new one is stored as a bcrypt <code>password_hash</code>.</div>
+
+  <label>确认新密码 / Confirm new password</label>
+  <input type="password" name="panel_password_confirm" autocomplete="new-password" />
+  <div class="note">修改密码需提供当前密码，并输入两次相同的新密码；新密码将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Changing the password requires the current password and entering the new password twice; it is stored as a bcrypt <code>password_hash</code>.</div>
 
   <div class="actions" style="margin-top:18px;">
     <button class="btn primary" type="submit">保存 / Save</button>
