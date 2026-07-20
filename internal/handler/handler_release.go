@@ -9,5 +9,4 @@ func prepareReleaseData(data map[string]any, payload map[string]any) {
 		data["release_body"] = release["body"]
 		data["release"] = release
 	}
-	data["action"] = payload["action"]
 }

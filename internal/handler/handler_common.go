@@ -7,4 +7,10 @@ func prepareCommonData(data map[string]any, payload map[string]any) {
 	prepareSenderData(data, payload)
 	prepareOrgData(data, payload)
 	prepareInstallationCommonData(data, payload)
+
+	// action is present on most GitHub events; surface it once here so the
+	// per-event prepare* functions don't each repeat this copy.
+	if action, ok := payload["action"].(string); ok {
+		data["action"] = action
+	}
 }

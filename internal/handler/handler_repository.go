@@ -12,10 +12,4 @@ func prepareRepositoryData(data map[string]any, payload map[string]any) {
 		}
 	}
 
-	// Ensure templates can access the event action for repository events
-	// Many other prepare* functions set data["action"] = payload["action"].
-	// repository events did not — that caused {{action}} to be empty in templates.
-	if a, ok := payload["action"]; ok {
-		data["action"] = a
-	}
 }

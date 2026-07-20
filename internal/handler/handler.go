@@ -365,11 +365,9 @@ func (h *Handler) extractRef(payload map[string]any) string {
 func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) map[string]any {
 	data := make(map[string]any)
 
-	// populate common fields shared across event types
+	// populate common fields shared across event types (repo, sender, org,
+	// installation, action)
 	prepareCommonData(data, payload)
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 
 	// delegate per-event handling into separate files for clarity
 	switch eventType {

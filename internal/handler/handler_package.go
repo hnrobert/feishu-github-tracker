@@ -211,5 +211,4 @@ func preparePackageData(data map[string]any, payload map[string]any) {
 			}
 		}
 	}
-	data["action"] = payload["action"]
 }

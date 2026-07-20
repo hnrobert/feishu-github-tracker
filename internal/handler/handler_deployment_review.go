@@ -4,10 +4,6 @@ package handler
 func prepareDeploymentReviewData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract approver info
 	if approver, ok := payload["approver"].(map[string]any); ok {
 		data["approver"] = approver

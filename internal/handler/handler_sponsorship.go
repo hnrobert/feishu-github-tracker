@@ -4,10 +4,6 @@ package handler
 func prepareSponsorshipData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract sponsorship info
 	if sponsorship, ok := payload["sponsorship"].(map[string]any); ok {
 		data["sponsorship"] = sponsorship

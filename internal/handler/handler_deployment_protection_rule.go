@@ -4,10 +4,6 @@ package handler
 func prepareDeploymentProtectionRuleData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract environment and deployment info
 	if environment, ok := payload["environment"].(string); ok {
 		data["environment"] = environment

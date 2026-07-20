@@ -4,10 +4,6 @@ package handler
 func prepareRepositoryAdvisoryData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract repository advisory info
 	if advisory, ok := payload["repository_advisory"].(map[string]any); ok {
 		data["repository_advisory"] = advisory

@@ -4,10 +4,6 @@ package handler
 func prepareWorkflowJobData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract workflow job info
 	if job, ok := payload["workflow_job"].(map[string]any); ok {
 		data["workflow_job"] = job

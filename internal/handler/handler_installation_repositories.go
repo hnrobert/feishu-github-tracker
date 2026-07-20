@@ -4,10 +4,6 @@ package handler
 func prepareInstallationRepositoriesData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract added/removed repositories
 	if added, ok := payload["repositories_added"].([]any); ok {
 		data["repositories_added"] = added

@@ -4,10 +4,6 @@ package handler
 func prepareSecretScanningAlertLocationData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract alert info
 	if alert, ok := payload["alert"].(map[string]any); ok {
 		data["alert"] = alert

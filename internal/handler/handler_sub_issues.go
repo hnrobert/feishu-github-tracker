@@ -4,10 +4,6 @@ package handler
 func prepareSubIssuesData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract parent issue info
 	if parentIssue, ok := payload["parent_issue"].(map[string]any); ok {
 		data["parent_issue"] = parentIssue

@@ -4,10 +4,6 @@ package handler
 func prepareSecretScanningScanData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract scan info
 	if scan, ok := payload["scan"].(map[string]any); ok {
 		data["scan"] = scan

@@ -8,7 +8,4 @@ func prepareMemberData(data map[string]any, payload map[string]any) {
 			data["member_login"] = login
 		}
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

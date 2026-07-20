@@ -4,10 +4,6 @@ package handler
 func prepareRegistryPackageData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract registry package info (legacy GitHub Packages)
 	if pkg, ok := payload["registry_package"].(map[string]any); ok {
 		data["registry_package"] = pkg

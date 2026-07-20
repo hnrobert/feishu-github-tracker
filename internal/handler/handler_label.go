@@ -6,7 +6,4 @@ func prepareLabelData(data map[string]any, payload map[string]any) {
 	if label, ok := payload["label"].(map[string]any); ok {
 		data["label"] = label
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }
