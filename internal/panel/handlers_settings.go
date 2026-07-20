@@ -52,12 +52,17 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	newUsername := strings.TrimSpace(r.FormValue("panel_username"))
 	oldPassword := r.FormValue("panel_old_password")
 	newPassword := strings.TrimSpace(r.FormValue("panel_password"))
+	confirmPassword := strings.TrimSpace(r.FormValue("panel_password_confirm"))
 
 	// Validate credential changes BEFORE writing anything.
 	currentUsername, currentHash := resolveCredentials(a.cfgDir)
 	usernameChanged := newUsername != "" && newUsername != currentUsername
 	passwordChanged := newPassword != ""
 	if passwordChanged {
+		if newPassword != confirmPassword {
+			a.redirectFlash(w, r, "/settings", "两次输入的新密码不一致 / new passwords do not match", "err")
+			return
+		}
 		if !auth.VerifyPassword(string(currentHash), oldPassword) {
 			a.redirectFlash(w, r, "/settings", "旧密码错误，密码未修改 / incorrect old password", "err")
 			return
