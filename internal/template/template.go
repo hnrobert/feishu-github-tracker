@@ -4,23 +4,63 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 )
 
-// SelectTemplate selects the appropriate template based on event type and tags
+// SelectTemplate selects the appropriate template based on event type and tags.
+//
+// Matching prefers the most specific payload whose tags are ALL present in the
+// event tags (i.e. the payload's tags are a subset of the event's tags). This
+// prevents a partially-matching payload — for example an issue "bug" card whose
+// tags are ["opened", "type:bug"] — from winning over the correct generic card
+// for a normal issue, just because both share the "opened" tag. Among subset
+// matches the payload with the most tags (most specific) wins; ties keep the
+// first payload in file order.
 func SelectTemplate(eventType string, tags []string, templates config.TemplatesConfig) (map[string]any, error) {
 	eventTemplate, exists := templates.Templates[eventType]
 	if !exists {
 		return nil, fmt.Errorf("no template found for event type: %s", eventType)
 	}
 
-	// Find the best matching payload based on tags
+	eventSet := make(map[string]struct{}, len(tags))
+	for _, t := range tags {
+		eventSet[t] = struct{}{}
+	}
+
+	// 1) Best subset match: every payload tag must be present among the event
+	//    tags; the payload with the most tags wins.
+	var best *config.PayloadTemplate
+	bestSpec := -1
+	for i := range eventTemplate.Payloads {
+		payload := &eventTemplate.Payloads[i]
+		if !tagsAllIn(payload.Tags, eventSet) {
+			continue
+		}
+		if len(payload.Tags) > bestSpec {
+			bestSpec = len(payload.Tags)
+			best = payload
+		}
+	}
+	if best != nil {
+		return best.Payload, nil
+	}
+
+	// 2) Fallback: a payload explicitly tagged "default".
+	for i := range eventTemplate.Payloads {
+		payload := &eventTemplate.Payloads[i]
+		if slices.Contains(payload.Tags, "default") {
+			return payload.Payload, nil
+		}
+	}
+
+	// 3) Last resort: highest partial-overlap score (legacy behavior), so an
+	//    event with no exact subset match still resolves to something.
 	var selectedPayload *config.PayloadTemplate
 	maxMatchScore := -1
-
 	for i := range eventTemplate.Payloads {
 		payload := &eventTemplate.Payloads[i]
 		score := calculateMatchScore(tags, payload.Tags)
@@ -37,7 +77,18 @@ func SelectTemplate(eventType string, tags []string, templates config.TemplatesC
 	return selectedPayload.Payload, nil
 }
 
-// calculateMatchScore calculates how well the tags match
+// tagsAllIn reports whether every tag in payloadTags is present in eventSet.
+func tagsAllIn(payloadTags []string, eventSet map[string]struct{}) bool {
+	for _, t := range payloadTags {
+		if _, ok := eventSet[t]; !ok {
+			return false
+		}
+	}
+	return true
+}
+
+// calculateMatchScore counts how many of the template's tags appear among the
+// event tags. Used only as a last-resort fallback in SelectTemplate.
 func calculateMatchScore(eventTags, templateTags []string) int {
 	score := 0
 	for _, eventTag := range eventTags {
