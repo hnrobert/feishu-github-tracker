@@ -1,8 +1,8 @@
 // Package panel implements the web management UI for feishu-github-tracker.
-// It is a server-rendered admin panel modeled on the lumgr project: net/http
-// + html/template with an embedded layout, JWT-cookie auth, and CRUD over the
-// tracker's YAML/JSONC configuration files. Edits are written to disk and take
-// effect via the binary's -reload flag (or a restart).
+// It is a server-rendered admin panel: net/http + html/template with an
+// embedded layout, JWT-cookie auth, and CRUD over the tracker's YAML/JSONC
+// configuration files. Edits are written to disk and trigger an immediate
+// reload via the OnSave hook (a restart is only needed for port/secret changes).
 package panel
 
 import (
@@ -30,6 +30,9 @@ type Options struct {
 	ConfigDir string // directory holding server.yaml, repos.yaml, etc.
 	LogDir    string // directory holding delivery logs (for dashboard tail)
 	JWTSecret []byte // JWT signing secret; if empty, an ephemeral random secret is used
+	// OnSave, if set, is invoked after the panel writes any config file, so the
+	// running process can reload and apply the change immediately.
+	OnSave func()
 }
 
 // App holds panel state and serves HTTP.
@@ -38,6 +41,7 @@ type App struct {
 	cookieName string
 	cfgDir     string
 	logDir     string
+	onSave     func()
 	pages      map[string]*template.Template
 	handler    http.Handler
 }
@@ -120,7 +124,7 @@ type ServerForm struct {
 	MaxPayloadSize string
 	Timeout        int
 	AllowedSources string // newline-joined
-	PanelPassword  string // optional new plaintext password (re-hashed on save)
+	Username       string // effective panel admin username (for the form)
 }
 
 // TemplateFileRow represents one templates.*.jsonc file.
@@ -203,10 +207,19 @@ func New(opts Options) (*App, error) {
 		cookieName: auth.DefaultCookieName,
 		cfgDir:     opts.ConfigDir,
 		logDir:     opts.LogDir,
+		onSave:     opts.OnSave,
 		pages:      pages,
 	}
 	a.handler = a.withAuthContext(a.routes())
 	return a, nil
+}
+
+// notifySaved triggers the configured reload callback after a config write so
+// changes take effect without a restart.
+func (a *App) notifySaved() {
+	if a.onSave != nil {
+		a.onSave()
+	}
 }
 
 // Enabled reports whether a login password can be resolved from env/config

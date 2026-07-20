@@ -49,15 +49,23 @@
 
   <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;" />
 
-  <label>面板密码 / Panel password <span class="muted">(留空则不修改 / leave blank to keep)</span></label>
-  <input type="password" name="panel_password" placeholder="设置新管理员密码 / set a new admin password" autocomplete="new-password" />
-  <div class="note">填写后将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Filling this generates a bcrypt hash stored as <code>password_hash</code>.</div>
+  <h3 style="margin-bottom:8px;">面板账号 / Panel account</h3>
+
+  <label>管理员用户名 / Admin username</label>
+  <input type="text" name="panel_username" value="{{.ServerForm.Username}}" placeholder="admin" />
+
+  <label>当前密码 / Current password <span class="muted">(修改密码时必填 / required to change password)</span></label>
+  <input type="password" name="panel_old_password" autocomplete="current-password" />
+
+  <label>新密码 / New password <span class="muted">(留空则不修改 / leave blank to keep)</span></label>
+  <input type="password" name="panel_password" autocomplete="new-password" />
+  <div class="note">修改密码需提供当前密码；新密码将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Changing the password requires the current password; the new one is stored as a bcrypt <code>password_hash</code>.</div>
 
   <div class="actions" style="margin-top:18px;">
     <button class="btn primary" type="submit">保存 / Save</button>
   </div>
   <div class="note">
-    ⚠️ 保存会重新格式化 <code>server.yaml</code>（移除注释）。端口 / 密钥 / 面板 secret 的改动需重启进程才生效。 / Saving reformats <code>server.yaml</code> (comments removed). Port / secret / panel-secret changes require a restart.
+    ⚠️ 保存会重新格式化 <code>server.yaml</code>（移除注释）。端口 / 密钥 / 面板 secret 改动需重启进程；其它改动保存后会自动 reload 生效。 / Saving reformats <code>server.yaml</code> (comments removed). Port / secret / panel-secret changes require a restart; everything else is reloaded automatically on save.
   </div>
 </form>
 {{end}}

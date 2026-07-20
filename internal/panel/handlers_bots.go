@@ -81,6 +81,7 @@ func (a *App) handleBotSave(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/bots", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/bots", "机器人已保存 / bot saved", "ok")
 }
 
@@ -105,5 +106,6 @@ func (a *App) handleBotDelete(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/bots", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/bots", "机器人已删除 / bot deleted", "ok")
 }

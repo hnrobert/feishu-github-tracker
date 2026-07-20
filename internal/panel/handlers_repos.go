@@ -81,6 +81,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/repos", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/repos", "仓库规则已保存 / repo rule saved", "ok")
 }
 
@@ -105,6 +106,7 @@ func (a *App) handleRepoDelete(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/repos", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/repos", "仓库规则已删除 / repo rule deleted", "ok")
 }
 

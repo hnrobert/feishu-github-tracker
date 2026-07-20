@@ -71,7 +71,7 @@
 
 3. Web 管理面板（可选）
 
-   除了手改 YAML，本项目还内置一个 Web 管理面板（参考 [lumgr](https://github.com/hnrobert/lumgr) 风格，白色 + `#4EACF8`/`#071C37` 主题，中英双语界面），可在浏览器里增删改：仓库规则、飞书机器人、服务设置、事件配置、消息模板。
+   除了手改 YAML，本项目还内置一个 Web 管理面板，可在浏览器里增删改：仓库规则、飞书机器人、服务设置、事件配置、消息模板。
 
    - 面板地址：
 
@@ -83,14 +83,14 @@
 
    - 设置管理员账号：
      - 默认账号：用户名 `admin` / 密码 `admin`。默认配置文件已带 `panel.password: "admin"`；从老版本升级且未配置面板账号时，也会自动使用 `admin` / `admin`。
-     - 用户名：默认 `admin`，可在 [./configs/server.yaml](configs/server.yaml) 的 `panel.username` 或环境变量 `PANEL_USERNAME` 中自定义。
+     - 用户名：默认 `admin`，可在 [./configs/server.yaml](configs/server.yaml) 的 `panel.username` 或环境变量 `PANEL_USERNAME` 中自定义；也可在面板「服务设置」页直接修改。
      - 密码（优先级从高到低）：
        - 环境变量（推荐）：`PANEL_PASSWORD=你的密码`
        - [./configs/server.yaml](configs/server.yaml) 的 `panel.password`（明文）。**若存在这一项则优先使用它**：启动 / reload 时会自动转为 `password_hash`（覆盖原 hash）、删除该明文行，并补回一行 `# password: "admin"` 注释。
        - [./configs/server.yaml](configs/server.yaml) 的 `panel.password_hash`（bcrypt，可用 `htpasswd -bnBC 10 "" 你的密码 | tr -d ':\n' | sed 's/^\$2y/\$2a/'` 生成）
-     - 在面板「服务设置」页修改密码后，明文会被删除并改用 `password_hash`（同时补回 `# password: "admin"` 注释），下次登录即生效，无需重启。
+     - 在面板「服务设置」页修改用户名或密码：修改密码需先填写「当前密码」校验通过后才生效；新密码会生成 `password_hash`（同时补回 `# password: "admin"` 注释）。保存后下次登录即用新账号，无需重启。
 
-   - 面板内的修改直接写回 `./configs/` 下的对应文件。配合默认的 `--reload` 启动参数，下一次 webhook 请求即生效；未启用 `--reload` 时需重启进程。
+   - 面板内的修改保存后会自动 reload 生效（无需等待下一次 webhook，也无需重启）；手动编辑 `./configs/` 下的文件则需以 `--reload` 启动或重启进程。端口 / 密钥的改动仍需重启进程。
 
    - 注意：在「消息模板」页保存 `templates.*.jsonc` 会移除文件中的 `//` 注释并按字母重排键（功能不变）。
 

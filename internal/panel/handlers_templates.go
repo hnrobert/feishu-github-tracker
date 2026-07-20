@@ -106,6 +106,7 @@ func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/templates", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/templates", "模板已保存（注释与格式会被重排）/ template saved (comments/format reformatted)", "ok")
 }
 

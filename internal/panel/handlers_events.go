@@ -37,5 +37,6 @@ func (a *App) handleEventsSave(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/events", "保存失败: "+err.Error(), "err")
 		return
 	}
+	a.notifySaved()
 	a.redirectFlash(w, r, "/events", "事件配置已保存 / events saved", "ok")
 }

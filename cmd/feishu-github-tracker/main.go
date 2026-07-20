@@ -114,6 +114,7 @@ func main() {
 		ConfigDir: configDir,
 		LogDir:    logDir,
 		JWTSecret: resolvePanelSecret(cfg),
+		OnSave:    h.Reload, // reload running config after any panel edit
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to initialize panel: %v\n", err)

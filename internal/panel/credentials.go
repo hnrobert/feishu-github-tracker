@@ -147,3 +147,15 @@ func SetPanelPasswordHash(cfgDir, hash string) error {
 	setPanelHashWithHint(panel, hash)
 	return writeServerRoot(cfgDir, root)
 }
+
+// SetPanelUsername writes panel.username. Other content and comments in
+// server.yaml are preserved.
+func SetPanelUsername(cfgDir, username string) error {
+	root, err := loadServerRoot(cfgDir)
+	if err != nil {
+		return err
+	}
+	panel := ensureMap(root, "panel")
+	mapSet(panel, "username", username)
+	return writeServerRoot(cfgDir, root)
+}

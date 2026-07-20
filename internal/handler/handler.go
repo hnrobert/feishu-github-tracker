@@ -46,43 +46,50 @@ func (h *Handler) EnableHotReload(configDir string) {
 	logger.Info("Hot reload enabled for config directory: %s", configDir)
 }
 
+// Reload re-reads the configuration from disk and swaps it into the handler
+// (rebuilding the notifier and running the OnReload hook). It is called on each
+// webhook when hot reload is enabled, and also by the management panel after a
+// configuration edit so that changes take effect immediately without a restart.
+func (h *Handler) Reload() {
+	if h.configDir == "" {
+		return
+	}
+	logger.Debug("Reloading configuration from %s", h.configDir)
+	cfg, err := config.Load(h.configDir)
+	if err != nil {
+		logger.Error("Failed to reload configuration: %v", err)
+		return
+	}
+	changed := false
+	if h.config != nil {
+		oldB, _ := json.Marshal(h.config)
+		newB, _ := json.Marshal(cfg)
+		if string(oldB) != string(newB) {
+			logger.Info("Configuration changes detected, applying new configuration")
+			changed = true
+		}
+	} else {
+		logger.Info("Configuration loaded")
+		changed = true
+	}
+
+	h.config = cfg
+	h.notifier = notifier.New(cfg.FeishuBots)
+
+	if h.OnReload != nil {
+		h.OnReload(h.configDir)
+	}
+
+	if !changed {
+		logger.Debug("Configuration reloaded successfully (no changes detected)")
+	}
+}
+
 // ServeHTTP handles incoming webhook requests
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Hot reload configuration if enabled
 	if h.hotReload && h.configDir != "" {
-		logger.Debug("Reloading configuration from %s", h.configDir)
-		cfg, err := config.Load(h.configDir)
-		if err != nil {
-			logger.Error("Failed to reload configuration: %v", err)
-			// Continue with old config instead of failing
-		} else {
-			// compare with previous config and log info if different
-			changed := false
-			if h.config != nil {
-				oldB, _ := json.Marshal(h.config)
-				newB, _ := json.Marshal(cfg)
-				if string(oldB) != string(newB) {
-					logger.Info("Configuration changes detected, applying new configuration")
-					changed = true
-				}
-			} else {
-				logger.Info("Configuration loaded")
-				changed = true
-			}
-
-			h.config = cfg
-			// Update notifier with new config
-			h.notifier = notifier.New(cfg.FeishuBots)
-
-			// Run optional reload side effects (e.g. panel password normalization).
-			if h.OnReload != nil {
-				h.OnReload(h.configDir)
-			}
-
-			if !changed {
-				logger.Debug("Configuration reloaded successfully (no changes detected)")
-			}
-		}
+		h.Reload()
 	}
 
 	if r.Method != http.MethodPost {
