@@ -21,5 +21,12 @@ func prepareIssueCommentData(data map[string]any, payload map[string]any) {
 		data["issue_title"] = issue["title"]
 		data["issue_url"] = issue["html_url"]
 		data["issue"] = issue
+		if url, ok := issue["html_url"].(string); ok {
+			if title, ok := issue["title"].(string); ok && title != "" {
+				data["issue_link_md"] = fmt.Sprintf("[#%v %s](%s)", issue["number"], title, url)
+			} else {
+				data["issue_link_md"] = url
+			}
+		}
 	}
 }

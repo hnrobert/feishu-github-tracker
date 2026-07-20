@@ -367,6 +367,9 @@ func (h *Handler) prepareTemplateData(eventType string, payload map[string]any) 
 
 	// populate common fields shared across event types
 	prepareCommonData(data, payload)
+	if action, ok := payload["action"].(string); ok {
+		data["action"] = action
+	}
 
 	// delegate per-event handling into separate files for clarity
 	switch eventType {

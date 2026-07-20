@@ -188,6 +188,33 @@ func TestPrepareTemplateData_IssueLinks(t *testing.T) {
 	}
 }
 
+func TestPrepareTemplateData_ActionAndIssueCommentLink(t *testing.T) {
+	cfg := &config.Config{}
+	n := notifier.New(config.FeishuBotsConfig{})
+	h := New(cfg, n)
+
+	payload := map[string]any{
+		"action": "created",
+		"issue": map[string]any{
+			"number":   2,
+			"title":    "Issue title",
+			"html_url": "https://github.com/org/repo/issues/2",
+		},
+	}
+
+	for _, eventType := range []string{"team_add", "security_and_analysis", "pull_request_review", "issue_comment"} {
+		data := h.prepareTemplateData(eventType, payload)
+		if got := data["action"]; got != "created" {
+			t.Errorf("%s action = %v, want created", eventType, got)
+		}
+	}
+
+	data := h.prepareTemplateData("issue_comment", payload)
+	if got := data["issue_link_md"]; got != "[#2 Issue title](https://github.com/org/repo/issues/2)" {
+		t.Fatalf("issue_link_md = %v", got)
+	}
+}
+
 func TestPrepareTemplateData_PackageURL(t *testing.T) {
 	cfg := &config.Config{}
 	n := notifier.New(config.FeishuBotsConfig{})
