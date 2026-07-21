@@ -25,7 +25,7 @@
 
 ### TODO
 
-- [x] 已添加基于 `html/template` 的 `web` 管理面板（白色 + `#4EACF8`/`#071C37` 主题，中英双语），可在浏览器中查看日志 / 修改仓库规则、飞书机器人、服务设置、事件与消息模板。详见 [QUICKSTART.md](QUICKSTART.md#3-web-管理面板)。
+- [x] 已添加基于 `html/template` 的 `web` 管理面板（白色 + `#4EACF8`/`#071C37` 主题，中英双语），可在浏览器中查看日志 / 修改仓库规则、飞书机器人、服务设置、事件与消息模板。详见 [docs/quickstart.md](docs/quickstart.md#5-web-管理面板可选)。
 - [ ] 计划添加更多的事件模板（目前已经包含了大部分常用事件的模板，后续会根据反馈继续完善）
 
 ## 支持的 GitHub 事件
@@ -111,7 +111,7 @@
 
 ## 快速开始
 
-参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速自建服务器部署和测试。
+参考 [docs/quickstart.md](./docs/quickstart.md) 了解如何快速自建服务器部署和测试；从源码构建见 [docs/build-from-source.md](./docs/build-from-source.md)。
 
 ### 体验/使用现成服务（适合自己部署成本/难度较高的用户）
 
