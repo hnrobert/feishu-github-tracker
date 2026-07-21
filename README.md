@@ -360,6 +360,22 @@ templates:
 1. **别名引用**：引用 `feishu-bots.yaml` 中定义的 alias
 2. **直接 URL**：直接提供完整的飞书 Webhook URL
 
+### Webhook 密钥（可选 / per-rule secret）
+
+默认情况下，所有 Webhook 用 `server.yaml` 中的全局 `server.secret` 校验签名。如果不同仓库/组织需要各自独立的密钥，可以在 `repos.yaml` 的某条匹配上单独配置 `secret`：
+
+```yaml
+repos:
+  - pattern: 'acme/widget'
+    events:
+      push:
+    notify_to:
+      - dev-team
+    secret: 'this-repo-only-secret' # 可选：仅该校验该仓库 Webhook 的签名
+```
+
+校验规则：匹配到该仓库/组织的 Webhook，会尝试用「该规则的 `secret`」与「全局 `server.secret`」两者校验，任一通过即可；若两者都为空则跳过校验。这样不同 GitHub 端的 Webhook 可以使用各自独立的密钥。
+
 ## 监控和维护
 
 ### 健康检查

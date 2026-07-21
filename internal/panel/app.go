@@ -107,6 +107,8 @@ type RepoRow struct {
 	Events      map[string]any
 	EventsYAML  string // raw YAML text, for the edit textarea
 	EventCount  int
+	Secret      string // per-rule webhook secret (edit form)
+	HasSecret   bool   // whether a per-rule secret is set (list badge)
 }
 
 // BotRow represents one feishu-bots.yaml entry.

@@ -53,6 +53,7 @@ type RepoPattern struct {
 	Pattern  string         `yaml:"pattern"`
 	Events   map[string]any `yaml:"events"`
 	NotifyTo []string       `yaml:"notify_to"`
+	Secret   string         `yaml:"secret,omitempty"` // optional per-rule webhook secret; falls back to server.secret
 }
 
 // EventsConfig represents events.yaml

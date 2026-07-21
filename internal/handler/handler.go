@@ -106,15 +106,6 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	// Verify signature if secret is configured
-	if h.config.Server.Server.Secret != "" {
-		if !h.verifySignature(r.Header.Get("X-Hub-Signature-256"), body) {
-			logger.Warn("Invalid signature")
-			http.Error(w, "Invalid signature", http.StatusUnauthorized)
-			return
-		}
-	}
-
 	// Get event type
 	eventType := r.Header.Get("X-GitHub-Event")
 	if eventType == "" {
@@ -161,6 +152,19 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	logger.Debug("Received %s event", eventType)
 	logger.Debug("Payload: %v", payload)
 
+	// Verify signature. The signing secret is resolved per-request: the global
+	// server.secret plus any secret configured on the repo/org rule this
+	// webhook matches (so each GitHub-side webhook can use its own secret). If
+	// no secret is configured anywhere, verification is skipped (as before).
+	secrets := h.candidateSecrets(payload)
+	if len(secrets) > 0 {
+		if !h.verifySignatureAny(r.Header.Get("X-Hub-Signature-256"), body, secrets) {
+			logger.Warn("Invalid signature")
+			http.Error(w, "Invalid signature", http.StatusUnauthorized)
+			return
+		}
+	}
+
 	// Process the webhook
 	if err := h.processWebhook(eventType, payload); err != nil {
 		logger.Error("Failed to process webhook: %v", err)
@@ -172,17 +176,57 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
-func (h *Handler) verifySignature(signature string, body []byte) bool {
+// candidateSecrets returns the webhook signing secrets that may apply to this
+// request: the global server.secret, plus any secret configured on the repo (or
+// org) rule(s) the payload matches. Deduplicated. Empty (and thus no signature
+// verification) when no secret is configured anywhere.
+func (h *Handler) candidateSecrets(payload map[string]any) []string {
+	seen := make(map[string]struct{})
+	var out []string
+	add := func(s string) {
+		s = strings.TrimSpace(s)
+		if s == "" {
+			return
+		}
+		if _, ok := seen[s]; ok {
+			return
+		}
+		seen[s] = struct{}{}
+		out = append(out, s)
+	}
+
+	add(h.config.Server.Server.Secret)
+
+	if repo := h.extractRepoFullName(payload); repo != "" {
+		if rp, err := matcher.MatchRepo(repo, h.config.Repos.Repos); err == nil && rp != nil {
+			add(rp.Secret)
+		}
+	} else if org := h.extractOrgName(payload); org != "" {
+		for _, rp := range h.config.Repos.Repos {
+			if rp.Pattern == org+"/*" {
+				add(rp.Secret)
+			}
+		}
+	}
+	return out
+}
+
+// verifySignatureAny reports whether the X-Hub-Signature-256 header matches the
+// body for any of the provided secrets (HMAC-SHA256, constant-time compare).
+func (h *Handler) verifySignatureAny(signature string, body []byte, secrets []string) bool {
 	if !strings.HasPrefix(signature, "sha256=") {
 		return false
 	}
-
-	mac := hmac.New(sha256.New, []byte(h.config.Server.Server.Secret))
-	mac.Write(body)
-	expectedMAC := hex.EncodeToString(mac.Sum(nil))
-	receivedMAC := strings.TrimPrefix(signature, "sha256=")
-
-	return hmac.Equal([]byte(receivedMAC), []byte(expectedMAC))
+	receivedMAC := []byte(strings.TrimPrefix(signature, "sha256="))
+	for _, secret := range secrets {
+		mac := hmac.New(sha256.New, []byte(secret))
+		mac.Write(body)
+		expectedMAC := []byte(hex.EncodeToString(mac.Sum(nil)))
+		if hmac.Equal(receivedMAC, expectedMAC) {
+			return true
+		}
+	}
+	return false
 }
 
 func (h *Handler) processWebhook(eventType string, payload map[string]any) error {
