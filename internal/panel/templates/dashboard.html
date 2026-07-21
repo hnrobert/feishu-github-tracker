@@ -24,6 +24,35 @@
   </div>
 </div>
 
+<div class="card">
+  <h3>快速上手 / Getting started</h3>
+
+  <div style="margin-top:12px;">
+    <strong>1. 添加飞书机器人 / Add a Feishu bot</strong>
+    <ol class="guide">
+      <li>飞书群 → 设置 → 群机器人 → 添加「自定义机器人」，复制其 Webhook URL。</li>
+      <li>到 <a href="/bots">飞书机器人 / Feishu Bots</a> 页面新增：填入别名与该 URL。</li>
+    </ol>
+  </div>
+
+  <div style="margin-top:14px;">
+    <strong>2. 添加 GitHub Webhook / Add a GitHub webhook</strong>
+    <ol class="guide">
+      <li>GitHub 仓库 → <code>Settings</code> → <code>Webhooks</code> → <code>Add webhook</code>。</li>
+      <li><code>Payload URL</code> 填下方地址；<code>Content type</code> 选什么都支持；<code>Secret</code> 填你在 <code>server.yaml</code> 或对应仓库规则里配置的 secret（若有）。</li>
+      <li>选择要监听的事件并保存，再到 <a href="/repos">仓库规则 / Repos</a> 配置监听与通知目标。</li>
+    </ol>
+    {{if .PayloadURL}}
+    <div class="codeblock">
+      <code id="payload-url">{{.PayloadURL}}</code>
+      <button type="button" class="btn small" onclick="copyText('payload-url', this)">复制 / Copy</button>
+    </div>
+    {{else}}
+    <div class="note">当前通过本地地址（localhost / 内网 IP）访问，无法生成可被 GitHub 访问的 Payload URL。请通过公网域名或公网 IP 访问本面板后再复制。 / Accessed locally — open this panel via a public host to get a reachable Payload URL.</div>
+    {{end}}
+  </div>
+</div>
+
 <div class="grid two">
   <div class="card">
     <h3>服务信息 / Server</h3>

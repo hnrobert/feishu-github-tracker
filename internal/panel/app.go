@@ -66,6 +66,7 @@ type ViewData struct {
 	TemplateFiles []string
 	ServerInfo    ServerInfo
 	RecentLines   []string
+	PayloadURL    string // public /webhook URL for the guide; empty when accessed locally
 
 	// repos
 	Repos    []RepoRow
