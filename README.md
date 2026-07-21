@@ -159,7 +159,7 @@ feishu-github-tracker/
 server:
   host: '0.0.0.0' # Webhook监听主机
   port: 4594 # Webhook监听端口
-  secret: 'your_secret' # 用于验证GitHub X-Hub-Signature的密钥
+  # secret: 'your_secret' # 可选：全局 Webhook 密钥（fallback），用于验证 GitHub X-Hub-Signature。留空/注释掉则不启用全局校验（可改用每条 repos 匹配各自的 secret）。若某条 repos 匹配单独配置了 secret，则该规则优先使用自己的 secret，否则回退到这里
   log_level: 'info' # 可选: debug, info, warn, error
   max_payload_size: 5MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)

@@ -19,7 +19,7 @@
 
   <div class="row">
     <div>
-      <label>Webhook 密钥 / Secret <span class="muted">(GitHub X-Hub-Signature)</span></label>
+      <label>Webhook 密钥 / Secret <span class="muted">(全局 fallback · GitHub X-Hub-Signature；某条仓库规则单独配置 secret 时，该规则优先使用自己的)</span></label>
       <input type="text" name="secret" value="{{.ServerForm.Secret}}" />
     </div>
     <div>
