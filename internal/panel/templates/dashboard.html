@@ -36,8 +36,6 @@
       <div>{{if .ServerInfo.Timeout}}{{.ServerInfo.Timeout}}s{{else}}—{{end}}</div>
       <div class="k">最大载荷 / Max payload</div>
       <div>{{if .ServerInfo.MaxPayloadSize}}{{.ServerInfo.MaxPayloadSize}}{{else}}—{{end}}</div>
-      <div class="k">面板 / Panel</div>
-      <div>{{if .ServerInfo.PanelEnabled}}<span class="pill">已启用 / enabled</span>{{else}}<span class="pill muted">未启用 / disabled</span>{{end}}</div>
       <div class="k">允许来源 / Allowed</div>
       <div>
         {{if .ServerInfo.AllowedSources}}{{range .ServerInfo.AllowedSources}}<span class="pill muted">{{.}}</span>{{end}}{{else}}—{{end}}

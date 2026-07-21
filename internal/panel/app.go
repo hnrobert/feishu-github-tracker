@@ -96,7 +96,6 @@ type ServerInfo struct {
 	MaxPayloadSize string
 	Timeout        int
 	AllowedSources []string
-	PanelEnabled   bool
 }
 
 // RepoRow represents one repos.yaml entry, for both list display and editing.
