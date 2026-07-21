@@ -34,6 +34,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{block "title" .}}Feishu GitHub Tracker{{end}}</title>
 
+  <link rel="icon" type="image/jpeg" href="/static/logo.jpg" />
+  <link rel="shortcut icon" type="image/jpeg" href="/static/logo.jpg" />
+  <link rel="apple-touch-icon" href="/static/logo.jpg" />
+
   <style>
     *,
     *::before,
@@ -141,16 +145,10 @@
     }
 
     .brand .logo {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
+      object-fit: cover;
       box-shadow: 0 4px 12px rgba(78, 172, 248, .35);
     }
 
@@ -683,7 +681,7 @@
   <div class="shell">
     <aside class="sidebar">
       <a class="brand" href="/">
-        <span class="logo">F</span>
+        <img class="logo" src="/static/logo.jpg" alt="logo" />
         <span>Feishu GitHub Tracker<small>管理面板 / Admin Panel</small></span>
       </a>
 

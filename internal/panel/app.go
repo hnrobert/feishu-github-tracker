@@ -23,6 +23,9 @@ import (
 //go:embed templates/*.html
 var templatesFS embed.FS
 
+//go:embed static/logo.jpg
+var logoJPEG []byte
+
 const sessionTTL = 24 * time.Hour
 
 // Options configures a panel App at construction time.
@@ -243,6 +246,15 @@ func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) routes() http.Handler {
 	mux := http.NewServeMux()
+
+	// Brand logo / favicon (served to everyone, no auth).
+	serveLogo := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "image/jpeg")
+		w.Header().Set("Cache-Control", "public, max-age=86400")
+		_, _ = w.Write(logoJPEG)
+	}
+	mux.HandleFunc("/static/logo.jpg", serveLogo)
+	mux.HandleFunc("/favicon.ico", serveLogo)
 
 	mux.HandleFunc("/login", a.handleLogin)
 	mux.HandleFunc("/logout", a.handleLogout)
