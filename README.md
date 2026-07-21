@@ -6,7 +6,7 @@
 
 一个用于接收 GitHub Webhook 并转发到飞书机器人的中间件服务。支持灵活的配置、事件过滤和自定义消息模板。
 
-![logo](./assets/images/logo.png)
+![logo](./assets/images/banner.png)
 
 ## 写在前面
 
