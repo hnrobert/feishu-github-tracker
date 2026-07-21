@@ -4,10 +4,6 @@ package handler
 func preparePersonalAccessTokenRequestData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract token request info
 	if tokenRequest, ok := payload["personal_access_token_request"].(map[string]any); ok {
 		data["personal_access_token_request"] = tokenRequest

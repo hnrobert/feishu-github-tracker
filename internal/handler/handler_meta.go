@@ -4,10 +4,6 @@ package handler
 func prepareMetaData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract hook info
 	if hook, ok := payload["hook"].(map[string]any); ok {
 		data["hook"] = hook

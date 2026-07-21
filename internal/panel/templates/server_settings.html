@@ -1,0 +1,74 @@
+{{define "title"}}服务设置 · Server Settings{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>服务设置 / Server Settings</h2>
+  <div class="sub">编辑 server.yaml。端口与密钥的修改需重启进程后生效。 / Edit server.yaml. Port and secret changes need a restart.</div>
+</div>
+
+<form method="post" action="/settings/save" class="card">
+  <div class="row">
+    <div>
+      <label>监听主机 / Host</label>
+      <input type="text" name="host" value="{{.ServerForm.Host}}" />
+    </div>
+    <div>
+      <label>端口 / Port</label>
+      <input type="number" name="port" value="{{.ServerForm.Port}}" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label>Webhook 密钥 / Secret <span class="muted">(GitHub X-Hub-Signature)</span></label>
+      <input type="text" name="secret" value="{{.ServerForm.Secret}}" />
+    </div>
+    <div>
+      <label>日志级别 / Log level</label>
+      <select name="log_level">
+        <option value="debug" {{if eq $.ServerForm.LogLevel "debug"}}selected{{end}}>debug</option>
+        <option value="info" {{if eq $.ServerForm.LogLevel "info"}}selected{{end}}>info</option>
+        <option value="warn" {{if eq $.ServerForm.LogLevel "warn"}}selected{{end}}>warn</option>
+        <option value="error" {{if eq $.ServerForm.LogLevel "error"}}selected{{end}}>error</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label>最大载荷 / Max payload size</label>
+      <input type="text" name="max_payload_size" value="{{.ServerForm.MaxPayloadSize}}" placeholder="5MB" />
+    </div>
+    <div>
+      <label>超时 / Timeout <span class="muted">(秒 / seconds)</span></label>
+      <input type="number" name="timeout" value="{{.ServerForm.Timeout}}" />
+    </div>
+  </div>
+
+  <label>允许来源 / Allowed sources <span class="muted">(每行一个 / one per line)</span></label>
+  <textarea name="allowed_sources" placeholder="github.com&#10;api.github.com">{{.ServerForm.AllowedSources}}</textarea>
+
+  <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;" />
+
+  <h3 style="margin-bottom:8px;">面板账号 / Panel account</h3>
+
+  <label>管理员用户名 / Admin username</label>
+  <input type="text" name="panel_username" value="{{.ServerForm.Username}}" />
+
+  <label>当前密码 / Current password <span class="muted">(修改密码时必填 / required to change password)</span></label>
+  <input type="password" name="panel_old_password" autocomplete="current-password" />
+
+  <label>新密码 / New password <span class="muted">(留空则不修改 / leave blank to keep)</span></label>
+  <input type="password" name="panel_password" autocomplete="new-password" />
+
+  <label>确认新密码 / Confirm new password</label>
+  <input type="password" name="panel_password_confirm" autocomplete="new-password" />
+  <div class="note">修改密码需提供当前密码，并输入两次相同的新密码；新密码将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Changing the password requires the current password and entering the new password twice; it is stored as a bcrypt <code>password_hash</code>.</div>
+
+  <div class="actions" style="margin-top:18px;">
+    <button class="btn primary" type="submit">保存 / Save</button>
+  </div>
+  <div class="note">
+    ⚠️ 保存会重新格式化 <code>server.yaml</code>（移除注释）。端口 / 密钥 / 面板 secret 改动需重启进程；其它改动保存后会自动 reload 生效。 / Saving reformats <code>server.yaml</code> (comments removed). Port / secret / panel-secret changes require a restart; everything else is reloaded automatically on save.
+  </div>
+</form>
+{{end}}

@@ -4,10 +4,6 @@ package handler
 func prepareOrgBlockData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract blocked user info
 	if blockedUser, ok := payload["blocked_user"].(map[string]any); ok {
 		data["blocked_user"] = blockedUser

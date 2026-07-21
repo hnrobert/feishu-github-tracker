@@ -4,10 +4,6 @@ package handler
 func prepareIssueDependenciesData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract blocked issue info
 	if blockedIssue, ok := payload["blocked_issue"].(map[string]any); ok {
 		data["blocked_issue"] = blockedIssue

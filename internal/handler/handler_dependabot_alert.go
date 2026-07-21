@@ -6,7 +6,4 @@ func prepareDependabotAlertData(data map[string]any, payload map[string]any) {
 	if alert, ok := payload["alert"].(map[string]any); ok {
 		data["dependabot_alert"] = alert
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

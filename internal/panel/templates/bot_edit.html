@@ -1,0 +1,30 @@
+{{define "title"}}编辑机器人 · Feishu Bot{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>{{if lt .EditBot.Index 0}}新建机器人 / New Bot{{else}}编辑机器人 / Edit Bot{{end}}</h2>
+  <div class="sub">别名用于在仓库规则中引用此机器人。 / The alias is how repo rules reference this bot.</div>
+</div>
+
+<form method="post" action="/bots/save" class="card">
+  <input type="hidden" name="index" value="{{.EditBot.Index}}" />
+
+  <label>别名 / Alias</label>
+  <input type="text" name="alias" value="{{.EditBot.Alias}}" placeholder="dev-team" required />
+
+  <label>Webhook URL</label>
+  <input type="url" name="url" value="{{.EditBot.URL}}" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxx" required />
+
+  <label>模板 / Template <span class="muted">(可选 / optional，默认 default)</span></label>
+  <select name="template">
+    <option value="">default</option>
+    {{range .Templates}}
+    <option value="{{.}}" {{if eq . $.EditBot.Template}}selected{{end}}>{{.}}</option>
+    {{end}}
+  </select>
+
+  <div class="actions" style="margin-top:18px;">
+    <button class="btn primary" type="submit">保存 / Save</button>
+    <a class="btn" href="/bots">取消 / Cancel</a>
+  </div>
+</form>
+{{end}}

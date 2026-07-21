@@ -17,3 +17,33 @@ allowed_sources:
   - "github.com"
   - "api.github.com"
   - "your-github-enterprise-domain.com"
+
+# =========================================
+# 管理面板 / Management Panel
+# -----------------------------------------
+# 可选。配置管理员账号密码后，可在 http://<host>:<port>/ 访问 Web 管理面板。
+# Optional. Once an admin account is configured, the web panel is available at http://<host>:<port>/.
+#
+# 默认账号 / Default account: 用户名 / username = admin，密码 / password = admin
+#   · 老版本升级时若未配置面板账号，也会自动使用 admin / admin。
+#   · Upgraders without a panel account also get admin / admin by default.
+#
+# 设置管理员密码的方式（任选其一）/ Set the admin password (any one):
+#   1) 环境变量 / env PANEL_PASSWORD（明文，登录时自动 bcrypt 哈希）—— 推荐 / recommended
+#   2) password：明文。若出现这一项，则【优先】使用它。/ plaintext; if present, this TAKES PRIORITY.
+#      程序在启动 / reload 时会自动将其转换为 password_hash（覆盖原有 hash），然后删除该明文行。
+#      On startup / reload it is auto-converted to password_hash (overwriting any existing hash),
+#      then the plaintext line is removed (and a `# password: "admin"` hint comment is added).
+#   3) password_hash：bcrypt 哈希。可用 htpasswd 生成 / generate with htpasswd:
+#        htpasswd -bnBC 10 "" YOUR_PASSWORD | tr -d ':\n' | sed 's/^\$2y/\$2a/'
+#
+# 用户名 / Username: 默认 admin；可用 username 自定义，或环境变量 PANEL_USERNAME 覆盖。
+#   defaults to "admin"; override via username or the PANEL_USERNAME env var.
+panel:
+  enabled: true
+  username: "admin" # 登录用户名 / login username (default: admin)
+  password: "admin" # 默认明文密码；启动/reload 时会自动转为 password_hash 并删除此行 / default plaintext; auto-converted to password_hash on load
+  secret: "change-me-panel-jwt-secret" # JWT 签名密钥；留空则每次启动随机生成（会登出所有人）/ JWT secret; blank => ephemeral per restart
+
+
+

@@ -4,10 +4,6 @@ package handler
 func prepareMergeGroupData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract merge group info
 	if mergeGroup, ok := payload["merge_group"].(map[string]any); ok {
 		data["merge_group"] = mergeGroup

@@ -11,7 +11,4 @@ func prepareProjectData(data map[string]any, payload map[string]any) {
 			data["project_url"] = url
 		}
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

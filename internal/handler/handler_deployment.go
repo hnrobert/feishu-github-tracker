@@ -11,7 +11,4 @@ func prepareDeploymentData(data map[string]any, payload map[string]any) {
 			data["deployment_url"] = url
 		}
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

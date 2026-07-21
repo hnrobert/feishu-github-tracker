@@ -6,7 +6,4 @@ func prepareRepositoryRulesetData(data map[string]any, payload map[string]any) {
 	if ruleset, ok := payload["ruleset"].(map[string]any); ok {
 		data["repository_ruleset"] = ruleset
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

@@ -1,0 +1,72 @@
+{{define "title"}}仪表盘 · Dashboard{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>仪表盘 / Dashboard</h2>
+  <div class="sub">配置概览与最近投递活动。 / Configuration overview and recent delivery activity.</div>
+</div>
+
+<div class="grid four" style="margin-bottom:16px;">
+  <div class="stat">
+    <div class="num">{{.RepoCount}}</div>
+    <div class="label">仓库规则 / Repo rules</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{.BotCount}}</div>
+    <div class="label">飞书机器人 / Feishu bots</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{.EventSetCount}}</div>
+    <div class="label">事件集合 / Event sets</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{len .TemplateFiles}}</div>
+    <div class="label">模板文件 / Template files</div>
+  </div>
+</div>
+
+<div class="grid two">
+  <div class="card">
+    <h3>服务信息 / Server</h3>
+    <div class="kv" style="margin-top:12px;">
+      <div class="k">监听 / Listen</div>
+      <div><code>{{.ServerInfo.Host}}:{{.ServerInfo.Port}}</code></div>
+      <div class="k">日志级别 / Log level</div>
+      <div>{{if .ServerInfo.LogLevel}}{{.ServerInfo.LogLevel}}{{else}}—{{end}}</div>
+      <div class="k">超时 / Timeout</div>
+      <div>{{if .ServerInfo.Timeout}}{{.ServerInfo.Timeout}}s{{else}}—{{end}}</div>
+      <div class="k">最大载荷 / Max payload</div>
+      <div>{{if .ServerInfo.MaxPayloadSize}}{{.ServerInfo.MaxPayloadSize}}{{else}}—{{end}}</div>
+      <div class="k">面板 / Panel</div>
+      <div>{{if .ServerInfo.PanelEnabled}}<span class="pill">已启用 / enabled</span>{{else}}<span class="pill muted">未启用 / disabled</span>{{end}}</div>
+      <div class="k">允许来源 / Allowed</div>
+      <div>
+        {{if .ServerInfo.AllowedSources}}{{range .ServerInfo.AllowedSources}}<span class="pill muted">{{.}}</span>{{end}}{{else}}—{{end}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>模板文件 / Template files</h3>
+    {{if .TemplateFiles}}
+    <div class="actions" style="margin-top:12px;">
+      {{range .TemplateFiles}}<span class="pill">{{.}}</span>{{end}}
+    </div>
+    {{else}}
+    <div class="empty">无模板文件 / none</div>
+    {{end}}
+    <div class="note">在「消息模板 / Templates」页面编辑各事件卡片。 / Edit per-event cards under Templates.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>最近投递 / Recent deliveries</h3>
+  <div class="muted" style="font-size:12px; margin-bottom:8px;">来自日志文件尾部（只读）。 / Tailed from the log file (read-only).</div>
+  {{if .RecentLines}}
+  <div style="background:var(--bg-soft); border:1px solid var(--border); border-radius:10px; padding:12px;">
+    {{range .RecentLines}}<div style="font-family:ui-monospace,Menlo,monospace; font-size:12px; line-height:1.7; white-space:pre-wrap; word-break:break-all;">{{.}}</div>{{end}}
+  </div>
+  {{else}}
+  <div class="empty">暂无投递记录 / no recent activity</div>
+  {{end}}
+</div>
+{{end}}

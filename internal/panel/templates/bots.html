@@ -1,0 +1,47 @@
+{{define "title"}}飞书机器人 · Feishu Bots{{end}}
+{{define "content"}}
+<div class="pageHead" style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap;">
+  <div>
+    <h2>飞书机器人 / Feishu Bots</h2>
+    <div class="sub">机器人别名与 Webhook URL，在仓库规则中以 alias 引用。 / Bot aliases + webhook URLs, referenced by alias in repo rules.</div>
+  </div>
+  <a class="btn primary" href="/bots/new">+ 新建 / New</a>
+</div>
+
+<div class="card">
+  {{if .Bots}}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>别名 / Alias</th>
+        <th>Webhook URL</th>
+        <th>模板 / Template</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Bots}}
+      <tr>
+        <td>{{.Index}}</td>
+        <td><code>{{.Alias}}</code></td>
+        <td><span style="word-break:break-all; font-size:12px;">{{.URL}}</span></td>
+        <td>{{if .Template}}<span class="pill">{{.Template}}</span>{{else}}<span class="pill muted">default</span>{{end}}</td>
+        <td>
+          <div class="actions" style="justify-content:flex-end;">
+            <a class="btn small" href="/bots/edit?index={{.Index}}">编辑 / Edit</a>
+            <form method="post" action="/bots/delete" style="margin:0;">
+              <input type="hidden" name="index" value="{{.Index}}" />
+              <button class="btn small danger" type="submit" onclick="return confirm('删除该机器人？ / Delete this bot?');">删除</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="empty">暂无机器人，点击「新建」添加。 / No bots yet — click “New”.</div>
+  {{end}}
+</div>
+{{end}}

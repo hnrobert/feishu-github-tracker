@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"io"
@@ -17,6 +18,7 @@ import (
 	"github.com/hnrobert/feishu-github-tracker/internal/handler"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
+	"github.com/hnrobert/feishu-github-tracker/internal/panel"
 )
 
 func main() {
@@ -81,6 +83,22 @@ func main() {
 		h.EnableHotReload(configDir)
 	}
 
+	// Normalize the panel password once at startup: if server.yaml has a
+	// plaintext panel.password, convert it to password_hash and drop the
+	// plaintext line. Also run on each hot-reload so manual edits are converted.
+	if changed, err := panel.NormalizePanelPassword(configDir); err != nil {
+		logger.Warn("Panel password normalization failed: %v", err)
+	} else if changed {
+		logger.Info("Converted panel plaintext password to password_hash")
+	}
+	h.OnReload = func(dir string) {
+		if changed, err := panel.NormalizePanelPassword(dir); err != nil {
+			logger.Warn("Panel password normalization failed: %v", err)
+		} else if changed {
+			logger.Info("Converted panel plaintext password to password_hash")
+		}
+	}
+
 	// Setup HTTP server
 	mux := http.NewServeMux()
 	mux.Handle("/webhook", h)
@@ -88,6 +106,22 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
 	})
+
+	// Mount the web management panel at "/" (ServeMux longest-prefix matching
+	// keeps /webhook and /health routed to their handlers above). The panel
+	// resolves admin username/password from server.yaml + env on each login.
+	panelApp, err := panel.New(panel.Options{
+		ConfigDir: configDir,
+		LogDir:    logDir,
+		JWTSecret: resolvePanelSecret(cfg),
+		OnSave:    h.Reload, // reload running config after any panel edit
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to initialize panel: %v\n", err)
+		os.Exit(1)
+	}
+	logger.Info("Management panel mounted at / (default login: admin / admin)")
+	mux.Handle("/", panelApp)
 
 	srv := NewServer(cfg, mux)
 
@@ -208,4 +242,32 @@ func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
 		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
 		IdleTimeout:  60 * time.Second,
 	}
+}
+
+// resolvePanelSecret derives the panel JWT signing secret. Precedence:
+// PANEL_JWT_SECRET env > server.yaml panel.secret > nil (the panel then uses
+// an ephemeral random secret, which logs everyone out on restart).
+//
+// Admin username/password are resolved by the panel itself on each login from
+// the same sources, so they don't need to be passed at startup.
+func resolvePanelSecret(cfg *config.Config) []byte {
+	secretText := os.Getenv("PANEL_JWT_SECRET")
+	if secretText == "" {
+		secretText = cfg.Server.Panel.Secret
+	}
+	if secretText == "" {
+		return nil
+	}
+	var secret []byte
+	if decoded, err := base64.RawURLEncoding.DecodeString(secretText); err == nil {
+		secret = decoded
+	} else {
+		secret = []byte(secretText)
+	}
+	if len(secret) < 16 {
+		pad := make([]byte, 16)
+		copy(pad, secret)
+		secret = pad
+	}
+	return secret
 }

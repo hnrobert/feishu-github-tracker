@@ -8,7 +8,4 @@ func prepareSecurityAdvisoryData(data map[string]any, payload map[string]any) {
 			data["security_advisory_id"] = ghsa
 		}
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

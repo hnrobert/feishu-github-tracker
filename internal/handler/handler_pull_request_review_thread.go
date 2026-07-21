@@ -4,10 +4,6 @@ package handler
 func preparePullRequestReviewThreadData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract pull request info
 	if pr, ok := payload["pull_request"].(map[string]any); ok {
 		data["pull_request"] = pr

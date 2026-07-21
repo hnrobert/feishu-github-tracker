@@ -4,10 +4,6 @@ package handler
 func prepareInstallationTargetData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract account info
 	if account, ok := payload["account"].(map[string]any); ok {
 		data["account"] = account

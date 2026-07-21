@@ -3528,7 +3528,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Issue:** #{{issue.number}} {{issue.title}}\n**Comment:** {{comment.body}}\n"
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**Comment:** {{comment.body}}\n"
                   }
                 },
                 {
@@ -8626,9 +8626,6 @@
                   }
                 },
                 {
-                  "tag": "hr"
-                },
-                {
                   "tag": "action",
                   "actions": [
                     {
@@ -8738,9 +8735,6 @@
                   }
                 },
                 {
-                  "tag": "hr"
-                },
-                {
                   "tag": "action",
                   "actions": [
                     {
@@ -8817,7 +8811,7 @@
               "header": {
                 "title": {
                   "tag": "plain_text",
-                  "content": "� Pull Request Updated"
+                  "content": "🔄 Pull Request Updated"
                 },
                 "template": "blue"
               },

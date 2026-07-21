@@ -4,10 +4,6 @@ package handler
 func prepareProjectsV2StatusUpdateData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract status update info
 	if statusUpdate, ok := payload["projects_v2_status_update"].(map[string]any); ok {
 		data["projects_v2_status_update"] = statusUpdate

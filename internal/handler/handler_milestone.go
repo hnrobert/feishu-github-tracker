@@ -11,7 +11,4 @@ func prepareMilestoneData(data map[string]any, payload map[string]any) {
 			data["milestone_description"] = desc
 		}
 	}
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
 }

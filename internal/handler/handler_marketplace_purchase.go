@@ -4,10 +4,6 @@ package handler
 func prepareMarketplacePurchaseData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 
-	if action, ok := payload["action"].(string); ok {
-		data["action"] = action
-	}
-
 	// Extract marketplace purchase info
 	if purchase, ok := payload["marketplace_purchase"].(map[string]any); ok {
 		data["marketplace_purchase"] = purchase
