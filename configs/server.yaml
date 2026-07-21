@@ -39,11 +39,18 @@ allowed_sources:
 #
 # 用户名 / Username: 默认 admin；可用 username 自定义，或环境变量 PANEL_USERNAME 覆盖。
 #   defaults to "admin"; override via username or the PANEL_USERNAME env var.
+#
+# public_url（可选）：面板/服务的公网基地址（含协议，如 https://example.com）。
+#   配置后，仪表盘「添加 GitHub Webhook」指南会直接展示该地址作为 Payload URL。
+#   若服务在 TLS 反向代理后（代理未转发 X-Forwarded-Proto），设置此项可确保生成 https 链接。
+#   public_url (optional): canonical public base URL incl. scheme. Shown as the Payload URL in the
+#   dashboard guide; set it when behind a TLS proxy that doesn't forward X-Forwarded-Proto.
 panel:
   enabled: true
   username: "admin" # 登录用户名 / login username (default: admin)
   password: "admin" # 默认明文密码；启动/reload 时会自动转为 password_hash 并删除此行 / default plaintext; auto-converted to password_hash on load
   secret: "change-me-panel-jwt-secret" # JWT 签名密钥；留空则每次启动随机生成（会登出所有人）/ JWT secret; blank => ephemeral per restart
+  # public_url: "https://feishu-github-tracker.example.com" # 可选 / optional
 
 
 

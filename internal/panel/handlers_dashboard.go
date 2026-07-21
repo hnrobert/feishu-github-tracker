@@ -13,7 +13,8 @@ import (
 func (a *App) handleDashboard(w http.ResponseWriter, r *http.Request) {
 	data := a.baseData(r)
 
-	if cfg, err := a.loadConfig(); err == nil {
+	cfg, _ := a.loadConfig()
+	if cfg != nil {
 		data.RepoCount = len(cfg.Repos.Repos)
 		data.BotCount = len(cfg.FeishuBots.FeishuBots)
 		data.EventSetCount = len(cfg.Events.EventSets)
@@ -23,32 +24,73 @@ func (a *App) handleDashboard(w http.ResponseWriter, r *http.Request) {
 		data.TemplateFiles = sortedStrings(data.TemplateFiles)
 		data.ServerInfo = serverInfoFrom(cfg)
 	}
-	// Public /webhook URL for the setup guide. Empty (hidden) when the panel is
-	// accessed via localhost / loopback / private IP, since such an address
-	// isn't reachable by GitHub.
-	data.PayloadURL = payloadURLFor(r)
+	// /webhook URL for the setup guide: prefer panel.public_url, else derive
+	// from the request (hidden when accessed locally).
+	publicURL := ""
+	if cfg != nil {
+		publicURL = cfg.Server.Panel.PublicURL
+	}
+	data.PayloadURL = payloadURLFor(r, publicURL)
 	data.RecentLines = readRecentLogLines(a.logDir, 20)
 
 	a.renderPage(w, "dashboard", data)
 }
 
-// payloadURLFor returns the public /webhook URL based on the request Host (and
-// forwarded-proto), or "" when the access host is local (localhost / loopback /
-// private / link-local), in which case the guide hides the URL.
-func payloadURLFor(r *http.Request) string {
+// payloadURLFor returns the /webhook URL to show in the setup guide.
+//
+//   - If publicURL (panel.public_url) is set, it is used verbatim (always shown,
+//     even on local access), so the operator can pin the canonical address and
+//     scheme — useful behind a TLS-terminating proxy that doesn't forward the
+//     original scheme.
+//   - Otherwise the URL is derived from the request Host + detected scheme; it
+//     is hidden ("") when accessed via localhost / loopback / private IP.
+func payloadURLFor(r *http.Request, publicURL string) string {
+	if pu := strings.TrimSpace(publicURL); pu != "" {
+		return joinWebhook(pu)
+	}
 	host := r.Host
 	if host == "" {
 		return ""
 	}
-	hostName := portlessHost(host)
-	if isLocalHost(hostName) {
+	if isLocalHost(portlessHost(host)) {
 		return ""
 	}
-	scheme := "http"
-	if r.TLS != nil || strings.EqualFold(r.Header.Get("X-Forwarded-Proto"), "https") {
-		scheme = "https"
+	return requestScheme(r) + "://" + host + "/webhook"
+}
+
+// joinWebhook ensures base ends with /webhook.
+func joinWebhook(base string) string {
+	base = strings.TrimRight(strings.TrimSpace(base), "/")
+	if base == "" {
+		return ""
 	}
-	return scheme + "://" + host + "/webhook"
+	if strings.HasSuffix(strings.ToLower(base), "/webhook") {
+		return base
+	}
+	return base + "/webhook"
+}
+
+// requestScheme detects http vs https, trusting forwarded headers set by a
+// TLS-terminating proxy/reverse proxy (the Go server itself usually listens on
+// plain HTTP behind one), then falling back to r.TLS.
+func requestScheme(r *http.Request) string {
+	for _, h := range []string{"X-Forwarded-Proto", "X-Forwarded-Scheme", "X-Forwarded-Protocol"} {
+		if v := strings.ToLower(strings.TrimSpace(r.Header.Get(h))); v != "" {
+			if strings.HasPrefix(v, "https") {
+				return "https"
+			}
+			if strings.HasPrefix(v, "http") {
+				return "http"
+			}
+		}
+	}
+	if cf := strings.ToLower(r.Header.Get("CF-Visitor")); strings.Contains(cf, `"scheme":"https"`) {
+		return "https"
+	}
+	if r.TLS != nil {
+		return "https"
+	}
+	return "http"
 }
 
 // portlessHost strips the port from a Host header value, tolerating bracketed

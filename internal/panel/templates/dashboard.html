@@ -39,17 +39,18 @@
     <strong>2. 添加 GitHub Webhook / Add a GitHub webhook</strong>
     <ol class="guide">
       <li>GitHub 仓库 → <code>Settings</code> → <code>Webhooks</code> → <code>Add webhook</code>。</li>
-      <li><code>Payload URL</code> 填下方地址；<code>Content type</code> 选什么都支持；<code>Secret</code> 填你在 <code>server.yaml</code> 或对应仓库规则里配置的 secret（若有）。</li>
+      <li><code>Payload URL</code> 填下方地址；<code>Content type</code> 选什么都支持；<code>Secret</code> 填你在 <code>server.yaml</code> 或对应仓库规则里配置的 secret（若有）。
+        {{if .PayloadURL}}
+        <div class="codeblock" style="margin-top:8px;">
+          <code id="payload-url">{{.PayloadURL}}</code>
+          <button type="button" class="btn small" onclick="copyText('payload-url', this)">复制 / Copy</button>
+        </div>
+        {{else}}
+        <div class="note" style="margin-top:8px;">当前通过本地地址（localhost / 内网 IP）访问，无法生成可被 GitHub 访问的 Payload URL。请通过公网域名 / 公网 IP 访问本面板，或在 <code>server.yaml</code> 中配置 <code>panel.public_url</code>。 / Accessed locally — open via a public host, or set <code>panel.public_url</code>.</div>
+        {{end}}
+      </li>
       <li>选择要监听的事件并保存，再到 <a href="/repos">仓库规则 / Repos</a> 配置监听与通知目标。</li>
     </ol>
-    {{if .PayloadURL}}
-    <div class="codeblock">
-      <code id="payload-url">{{.PayloadURL}}</code>
-      <button type="button" class="btn small" onclick="copyText('payload-url', this)">复制 / Copy</button>
-    </div>
-    {{else}}
-    <div class="note">当前通过本地地址（localhost / 内网 IP）访问，无法生成可被 GitHub 访问的 Payload URL。请通过公网域名或公网 IP 访问本面板后再复制。 / Accessed locally — open this panel via a public host to get a reachable Payload URL.</div>
-    {{end}}
   </div>
 </div>
 
