@@ -73,7 +73,7 @@ http://localhost:4594/health
   - 密码（优先级从高到低）：
     - 环境变量（推荐）：`PANEL_PASSWORD=你的密码`
     - `panel.password`（明文）：**存在则优先使用**；启动 / reload 时会自动转为 `password_hash`（覆盖原 hash）、删除该明文行并补回 `# password: "admin"` 注释
-    - `panel.password_hash`（bcrypt；可用 `htpasswd -bnBC 10 "" 你的密码 | tr -d ':\n' | sed 's/^\$2y/\$2a/'` 生成）
+    - `panel.password_hash`（直接填 `sha256(密码)` 的十六进制：`printf '%s' '你的密码' | openssl dgst -sha256 | awk '{print $NF}'`；浏览器登录时会发送同样的 SHA-256 值，已有的 password_hash 不会失效；旧版 bcrypt 哈希也兼容）
   - 修改密码需先填「当前密码」校验通过后才生效；保存后下次登录即用新账号，无需重启
 - 面板内修改保存后会自动 reload 生效（无需等下一次 webhook 或重启）；手动编辑 `./configs/` 则需以 `--reload` 启动或重启进程。端口 / 密钥的改动仍需重启
 - 注意：在「消息模板」页保存 `templates.*.jsonc` 会移除文件中的 `//` 注释并按字母重排键（功能不变）

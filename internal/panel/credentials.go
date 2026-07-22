@@ -9,14 +9,14 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// resolveCredentials returns the effective admin username and bcrypt password
-// hash for login, resolved fresh from the current server.yaml + environment.
+// resolveCredentials returns the effective admin username and password_hash
+// for login, resolved fresh from the current server.yaml + environment.
 //
 // Password precedence:
 //  1. PANEL_PASSWORD env (plaintext, hashed here)
 //  2. server.yaml panel.password (plaintext, hashed here) — takes priority over
 //     password_hash so an operator can rotate by setting a new plaintext value
-//  3. server.yaml panel.password_hash (bcrypt)
+//  3. server.yaml panel.password_hash (sha256 hex, or legacy bcrypt)
 //  4. fallback "admin" (so upgraders with no panel config can log in as admin/admin)
 //
 // Username precedence: PANEL_USERNAME env > panel.username > "admin".
@@ -38,20 +38,14 @@ func resolveCredentials(cfgDir string) (username string, passHash []byte) {
 
 	switch {
 	case os.Getenv("PANEL_PASSWORD") != "":
-		if h, err := auth.HashPassword(os.Getenv("PANEL_PASSWORD")); err == nil {
-			passHash = []byte(h)
-		}
+		passHash = []byte(auth.HashPlaintext(os.Getenv("PANEL_PASSWORD")))
 	case pc.Password != "":
-		if h, err := auth.HashPassword(pc.Password); err == nil {
-			passHash = []byte(h)
-		}
+		passHash = []byte(auth.HashPlaintext(pc.Password))
 	case pc.PasswordHash != "":
 		passHash = []byte(pc.PasswordHash)
 	default:
 		// No password configured at all (e.g. upgraders): default to "admin".
-		if h, err := auth.HashPassword("admin"); err == nil {
-			passHash = []byte(h)
-		}
+		passHash = []byte(auth.HashPlaintext("admin"))
 	}
 	return username, passHash
 }
@@ -98,10 +92,7 @@ func NormalizePanelPassword(cfgDir string) (changed bool, err error) {
 		return false, nil
 	}
 
-	hash, err := auth.HashPassword(pwNode.Value)
-	if err != nil {
-		return false, err
-	}
+	hash := auth.HashPlaintext(pwNode.Value)
 
 	mapDelete(panel, "password")
 	setPanelHashWithHint(panel, hash)
@@ -129,7 +120,8 @@ func setPanelHashWithHint(panel *yaml.Node, hash string) {
 	reorderPanel(panel)
 }
 
-// SetPanelPasswordHash writes a new bcrypt hash as panel.password_hash, removes
+// SetPanelPasswordHash writes the given password_hash (sha256 of the password,
+// as produced by the browser) as panel.password_hash, removes
 // any plaintext panel.password, and ensures the `# password: "admin"` hint
 // comment is present. Used by the panel's "change password" form. Other content
 // and comments in server.yaml are preserved.

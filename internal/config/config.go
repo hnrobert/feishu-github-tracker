@@ -40,7 +40,7 @@ type PanelConfig struct {
 	Enabled      bool   `yaml:"enabled,omitempty"`
 	Username     string `yaml:"username,omitempty"`      // admin login username; defaults to "admin"
 	Password     string `yaml:"password,omitempty"`      // plaintext password (hashed at runtime); convenient but less secure
-	PasswordHash string `yaml:"password_hash,omitempty"` // bcrypt hash; preferred over Password
+	PasswordHash string `yaml:"password_hash,omitempty"` // sha256(password) hex (legacy bcrypt also accepted); preferred over Password
 	Secret       string `yaml:"secret,omitempty"`        // JWT signing secret; falls back to an ephemeral random secret
 	PublicURL    string `yaml:"public_url,omitempty"`    // optional canonical public base URL (scheme+host[:port]) for the dashboard guide
 }

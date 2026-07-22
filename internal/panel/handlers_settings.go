@@ -95,14 +95,10 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 2. Persist password rotation (separate write: hashing + hint comment).
+	// 2. Persist password rotation. newPassword is already the SHA-256
+	//    password_hash produced by the browser, so store it directly.
 	if passwordChanged {
-		hash, err := auth.HashPassword(newPassword)
-		if err != nil {
-			a.redirectFlash(w, r, "/settings", "密码哈希失败: "+err.Error(), "err")
-			return
-		}
-		if err := SetPanelPasswordHash(a.cfgDir, hash); err != nil {
+		if err := SetPanelPasswordHash(a.cfgDir, newPassword); err != nil {
 			a.redirectFlash(w, r, "/settings", "密码保存失败: "+err.Error(), "err")
 			return
 		}
