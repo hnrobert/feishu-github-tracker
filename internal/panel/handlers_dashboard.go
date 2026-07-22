@@ -71,11 +71,17 @@ func joinWebhook(base string) string {
 	return base + "/webhook"
 }
 
-// requestScheme detects http vs https. In order of preference: explicit
-// forwarded headers (set by a TLS-terminating proxy), a direct TLS connection,
-// Cloudflare's CF-Visitor, then the Referer header — a same-origin Referer
-// carries the real public scheme even when the proxy chain (e.g. Caddy→nginx)
-// doesn't forward X-Forwarded-Proto. Last resort is http.
+// requestScheme detects http vs https. This only runs for non-local hosts
+// (local access hides the URL earlier), so the final fallback assumes https —
+// the modern default for any public address — when no explicit signal is
+// present. Order of preference:
+//  1. Forwarded scheme headers (X-Forwarded-Proto/Scheme/Protocol) from a
+//     TLS-terminating proxy.
+//  2. Direct TLS (r.TLS).
+//  3. Cloudflare CF-Visitor.
+//  4. Browser same-origin signals: Origin / Referer carry the public scheme
+//     even when the proxy chain (e.g. Caddy→nginx) drops X-Forwarded-Proto.
+//  5. https (public host default).
 func requestScheme(r *http.Request) string {
 	for _, h := range []string{"X-Forwarded-Proto", "X-Forwarded-Scheme", "X-Forwarded-Protocol"} {
 		if v := strings.ToLower(strings.TrimSpace(r.Header.Get(h))); v != "" {
@@ -93,12 +99,31 @@ func requestScheme(r *http.Request) string {
 	if cf := strings.ToLower(r.Header.Get("CF-Visitor")); strings.Contains(cf, `"scheme":"https"`) {
 		return "https"
 	}
-	if ref := r.Referer(); ref != "" {
-		if u, err := url.Parse(ref); err == nil && u.IsAbs() && sameHost(u.Host, r.Host) {
-			return u.Scheme
-		}
+	if s := browserScheme(r, "Origin"); s != "" {
+		return s
 	}
-	return "http"
+	if s := browserScheme(r, "Referer"); s != "" {
+		return s
+	}
+	return "https"
+}
+
+// browserScheme extracts the scheme from a browser-set header (Origin or
+// Referer) when it is absolute and same-origin with the request host; "" when
+// absent, relative, or cross-origin (don't trust a cross-origin origin).
+func browserScheme(r *http.Request, header string) string {
+	v := strings.TrimSpace(r.Header.Get(header))
+	if v == "" {
+		return ""
+	}
+	u, err := url.Parse(v)
+	if err != nil || !u.IsAbs() {
+		return ""
+	}
+	if !sameHost(u.Host, r.Host) {
+		return ""
+	}
+	return u.Scheme
 }
 
 // sameHost compares two host[:port] values ignoring port and case.
