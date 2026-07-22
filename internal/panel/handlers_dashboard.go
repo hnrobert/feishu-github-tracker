@@ -75,14 +75,25 @@ func joinWebhook(base string) string {
 // (local access hides the URL earlier), so the final fallback assumes https —
 // the modern default for any public address — when no explicit signal is
 // present. Order of preference:
-//  1. Forwarded scheme headers (X-Forwarded-Proto/Scheme/Protocol) from a
-//     TLS-terminating proxy.
-//  2. Direct TLS (r.TLS).
-//  3. Cloudflare CF-Visitor.
-//  4. Browser same-origin signals: Origin / Referer carry the public scheme
-//     even when the proxy chain (e.g. Caddy→nginx) drops X-Forwarded-Proto.
+//  1. Direct TLS (r.TLS).
+//  2. Browser same-origin signals: Origin (preferred) and Referer. These carry
+//     the real public scheme as the browser sees it, and are trusted ABOVE
+//     X-Forwarded-Proto because a chained proxy (e.g. Caddy→nginx) can forward
+//     a wrong proto (nginx may report the http hop from Caddy, not the public
+//     https).
+//  3. Forwarded scheme headers (X-Forwarded-Proto/Scheme/Protocol).
+//  4. Cloudflare CF-Visitor.
 //  5. https (public host default).
 func requestScheme(r *http.Request) string {
+	if r.TLS != nil {
+		return "https"
+	}
+	if s := browserScheme(r, "Origin"); s != "" {
+		return s
+	}
+	if s := browserScheme(r, "Referer"); s != "" {
+		return s
+	}
 	for _, h := range []string{"X-Forwarded-Proto", "X-Forwarded-Scheme", "X-Forwarded-Protocol"} {
 		if v := strings.ToLower(strings.TrimSpace(r.Header.Get(h))); v != "" {
 			if strings.HasPrefix(v, "https") {
@@ -93,17 +104,8 @@ func requestScheme(r *http.Request) string {
 			}
 		}
 	}
-	if r.TLS != nil {
-		return "https"
-	}
 	if cf := strings.ToLower(r.Header.Get("CF-Visitor")); strings.Contains(cf, `"scheme":"https"`) {
 		return "https"
-	}
-	if s := browserScheme(r, "Origin"); s != "" {
-		return s
-	}
-	if s := browserScheme(r, "Referer"); s != "" {
-		return s
 	}
 	return "https"
 }
