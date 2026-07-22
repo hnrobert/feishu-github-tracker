@@ -534,7 +534,7 @@
     }
 
     .foot {
-      padding: 20px 30px 30px;
+      padding: 20px 0 0;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.7;
@@ -738,6 +738,11 @@
         {{end}}
 
         {{block "content" .}}{{end}}
+
+        <div class="foot">
+          Feishu GitHub Tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
+          面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。 / Panel edits auto-reload on save; hand-edited files apply via <code>-reload</code> or restart.
+        </div>
       </div>
     </main>
   </div>
@@ -750,11 +755,6 @@
       </div>
       {{template "nav" .}}
     </div>
-  </div>
-
-  <div class="foot">
-    Feishu GitHub Tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
-    面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。 / Panel edits auto-reload on save; hand-edited files apply via <code>-reload</code> or restart.
   </div>
   {{end}}
   <script>
