@@ -66,6 +66,7 @@
         "Pipfile",
         "pixi",
         "pname",
+        "portless",
         "postrotate",
         "prereleased",
         "ptag",

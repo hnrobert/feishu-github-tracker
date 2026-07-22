@@ -3,6 +3,7 @@ package panel
 import (
 	"net"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
@@ -70,9 +71,11 @@ func joinWebhook(base string) string {
 	return base + "/webhook"
 }
 
-// requestScheme detects http vs https, trusting forwarded headers set by a
-// TLS-terminating proxy/reverse proxy (the Go server itself usually listens on
-// plain HTTP behind one), then falling back to r.TLS.
+// requestScheme detects http vs https. In order of preference: explicit
+// forwarded headers (set by a TLS-terminating proxy), a direct TLS connection,
+// Cloudflare's CF-Visitor, then the Referer header — a same-origin Referer
+// carries the real public scheme even when the proxy chain (e.g. Caddy→nginx)
+// doesn't forward X-Forwarded-Proto. Last resort is http.
 func requestScheme(r *http.Request) string {
 	for _, h := range []string{"X-Forwarded-Proto", "X-Forwarded-Scheme", "X-Forwarded-Protocol"} {
 		if v := strings.ToLower(strings.TrimSpace(r.Header.Get(h))); v != "" {
@@ -84,13 +87,23 @@ func requestScheme(r *http.Request) string {
 			}
 		}
 	}
-	if cf := strings.ToLower(r.Header.Get("CF-Visitor")); strings.Contains(cf, `"scheme":"https"`) {
-		return "https"
-	}
 	if r.TLS != nil {
 		return "https"
 	}
+	if cf := strings.ToLower(r.Header.Get("CF-Visitor")); strings.Contains(cf, `"scheme":"https"`) {
+		return "https"
+	}
+	if ref := r.Referer(); ref != "" {
+		if u, err := url.Parse(ref); err == nil && u.IsAbs() && sameHost(u.Host, r.Host) {
+			return u.Scheme
+		}
+	}
 	return "http"
+}
+
+// sameHost compares two host[:port] values ignoring port and case.
+func sameHost(a, b string) bool {
+	return strings.EqualFold(portlessHost(a), portlessHost(b))
 }
 
 // portlessHost strips the port from a Host header value, tolerating bracketed
