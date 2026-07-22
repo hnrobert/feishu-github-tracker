@@ -66,7 +66,6 @@
 
     html {
       background-color: var(--bg);
-      overflow-x: hidden;
     }
 
     body {
@@ -74,8 +73,6 @@
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       background: radial-gradient(1200px 600px at 20% -10%, #eaf4fd 0%, var(--bg) 55%);
       color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -116,7 +113,8 @@
 
     .shell {
       display: flex;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .sidebar {
@@ -125,8 +123,6 @@
       border-right: 1px solid var(--border);
       background: var(--bg-soft);
       padding: 18px 14px;
-      position: sticky;
-      top: 0;
       height: 100vh;
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -210,6 +206,9 @@
     .main {
       flex: 1 1 auto;
       min-width: 0;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding: 26px 30px 60px;
     }
 
@@ -666,14 +665,25 @@
         display: flex;
       }
 
+      /* On mobile the sidebar is hidden, so drop the fixed-height app-shell and
+         let the page scroll normally (the sticky mobileTop stays put). */
+      .shell {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+      }
+
+      .main {
+        height: auto;
+        overflow: visible;
+        padding: 16px 16px 50px;
+      }
+
       .grid.two,
       .grid.three,
       .grid.four {
         grid-template-columns: 1fr;
-      }
-
-      .main {
-        padding: 16px 16px 50px;
       }
 
       .row>* {
