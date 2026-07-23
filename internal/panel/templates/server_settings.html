@@ -73,7 +73,9 @@
 </form>
 <script>
   // SHA-256 hash the password fields in the browser before submit so plaintext
-  // never travels to the server. sha256Hex is defined in the layout.
+  // never travels to the server. Hashes are placed in hidden fields and the
+  // visible fields' names are dropped, so nothing visible changes (the user
+  // keeps seeing masked dots). sha256Hex/addHidden are defined in the layout.
   (function () {
     var form = document.getElementById('settings-form');
     if (!form) return;
@@ -89,10 +91,16 @@
             confEl.focus();
             return;
           }
-          var hashed = await sha256Hex(newEl.value);
-          newEl.value = hashed;
-          if (confEl) confEl.value = hashed;
-          if (oldEl && oldEl.value) oldEl.value = await sha256Hex(oldEl.value);
+          if (!oldEl || !oldEl.value) {
+            alert('修改密码需填写当前密码 / current password required');
+            oldEl.focus();
+            return;
+          }
+          var newHash = await sha256Hex(newEl.value);
+          var oldHash = await sha256Hex(oldEl.value);
+          addHidden(form, newEl.name, newHash); newEl.removeAttribute('name');
+          addHidden(form, confEl.name, newHash); confEl.removeAttribute('name');
+          addHidden(form, oldEl.name, oldHash); oldEl.removeAttribute('name');
         }
       } catch (err) { return; }
       form.submit();

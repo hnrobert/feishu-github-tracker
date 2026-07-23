@@ -803,6 +803,16 @@
       return sha256Sync(bytes);
     }
 
+    // addHidden appends a hidden input to the form so a hashed value is
+    // submitted without writing the hash into a visible field.
+    function addHidden(form, name, value) {
+      var h = document.createElement('input');
+      h.type = 'hidden';
+      h.name = name;
+      h.value = value;
+      form.appendChild(h);
+    }
+
     // copyText copies the text content of element #id to the clipboard and
     // briefly flips the triggering button's label to "Copied".
     function copyText(id, btn) {

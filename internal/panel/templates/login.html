@@ -20,15 +20,22 @@
 </div>
 <script>
   // Hash the password with SHA-256 in the browser before submit, so the
-  // plaintext never leaves the client. sha256Hex is defined in the layout.
+  // plaintext never leaves the client. The hash goes into a hidden field and
+  // the visible field's name is dropped, so the hash never appears in the input
+  // (the user just sees their masked dots). sha256Hex/addHidden are in layout.
   (function () {
     var form = document.getElementById('login-form');
     if (!form) return;
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       var pw = document.getElementById('login-password');
-      if (!pw || !pw.value) return;
-      try { pw.value = await sha256Hex(pw.value); } catch (err) { return; }
+      if (!pw || !pw.value) { form.submit(); return; }
+      try {
+        var name = pw.name;
+        var hashed = await sha256Hex(pw.value);
+        addHidden(form, name, hashed);
+        pw.removeAttribute('name');
+      } catch (err) { return; }
       form.submit();
     });
   })();
