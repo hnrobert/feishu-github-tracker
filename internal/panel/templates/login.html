@@ -6,16 +6,38 @@
     <h2 style="margin:0;">登录 / Login</h2>
   </div>
   <div class="muted" style="margin-bottom:16px; font-size:13px;">
-    输入管理员密码以进入管理面板。<br />Enter the admin password to access the management panel.
+    <br />输入管理员密码以进入管理面板。<br />Enter the admin password to access the management panel.
   </div>
-  <form method="post" action="/login">
+  <form id="login-form" method="post" action="/login">
     <label>用户名 / Username</label>
-    <input type="text" name="username" autocomplete="username" placeholder="admin" autofocus required />
+    <input type="text" name="username" autocomplete="username" autofocus required />
     <label>管理员密码 / Admin password</label>
-    <input type="password" name="password" autocomplete="current-password" required />
+    <input type="password" name="password" id="login-password" autocomplete="current-password" required />
     <div class="actions" style="justify-content:flex-end; margin-top:18px;">
       <button class="btn primary" type="submit">登录 / Sign in</button>
     </div>
   </form>
 </div>
+<script>
+  // Hash the password with SHA-256 in the browser before submit, so the
+  // plaintext never leaves the client. The hash goes into a hidden field and
+  // the visible field's name is dropped, so the hash never appears in the input
+  // (the user just sees their masked dots). sha256Hex/addHidden are in layout.
+  (function () {
+    var form = document.getElementById('login-form');
+    if (!form) return;
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var pw = document.getElementById('login-password');
+      if (!pw || !pw.value) { form.submit(); return; }
+      try {
+        var name = pw.name;
+        var hashed = await sha256Hex(pw.value);
+        addHidden(form, name, hashed);
+        pw.removeAttribute('name');
+      } catch (err) { return; }
+      form.submit();
+    });
+  })();
+</script>
 {{end}}

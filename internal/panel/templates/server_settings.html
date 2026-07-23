@@ -5,7 +5,7 @@
   <div class="sub">编辑 server.yaml。端口与密钥的修改需重启进程后生效。 / Edit server.yaml. Port and secret changes need a restart.</div>
 </div>
 
-<form method="post" action="/settings/save" class="card">
+<form id="settings-form" method="post" action="/settings/save" class="card">
   <div class="row">
     <div>
       <label>监听主机 / Host</label>
@@ -19,7 +19,7 @@
 
   <div class="row">
     <div>
-      <label>Webhook 密钥 / Secret <span class="muted">(GitHub X-Hub-Signature)</span></label>
+      <label>Webhook 密钥 / Secret <span class="muted">(全局 fallback · GitHub X-Hub-Signature；某条仓库规则单独配置 secret 时，该规则优先使用自己的)</span></label>
       <input type="text" name="secret" value="{{.ServerForm.Secret}}" />
     </div>
     <div>
@@ -62,7 +62,7 @@
 
   <label>确认新密码 / Confirm new password</label>
   <input type="password" name="panel_password_confirm" autocomplete="new-password" />
-  <div class="note">修改密码需提供当前密码，并输入两次相同的新密码；新密码将生成 bcrypt 哈希写入 <code>password_hash</code>。 / Changing the password requires the current password and entering the new password twice; it is stored as a bcrypt <code>password_hash</code>.</div>
+  <div class="note">修改密码需提供当前密码，并输入两次相同的新密码；密码会在浏览器内 SHA-256 后再传输（明文不发送到服务端），该 SHA-256 值即直接作为 <code>password_hash</code> 存储。 / Changing the password requires the current password and entering the new password twice; the password is SHA-256'd in the browser before sending (no plaintext on the wire), and that SHA-256 value is stored directly as <code>password_hash</code>.</div>
 
   <div class="actions" style="margin-top:18px;">
     <button class="btn primary" type="submit">保存 / Save</button>
@@ -71,4 +71,40 @@
     ⚠️ 保存会重新格式化 <code>server.yaml</code>（移除注释）。端口 / 密钥 / 面板 secret 改动需重启进程；其它改动保存后会自动 reload 生效。 / Saving reformats <code>server.yaml</code> (comments removed). Port / secret / panel-secret changes require a restart; everything else is reloaded automatically on save.
   </div>
 </form>
+<script>
+  // SHA-256 hash the password fields in the browser before submit so plaintext
+  // never travels to the server. Hashes are placed in hidden fields and the
+  // visible fields' names are dropped, so nothing visible changes (the user
+  // keeps seeing masked dots). sha256Hex/addHidden are defined in the layout.
+  (function () {
+    var form = document.getElementById('settings-form');
+    if (!form) return;
+    var oldEl = form.querySelector('[name="panel_old_password"]');
+    var newEl = form.querySelector('[name="panel_password"]');
+    var confEl = form.querySelector('[name="panel_password_confirm"]');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      try {
+        if (newEl && newEl.value) {
+          if (confEl && newEl.value !== confEl.value) {
+            alert('两次输入的新密码不一致 / new passwords do not match');
+            confEl.focus();
+            return;
+          }
+          if (!oldEl || !oldEl.value) {
+            alert('修改密码需填写当前密码 / current password required');
+            oldEl.focus();
+            return;
+          }
+          var newHash = await sha256Hex(newEl.value);
+          var oldHash = await sha256Hex(oldEl.value);
+          addHidden(form, newEl.name, newHash); newEl.removeAttribute('name');
+          addHidden(form, confEl.name, newHash); confEl.removeAttribute('name');
+          addHidden(form, oldEl.name, oldHash); oldEl.removeAttribute('name');
+        }
+      } catch (err) { return; }
+      form.submit();
+    });
+  })();
+</script>
 {{end}}

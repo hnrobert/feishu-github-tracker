@@ -8,6 +8,7 @@ on:
       - "Dockerfile"
       - ".dockerignore"
       - "**/*.go"
+      - "**/*.html"
       - "go.mod"
       - "go.sum"
   pull_request:

@@ -7,7 +7,7 @@
 server:
   host: "0.0.0.0" # Webhook监听主机
   port: 4594 # Webhook监听端口
-  secret: "your_secret" # 用于验证GitHub X-Hub-Signature的密钥
+  # secret: "your_secret" # 全局 Webhook 密钥（fallback）：用于验证 GitHub X-Hub-Signature；某条 repos 匹配单独配置了 secret 时，该规则优先使用自己的 secret，否则回退到这里
   log_level: "info" # 可选: debug, info, warn, error
   max_payload_size: 5MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)
@@ -29,21 +29,34 @@ allowed_sources:
 #   · Upgraders without a panel account also get admin / admin by default.
 #
 # 设置管理员密码的方式（任选其一）/ Set the admin password (any one):
-#   1) 环境变量 / env PANEL_PASSWORD（明文，登录时自动 bcrypt 哈希）—— 推荐 / recommended
+#   登录时浏览器会对输入的密码做 SHA-256 后再发送（明文不上网），服务端存储并比对的就是
+#   password_hash = sha256(密码)。因此 password_hash 与浏览器发送的值是同一个，可直接比对，
+#   已有的 password_hash 不会失效。/ The browser SHA-256's the password before sending, and the
+#   server stores/compares password_hash = sha256(password) directly — so existing password_hash
+#   values keep working.
+#   1) 环境变量 / env PANEL_PASSWORD（明文，自动取其 SHA-256）—— 推荐 / recommended
 #   2) password：明文。若出现这一项，则【优先】使用它。/ plaintext; if present, this TAKES PRIORITY.
-#      程序在启动 / reload 时会自动将其转换为 password_hash（覆盖原有 hash），然后删除该明文行。
-#      On startup / reload it is auto-converted to password_hash (overwriting any existing hash),
-#      then the plaintext line is removed (and a `# password: "admin"` hint comment is added).
-#   3) password_hash：bcrypt 哈希。可用 htpasswd 生成 / generate with htpasswd:
-#        htpasswd -bnBC 10 "" YOUR_PASSWORD | tr -d ':\n' | sed 's/^\$2y/\$2a/'
+#      程序在启动 / reload 时会自动将其转换为 password_hash = sha256(明文)（覆盖原有 hash），
+#      然后删除该明文行。/ On startup / reload it is auto-converted to password_hash = sha256(plaintext)
+#      (overwriting any existing hash), then the plaintext line is removed.
+#   3) password_hash：直接填 sha256(密码) 的十六进制 / put the hex sha256(password) directly:
+#        printf '%s' 'YOUR_PASSWORD' | openssl dgst -sha256 | awk '{print $NF}'
+#      （兼容旧版：以 $2 开头的 bcrypt 哈希也可用。/ legacy: bcrypt hashes starting with $2 still work.）
 #
 # 用户名 / Username: 默认 admin；可用 username 自定义，或环境变量 PANEL_USERNAME 覆盖。
 #   defaults to "admin"; override via username or the PANEL_USERNAME env var.
+#
+# public_url（可选）：面板/服务的公网基地址（含协议，如 https://example.com）。
+#   配置后，仪表盘「添加 GitHub Webhook」指南会直接展示该地址作为 Payload URL。
+#   若服务在 TLS 反向代理后（代理未转发 X-Forwarded-Proto），设置此项可确保生成 https 链接。
+#   public_url (optional): canonical public base URL incl. scheme. Shown as the Payload URL in the
+#   dashboard guide; set it when behind a TLS proxy that doesn't forward X-Forwarded-Proto.
 panel:
   enabled: true
   username: "admin" # 登录用户名 / login username (default: admin)
   password: "admin" # 默认明文密码；启动/reload 时会自动转为 password_hash 并删除此行 / default plaintext; auto-converted to password_hash on load
   secret: "change-me-panel-jwt-secret" # JWT 签名密钥；留空则每次启动随机生成（会登出所有人）/ JWT secret; blank => ephemeral per restart
+  # public_url: "https://feishu-github-tracker.example.com" # 可选 / optional
 
 
 

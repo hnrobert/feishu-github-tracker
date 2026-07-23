@@ -66,6 +66,7 @@ type ViewData struct {
 	TemplateFiles []string
 	ServerInfo    ServerInfo
 	RecentLines   []string
+	PayloadURL    string // public /webhook URL for the guide; empty when accessed locally
 
 	// repos
 	Repos    []RepoRow
@@ -96,7 +97,6 @@ type ServerInfo struct {
 	MaxPayloadSize string
 	Timeout        int
 	AllowedSources []string
-	PanelEnabled   bool
 }
 
 // RepoRow represents one repos.yaml entry, for both list display and editing.
@@ -108,6 +108,8 @@ type RepoRow struct {
 	Events      map[string]any
 	EventsYAML  string // raw YAML text, for the edit textarea
 	EventCount  int
+	Secret      string // per-rule webhook secret (edit form)
+	HasSecret   bool   // whether a per-rule secret is set (list badge)
 }
 
 // BotRow represents one feishu-bots.yaml entry.

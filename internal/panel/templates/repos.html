@@ -27,6 +27,7 @@
         <td><code>{{.Pattern}}</code></td>
         <td>
           {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} 个 / events</span>{{else}}<span class="pill muted">0</span>{{end}}
+          {{if .HasSecret}}<span class="pill" title="自定义 secret / custom secret">🔒</span>{{end}}
         </td>
         <td>
           {{if .NotifyTo}}{{range .NotifyTo}}<span class="pill muted">{{.}}</span>{{end}}{{else}}<span class="muted">—</span>{{end}}

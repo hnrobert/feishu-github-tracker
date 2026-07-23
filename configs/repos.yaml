@@ -3,6 +3,10 @@
 # -----------------------------------------
 # 用于定义组织/仓库与事件模板、通知对象的映射关系
 # 支持通配符，按顺序匹配
+#
+# 可选：每条匹配可单独配置一个 `secret`，用于校验该 GitHub Webhook 的签名。
+#       留空则回退到 server.yaml 中的全局 `server.secret`。
+#       这样不同仓库/组织的 Webhook 可以使用各自独立的密钥。
 # =========================================
 
 repos:
@@ -23,6 +27,7 @@ repos:
     notify_to:
       - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
       - "https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz" # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
+    # secret: "this-repo-only-secret" # 可选：仅校验该仓库 Webhook 的密钥；留空则用全局 server.secret
 
   # 示例：匹配实验性项目（使用 glob 模式）
   - pattern: "CompPsyUnion/experimental-*"

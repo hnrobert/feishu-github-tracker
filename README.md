@@ -25,7 +25,7 @@
 
 ### TODO
 
-- [x] 已添加基于 `html/template` 的 `web` 管理面板（白色 + `#4EACF8`/`#071C37` 主题，中英双语），可在浏览器中查看日志 / 修改仓库规则、飞书机器人、服务设置、事件与消息模板。详见 [QUICKSTART.md](QUICKSTART.md#3-web-管理面板)。
+- [x] 已添加基于 `html/template` 的 `web` 管理面板（白色 + `#4EACF8`/`#071C37` 主题，中英双语），可在浏览器中查看日志 / 修改仓库规则、飞书机器人、服务设置、事件与消息模板。详见 [docs/quickstart.md](docs/quickstart.md#5-web-管理面板可选)。
 - [ ] 计划添加更多的事件模板（目前已经包含了大部分常用事件的模板，后续会根据反馈继续完善）
 
 ## 支持的 GitHub 事件
@@ -111,7 +111,7 @@
 
 ## 快速开始
 
-参考 [QUICKSTART.md](./QUICKSTART.md) 了解如何快速自建服务器部署和测试。
+参考 [docs/quickstart.md](./docs/quickstart.md) 了解如何快速自建服务器部署和测试；从源码构建见 [docs/build-from-source.md](./docs/build-from-source.md)。
 
 ### 体验/使用现成服务（适合自己部署成本/难度较高的用户）
 
@@ -159,7 +159,7 @@ feishu-github-tracker/
 server:
   host: '0.0.0.0' # Webhook监听主机
   port: 4594 # Webhook监听端口
-  secret: 'your_secret' # 用于验证GitHub X-Hub-Signature的密钥
+  # secret: 'your_secret' # 可选：全局 Webhook 密钥（fallback），用于验证 GitHub X-Hub-Signature。留空/注释掉则不启用全局校验（可改用每条 repos 匹配各自的 secret）。若某条 repos 匹配单独配置了 secret，则该规则优先使用自己的 secret，否则回退到这里
   log_level: 'info' # 可选: debug, info, warn, error
   max_payload_size: 5MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)
@@ -359,6 +359,22 @@ templates:
 
 1. **别名引用**：引用 `feishu-bots.yaml` 中定义的 alias
 2. **直接 URL**：直接提供完整的飞书 Webhook URL
+
+### Webhook 密钥（可选 / per-rule secret）
+
+默认情况下，所有 Webhook 用 `server.yaml` 中的全局 `server.secret` 校验签名。如果不同仓库/组织需要各自独立的密钥，可以在 `repos.yaml` 的某条匹配上单独配置 `secret`：
+
+```yaml
+repos:
+  - pattern: 'acme/widget'
+    events:
+      push:
+    notify_to:
+      - dev-team
+    secret: 'this-repo-only-secret' # 可选：仅该校验该仓库 Webhook 的签名
+```
+
+校验规则：匹配到该仓库/组织的 Webhook，会尝试用「该规则的 `secret`」与「全局 `server.secret`」两者校验，任一通过即可；若两者都为空则跳过校验。这样不同 GitHub 端的 Webhook 可以使用各自独立的密钥。
 
 ## 监控和维护
 

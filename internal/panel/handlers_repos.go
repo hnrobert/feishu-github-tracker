@@ -63,6 +63,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	notifyTo := splitLines(r.FormValue("notify_to"))
+	secret := strings.TrimSpace(r.FormValue("secret"))
 
 	cfg, err := a.loadConfig()
 	if err != nil {
@@ -70,7 +71,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rp := config.RepoPattern{Pattern: pattern, Events: events, NotifyTo: notifyTo}
+	rp := config.RepoPattern{Pattern: pattern, Events: events, NotifyTo: notifyTo, Secret: secret}
 	if idx >= 0 && idx < len(cfg.Repos.Repos) {
 		cfg.Repos.Repos[idx] = rp
 	} else {
@@ -117,6 +118,7 @@ func repoListRow(i int, rp config.RepoPattern) RepoRow {
 		Pattern:    rp.Pattern,
 		NotifyTo:   rp.NotifyTo,
 		EventCount: len(rp.Events),
+		HasSecret:  rp.Secret != "",
 	}
 }
 
@@ -129,6 +131,8 @@ func repoEditRow(i int, rp config.RepoPattern) RepoRow {
 		NotifyToRaw: strings.Join(rp.NotifyTo, "\n"),
 		Events:      rp.Events,
 		EventCount:  len(rp.Events),
+		Secret:      rp.Secret,
+		HasSecret:   rp.Secret != "",
 	}
 	if len(rp.Events) > 0 {
 		if b, err := yaml.Marshal(rp.Events); err == nil {

@@ -11,6 +11,9 @@
   <label>模式 / Pattern <span class="muted">(支持 glob，如 <code>org/*</code>)</span></label>
   <input type="text" name="pattern" value="{{.EditRepo.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
 
+  <label>Webhook 密钥 / Secret <span class="muted">(可选；留空则使用全局 <code>server.secret</code>)</span></label>
+  <input type="text" name="secret" value="{{.EditRepo.Secret}}" placeholder="留空使用全局 secret / blank = global" autocomplete="off" />
+
   <div class="row">
     <div>
       <label>通知目标 / Notify to <span class="muted">(每行一个 / one per line)</span></label>
