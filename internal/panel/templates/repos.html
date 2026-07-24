@@ -1,11 +1,11 @@
-{{define "title"}}仓库规则 · Repos{{end}}
+{{define "title"}}{{t . "repos.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead" style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap;">
   <div>
-    <h2>仓库规则 / Repo Rules</h2>
-    <div class="sub">仓库匹配模式 → 订阅事件 → 通知目标。按顺序匹配。 / Patterns → events → notify targets. Matched in order.</div>
+    <h2>{{t . "repos.title"}}</h2>
+    <div class="sub">{{t . "repos.subtitle"}}</div>
   </div>
-  <a class="btn primary" href="/repos/new">+ 新建 / New</a>
+  <a class="btn primary" href="/repos/new">+ {{t . "action.new"}}</a>
 </div>
 
 <div class="card">
@@ -14,9 +14,9 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>模式 / Pattern</th>
-        <th>事件 / Events</th>
-        <th>通知 / Notify to</th>
+        <th>{{t . "repos.pattern"}}</th>
+        <th>{{t . "repos.events"}}</th>
+        <th>{{t . "repos.notifyTo"}}</th>
         <th></th>
       </tr>
     </thead>
@@ -26,18 +26,18 @@
         <td>{{.Index}}</td>
         <td><code>{{.Pattern}}</code></td>
         <td>
-          {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} 个 / events</span>{{else}}<span class="pill muted">0</span>{{end}}
-          {{if .HasSecret}}<span class="pill" title="自定义 secret / custom secret">🔒</span>{{end}}
+          {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} {{t $ "repos.eventsCount"}}</span>{{else}}<span class="pill muted">0</span>{{end}}
+          {{if .HasSecret}}<span class="pill" title="{{t $ "repos.customSecret"}}">🔒</span>{{end}}
         </td>
         <td>
           {{if .NotifyTo}}{{range .NotifyTo}}<span class="pill muted">{{.}}</span>{{end}}{{else}}<span class="muted">—</span>{{end}}
         </td>
         <td>
           <div class="actions" style="justify-content:flex-end;">
-            <a class="btn small" href="/repos/edit?index={{.Index}}">编辑 / Edit</a>
+            <a class="btn small" href="/repos/edit?index={{.Index}}">{{t $ "action.edit"}}</a>
             <form method="post" action="/repos/delete" style="margin:0;">
               <input type="hidden" name="index" value="{{.Index}}" />
-              <button class="btn small danger" type="submit" onclick="return confirm('删除该仓库规则？ / Delete this repo rule?');">删除</button>
+              <button class="btn small danger" type="submit" onclick="return confirm('{{t $ "repos.deleteConfirm"}}');">{{t $ "action.delete"}}</button>
             </form>
           </div>
         </td>
@@ -46,7 +46,7 @@
     </tbody>
   </table>
   {{else}}
-  <div class="empty">暂无仓库规则，点击「新建」添加。 / No repo rules yet — click “New”.</div>
+  <div class="empty">{{t . "repos.empty"}}</div>
   {{end}}
 </div>
 {{end}}

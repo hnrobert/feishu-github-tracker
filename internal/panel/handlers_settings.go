@@ -38,7 +38,7 @@ func (a *App) handleSettings(w http.ResponseWriter, r *http.Request) {
 // changes take effect immediately. Port/secret still require a restart.
 func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/settings", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/settings", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 
@@ -62,11 +62,11 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	passwordChanged := newPassword != ""
 	if passwordChanged {
 		if newPassword != confirmPassword {
-			a.redirectFlash(w, r, "/settings", "两次输入的新密码不一致 / new passwords do not match", "err")
+			a.redirectFlash(w, r, "/settings", a.message(r, "flash.passwordMismatch"), "err")
 			return
 		}
 		if !auth.VerifyPassword(string(currentHash), oldPassword) {
-			a.redirectFlash(w, r, "/settings", "旧密码错误，密码未修改 / incorrect old password", "err")
+			a.redirectFlash(w, r, "/settings", a.message(r, "flash.incorrectOldPassword"), "err")
 			return
 		}
 	}
@@ -74,7 +74,7 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	// 1. Persist server.* fields (+ panel.username) in one comment-preserving write.
 	root, err := loadServerRoot(a.cfgDir)
 	if err != nil {
-		a.redirectFlash(w, r, "/settings", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/settings", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	serverMap := ensureMap(root, "server")
@@ -94,7 +94,7 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 		mapSet(ensureMap(root, "panel"), "username", newUsername)
 	}
 	if err := writeServerRoot(a.cfgDir, root); err != nil {
-		a.redirectFlash(w, r, "/settings", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/settings", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 
@@ -102,7 +102,7 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	//    password_hash produced by the browser, so store it directly.
 	if passwordChanged {
 		if err := SetPanelPasswordHash(a.cfgDir, newPassword); err != nil {
-			a.redirectFlash(w, r, "/settings", "密码保存失败: "+err.Error(), "err")
+			a.redirectFlash(w, r, "/settings", a.message(r, "flash.passwordSaveFailed", err), "err")
 			return
 		}
 	}
@@ -110,14 +110,14 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	// 3. Reload so changes take effect immediately.
 	a.notifySaved()
 
-	flash := "服务设置已保存（端口/密钥需重启生效）/ settings saved (port/secret need restart)"
+	flash := a.message(r, "flash.settingsSavedRestart")
 	switch {
 	case usernameChanged && passwordChanged:
-		flash = "服务设置、用户名与密码已保存 / settings, username and password saved"
+		flash = a.message(r, "flash.settingsUsernamePasswordSaved")
 	case usernameChanged:
-		flash = "服务设置与用户名已保存 / settings and username saved"
+		flash = a.message(r, "flash.settingsUsernameSaved")
 	case passwordChanged:
-		flash = "服务设置与密码已保存 / settings and password saved"
+		flash = a.message(r, "flash.settingsPasswordSaved")
 	}
 	a.redirectFlash(w, r, "/settings", flash, "ok")
 }

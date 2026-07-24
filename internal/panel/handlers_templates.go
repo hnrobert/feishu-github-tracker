@@ -46,7 +46,7 @@ func (a *App) handleTemplateEdit(w http.ResponseWriter, r *http.Request) {
 
 	root := map[string]any{}
 	if err := loadJSONC(path, &root); err != nil {
-		a.redirectFlash(w, r, "/templates", "读取模板失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateLoadFailed", err), "err")
 		return
 	}
 
@@ -66,27 +66,27 @@ func (a *App) handleTemplateEdit(w http.ResponseWriter, r *http.Request) {
 // alphabetically reorders keys. Functionality is preserved.
 func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/templates", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	file := r.FormValue("file")
 	event := r.FormValue("event")
 	text := r.FormValue("payloads_json")
 	if event == "" {
-		a.redirectFlash(w, r, "/templates", "未选择事件 / no event selected", "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.eventRequired"), "err")
 		return
 	}
 
 	var payloads any
 	if err := json.Unmarshal([]byte(text), &payloads); err != nil {
-		a.redirectFlash(w, r, "/templates", "payloads JSON 解析失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.payloadsParseFailed", err), "err")
 		return
 	}
 
 	path := a.templateFilePath(file)
 	root := map[string]any{}
 	if err := loadJSONC(path, &root); err != nil {
-		a.redirectFlash(w, r, "/templates", "读取模板失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateLoadFailed", err), "err")
 		return
 	}
 
@@ -103,11 +103,11 @@ func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 	templatesNode[event] = eventNode
 
 	if err := SaveJSON(path, root); err != nil {
-		a.redirectFlash(w, r, "/templates", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/templates", "模板已保存（注释与格式会被重排）/ template saved (comments/format reformatted)", "ok")
+	a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateSaved"), "ok")
 }
 
 // eventKeys returns the sorted event keys present in a parsed templates file.

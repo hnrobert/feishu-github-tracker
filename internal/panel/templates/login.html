@@ -1,20 +1,20 @@
-{{define "title"}}登录 · Login · Feishu GitHub Tracker{{end}}
+{{define "title"}}{{t . "login.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="card">
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
     <img class="logo" src="/static/logo.jpg" alt="logo" style="width:40px;height:40px;border-radius:10px;object-fit:cover;box-shadow:0 4px 12px rgba(78,172,248,.35);" />
-    <h2 style="margin:0;">登录 / Login</h2>
+    <h2 style="margin:0;">{{t . "login.title"}}</h2>
   </div>
   <div class="muted" style="margin-bottom:16px; font-size:13px;">
-    <br />输入管理员密码以进入管理面板。<br />Enter the admin password to access the management panel.
+    <br />{{t . "login.description"}}
   </div>
   <form id="login-form" method="post" action="/login">
-    <label>用户名 / Username</label>
+    <label>{{t . "login.username"}}</label>
     <input type="text" name="username" autocomplete="username" autofocus required />
-    <label>管理员密码 / Admin password</label>
+    <label>{{t . "login.password"}}</label>
     <input type="password" name="password" id="login-password" autocomplete="current-password" required />
     <div class="actions" style="justify-content:flex-end; margin-top:18px;">
-      <button class="btn primary" type="submit">登录 / Sign in</button>
+      <button class="btn primary" type="submit">{{t . "action.signIn"}}</button>
     </div>
   </form>
 </div>

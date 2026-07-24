@@ -1,18 +1,18 @@
-{{define "title"}}编辑模板 · Template{{end}}
+{{define "title"}}{{t . "template.editTitle"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead">
-  <h2>编辑模板 / Edit Template</h2>
-  <div class="sub">文件 <code>{{if eq .EditTemplate.File ""}}default{{else}}{{.EditTemplate.File}}{{end}}</code>{{if .EditTemplate.Event}} · 事件 <code>{{.EditTemplate.Event}}</code>{{end}}</div>
+  <h2>{{t . "template.editTitle"}}</h2>
+  <div class="sub">{{t . "template.file"}} <code>{{if eq .EditTemplate.File ""}}default{{else}}{{.EditTemplate.File}}{{end}}</code>{{if .EditTemplate.Event}} · {{t . "template.event"}} <code>{{.EditTemplate.Event}}</code>{{end}}</div>
 </div>
 
 <div class="card">
   <div class="actions">
-    <a class="btn small" href="/templates">← 返回列表 / Back to list</a>
+    <a class="btn small" href="/templates">← {{t . "action.back"}}</a>
   </div>
 </div>
 
 <div class="card">
-  <label>选择事件 / Select event</label>
+  <label>{{t . "template.selectEvent"}}</label>
   {{if .EditTemplate.Events}}
   <div class="actions" style="max-height:160px; overflow:auto;">
     {{range .EditTemplate.Events}}
@@ -20,7 +20,7 @@
     {{end}}
   </div>
   {{else}}
-  <div class="empty">该文件无事件 / no events in this file</div>
+  <div class="empty">{{t . "template.noEvents"}}</div>
   {{end}}
 </div>
 
@@ -29,15 +29,15 @@
   <input type="hidden" name="file" value="{{.EditTemplate.File}}" />
   <input type="hidden" name="event" value="{{.EditTemplate.Event}}" />
 
-  <label><code>{{.EditTemplate.Event}}</code> 的 payloads <span class="muted">(JSON 数组)</span></label>
+  <label><code>{{.EditTemplate.Event}}</code> {{t . "template.payloads"}} <span class="muted">({{t . "template.jsonArray"}})</span></label>
   <textarea name="payloads_json" class="code-lg">{{.EditTemplate.PayloadsJSON}}</textarea>
   <div class="note">
-    ⚠️ 保存会移除该文件的 <code>//</code> 注释并按字母重排键。功能不变。 / Saving strips <code>//</code> comments and reorders keys alphabetically. Functionality is unchanged.
+    {{t . "template.saveWarning"}}
   </div>
 
   <div class="actions" style="margin-top:14px;">
-    <button class="btn primary" type="submit">保存 / Save</button>
-    <a class="btn" href="/templates">取消 / Cancel</a>
+    <button class="btn primary" type="submit">{{t . "action.save"}}</button>
+    <a class="btn" href="/templates">{{t . "action.cancel"}}</a>
   </div>
 </form>
 {{end}}
