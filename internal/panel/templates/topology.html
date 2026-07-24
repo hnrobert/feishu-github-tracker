@@ -1,0 +1,62 @@
+{{define "title"}}{{t . "topology.title"}} · Feishu GitHub Tracker{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>{{t . "topology.title"}}</h2>
+  <div class="sub">{{t . "topology.subtitle"}}</div>
+</div>
+
+<div class="topologyLegend">
+  <span><i class="legendMark"></i>{{t . "topology.legend.repo"}}</span>
+  <span><i class="legendMark event"></i>{{t . "topology.legend.event"}}</span>
+  <span><i class="legendMark bot"></i>{{t . "topology.legend.bot"}}</span>
+</div>
+
+{{if .Topology.Nodes}}
+<div class="topologyStats">
+  <div><strong>{{len .Topology.Routes}}</strong><span>{{t . "topology.routes"}}</span></div>
+  <div><strong>{{len .Topology.Nodes}}</strong><span>{{t . "topology.nodes"}}</span></div>
+  <div><strong>{{len .Topology.Edges}}</strong><span>{{t . "topology.edges"}}</span></div>
+</div>
+<div class="topologyCanvas"><svg id="topology-svg" role="img" aria-label="{{t . "topology.title"}}" data-repo-label="{{t . "topology.column.repo"}}" data-event-label="{{t . "topology.column.event"}}" data-target-label="{{t . "topology.column.target"}}"></svg></div>
+<script>
+  (function () {
+    var graph = {{toJSON .Topology}};
+    var svg = document.getElementById('topology-svg');
+    if (!svg || !graph.Nodes.length) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    var groups = { repo: [], event: [], bot: [] };
+    graph.Nodes.forEach(function (node) {
+      var group = node.Kind === 'repo' ? 'repo' : (node.Kind === 'event' || node.Kind === 'set' ? 'event' : 'bot');
+      groups[group].push(node);
+    });
+    var width = Math.max(1240, svg.clientWidth || 1240), nodeWidth = 300, nodeHeight = 56;
+    var height = Math.max(620, 132 + Math.max(groups.repo.length, groups.event.length, groups.bot.length) * 98);
+    svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+    var positions = {}, columns = { repo: 64, event: Math.round((width - nodeWidth) / 2), bot: width - nodeWidth - 64 }, colors = { repo: '#24a9e8', event: '#7869ea', bot: '#16a870' }, fills = { repo: '#eaf7ff', event: '#f2efff', bot: '#edfbf4' };
+    [['repo', svg.dataset.repoLabel], ['event', svg.dataset.eventLabel], ['bot', svg.dataset.targetLabel]].forEach(function (column) {
+      var heading = document.createElementNS(NS, 'text'); heading.setAttribute('x', columns[column[0]]); heading.setAttribute('y', '38'); heading.setAttribute('fill', colors[column[0]]); heading.setAttribute('font-size', '13'); heading.setAttribute('font-weight', '700'); heading.setAttribute('font-family', 'system-ui, sans-serif'); heading.textContent = column[1]; svg.appendChild(heading);
+    });
+    Object.keys(groups).forEach(function (kind) {
+      groups[kind].forEach(function (node, index) {
+        positions[node.ID] = { x: columns[kind], y: 72 + index * 98, kind: kind, node: node };
+      });
+    });
+    var defs = document.createElementNS(NS, 'defs'), marker = document.createElementNS(NS, 'marker');
+    marker.setAttribute('id', 'arrow'); marker.setAttribute('viewBox', '0 0 10 10'); marker.setAttribute('refX', '8'); marker.setAttribute('refY', '5'); marker.setAttribute('markerWidth', '6'); marker.setAttribute('markerHeight', '6'); marker.setAttribute('orient', 'auto-start-reverse');
+    var arrow = document.createElementNS(NS, 'path'); arrow.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z'); arrow.setAttribute('fill', '#b5c4d5'); marker.appendChild(arrow); defs.appendChild(marker); svg.appendChild(defs);
+    graph.Edges.forEach(function (edge) {
+      var from = positions[edge.From], to = positions[edge.To]; if (!from || !to) return;
+      var line = document.createElementNS(NS, 'path');
+      line.setAttribute('d', 'M ' + (from.x + nodeWidth) + ' ' + (from.y + nodeHeight / 2) + ' C ' + (from.x + nodeWidth + 64) + ' ' + (from.y + nodeHeight / 2) + ', ' + (to.x - 64) + ' ' + (to.y + nodeHeight / 2) + ', ' + to.x + ' ' + (to.y + nodeHeight / 2));
+      line.setAttribute('fill', 'none'); line.setAttribute('stroke', '#aabed1'); line.setAttribute('stroke-opacity', '.72'); line.setAttribute('stroke-width', '1.7'); line.setAttribute('marker-end', 'url(#arrow)'); svg.appendChild(line);
+    });
+    Object.keys(positions).forEach(function (id) {
+      var item = positions[id], node = item.node, link = document.createElementNS(NS, 'a'); link.setAttributeNS('http://www.w3.org/1999/xlink', 'href', node.Href || '/topology');
+      var rect = document.createElementNS(NS, 'rect'); rect.setAttribute('x', item.x); rect.setAttribute('y', item.y); rect.setAttribute('width', nodeWidth); rect.setAttribute('height', nodeHeight); rect.setAttribute('rx', '10'); rect.setAttribute('fill', fills[item.kind]); rect.setAttribute('stroke', colors[item.kind]); rect.setAttribute('stroke-width', '1.6');
+      var text = document.createElementNS(NS, 'text'); text.setAttribute('x', item.x + 16); text.setAttribute('y', item.y + 34); text.setAttribute('fill', '#10233e'); text.setAttribute('font-size', '14'); text.setAttribute('font-family', 'system-ui, sans-serif'); text.textContent = node.Label.length > 33 ? node.Label.slice(0, 32) + '...' : node.Label;
+      link.appendChild(rect); link.appendChild(text); svg.appendChild(link);
+    });
+  })();
+</script>
+{{else}}<div class="empty">{{t . "topology.empty"}}</div>{{end}}
+{{end}}

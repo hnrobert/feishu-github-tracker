@@ -2,32 +2,33 @@
 <nav class="nav">
   {{if .Authed}}
   <a class="{{if eq .CurrentPage "dashboard"}}active{{end}}" href="/">
-    仪表盘<small>Dashboard</small>
+    {{t . "nav.overview"}}
   </a>
   <a class="{{if startsWith .CurrentPage "repo"}}active{{end}}" href="/repos">
-    仓库规则<small>Repo Rules</small>
+    {{t . "nav.repos"}}
   </a>
   <a class="{{if startsWith .CurrentPage "bot"}}active{{end}}" href="/bots">
-    飞书机器人<small>Feishu Bots</small>
+    {{t . "nav.bots"}}
   </a>
   <a class="{{if eq .CurrentPage "events"}}active{{end}}" href="/events">
-    事件<small>Events</small>
+    {{t . "nav.events"}}
   </a>
   <a class="{{if startsWith .CurrentPage "template"}}active{{end}}" href="/templates">
-    消息模板<small>Templates</small>
+    {{t . "nav.templates"}}
   </a>
   <a class="{{if eq .CurrentPage "server_settings"}}active{{end}}" href="/settings">
-    服务设置<small>Server Settings</small>
+    {{t . "nav.settings"}}
   </a>
+  <a class="{{if eq .CurrentPage "topology"}}active{{end}}" href="/topology">{{t . "nav.topology"}}</a>
   {{else}}
-  <a class="{{if eq .CurrentPage "login"}}active{{end}}" href="/login">登录 / Login</a>
+  <a class="{{if eq .CurrentPage "login"}}active{{end}}" href="/login">{{t . "action.login"}}</a>
   {{end}}
 </nav>
 {{end}}
 
 {{define "layout"}}
 <!doctype html>
-<html lang="zh-CN">
+<html lang="{{.Locale}}">
 
 <head>
   <meta charset="utf-8" />
@@ -690,10 +691,46 @@
         flex: 1 1 100%;
       }
     }
+    /* Operations workspace: navigation stays quiet while tools sit on a
+       separate, lightly elevated canvas. */
+    body { background:#edf3f8; }
+    .sidebar { width:236px; flex-basis:236px; background:#f6f9fd; border-right:0; }
+    .main { padding:10px 12px 12px; background:#edf3f8; }
+    .wrap { max-width:none; margin:0; }
+    .topbar { min-height:36px; margin:0 8px 8px; }
+    .workspace { min-width:0; min-height:calc(100vh - 66px); padding:24px; border:1px solid #dce6f0; border-radius:16px; background:#fff; }
+    .sidebar .brand { margin:0 2px 12px; padding:12px 10px 16px; }
+    .nav a { margin:2px 0; padding:10px 12px; border-radius:9px; }
+    .nav a small { display:none; }
+    .card, .stat { border-radius:10px; }
+    .languageLink { padding:7px 10px; border:1px solid var(--border); border-radius:999px; background:var(--bg); color:var(--muted); font-size:12px; }
+    .languageLink:hover { color:var(--accent-strong); text-decoration:none; }
+    .dashboardGrid { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(330px,.85fr); gap:14px; }
+    .metricsGrid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; }
+    .metricTile { min-height:98px; padding:16px; border:1px solid var(--border); border-radius:10px; background:linear-gradient(145deg,#fff,#f7fbff); box-shadow:0 5px 14px rgba(43,71,106,.05); }
+    .metricTile:hover { border-color:rgba(78,172,248,.55); text-decoration:none; transform:translateY(-1px); }
+    .metricValue { color:var(--text); font-size:27px; font-weight:720; line-height:1; }
+    .metricLabel { margin-top:8px; color:var(--muted); font-size:12px; }
+    .metricTile.warn .metricValue { color:var(--danger); }.metricTile.ok .metricValue { color:#159563; }
+    .chartCard { padding:18px; border:1px solid var(--border); border-radius:10px; background:#fff; box-shadow:0 4px 12px rgba(43,71,106,.035); }
+    .chartTitle { display:flex; justify-content:space-between; gap:12px; margin-bottom:14px; font-size:14px; font-weight:650; }
+    .deliveryChart { display:flex; align-items:flex-end; gap:8px; height:152px; padding:0 2px 18px; border-bottom:1px solid var(--border); }
+    .deliveryDay { position:relative; display:flex; flex:1 1 0; align-items:flex-end; justify-content:center; gap:3px; height:100%; min-width:20px; }
+    .deliveryBar { width:min(18px,42%); min-height:2px; border-radius:5px 5px 2px 2px; background:#24a9e8; }.deliveryBar.failed { background:#ef6d72; }
+    .deliveryDay label { position:absolute; bottom:-20px; margin:0; color:var(--muted); font-size:10px; font-weight:500; }
+    .eventBars { display:grid; gap:10px; }.eventBar { display:grid; grid-template-columns:minmax(74px,1fr) minmax(0,2.5fr) 22px; align-items:center; gap:8px; font-size:12px; }
+    .eventBar > span:first-child { overflow:hidden; color:var(--muted); text-overflow:ellipsis; white-space:nowrap; }.eventTrack { height:7px; overflow:hidden; border-radius:99px; background:#edf3f8; }.eventTrack i { display:block; height:100%; border-radius:inherit; background:#7869ea; }
+    .activityList { display:grid; gap:2px; }.activityRow { display:grid; grid-template-columns:76px minmax(0,1fr) auto; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:12px; }.activityRow:last-child { border-bottom:0; }.activityTarget { overflow:hidden; color:var(--text); text-overflow:ellipsis; white-space:nowrap; }
+    .statusDot { width:8px; height:8px; border-radius:50%; background:#17ad75; }.statusDot.failed { background:#ee5f67; }
+    .topologyPreview { display:grid; align-content:start; gap:9px; }.topologyStep { display:grid; grid-template-columns:minmax(0,1fr) 22px minmax(0,1.1fr); align-items:center; gap:8px; }.topologyStep .arrow { color:var(--accent-strong); text-align:center; }.topologyNode { display:block; overflow:hidden; padding:10px 11px; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:8px; background:var(--bg); color:var(--text); font-size:12px; text-overflow:ellipsis; white-space:nowrap; }.topologyNode:hover { border-color:var(--accent); text-decoration:none; }.topologyNode.event { border-left-color:#7869ea; }.topologyNode.bot { border-left-color:#16a870; }
+    .topologyStats { display:flex; gap:0; width:max-content; max-width:100%; margin:4px 0 16px; overflow:hidden; border:1px solid var(--border); border-radius:10px; background:#fbfdff; }.topologyStats div { display:flex; align-items:baseline; gap:7px; padding:10px 18px; border-right:1px solid var(--border); }.topologyStats div:last-child { border-right:0; }.topologyStats strong { color:var(--accent-strong); font-size:20px; }.topologyStats span { color:var(--muted); font-size:12px; }
+    .topologyCanvas { min-height:620px; overflow:auto; border:1px solid var(--border); border-radius:12px; background:radial-gradient(circle at 1px 1px,#dfe9f3 1px,transparent 0) 0 0/18px 18px,#fbfdff; }.topologyCanvas svg { display:block; width:100%; height:620px; min-width:1240px; }.topologyLegend { display:flex; flex-wrap:wrap; gap:14px; margin:14px 0; color:var(--muted); font-size:12px; }.legendMark { display:inline-block; width:9px; height:9px; margin-right:5px; border-radius:3px; background:var(--accent); }.legendMark.event { background:#7869ea; }.legendMark.bot { background:#16a870; }
+    @media (max-width:1280px) { .metricsGrid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media (max-width:920px) { .main { padding:0; }.workspace { min-height:0; padding:16px; border:0; border-radius:0; }.dashboardGrid, .metricsGrid { grid-template-columns:1fr; }.topologyStats { width:100%; }.topologyStats div { flex:1; padding:9px; flex-direction:column; gap:1px; }.topologyCanvas { margin:0 -16px; border-radius:0; } }
   </style>
 </head>
 
-<body>
+<body data-copied-label="{{t . "action.copied"}}">
   {{if .HideNav}}
   <div class="shell">
     <main class="main">
@@ -717,7 +754,7 @@
     </div>
     {{if .Authed}}
     <form method="post" action="/logout" style="margin:0;">
-      <button class="btn small" type="submit">退出 / Logout</button>
+      <button class="btn small" type="submit">{{t . "action.logout"}}</button>
     </form>
     {{end}}
   </header>
@@ -726,7 +763,7 @@
     <aside class="sidebar">
       <a class="brand" href="/">
         <img class="logo" src="/static/logo.jpg" alt="logo" />
-        <span>Feishu GitHub Tracker<small>管理面板 / Admin Panel</small></span>
+        <span>Feishu GitHub Tracker<small>{{t . "app.admin"}}</small></span>
       </a>
 
       {{template "nav" .}}
@@ -736,9 +773,10 @@
       <div class="wrap">
         <div class="topbar">
           {{if .Authed}}
+          <a class="languageLink" href="{{.LanguageURL}}">{{t . "action.language"}}</a>
           <span class="muted" style="font-size:13px;">{{.Username}}</span>
           <form method="post" action="/logout" style="margin:0;">
-            <button class="btn small" type="submit">退出 / Logout</button>
+            <button class="btn small" type="submit">{{t . "action.logout"}}</button>
           </form>
           {{end}}
         </div>
@@ -747,11 +785,8 @@
         <div class="flash {{.FlashKind}}">{{.Flash}}</div>
         {{end}}
 
-        {{block "content" .}}{{end}}
-
-        <div class="foot">
-          Feishu GitHub Tracker · GitHub → 飞书 webhook 转发 / forwarder.<br />
-          面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。 / Panel edits auto-reload on save; hand-edited files apply via <code>-reload</code> or restart.
+        <div class="workspace">
+          {{block "content" .}}{{end}}
         </div>
       </div>
     </main>
@@ -760,8 +795,8 @@
   <div class="menuOverlay">
     <div class="menuPanel">
       <div class="menuHeader">
-        <strong>导航 / Menu</strong>
-        <label for="menuOpen" class="btn small">关闭 / Close</label>
+        <strong>{{t . "menu"}}</strong>
+        <label for="menuOpen" class="btn small">{{t . "close"}}</label>
       </div>
       {{template "nav" .}}
     </div>
@@ -824,7 +859,7 @@
         if (!btn) return;
         var orig = btn.getAttribute('data-orig') || btn.textContent;
         if (!btn.getAttribute('data-orig')) btn.setAttribute('data-orig', orig);
-        btn.textContent = '已复制 / Copied';
+        btn.textContent = document.body.getAttribute('data-copied-label') || btn.textContent;
         setTimeout(function () { btn.textContent = orig; }, 1500);
       };
       var fallback = function () {

@@ -1,100 +1,77 @@
-{{define "title"}}仪表盘 · Dashboard{{end}}
+{{define "title"}}{{t . "dashboard.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead">
-  <h2>仪表盘 / Dashboard</h2>
-  <div class="sub">配置概览与最近投递活动。 / Configuration overview and recent delivery activity.</div>
+  <h2>{{t . "dashboard.title"}}</h2>
+  <div class="sub">{{t . "dashboard.subtitle"}}</div>
 </div>
 
-<div class="grid four" style="margin-bottom:16px;">
-  <div class="stat">
-    <div class="num">{{.RepoCount}}</div>
-    <div class="label">仓库规则 / Repo rules</div>
-  </div>
-  <div class="stat">
-    <div class="num">{{.BotCount}}</div>
-    <div class="label">飞书机器人 / Feishu bots</div>
-  </div>
-  <div class="stat">
-    <div class="num">{{.EventSetCount}}</div>
-    <div class="label">事件集合 / Event sets</div>
-  </div>
-  <div class="stat">
-    <div class="num">{{len .TemplateFiles}}</div>
-    <div class="label">模板文件 / Template files</div>
-  </div>
+<div class="metricsGrid" style="margin-bottom:16px;">
+  <a class="metricTile" href="/repos"><div class="metricValue">{{.RepoCount}}</div><div class="metricLabel">{{t . "dashboard.repoRules"}}</div></a>
+  <a class="metricTile" href="/bots"><div class="metricValue">{{.BotCount}}</div><div class="metricLabel">{{t . "dashboard.bots"}}</div></a>
+  <a class="metricTile" href="/events"><div class="metricValue">{{.EventSetCount}}</div><div class="metricLabel">{{t . "dashboard.eventSets"}}</div></a>
+  <a class="metricTile" href="/templates"><div class="metricValue">{{len .TemplateFiles}}</div><div class="metricLabel">{{t . "dashboard.templates"}}</div></a>
+  <div class="metricTile warn"><div class="metricValue">{{.Delivery.Failed}}</div><div class="metricLabel">{{t . "dashboard.failed"}}</div></div>
+  <div class="metricTile ok"><div class="metricValue">{{if .Delivery.Total}}{{.Delivery.SuccessRate}}%{{else}}—{{end}}</div><div class="metricLabel">{{t . "dashboard.successRate"}}</div></div>
 </div>
 
-<div class="card">
-  <h3>快速上手 / Getting started</h3>
-
-  <div style="margin-top:12px;">
-    <strong>1. 添加飞书机器人 / Add a Feishu bot</strong>
-    <ol class="guide">
-      <li>飞书群 → 设置 → 群机器人 → 添加「自定义机器人」，复制其 Webhook URL。</li>
-      <li>到 <a href="/bots">飞书机器人 / Feishu Bots</a> 页面新增：填入别名与该 URL。</li>
-    </ol>
-  </div>
-
-  <div style="margin-top:14px;">
-    <strong>2. 添加 GitHub Webhook / Add a GitHub webhook</strong>
-    <ol class="guide">
-      <li>GitHub 仓库 → <code>Settings</code> → <code>Webhooks</code> → <code>Add webhook</code>。</li>
-      <li><code>Payload URL</code> 填下方地址；<code>Content type</code> 选什么都支持；<code>Secret</code> 填你在 <code>server.yaml</code> 或对应仓库规则里配置的 secret（若有）。
-        {{if .PayloadURL}}
-        <div class="codeblock" style="margin-top:8px;">
-          <code id="payload-url">{{.PayloadURL}}</code>
-          <button type="button" class="btn small" onclick="copyText('payload-url', this)">复制 / Copy</button>
-        </div>
-        {{else}}
-        <div class="note" style="margin-top:8px;">当前通过本地地址（localhost / 内网 IP）访问，无法生成可被 GitHub 访问的 Payload URL。请通过公网域名 / 公网 IP 访问本面板，或在 <code>server.yaml</code> 中配置 <code>panel.public_url</code>。 / Accessed locally — open via a public host, or set <code>panel.public_url</code>.</div>
-        {{end}}
-      </li>
-      <li>选择要监听的事件并保存，再到 <a href="/repos">仓库规则 / Repos</a> 配置监听与通知目标。</li>
-    </ol>
-  </div>
-</div>
-
-<div class="grid two">
-  <div class="card">
-    <h3>服务信息 / Server</h3>
-    <div class="kv" style="margin-top:12px;">
-      <div class="k">监听 / Listen</div>
-      <div><code>{{.ServerInfo.Host}}:{{.ServerInfo.Port}}</code></div>
-      <div class="k">日志级别 / Log level</div>
-      <div>{{if .ServerInfo.LogLevel}}{{.ServerInfo.LogLevel}}{{else}}—{{end}}</div>
-      <div class="k">超时 / Timeout</div>
-      <div>{{if .ServerInfo.Timeout}}{{.ServerInfo.Timeout}}s{{else}}—{{end}}</div>
-      <div class="k">最大载荷 / Max payload</div>
-      <div>{{if .ServerInfo.MaxPayloadSize}}{{.ServerInfo.MaxPayloadSize}}{{else}}—{{end}}</div>
-      <div class="k">允许来源 / Allowed</div>
-      <div>
-        {{if .ServerInfo.AllowedSources}}{{range .ServerInfo.AllowedSources}}<span class="pill muted">{{.}}</span>{{end}}{{else}}—{{end}}
+<div class="dashboardGrid">
+  <section class="chartCard">
+    <div class="chartTitle"><span>{{t . "dashboard.last7Days"}}</span><span class="muted">{{.Delivery.Total}}</span></div>
+    {{if .Delivery.Total}}
+    <div class="deliveryChart">
+      {{range .Delivery.Days}}
+      <div class="deliveryDay" title="{{.Success}} / {{.Failed}}">
+        <i class="deliveryBar" style="height:{{percent .Success $.Delivery.MaxDaily}}%"></i>
+        <i class="deliveryBar failed" style="height:{{percent .Failed $.Delivery.MaxDaily}}%"></i>
+        <label>{{.Label}}</label>
       </div>
+      {{end}}
     </div>
-  </div>
+    {{else}}<div class="empty">{{t . "dashboard.noData"}}</div>{{end}}
+  </section>
 
-  <div class="card">
-    <h3>模板文件 / Template files</h3>
-    {{if .TemplateFiles}}
-    <div class="actions" style="margin-top:12px;">
-      {{range .TemplateFiles}}<span class="pill">{{.}}</span>{{end}}
+  <section class="chartCard">
+    <div class="chartTitle"><span>{{t . "dashboard.eventMix"}}</span></div>
+    {{if .Delivery.Events}}
+    <div class="eventBars">
+      {{range .Delivery.Events}}
+      <div class="eventBar"><span>{{.Label}}</span><div class="eventTrack"><i style="width:{{percent .Count (index $.Delivery.Events 0).Count}}%"></i></div><strong>{{.Count}}</strong></div>
+      {{end}}
     </div>
-    {{else}}
-    <div class="empty">无模板文件 / none</div>
-    {{end}}
-    <div class="note">在「消息模板 / Templates」页面编辑各事件卡片。 / Edit per-event cards under Templates.</div>
-  </div>
+    {{else}}<div class="empty">{{t . "dashboard.noData"}}</div>{{end}}
+  </section>
+
+  <section class="chartCard">
+    <div class="chartTitle"><span>{{t . "dashboard.activity"}}</span></div>
+    {{if .Delivery.Recent}}
+    <div class="activityList">{{range .Delivery.Recent}}<div class="activityRow"><span class="muted">{{.Time}}</span><span class="activityTarget">{{.Target}}</span><i class="statusDot {{if not .Success}}failed{{end}}"></i></div>{{end}}</div>
+    {{else}}<div class="empty">{{t . "dashboard.noData"}}</div>{{end}}
+  </section>
+
+  <section class="chartCard">
+    <div class="chartTitle"><span>{{t . "dashboard.topology"}}</span><a href="/topology">{{t . "dashboard.openTopology"}}</a></div>
+    {{if .Topology.Routes}}
+    <div class="topologyPreview">
+      {{range .Topology.Routes}}
+      <div class="topologyStep">
+        <a class="topologyNode" href="{{.Href}}">{{.Label}}</a>
+        <span class="arrow">→</span>
+        <a class="topologyNode event" href="/topology"><strong>{{.EventCount}}</strong> {{t $ "topology.events"}} · <strong>{{.TargetCount}}</strong> {{t $ "topology.targets"}}</a>
+      </div>
+      {{end}}
+    </div>
+    {{else}}<div class="empty">{{t . "topology.empty"}}</div>{{end}}
+  </section>
 </div>
 
-<div class="card">
-  <h3>最近投递 / Recent deliveries</h3>
-  <div class="muted" style="font-size:12px; margin-bottom:8px;">来自日志文件尾部（只读）。 / Tailed from the log file (read-only).</div>
-  {{if .RecentLines}}
-  <div style="background:var(--bg-soft); border:1px solid var(--border); border-radius:10px; padding:12px;">
-    {{range .RecentLines}}<div style="font-family:ui-monospace,Menlo,monospace; font-size:12px; line-height:1.7; white-space:pre-wrap; word-break:break-all;">{{.}}</div>{{end}}
+<section class="card" style="margin-top:16px;">
+  <div class="chartTitle"><span>{{t . "dashboard.server"}}</span></div>
+  <div class="kv">
+    <div class="k">{{t . "dashboard.listen"}}</div><div><code>{{.ServerInfo.Host}}:{{.ServerInfo.Port}}</code></div>
+    <div class="k">{{t . "dashboard.logLevel"}}</div><div>{{if .ServerInfo.LogLevel}}{{.ServerInfo.LogLevel}}{{else}}—{{end}}</div>
+    <div class="k">{{t . "dashboard.timeout"}}</div><div>{{if .ServerInfo.Timeout}}{{.ServerInfo.Timeout}}s{{else}}—{{end}}</div>
+    <div class="k">{{t . "dashboard.maxPayload"}}</div><div>{{if .ServerInfo.MaxPayloadSize}}{{.ServerInfo.MaxPayloadSize}}{{else}}—{{end}}</div>
+    <div class="k">{{t . "dashboard.allowedSources"}}</div><div>{{range .ServerInfo.AllowedSources}}<span class="pill muted">{{.}}</span>{{else}}—{{end}}</div>
   </div>
-  {{else}}
-  <div class="empty">暂无投递记录 / no recent activity</div>
-  {{end}}
-</div>
+</section>
 {{end}}
