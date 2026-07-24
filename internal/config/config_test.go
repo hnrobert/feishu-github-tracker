@@ -17,6 +17,7 @@ server:
   port: 4594
   secret: "test_secret"
   log_level: "debug"
+  match_all_rules: true
   max_payload_size: "5MB"
   timeout: 15
 allowed_sources:
@@ -114,6 +115,9 @@ feishu_bots:
 	if cfg.Server.Server.Port != 4594 {
 		t.Errorf("Expected port 4594, got %d", cfg.Server.Server.Port)
 	}
+	if !cfg.Server.Server.MatchAllRules {
+		t.Error("Expected match_all_rules to be true")
+	}
 
 	if len(cfg.Repos.Repos) != 1 {
 		t.Errorf("Expected 1 repo, got %d", len(cfg.Repos.Repos))
@@ -171,9 +175,9 @@ feishu_bots:
 // This test is skipped by default as the real template files are very large and may have formatting issues
 
 func TestLoadRealTemplates(t *testing.T) {
-	// Use real templates from the project's configs directory.
+	// Use real templates from the project's versioned example-configs directory.
 	// This test requires the files to exist in the repository root.
-	projectRoot := filepath.Join("..", "..", "configs")
+	projectRoot := filepath.Join("..", "..", "example-configs")
 
 	// Ensure templates.jsonc exists
 	templatesPath := filepath.Join(projectRoot, "templates.jsonc")

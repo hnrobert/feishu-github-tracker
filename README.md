@@ -32,9 +32,9 @@
 
 目前支持所有的 GitHub Webhook 事件
 
-- 详见 [configs/events.yaml](configs/events.yaml)
+- 详见 [example-configs/events.yaml](example-configs/events.yaml)
 - 对应的处理方法以及文档详见 [internal/handler/](internal/handler/)
-- 默认提供的消息模板详见 [configs/templates.jsonc](configs/templates.jsonc)
+- 默认提供的消息模板详见 [example-configs/templates.jsonc](example-configs/templates.jsonc)
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 以及 `template` 提供的 `模板引擎的语法` `过滤器` `条件块` 等功能 ([详见文档](internal/template/README.md)) 对发出消息的格式做相应的修改
 
 ### Webhook 设置提醒
@@ -136,12 +136,13 @@ feishu-github-tracker/
 │   └── template/        # 模板处理
 ├── pkg/
 │   └── logger/          # 日志模块
-├── configs/             # 配置文件目录
+├── example-configs/     # 受 Git 跟踪的默认配置与注释示例
 │   ├── server.yaml
 │   ├── repos.yaml
 │   ├── events.yaml
 │   ├── feishu-bots.yaml
 │   └── templates.jsonc
+├── configs/             # 运行时配置目录，首次启动生成且不受 Git 跟踪
 ├── logs/                 # 日志文件目录
 ├── Dockerfile           # Docker 镜像构建
 ├── docker-compose.yml   # Docker Compose 配置
@@ -150,6 +151,8 @@ feishu-github-tracker/
 ```
 
 ## 配置说明
+
+仓库中的 [example-configs](example-configs) 是可随版本更新的默认配置；运行时请编辑 `configs/`。Docker Compose 首次启动会自动从示例目录复制缺失文件，已有文件绝不会被覆盖，因此更新代码不会再因本地配置修改而阻塞。
 
 ### server.yaml
 
@@ -248,7 +251,7 @@ event_sets:
     # 包含所有 GitHub 支持的事件...
 ```
 
-具体参考 [./configs/events.yaml](./configs/events.yaml) 中的详细内容
+具体参考 [./example-configs/events.yaml](./example-configs/events.yaml) 中的详细内容
 
 ### repos.yaml
 
@@ -345,6 +348,36 @@ templates:
 3. **分支级别**：为 push/PR 指定分支规则
 4. **动作级别**：为事件指定具体的 action（如 opened, closed）
 
+### 多规则匹配
+
+默认情况下，仓库事件只使用 `repos.yaml` 中第一条匹配的规则，适合使用精确规则覆盖通配符、将 `*` 作为兜底规则的配置方式。
+
+若同一个仓库需要按事件发送到不同飞书机器人，可在 `server.yaml` 的 `server:` 下开启：
+
+```yaml
+match_all_rules: true
+```
+
+开启后会按 `repos.yaml` 的顺序评估所有匹配规则：不订阅当前事件的规则会跳过，订阅该事件的规则会使用自己的 `notify_to` 发送通知。相同目标在同一次 webhook 内只会收到一条消息，发送仍按顺序执行。例如：
+
+```yaml
+repos:
+  - pattern: "acme/widget"
+    events:
+      release:
+    notify_to: [release-bot]
+  - pattern: "acme/widget"
+    events:
+      all:
+    notify_to: [activity-bot]
+  - pattern: "acme/widget"
+    events:
+      reviewer:
+    notify_to: [review-bot]
+```
+
+在这个例子中，`issue_comment` 会通知 `activity-bot` 和 `review-bot`，而 `release` 会通知 `release-bot` 和 `activity-bot`。组织级 Webhook 保持原有行为。
+
 ### 模板选择
 
 程序会根据事件的实际情况自动选择最合适的模板：
@@ -420,7 +453,8 @@ make fmt
 
 ## 环境变量
 
-- `CONFIG_DIR` - 配置文件目录路径（默认：`./configs`）
+- `CONFIG_DIR` - 运行时配置文件目录路径（Docker 默认：`/app/configs`）
+- `DEFAULT_CONFIG_DIR` - 默认配置示例目录；启动时仅复制其中缺失的文件到 `CONFIG_DIR`
 - `LOG_DIR` - 日志文件目录路径（默认：`./logs`）
 - `TZ` - 时区设置（默认：`Asia/Shanghai`）
 
