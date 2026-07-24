@@ -10,6 +10,7 @@
 
 <div class="card">
   {{if .Bots}}
+  <div class="tableScroll">
   <table>
     <thead>
       <tr>
@@ -40,6 +41,7 @@
       {{end}}
     </tbody>
   </table>
+  </div>
   {{else}}
   <div class="empty">{{t . "bots.empty"}}</div>
   {{end}}

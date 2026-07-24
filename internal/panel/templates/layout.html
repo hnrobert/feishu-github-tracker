@@ -123,7 +123,7 @@
       flex: 0 0 248px;
       border-right: 1px solid var(--border);
       background: var(--bg-soft);
-      padding: 18px 14px;
+      padding: 4px 18px 14px;
       height: 100vh;
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -442,6 +442,17 @@
       font-size: 14px;
     }
 
+    /* Tables with non-wrapping code cells can overflow; let them scroll sideways
+       instead of breaking the layout. */
+    .tableScroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tableScroll table {
+      min-width: 100%;
+      width: max-content;
+    }
+
     th,
     td {
       text-align: left;
@@ -475,6 +486,7 @@
       padding: 2px 6px;
       border-radius: 6px;
       border: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     .pill {
@@ -577,6 +589,7 @@
       min-width: 0;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 13px;
+      white-space: normal;
       word-break: break-all;
       background: transparent;
       border: none;
@@ -1109,7 +1122,7 @@
   </style>
 </head>
 
-<body data-copied-label="{{t . " action.copied"}}">
+<body data-copied-label="{{t . "action.copied"}}">
   {{if .HideNav}}
   <div class="shell">
     <main class="main main-center">
