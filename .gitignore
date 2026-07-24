@@ -245,6 +245,9 @@ bin/
 logs/*
 !logs/.gitkeep
 
+# Runtime configuration is initialized from example-configs on first start.
+/configs/
+
 # docker-compose use docker-compose.yml in default, ignore this
 docker-compose.yaml
 
