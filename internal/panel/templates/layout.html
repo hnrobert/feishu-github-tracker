@@ -213,6 +213,14 @@
       padding: 26px 30px 60px;
     }
 
+    /* Login (HideNav) page: center the card both axes. */
+    .main-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
     .wrap {
       max-width: 1080px;
       margin: 0 auto;
@@ -733,8 +741,8 @@
 <body data-copied-label="{{t . "action.copied"}}">
   {{if .HideNav}}
   <div class="shell">
-    <main class="main">
-      <div class="wrap" style="max-width: 460px;">
+    <main class="main main-center">
+      <div class="wrap" style="width: 460px; max-width: 100%;">
         {{if .Flash}}
         <div class="flash {{.FlashKind}}">{{.Flash}}</div>
         {{end}}
