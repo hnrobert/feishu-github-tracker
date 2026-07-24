@@ -422,23 +422,26 @@ func readRecentLogLines(logDir string, n int) []string {
 	return kept
 }
 
+// readDashboardLogLines reads ALL .log files in logDir (the logger creates one
+// file per day: feishu-github-tracker-YYYY-MM-DD.log) and returns every line.
+// summarizeDeliveries then distributes entries across the 7-day chart based on
+// each line's timestamp — reading only the newest file would put everything on
+// today's bar.
 func readDashboardLogLines(logDir string) []string {
 	entries, err := os.ReadDir(logDir)
 	if err != nil {
 		return nil
 	}
-	var newest os.DirEntry
+	var lines []string
 	for _, entry := range entries {
-		if !entry.IsDir() && (newest == nil || entry.Name() > newest.Name()) {
-			newest = entry
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".log") {
+			continue
 		}
+		data, err := os.ReadFile(filepath.Join(logDir, entry.Name()))
+		if err != nil {
+			continue
+		}
+		lines = append(lines, strings.Split(strings.TrimSpace(string(data)), "\n")...)
 	}
-	if newest == nil {
-		return nil
-	}
-	data, err := os.ReadFile(filepath.Join(logDir, newest.Name()))
-	if err != nil {
-		return nil
-	}
-	return strings.Split(strings.TrimSpace(string(data)), "\n")
+	return lines
 }
