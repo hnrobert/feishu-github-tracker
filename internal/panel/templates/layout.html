@@ -26,6 +26,20 @@
 </nav>
 {{end}}
 
+{{define "sidebarFooter"}}
+{{if .Authed}}
+<div class="sidebarFooter">
+  <a class="languageLink" href="{{.LanguageURL}}">{{t . "action.language"}}</a>
+  <div class="sidebarUser">
+    <span class="muted" style="font-size:12px;">{{.Username}}</span>
+    <form method="post" action="/logout" style="margin:0;">
+      <button class="btn small" type="submit">{{t . "action.logout"}}</button>
+    </form>
+  </div>
+</div>
+{{end}}
+{{end}}
+
 {{define "layout"}}
 <!doctype html>
 <html lang="{{.Locale}}">
@@ -121,6 +135,8 @@
     .sidebar {
       width: 248px;
       flex: 0 0 248px;
+      display: flex;
+      flex-direction: column;
       border-right: 1px solid var(--border);
       background: var(--bg-soft);
       padding: 4px 18px 14px;
@@ -202,6 +218,22 @@
 
     .nav a.active small {
       color: var(--accent-strong);
+    }
+
+    .sidebarFooter {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebarUser {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .main {
@@ -388,6 +420,8 @@
       color: var(--text);
       font-size: 14px;
       font-weight: 550;
+      line-height: 1;
+      text-align: center;
       cursor: pointer;
       text-decoration: none;
       transition: background .12s, border-color .12s, transform .05s;
@@ -727,7 +761,7 @@
     }
 
     .main {
-      padding: 10px 12px 12px;
+      padding: 8px 12px 12px;
       background: #edf3f8;
     }
 
@@ -1144,11 +1178,6 @@
       </label>
       <strong>Feishu GitHub Tracker</strong>
     </div>
-    {{if .Authed}}
-    <form method="post" action="/logout" style="margin:0;">
-      <button class="btn small" type="submit">{{t . "action.logout"}}</button>
-    </form>
-    {{end}}
   </header>
 
   <div class="shell">
@@ -1159,20 +1188,12 @@
       </a>
 
       {{template "nav" .}}
+
+      {{template "sidebarFooter" .}}
     </aside>
 
     <main class="main">
       <div class="wrap">
-        <div class="topbar">
-          {{if .Authed}}
-          <a class="languageLink" href="{{.LanguageURL}}">{{t . "action.language"}}</a>
-          <span class="muted" style="font-size:13px;">{{.Username}}</span>
-          <form method="post" action="/logout" style="margin:0;">
-            <button class="btn small" type="submit">{{t . "action.logout"}}</button>
-          </form>
-          {{end}}
-        </div>
-
         {{if .Flash}}
         <div class="flash {{.FlashKind}}">{{.Flash}}</div>
         {{end}}
@@ -1198,6 +1219,7 @@
         <label for="menuOpen" class="btn small">{{t . "close"}}</label>
       </div>
       {{template "nav" .}}
+      {{template "sidebarFooter" .}}
     </div>
   </div>
   {{end}}

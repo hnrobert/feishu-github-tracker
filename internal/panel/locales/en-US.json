@@ -157,6 +157,5 @@
   "flash.settingsUsernameSaved": "Server settings and username saved.",
   "flash.settingsPasswordSaved": "Server settings and password saved.",
   "footer.tagline": "Feishu GitHub Tracker · GitHub → Feishu webhook forwarder.",
-  "action.copied": "Copied",
   "footer.note": "Panel edits auto-reload on save; hand-edited config files apply via <code>-reload</code> or a restart."
 }

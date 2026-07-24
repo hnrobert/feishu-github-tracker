@@ -157,6 +157,5 @@
   "flash.settingsUsernameSaved": "服务设置和用户名已保存。",
   "flash.settingsPasswordSaved": "服务设置和密码已保存。",
   "footer.tagline": "Feishu GitHub Tracker · GitHub → 飞书 webhook 转发。",
-  "action.copied": "已复制",
   "footer.note": "面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。"
 }
