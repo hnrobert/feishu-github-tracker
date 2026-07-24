@@ -3686,6 +3686,190 @@
               ]
             }
           }
+        },
+        {
+          "tags": [
+            "pull_request"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "💬 PR Comment: #{{issue.number}}"
+                },
+                "template": "orange"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Author:** {{sender_link_md | default(sender.login)}}\n**Pull Request:** {{issue_link_md | default(issue.html_url | default(''))}}\n**Comment:** {{comment.body}}\n"
+                  }
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Comment"
+                      },
+                      "url": "{{comment.html_url}}",
+                      "type": "primary"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "created",
+            "pull_request"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔔 PR Comment Created"
+                },
+                "template": "green"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Details"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "deleted",
+            "pull_request"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔔 PR Comment Deleted"
+                },
+                "template": "red"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Details"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "tags": [
+            "edited",
+            "pull_request"
+          ],
+          "payload": {
+            "msg_type": "interactive",
+            "card": {
+              "config": {
+                "wide_screen_mode": true
+              },
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "🔔 PR Comment Edited"
+                },
+                "template": "blue"
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                  }
+                },
+                {
+                  "tag": "hr"
+                },
+                {
+                  "tag": "action",
+                  "actions": [
+                    {
+                      "tag": "button",
+                      "text": {
+                        "tag": "plain_text",
+                        "content": "View Details"
+                      },
+                      "url": "{{repository.html_url}}",
+                      "type": "default"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       ]
     },
