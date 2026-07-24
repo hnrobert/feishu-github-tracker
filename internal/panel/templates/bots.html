@@ -1,11 +1,11 @@
-{{define "title"}}飞书机器人 · Feishu Bots{{end}}
+{{define "title"}}{{t . "bots.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead" style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap;">
   <div>
-    <h2>飞书机器人 / Feishu Bots</h2>
-    <div class="sub">机器人别名与 Webhook URL，在仓库规则中以 alias 引用。 / Bot aliases + webhook URLs, referenced by alias in repo rules.</div>
+    <h2>{{t . "bots.title"}}</h2>
+    <div class="sub">{{t . "bots.subtitle"}}</div>
   </div>
-  <a class="btn primary" href="/bots/new">+ 新建 / New</a>
+  <a class="btn primary" href="/bots/new">+ {{t . "action.new"}}</a>
 </div>
 
 <div class="card">
@@ -14,9 +14,9 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>别名 / Alias</th>
-        <th>Webhook URL</th>
-        <th>模板 / Template</th>
+        <th>{{t . "bots.alias"}}</th>
+        <th>{{t . "bots.webhookURL"}}</th>
+        <th>{{t . "bots.template"}}</th>
         <th></th>
       </tr>
     </thead>
@@ -29,10 +29,10 @@
         <td>{{if .Template}}<span class="pill">{{.Template}}</span>{{else}}<span class="pill muted">default</span>{{end}}</td>
         <td>
           <div class="actions" style="justify-content:flex-end;">
-            <a class="btn small" href="/bots/edit?index={{.Index}}">编辑 / Edit</a>
+            <a class="btn small" href="/bots/edit?index={{.Index}}">{{t $ "action.edit"}}</a>
             <form method="post" action="/bots/delete" style="margin:0;">
               <input type="hidden" name="index" value="{{.Index}}" />
-              <button class="btn small danger" type="submit" onclick="return confirm('删除该机器人？ / Delete this bot?');">删除</button>
+              <button class="btn small danger" type="submit" onclick="return confirm('{{t $ "bots.deleteConfirm"}}');">{{t $ "action.delete"}}</button>
             </form>
           </div>
         </td>
@@ -41,7 +41,7 @@
     </tbody>
   </table>
   {{else}}
-  <div class="empty">暂无机器人，点击「新建」添加。 / No bots yet — click “New”.</div>
+  <div class="empty">{{t . "bots.empty"}}</div>
   {{end}}
 </div>
 {{end}}

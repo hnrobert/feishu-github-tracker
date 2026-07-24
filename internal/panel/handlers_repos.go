@@ -33,11 +33,11 @@ func (a *App) handleRepoEdit(w http.ResponseWriter, r *http.Request) {
 	idx, _ := strconv.Atoi(r.URL.Query().Get("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	if idx < 0 || idx >= len(cfg.Repos.Repos) {
-		a.redirectFlash(w, r, "/repos", "仓库不存在 / repo not found", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoNotFound"), "err")
 		return
 	}
 	data.EditRepo = repoEditRow(idx, cfg.Repos.Repos[idx])
@@ -47,19 +47,19 @@ func (a *App) handleRepoEdit(w http.ResponseWriter, r *http.Request) {
 // handleRepoSave creates or updates a repo rule.
 func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/repos", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
 	pattern := strings.TrimSpace(r.FormValue("pattern"))
 	if pattern == "" {
-		a.redirectFlash(w, r, "/repos", "pattern 不能为空 / pattern must not be empty", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.patternRequired"), "err")
 		return
 	}
 
 	events, err := parseEventsYAML(r.FormValue("events"))
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", "events YAML 解析失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.eventsParseFailed", err), "err")
 		return
 	}
 	notifyTo := splitLines(r.FormValue("notify_to"))
@@ -67,7 +67,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 
@@ -79,36 +79,36 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
-		a.redirectFlash(w, r, "/repos", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/repos", "仓库规则已保存 / repo rule saved", "ok")
+	a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoSaved"), "ok")
 }
 
 // handleRepoDelete removes a repo rule by index.
 func (a *App) handleRepoDelete(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/repos", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	if idx < 0 || idx >= len(cfg.Repos.Repos) {
-		a.redirectFlash(w, r, "/repos", "仓库不存在 / repo not found", "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoNotFound"), "err")
 		return
 	}
 	cfg.Repos.Repos = append(cfg.Repos.Repos[:idx], cfg.Repos.Repos[idx+1:]...)
 	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
-		a.redirectFlash(w, r, "/repos", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/repos", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/repos", "仓库规则已删除 / repo rule deleted", "ok")
+	a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoDeleted"), "ok")
 }
 
 // repoListRow builds a RepoRow for list display.

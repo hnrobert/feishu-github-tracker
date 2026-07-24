@@ -1,8 +1,8 @@
-{{define "title"}}消息模板 · Templates{{end}}
+{{define "title"}}{{t . "templates.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead">
-  <h2>消息模板 / Templates</h2>
-  <div class="sub">飞书卡片模板（templates.*.jsonc）。选择文件后按事件编辑其 payloads。 / Feishu card templates. Pick a file, then edit an event's payloads.</div>
+  <h2>{{t . "templates.title"}}</h2>
+  <div class="sub">{{t . "templates.subtitle"}}</div>
 </div>
 
 {{if .TemplateFilesList}}
@@ -11,13 +11,13 @@
   <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
     <div>
       <h3>{{if eq .Name "default"}}templates.jsonc{{else}}templates.{{.Name}}.jsonc{{end}}</h3>
-      <div class="muted" style="font-size:12px; margin-top:2px;">模板名 / name: <code>{{.Name}}</code> · {{.Count}} 个事件 / events</div>
+      <div class="muted" style="font-size:12px; margin-top:2px;">{{t $ "templates.name"}}: <code>{{.Name}}</code> · {{.Count}} {{t $ "templates.eventsCount"}}</div>
     </div>
-    <a class="btn" href="/templates/edit?file={{.Name}}">浏览事件 / Browse events</a>
+    <a class="btn" href="/templates/edit?file={{.Name}}">{{t $ "action.browse"}}</a>
   </div>
 </div>
 {{end}}
 {{else}}
-<div class="card"><div class="empty">未发现模板文件 / no template files found</div></div>
+<div class="card"><div class="empty">{{t . "templates.empty"}}</div></div>
 {{end}}
 {{end}}
