@@ -3902,7 +3902,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -3946,7 +3946,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✨ **新功能请求**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "✨ **新功能请求**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -3990,7 +3990,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📋 **任务创建**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "📋 **任务创建**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4034,7 +4034,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Bug 已修复**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Bug 已修复**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4078,7 +4078,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **功能已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **功能已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4122,7 +4122,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **任务已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **任务已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4166,7 +4166,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Bug 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Bug 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4210,7 +4210,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **功能已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **功能已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4254,7 +4254,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **任务已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **任务已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4297,7 +4297,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📝 **Issue 已开启**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "📝 **Issue 已开启**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4340,7 +4340,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✅ **Issue 已关闭**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "✅ **Issue 已关闭**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4383,7 +4383,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔄 **Issue 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
+                    "content": "🔄 **Issue 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
                   }
                 },
                 {
@@ -4426,7 +4426,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "👤 **Issue 已分配**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**分配给：** {{assignee_link_md}}{{/if}}"
+                    "content": "👤 **Issue 已分配**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**分配给：** {{assignee_link_md}}{{/if}}"
                   }
                 },
                 {
@@ -4469,7 +4469,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "👤 **Issue 已取消分配**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**移除分配：** {{assignee_link_md}}{{/if}}"
+                    "content": "👤 **Issue 已取消分配**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**移除分配：** {{assignee_link_md}}{{/if}}"
                   }
                 },
                 {
@@ -4512,7 +4512,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue 已编辑**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**标题改自：** {{changes_title_from}}{{/if}}"
+                    "content": "✏️ **Issue 已编辑**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**标题改自：** {{changes_title_from}}{{/if}}"
                   }
                 },
                 {
@@ -4555,7 +4555,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🎯 **里程碑已添加**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**里程碑：** {{milestone_title}}{{/if}}"
+                    "content": "🎯 **里程碑已添加**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**里程碑：** {{milestone_title}}{{/if}}"
                   }
                 },
                 {
@@ -4598,7 +4598,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🎯 **里程碑已移除**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**移除里程碑：** {{milestone_title}}{{/if}}"
+                    "content": "🎯 **里程碑已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**移除里程碑：** {{milestone_title}}{{/if}}"
                   }
                 },
                 {
@@ -4641,7 +4641,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📦 **Issue 已转移**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**转移到仓库：** {{changes_new_repository_full_name}}{{/if}}"
+                    "content": "📦 **Issue 已转移**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**转移到仓库：** {{changes_new_repository_full_name}}{{/if}}"
                   }
                 },
                 {
@@ -4684,7 +4684,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🗑️ **Issue 已删除**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "🗑️ **Issue 已删除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 }
               ]
@@ -4713,7 +4713,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📌 **Issue 已置顶**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "📌 **Issue 已置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4756,7 +4756,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📌 **Issue 已取消置顶**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "📌 **Issue 已取消置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4799,7 +4799,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔒 **Issue 已锁定**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**原因：** {{issue.active_lock_reason}}{{/if}}"
+                    "content": "🔒 **Issue 已锁定**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**原因：** {{issue.active_lock_reason}}{{/if}}"
                   }
                 },
                 {
@@ -4842,7 +4842,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🔓 **Issue 已解锁**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "🔓 **Issue 已解锁**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -4885,7 +4885,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -4928,7 +4928,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
+                    "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
                   }
                 },
                 {
@@ -4971,7 +4971,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue 已设置类型**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**类型：** {{issue_type}}{{/if}}"
+                    "content": "✏️ **Issue 已设置类型**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**类型：** {{issue_type}}{{/if}}"
                   }
                 },
                 {
@@ -5014,7 +5014,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✏️ **Issue 类型已移除**，操作者：{{sender_link_md | default(sender.login)}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
+                    "content": "✏️ **Issue 类型已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
                   }
                 },
                 {
@@ -5057,7 +5057,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5100,7 +5100,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "✨ **功能需求**，提出者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "✨ **功能需求**，提出者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5143,7 +5143,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "📝 **任务**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "📝 **任务**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5186,7 +5186,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "⚠️ **Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                    "content": "⚠️ **Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
                   }
                 },
                 {
@@ -5229,7 +5229,7 @@
                   "tag": "div",
                   "text": {
                     "tag": "lark_md",
-                    "content": "仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**作者：** {{sender_link_md | default(sender.login)}}\n**状态：** {{issue.state | default('unknown')}}\n"
+                    "content": "**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**作者：** {{sender_link_md | default(sender.login)}}\n**状态：** {{issue.state | default('unknown')}}\n"
                   }
                 },
                 {
