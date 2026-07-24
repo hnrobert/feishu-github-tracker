@@ -23,6 +23,23 @@ func MatchRepo(fullName string, repos []config.RepoPattern) (*config.RepoPattern
 	return nil, nil
 }
 
+// MatchAllRepos finds every matching repository pattern in configuration order.
+// It is used only when the server explicitly enables multi-rule matching.
+func MatchAllRepos(fullName string, repos []config.RepoPattern) ([]*config.RepoPattern, error) {
+	var matched []*config.RepoPattern
+	for i := range repos {
+		pattern := repos[i].Pattern
+		g, err := glob.Compile(pattern)
+		if err != nil {
+			return nil, fmt.Errorf("invalid glob pattern %s: %w", pattern, err)
+		}
+		if g.Match(fullName) {
+			matched = append(matched, &repos[i])
+		}
+	}
+	return matched, nil
+}
+
 // ExpandEvents expands event templates and merges them with custom events
 func ExpandEvents(repoEvents map[string]any, eventSets map[string]map[string]any, baseEvents map[string]any) map[string]any {
 	result := make(map[string]any)

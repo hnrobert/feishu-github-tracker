@@ -126,6 +126,7 @@ type ServerForm struct {
 	Port           int
 	Secret         string
 	LogLevel       string
+	MatchAllRules  bool
 	MaxPayloadSize string
 	Timeout        int
 	AllowedSources string // newline-joined

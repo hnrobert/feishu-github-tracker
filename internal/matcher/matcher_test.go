@@ -39,6 +39,27 @@ func TestMatchRepo(t *testing.T) {
 	}
 }
 
+func TestMatchAllRepos(t *testing.T) {
+	repos := []config.RepoPattern{
+		{Pattern: "org/specific-repo"},
+		{Pattern: "org/*"},
+		{Pattern: "*"},
+	}
+
+	matched, err := MatchAllRepos("org/specific-repo", repos)
+	if err != nil {
+		t.Fatalf("MatchAllRepos() error = %v", err)
+	}
+	if len(matched) != 3 {
+		t.Fatalf("MatchAllRepos() matched %d rules, want 3", len(matched))
+	}
+	for i, rule := range matched {
+		if rule.Pattern != repos[i].Pattern {
+			t.Errorf("match %d = %q, want %q", i, rule.Pattern, repos[i].Pattern)
+		}
+	}
+}
+
 func TestMatchEvent(t *testing.T) {
 	tests := []struct {
 		name             string

@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"testing"
-
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"testing"
+
 	"net/url"
 	"strings"
 
@@ -34,6 +35,61 @@ func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
 	}
 }
 
+func TestProcessWebhookMatchAllRules(t *testing.T) {
+	logger.Init("error", os.TempDir())
+	received := make(map[string]int)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		received[r.URL.Path]++
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
+	newHandler := func(matchAllRules bool) *Handler {
+		cfg := &config.Config{
+			Repos: config.ReposConfig{Repos: []config.RepoPattern{
+				{Pattern: "org/repo", Events: map[string]any{"release": nil}, NotifyTo: []string{"sl"}},
+				{Pattern: "org/repo", Events: map[string]any{"all": nil}, NotifyTo: []string{"action", "shared"}},
+				{Pattern: "org/repo", Events: map[string]any{"reviewer": nil}, NotifyTo: []string{"reviewer", "shared"}},
+			}},
+			Events: config.EventsConfig{EventSets: map[string]map[string]any{
+				"all":      {"issue_comment": nil},
+				"reviewer": {"issue_comment": nil},
+			}},
+			FeishuBots: config.FeishuBotsConfig{FeishuBots: []config.FeishuBot{
+				{Alias: "sl", URL: server.URL + "/sl"},
+				{Alias: "action", URL: server.URL + "/action"},
+				{Alias: "reviewer", URL: server.URL + "/reviewer"},
+				{Alias: "shared", URL: server.URL + "/shared"},
+			}},
+			Templates: map[string]config.TemplatesConfig{"default": {
+				Templates: map[string]config.EventTemplate{"issue_comment": {
+					Payloads: []config.PayloadTemplate{{Tags: []string{"default"}, Payload: map[string]any{"msg_type": "text"}}},
+				}},
+			}},
+		}
+		cfg.Server.Server.MatchAllRules = matchAllRules
+		return New(cfg, notifier.New(cfg.FeishuBots))
+	}
+
+	payload := map[string]any{
+		"action":     "edited",
+		"repository": map[string]any{"full_name": "org/repo"},
+	}
+	if err := newHandler(false).processWebhook("issue_comment", payload); err != nil {
+		t.Fatalf("default matching returned error: %v", err)
+	}
+	if len(received) != 0 {
+		t.Fatalf("default matching delivered %#v, want no messages", received)
+	}
+
+	if err := newHandler(true).processWebhook("issue_comment", payload); err != nil {
+		t.Fatalf("match_all_rules returned error: %v", err)
+	}
+	if received["/action"] != 1 || received["/reviewer"] != 1 || received["/shared"] != 1 || received["/sl"] != 0 {
+		t.Fatalf("match_all_rules delivered %#v, want action, reviewer, and shared once each", received)
+	}
+}
+
 func TestServeHTTP_FormEncodedPayload(t *testing.T) {
 	// Initialize logger for tests
 	logger.Init("info", "/tmp")
@@ -46,6 +102,7 @@ func TestServeHTTP_FormEncodedPayload(t *testing.T) {
 				Port           int    `yaml:"port"`
 				Secret         string `yaml:"secret"`
 				LogLevel       string `yaml:"log_level"`
+				MatchAllRules  bool   `yaml:"match_all_rules"`
 				MaxPayloadSize string `yaml:"max_payload_size"`
 				Timeout        int    `yaml:"timeout"`
 			}{Secret: ""},
@@ -113,6 +170,7 @@ func TestServeHTTP_FormEncodedMissingPayload(t *testing.T) {
 				Port           int    `yaml:"port"`
 				Secret         string `yaml:"secret"`
 				LogLevel       string `yaml:"log_level"`
+				MatchAllRules  bool   `yaml:"match_all_rules"`
 				MaxPayloadSize string `yaml:"max_payload_size"`
 				Timeout        int    `yaml:"timeout"`
 			}{Secret: ""},
