@@ -163,7 +163,13 @@ func New(opts Options) (*App, error) {
 	}
 
 	base := template.New("layout.html").Funcs(template.FuncMap{
-		"t":       translate,
+		"t": translate,
+		// th returns a trusted static locale string as HTML (unescaped), for the
+		// few values that embed markup (e.g. <code>). Locale strings are app-
+		// shipped constants, never user input.
+		"th": func(data ViewData, key string) template.HTML {
+			return template.HTML(translate(data, key))
+		},
 		"percent": metricPercent,
 		"eq": func(a, b string) bool {
 			a = strings.TrimSpace(a)

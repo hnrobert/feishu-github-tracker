@@ -155,5 +155,7 @@
   "flash.settingsSavedRestart": "服务设置已保存；端口和密钥的修改需重启后生效。",
   "flash.settingsUsernamePasswordSaved": "服务设置、用户名和密码已保存。",
   "flash.settingsUsernameSaved": "服务设置和用户名已保存。",
-  "flash.settingsPasswordSaved": "服务设置和密码已保存。"
+  "flash.settingsPasswordSaved": "服务设置和密码已保存。",
+  "footer.tagline": "Feishu GitHub Tracker · GitHub → 飞书 webhook 转发。",
+  "footer.note": "面板内修改保存后会自动 reload；手动编辑配置文件则需以 <code>-reload</code> 启动或重启进程。"
 }
