@@ -6,7 +6,7 @@ build:
 
 # Run the application locally (with -reload so panel edits apply live)
 run:
-	go run ./cmd/feishu-github-tracker -reload
+	CONFIG_DIR=./configs DEFAULT_CONFIG_DIR=./example-configs LOG_DIR=./logs go run ./cmd/feishu-github-tracker -reload
 
 # Run tests
 test:
