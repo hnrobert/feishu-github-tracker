@@ -18,6 +18,7 @@ func (a *App) handleSettings(w http.ResponseWriter, r *http.Request) {
 			Port:           s.Port,
 			Secret:         s.Secret,
 			LogLevel:       s.LogLevel,
+			MatchAllRules:  s.MatchAllRules,
 			MaxPayloadSize: s.MaxPayloadSize,
 			Timeout:        s.Timeout,
 			AllowedSources: strings.Join(cfg.Server.AllowedSources, "\n"),
@@ -46,6 +47,7 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	host := strings.TrimSpace(r.FormValue("host"))
 	secret := strings.TrimSpace(r.FormValue("secret"))
 	logLevel := strings.TrimSpace(r.FormValue("log_level"))
+	matchAllRules := r.FormValue("match_all_rules") == "on"
 	maxPayload := strings.TrimSpace(r.FormValue("max_payload_size"))
 	allowed := splitLines(r.FormValue("allowed_sources"))
 
@@ -82,6 +84,7 @@ func (a *App) handleSettingsSave(w http.ResponseWriter, r *http.Request) {
 	}
 	mapSet(serverMap, "secret", secret)
 	mapSet(serverMap, "log_level", logLevel)
+	mapSetPlain(serverMap, "match_all_rules", strconv.FormatBool(matchAllRules))
 	mapSet(serverMap, "max_payload_size", maxPayload)
 	if timeout > 0 {
 		mapSetPlain(serverMap, "timeout", strconv.Itoa(timeout))

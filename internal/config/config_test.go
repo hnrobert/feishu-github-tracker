@@ -17,6 +17,7 @@ server:
   port: 4594
   secret: "test_secret"
   log_level: "debug"
+  match_all_rules: true
   max_payload_size: "5MB"
   timeout: 15
 allowed_sources:
@@ -113,6 +114,9 @@ feishu_bots:
 
 	if cfg.Server.Server.Port != 4594 {
 		t.Errorf("Expected port 4594, got %d", cfg.Server.Server.Port)
+	}
+	if !cfg.Server.Server.MatchAllRules {
+		t.Error("Expected match_all_rules to be true")
 	}
 
 	if len(cfg.Repos.Repos) != 1 {

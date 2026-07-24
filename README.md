@@ -345,6 +345,36 @@ templates:
 3. **分支级别**：为 push/PR 指定分支规则
 4. **动作级别**：为事件指定具体的 action（如 opened, closed）
 
+### 多规则匹配
+
+默认情况下，仓库事件只使用 `repos.yaml` 中第一条匹配的规则，适合使用精确规则覆盖通配符、将 `*` 作为兜底规则的配置方式。
+
+若同一个仓库需要按事件发送到不同飞书机器人，可在 `server.yaml` 的 `server:` 下开启：
+
+```yaml
+match_all_rules: true
+```
+
+开启后会按 `repos.yaml` 的顺序评估所有匹配规则：不订阅当前事件的规则会跳过，订阅该事件的规则会使用自己的 `notify_to` 发送通知。相同目标在同一次 webhook 内只会收到一条消息，发送仍按顺序执行。例如：
+
+```yaml
+repos:
+  - pattern: "acme/widget"
+    events:
+      release:
+    notify_to: [release-bot]
+  - pattern: "acme/widget"
+    events:
+      all:
+    notify_to: [activity-bot]
+  - pattern: "acme/widget"
+    events:
+      reviewer:
+    notify_to: [review-bot]
+```
+
+在这个例子中，`issue_comment` 会通知 `activity-bot` 和 `review-bot`，而 `release` 会通知 `release-bot` 和 `activity-bot`。组织级 Webhook 保持原有行为。
+
 ### 模板选择
 
 程序会根据事件的实际情况自动选择最合适的模板：

@@ -27,6 +27,7 @@ type ServerConfig struct {
 		Port           int    `yaml:"port"`
 		Secret         string `yaml:"secret"`
 		LogLevel       string `yaml:"log_level"`
+		MatchAllRules  bool   `yaml:"match_all_rules"`
 		MaxPayloadSize string `yaml:"max_payload_size"`
 		Timeout        int    `yaml:"timeout"`
 	} `yaml:"server"`

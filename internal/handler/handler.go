@@ -198,8 +198,10 @@ func (h *Handler) candidateSecrets(payload map[string]any) []string {
 	add(h.config.Server.Server.Secret)
 
 	if repo := h.extractRepoFullName(payload); repo != "" {
-		if rp, err := matcher.MatchRepo(repo, h.config.Repos.Repos); err == nil && rp != nil {
-			add(rp.Secret)
+		if rules, err := h.matchRepositoryRules(repo); err == nil {
+			for _, rule := range rules {
+				add(rule.Secret)
+			}
 		}
 	} else if org := h.extractOrgName(payload); org != "" {
 		for _, rp := range h.config.Repos.Repos {
@@ -209,6 +211,20 @@ func (h *Handler) candidateSecrets(payload map[string]any) []string {
 		}
 	}
 	return out
+}
+
+// matchRepositoryRules returns either the first matching rule (the historical
+// default) or every matching rule when match_all_rules is enabled.
+func (h *Handler) matchRepositoryRules(fullName string) ([]*config.RepoPattern, error) {
+	if h.config.Server.Server.MatchAllRules {
+		return matcher.MatchAllRepos(fullName, h.config.Repos.Repos)
+	}
+
+	rule, err := matcher.MatchRepo(fullName, h.config.Repos.Repos)
+	if err != nil || rule == nil {
+		return nil, err
+	}
+	return []*config.RepoPattern{rule}, nil
 }
 
 // verifySignatureAny reports whether the X-Hub-Signature-256 header matches the
@@ -235,6 +251,17 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 
 	// Extract organization name (for org-level webhooks)
 	orgName := h.extractOrgName(payload)
+	if repoFullName != "" && h.config.Server.Server.MatchAllRules {
+		rules, err := matcher.MatchAllRepos(repoFullName, h.config.Repos.Repos)
+		if err != nil {
+			return fmt.Errorf("failed to match repository: %w", err)
+		}
+		if len(rules) == 0 {
+			logger.Debug("No matching repository pattern found for %s, skipping", repoFullName)
+			return nil
+		}
+		return h.processAllRepositoryRules(eventType, payload, rules)
+	}
 
 	// Determine target bots based on repository or organization
 	var repoPattern *config.RepoPattern
@@ -313,51 +340,90 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 	}
 
 	logger.Info("Event matched: %s, sending notification", eventType)
+	return h.sendNotification(eventType, payload, targetBots)
+}
 
-	// Determine tags for template selection
-	tags := template.DetermineTags(eventType, payload)
-
-	// Prepare data for template filling (common for all templates)
-	data := h.prepareTemplateData(eventType, payload)
-
-	// Group targets by template
-	targetsByTemplate := h.groupTargetsByTemplate(targetBots)
-
-	// Process each template group
+// processAllRepositoryRules evaluates every matching rule in configuration
+// order. A rule that does not subscribe to this event is skipped; failures in
+// one eligible rule do not prevent later eligible rules from being attempted.
+func (h *Handler) processAllRepositoryRules(eventType string, payload map[string]any, rules []*config.RepoPattern) error {
+	isPingEvent := eventType == "ping"
+	action := h.extractAction(payload)
+	ref := h.extractRef(payload)
+	seenTargets := make(map[string]struct{})
 	var errs []string
-	for templateName, targets := range targetsByTemplate {
-		logger.Debug("Processing %d target(s) with template: %s", len(targets), templateName)
 
-		// Get the appropriate template configuration
+	for _, rule := range rules {
+		logger.Debug("Matched repository pattern: %s", rule.Pattern)
+		if !isPingEvent {
+			expandedEvents := matcher.ExpandEvents(rule.Events, h.config.Events.EventSets, h.config.Events.Events)
+			if !matcher.MatchEvent(eventType, action, ref, payload, expandedEvents) {
+				logger.Debug("Event %s (action: %s, ref: %s) does not match rule %s, skipping", eventType, action, ref, rule.Pattern)
+				continue
+			}
+		}
+
+		targets := uniqueUnseenTargets(rule.NotifyTo, seenTargets)
+		if len(targets) == 0 {
+			logger.Debug("Rule %s has no new notification targets, skipping", rule.Pattern)
+			continue
+		}
+
+		logger.Info("Event matched: %s (rule: %s), sending notification", eventType, rule.Pattern)
+		if err := h.sendNotification(eventType, payload, targets); err != nil {
+			logger.Error("Failed to send notifications for rule %s: %v", rule.Pattern, err)
+			errs = append(errs, fmt.Sprintf("rule %s: %v", rule.Pattern, err))
+		}
+	}
+
+	if len(errs) > 0 {
+		return fmt.Errorf("failed to process some matching rules: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// uniqueUnseenTargets prevents duplicate sends when overlapping matching rules
+// contain the same configured target.
+func uniqueUnseenTargets(targets []string, seen map[string]struct{}) []string {
+	var result []string
+	for _, target := range targets {
+		if _, ok := seen[target]; ok {
+			continue
+		}
+		seen[target] = struct{}{}
+		result = append(result, target)
+	}
+	return result
+}
+
+func (h *Handler) sendNotification(eventType string, payload map[string]any, targets []string) error {
+	tags := template.DetermineTags(eventType, payload)
+	data := h.prepareTemplateData(eventType, payload)
+	targetsByTemplate := h.groupTargetsByTemplate(targets)
+	var errs []string
+	for templateName, templateTargets := range targetsByTemplate {
+		logger.Debug("Processing %d target(s) with template: %s", len(templateTargets), templateName)
 		templatesConfig := h.config.GetTemplateConfig(templateName)
-
-		// Select template
 		tmpl, err := template.SelectTemplate(eventType, tags, templatesConfig)
 		if err != nil {
 			logger.Error("Failed to select template for %s: %v", templateName, err)
 			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
 			continue
 		}
-
-		// Fill template
 		filledPayload, err := template.FillTemplate(tmpl, data)
 		if err != nil {
 			logger.Error("Failed to fill template for %s: %v", templateName, err)
 			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
 			continue
 		}
-
-		// Send notifications to this group
-		if err := h.notifier.Send(targets, filledPayload); err != nil {
+		if err := h.notifier.Send(templateTargets, filledPayload); err != nil {
 			logger.Error("Failed to send notifications for template %s: %v", templateName, err)
 			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
 		}
 	}
-
 	if len(errs) > 0 {
 		return fmt.Errorf("failed to process some templates: %s", strings.Join(errs, "; "))
 	}
-
 	return nil
 }
 

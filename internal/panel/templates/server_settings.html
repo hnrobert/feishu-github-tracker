@@ -44,6 +44,12 @@
     </div>
   </div>
 
+  <label class="checkLine">
+    <input type="checkbox" name="match_all_rules" {{if .ServerForm.MatchAllRules}}checked{{end}} />
+    <span>匹配全部仓库规则 / Match all repository rules</span>
+  </label>
+  <div class="note">默认只使用首条匹配规则。开启后会按配置顺序检查全部匹配规则，每条规则可独立筛选事件和通知目标；同一目标在一次 webhook 中只发送一次。 / By default only the first matching rule is used. When enabled, every matching rule is evaluated in order; each filters events and selects targets independently, while duplicate targets receive one notification per webhook.</div>
+
   <label>允许来源 / Allowed sources <span class="muted">(每行一个 / one per line)</span></label>
   <textarea name="allowed_sources" placeholder="github.com&#10;api.github.com">{{.ServerForm.AllowedSources}}</textarea>
 

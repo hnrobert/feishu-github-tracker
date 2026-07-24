@@ -9,6 +9,7 @@ server:
   port: 4594 # Webhook监听端口
   # secret: "your_secret" # 全局 Webhook 密钥（fallback）：用于验证 GitHub X-Hub-Signature；某条 repos 匹配单独配置了 secret 时，该规则优先使用自己的 secret，否则回退到这里
   log_level: "info" # 可选: debug, info, warn, error
+  match_all_rules: false # 是否让同一 webhook 依次匹配所有仓库规则；false 时首条匹配规则生效
   max_payload_size: 5MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)
 
