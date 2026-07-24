@@ -53,13 +53,13 @@ http://localhost:4594/health
 
 ## 4. 修改配置
 
-编辑 `./configs/` 下的配置文件，参考 [../README.md](../README.md) 或 [../configs](../configs/) 下示例文件的注释。最常需要改的有：
+编辑 `./configs/` 下的运行时配置，参考 [../README.md](../README.md) 或 [../example-configs](../example-configs/) 下示例文件的注释。最常需要改的有：
 
-- [../configs/server.yaml](../configs/server.yaml)：监听地址、端口、`secret`（测试可不设）
-- [../configs/feishu-bots.yaml](../configs/feishu-bots.yaml)：飞书机器人的 Webhook URL 与别名
+- `./configs/server.yaml`（示例：[server.yaml](../example-configs/server.yaml)）：监听地址、端口、`secret`（测试可不设）
+- `./configs/feishu-bots.yaml`（示例：[feishu-bots.yaml](../example-configs/feishu-bots.yaml)）：飞书机器人的 Webhook URL 与别名
   - 不清楚「飞书机器人 / Webhook URL」是什么？参考 [飞书文档](https://open.feishu.cn/document/client-docs/bot-v3/add-custom-bot)，在群里建一个机器人并复制其 Webhook URL
-- [../configs/repos.yaml](../configs/repos.yaml)：要监听的 GitHub 仓库、事件及通知对象
-- [../configs/templates.jsonc](../configs/templates.jsonc)：默认消息模板（可选：创建 `templates.<名称>.jsonc` 自定义模板）
+- `./configs/repos.yaml`（示例：[repos.yaml](../example-configs/repos.yaml)）：要监听的 GitHub 仓库、事件及通知对象
+- `./configs/templates.jsonc`（示例：[templates.jsonc](../example-configs/templates.jsonc)）：默认消息模板（可选：创建 `templates.<名称>.jsonc` 自定义模板）
 
 修改后保存，程序会在下一次收到 GitHub Webhook 时自动热重载。
 
@@ -69,7 +69,7 @@ http://localhost:4594/health
 
 - 面板地址：`http://localhost:4594/`（与 webhook 同端口；`/webhook`、`/health` 仍照常工作）
 - 默认账号：用户名 `admin` / 密码 `admin`（默认配置已带；老版本升级且未配置面板账号时，也自动用 `admin`/`admin`）
-  - 用户名：可在 [../configs/server.yaml](../configs/server.yaml) 的 `panel.username`、环境变量 `PANEL_USERNAME`，或面板「服务设置」页修改
+  - 用户名：可在 `./configs/server.yaml` 的 `panel.username`、环境变量 `PANEL_USERNAME`，或面板「服务设置」页修改
   - 密码（优先级从高到低）：
     - 环境变量（推荐）：`PANEL_PASSWORD=你的密码`
     - `panel.password`（明文）：**存在则优先使用**；启动 / reload 时会自动转为 `password_hash`（覆盖原 hash）、删除该明文行并补回 `# password: "admin"` 注释
@@ -97,7 +97,7 @@ feishu_bots:
 - Payload URL：你的服务器地址，如 `http://your-domain-or-ip:4594/webhook`
 - Content type：选什么都支持
 - Secret：填你在 `server.yaml` 配置的 `secret`（如果配了）
-- 事件类型：可选 `Let me select individual events` 勾选需要的事件，并在 [../configs/repos.yaml](../configs/repos.yaml) 对应仓库里用 `all:` 等做更细控制；详见 [../configs/events.yaml](../configs/events.yaml)
+- 事件类型：可选 `Let me select individual events` 勾选需要的事件，并在 `./configs/repos.yaml` 对应仓库里用 `all:` 等做更细控制；详见 [events.yaml 示例](../example-configs/events.yaml)
 - 点击 `Add webhook`
 - ✅ 配置无误的话，几秒后飞书群会收到一条「GitHub Webhook 添加成功」通知（GitHub 发送的 ping 事件），说明 Webhook 已生效
 
@@ -124,8 +124,22 @@ docker compose up -d     # 用新镜像重建容器（本地配置保留）
 - 新版本引入的新默认配置项，也只在你对应文件缺失时才会自动补入
 - 管理面板账号：若你从老版本升级且没配置过面板账号，默认登录 `admin` / `admin`（见 [§5](#5-web-管理面板可选)）
 
+### 从旧版仓库迁移
+
+旧版本曾将运行时配置直接纳入 Git 跟踪。首次拉取本次目录迁移前，请先备份并暂存本地配置，避免 Git 因配置文件修改拒绝更新：
+
+```bash
+cp -a configs ../feishu-github-tracker-configs-backup
+git stash push -m "backup runtime configs before config split" -- configs
+git pull
+mkdir -p configs
+cp -a ../feishu-github-tracker-configs-backup/. configs/
+```
+
+迁移后 `configs/` 已被忽略；以后更新时可直接比较 `example-configs/` 与本地 `configs/`，不会再产生配置文件的 Git 修改。
+
 > 从源码部署的更新方式见 [从源码构建 · 更新源码版本](build-from-source.md#更新源码版本)。
 
 ---
 
-更多配置与高级用法见 [../README.md](../README.md)、[../configs](../configs/) 示例注释，或 [../internal/handler](../internal/handler/)、[../internal/template](../internal/template/) 下的文档。
+更多配置与高级用法见 [../README.md](../README.md)、[../example-configs](../example-configs/) 示例注释，或 [../internal/handler](../internal/handler/)、[../internal/template](../internal/template/) 下的文档。

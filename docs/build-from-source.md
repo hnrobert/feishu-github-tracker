@@ -47,14 +47,14 @@ make docker-up      # = docker-compose up -d
 # 编译
 go build -o bin/feishu-github-tracker ./cmd/feishu-github-tracker
 
-# 运行（-reload 启用配置热重载，推荐）
-CONFIG_DIR=./configs LOG_DIR=./logs ./bin/feishu-github-tracker -reload
+# 运行（首次会从 example-configs 初始化 ./configs；-reload 启用配置热重载）
+CONFIG_DIR=./configs DEFAULT_CONFIG_DIR=./example-configs LOG_DIR=./logs ./bin/feishu-github-tracker -reload
 ```
 
 或直接 `go run`（等价于 `make run`）：
 
 ```bash
-go run ./cmd/feishu-github-tracker -reload
+CONFIG_DIR=./configs DEFAULT_CONFIG_DIR=./example-configs LOG_DIR=./logs go run ./cmd/feishu-github-tracker -reload
 ```
 
 `-reload` 会在每次收到 webhook 时重新加载 `./configs/`，修改配置后无需重启即生效。
@@ -71,7 +71,7 @@ docker compose up -d --build
 go build -o bin/feishu-github-tracker ./cmd/feishu-github-tracker
 ```
 
-配置文件位于 `./configs`（挂载卷），升级不会覆盖你已有的配置。
+`./configs` 是本地运行时配置，首次启动由 `./example-configs` 初始化，升级不会覆盖你已有的配置；更新后的示例可直接在 `example-configs/` 中对比。
 
 ---
 
