@@ -482,9 +482,17 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
+
     .tableScroll table {
       min-width: 100%;
       width: max-content;
+    }
+
+    /* Cards that contain a table: remove padding so the table edge-to-edge
+       fills the card, and clip corners via overflow hidden. */
+    .card:has(> .tableScroll) {
+      padding: 0;
+      overflow: hidden;
     }
 
     th,
@@ -1158,7 +1166,7 @@
   </style>
 </head>
 
-<body data-copied-label="{{t . "action.copied"}}">
+<body data-copied-label="{{t . " action.copied"}}">
   {{if .HideNav}}
   <div class="shell">
     <main class="main main-center">
