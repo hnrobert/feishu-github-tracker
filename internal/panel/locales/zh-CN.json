@@ -127,7 +127,7 @@
   "settings.newPasswordHint": "留空则不修改",
   "settings.confirmPassword": "确认新密码",
   "settings.passwordHint": "修改密码需提供当前密码，并输入两次相同的新密码。",
-  "settings.saveWarning": "保存会重新格式化 server.yaml 并移除注释。端口、密钥和面板密钥的修改需重启服务；其它设置会立即生效。",
+  "settings.saveWarning": "端口、密钥和面板密钥的修改需重启服务；其它设置会立即生效。",
   "settings.passwordMismatch": "两次输入的新密码不一致。",
   "settings.currentPasswordRequired": "修改密码需填写当前密码。",
   "flash.panelLoginDisabled": "面板未配置管理员密码。",

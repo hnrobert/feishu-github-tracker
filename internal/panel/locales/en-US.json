@@ -127,7 +127,7 @@
   "settings.newPasswordHint": "Leave empty to keep the current password",
   "settings.confirmPassword": "Confirm new password",
   "settings.passwordHint": "Changing the password requires the current password and two matching new values.",
-  "settings.saveWarning": "Saving reformats server.yaml and removes comments. Port, webhook secret, and panel secret changes require a restart; other settings apply immediately.",
+  "settings.saveWarning": "Port, webhook secret, and panel secret changes require a restart; other settings apply immediately.",
   "settings.passwordMismatch": "The new passwords do not match.",
   "settings.currentPasswordRequired": "Enter the current password to change it.",
   "flash.panelLoginDisabled": "The panel administrator password is not configured.",
