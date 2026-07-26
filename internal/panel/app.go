@@ -58,6 +58,8 @@ type ViewData struct {
 	Flash       string
 	FlashKind   string // "ok" | "err" | ""
 	CurrentPage string
+	Locale      string
+	LanguageURL string
 
 	// dashboard
 	RepoCount     int
@@ -67,6 +69,8 @@ type ViewData struct {
 	ServerInfo    ServerInfo
 	RecentLines   []string
 	PayloadURL    string // public /webhook URL for the guide; empty when accessed locally
+	Delivery      DeliverySummary
+	Topology      Topology
 
 	// repos
 	Repos    []RepoRow
@@ -159,6 +163,14 @@ func New(opts Options) (*App, error) {
 	}
 
 	base := template.New("layout.html").Funcs(template.FuncMap{
+		"t": translate,
+		// th returns a trusted static locale string as HTML (unescaped), for the
+		// few values that embed markup (e.g. <code>). Locale strings are app-
+		// shipped constants, never user input.
+		"th": func(data ViewData, key string) template.HTML {
+			return template.HTML(translate(data, key))
+		},
+		"percent": metricPercent,
 		"eq": func(a, b string) bool {
 			a = strings.TrimSpace(a)
 			b = strings.TrimSpace(b)
@@ -189,6 +201,7 @@ func New(opts Options) (*App, error) {
 	for _, page := range []string{
 		"login",
 		"dashboard",
+		"topology",
 		"repos",
 		"repo_edit",
 		"bots",
@@ -261,8 +274,10 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/login", a.handleLogin)
 	mux.HandleFunc("/logout", a.handleLogout)
+	mux.HandleFunc("/locale", a.handleLocale)
 
 	mux.HandleFunc("/", a.requireAuth(a.handleDashboard))
+	mux.HandleFunc("/topology", a.requireAuth(a.handleTopology))
 	mux.HandleFunc("/repos", a.requireAuth(a.handleRepos))
 	mux.HandleFunc("/repos/new", a.requireAuth(a.handleRepoNew))
 	mux.HandleFunc("/repos/edit", a.requireAuth(a.handleRepoEdit))
@@ -310,12 +325,28 @@ func (a *App) renderPage(w http.ResponseWriter, page string, data ViewData) {
 // baseData returns a ViewData pre-populated with auth + flash from the request.
 func (a *App) baseData(r *http.Request) ViewData {
 	q := r.URL.Query()
+	locale := localeFrom(r)
 	return ViewData{
-		Authed:    true,
-		Username:  usernameFrom(r),
-		Flash:     q.Get("flash"),
-		FlashKind: q.Get("kind"),
+		Authed:      true,
+		Username:    usernameFrom(r),
+		Locale:      locale,
+		LanguageURL: "/locale?lang=" + alternateLocale(locale) + "&next=" + urlQueryEscape(r.URL.RequestURI()),
+		Flash:       q.Get("flash"),
+		FlashKind:   q.Get("kind"),
 	}
+}
+
+func (a *App) handleLocale(w http.ResponseWriter, r *http.Request) {
+	locale := r.URL.Query().Get("lang")
+	if !validLocale(locale) {
+		locale = "zh-CN"
+	}
+	http.SetCookie(w, &http.Cookie{Name: localeCookie, Value: locale, Path: "/", MaxAge: 365 * 24 * 60 * 60, SameSite: http.SameSiteLaxMode})
+	next := r.URL.Query().Get("next")
+	if !strings.HasPrefix(next, "/") || strings.HasPrefix(next, "//") {
+		next = "/"
+	}
+	http.Redirect(w, r, next, http.StatusSeeOther)
 }
 
 // redirectFlash redirects to dest with a flash message rendered on arrival.
@@ -389,4 +420,28 @@ func readRecentLogLines(logDir string, n int) []string {
 		kept = kept[len(kept)-n:]
 	}
 	return kept
+}
+
+// readDashboardLogLines reads ALL .log files in logDir (the logger creates one
+// file per day: feishu-github-tracker-YYYY-MM-DD.log) and returns every line.
+// summarizeDeliveries then distributes entries across the 7-day chart based on
+// each line's timestamp — reading only the newest file would put everything on
+// today's bar.
+func readDashboardLogLines(logDir string) []string {
+	entries, err := os.ReadDir(logDir)
+	if err != nil {
+		return nil
+	}
+	var lines []string
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".log") {
+			continue
+		}
+		data, err := os.ReadFile(filepath.Join(logDir, entry.Name()))
+		if err != nil {
+			continue
+		}
+		lines = append(lines, strings.Split(strings.TrimSpace(string(data)), "\n")...)
+	}
+	return lines
 }

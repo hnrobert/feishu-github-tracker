@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 )
@@ -32,9 +33,17 @@ func (a *App) handleDashboard(w http.ResponseWriter, r *http.Request) {
 		publicURL = cfg.Server.Panel.PublicURL
 	}
 	data.PayloadURL = payloadURLFor(r, publicURL)
-	data.RecentLines = readRecentLogLines(a.logDir, 20)
+	data.Topology = topologyFromConfig(cfg)
+	data.Delivery = summarizeDeliveries(readDashboardLogLines(a.logDir), time.Now())
 
 	a.renderPage(w, "dashboard", data)
+}
+
+func (a *App) handleTopology(w http.ResponseWriter, r *http.Request) {
+	data := a.baseData(r)
+	cfg, _ := a.loadConfig()
+	data.Topology = topologyFromConfig(cfg)
+	a.renderPage(w, "topology", data)
 }
 
 // payloadURLFor returns the /webhook URL to show in the setup guide.

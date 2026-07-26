@@ -1,29 +1,29 @@
-{{define "title"}}服务设置 · Server Settings{{end}}
+{{define "title"}}{{t . "settings.title"}} · Feishu GitHub Tracker{{end}}
 {{define "content"}}
 <div class="pageHead">
-  <h2>服务设置 / Server Settings</h2>
-  <div class="sub">编辑 server.yaml。端口与密钥的修改需重启进程后生效。 / Edit server.yaml. Port and secret changes need a restart.</div>
+  <h2>{{t . "settings.title"}}</h2>
+  <div class="sub">{{t . "settings.subtitle"}}</div>
 </div>
 
 <form id="settings-form" method="post" action="/settings/save" class="card">
   <div class="row">
     <div>
-      <label>监听主机 / Host</label>
+      <label>{{t . "settings.host"}}</label>
       <input type="text" name="host" value="{{.ServerForm.Host}}" />
     </div>
     <div>
-      <label>端口 / Port</label>
+      <label>{{t . "settings.port"}}</label>
       <input type="number" name="port" value="{{.ServerForm.Port}}" />
     </div>
   </div>
 
   <div class="row">
     <div>
-      <label>Webhook 密钥 / Secret <span class="muted">(全局 fallback · GitHub X-Hub-Signature；某条仓库规则单独配置 secret 时，该规则优先使用自己的)</span></label>
+      <label>{{t . "settings.secret"}} <span class="muted">({{t . "settings.secretHint"}})</span></label>
       <input type="text" name="secret" value="{{.ServerForm.Secret}}" />
     </div>
     <div>
-      <label>日志级别 / Log level</label>
+      <label>{{t . "settings.logLevel"}}</label>
       <select name="log_level">
         <option value="debug" {{if eq $.ServerForm.LogLevel "debug"}}selected{{end}}>debug</option>
         <option value="info" {{if eq $.ServerForm.LogLevel "info"}}selected{{end}}>info</option>
@@ -35,46 +35,46 @@
 
   <div class="row">
     <div>
-      <label>最大载荷 / Max payload size</label>
+      <label>{{t . "settings.maxPayload"}}</label>
       <input type="text" name="max_payload_size" value="{{.ServerForm.MaxPayloadSize}}" placeholder="5MB" />
     </div>
     <div>
-      <label>超时 / Timeout <span class="muted">(秒 / seconds)</span></label>
+      <label>{{t . "settings.timeout"}} <span class="muted">({{t . "settings.seconds"}})</span></label>
       <input type="number" name="timeout" value="{{.ServerForm.Timeout}}" />
     </div>
   </div>
 
   <label class="checkLine">
     <input type="checkbox" name="match_all_rules" {{if .ServerForm.MatchAllRules}}checked{{end}} />
-    <span>匹配全部仓库规则 / Match all repository rules</span>
+    <span>{{t . "settings.matchAll"}}</span>
   </label>
-  <div class="note">默认只使用首条匹配规则。开启后会按配置顺序检查全部匹配规则，每条规则可独立筛选事件和通知目标；同一目标在一次 webhook 中只发送一次。 / By default only the first matching rule is used. When enabled, every matching rule is evaluated in order; each filters events and selects targets independently, while duplicate targets receive one notification per webhook.</div>
+  <div class="note">{{t . "settings.matchAllHint"}}</div>
 
-  <label>允许来源 / Allowed sources <span class="muted">(每行一个 / one per line)</span></label>
+  <label>{{t . "settings.allowedSources"}} <span class="muted">({{t . "settings.onePerLine"}})</span></label>
   <textarea name="allowed_sources" placeholder="github.com&#10;api.github.com">{{.ServerForm.AllowedSources}}</textarea>
 
   <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;" />
 
-  <h3 style="margin-bottom:8px;">面板账号 / Panel account</h3>
+  <h3 style="margin-bottom:8px;">{{t . "settings.account"}}</h3>
 
-  <label>管理员用户名 / Admin username</label>
+  <label>{{t . "settings.adminUsername"}}</label>
   <input type="text" name="panel_username" value="{{.ServerForm.Username}}" />
 
-  <label>当前密码 / Current password <span class="muted">(修改密码时必填 / required to change password)</span></label>
+  <label>{{t . "settings.currentPassword"}} <span class="muted">({{t . "settings.currentPasswordHint"}})</span></label>
   <input type="password" name="panel_old_password" autocomplete="current-password" />
 
-  <label>新密码 / New password <span class="muted">(留空则不修改 / leave blank to keep)</span></label>
+  <label>{{t . "settings.newPassword"}} <span class="muted">({{t . "settings.newPasswordHint"}})</span></label>
   <input type="password" name="panel_password" autocomplete="new-password" />
 
-  <label>确认新密码 / Confirm new password</label>
+  <label>{{t . "settings.confirmPassword"}}</label>
   <input type="password" name="panel_password_confirm" autocomplete="new-password" />
-  <div class="note">修改密码需提供当前密码，并输入两次相同的新密码；密码会在浏览器内 SHA-256 后再传输（明文不发送到服务端），该 SHA-256 值即直接作为 <code>password_hash</code> 存储。 / Changing the password requires the current password and entering the new password twice; the password is SHA-256'd in the browser before sending (no plaintext on the wire), and that SHA-256 value is stored directly as <code>password_hash</code>.</div>
+  <div class="note">{{t . "settings.passwordHint"}}</div>
 
   <div class="actions" style="margin-top:18px;">
-    <button class="btn primary" type="submit">保存 / Save</button>
+    <button class="btn primary" type="submit">{{t . "action.save"}}</button>
   </div>
   <div class="note">
-    ⚠️ 保存会重新格式化 <code>server.yaml</code>（移除注释）。端口 / 密钥 / 面板 secret 改动需重启进程；其它改动保存后会自动 reload 生效。 / Saving reformats <code>server.yaml</code> (comments removed). Port / secret / panel-secret changes require a restart; everything else is reloaded automatically on save.
+    ⚠️ {{t . "settings.saveWarning"}}
   </div>
 </form>
 <script>
@@ -93,12 +93,12 @@
       try {
         if (newEl && newEl.value) {
           if (confEl && newEl.value !== confEl.value) {
-            alert('两次输入的新密码不一致 / new passwords do not match');
+            alert('{{t . "settings.passwordMismatch"}}');
             confEl.focus();
             return;
           }
           if (!oldEl || !oldEl.value) {
-            alert('修改密码需填写当前密码 / current password required');
+            alert('{{t . "settings.currentPasswordRequired"}}');
             oldEl.focus();
             return;
           }

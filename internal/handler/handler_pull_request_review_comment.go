@@ -5,6 +5,7 @@ func preparePullRequestReviewCommentData(data map[string]any, payload map[string
 	if comment, ok := payload["comment"].(map[string]any); ok {
 		data["comment_body"] = comment["body"]
 		data["comment_url"] = comment["html_url"]
+		data["comment"] = comment
 		if user, ok := comment["user"].(map[string]any); ok {
 			if login, ok2 := user["login"].(string); ok2 {
 				if url, ok3 := user["html_url"].(string); ok3 {
@@ -17,5 +18,6 @@ func preparePullRequestReviewCommentData(data map[string]any, payload map[string
 		data["pr_number"] = pr["number"]
 		data["pr_title"] = pr["title"]
 		data["pr_url"] = pr["html_url"]
+		data["pull_request"] = pr
 	}
 }

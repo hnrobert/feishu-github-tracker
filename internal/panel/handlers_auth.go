@@ -25,18 +25,18 @@ func (a *App) handleLogin(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) handleLoginPost(w http.ResponseWriter, r *http.Request) {
 	if !a.Enabled() {
-		a.redirectFlash(w, r, "/login", "面板未配置管理员密码 / panel login not configured", "err")
+		a.redirectFlash(w, r, "/login", a.message(r, "flash.panelLoginDisabled"), "err")
 		return
 	}
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/login", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/login", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	wantUser, passHash := a.credentials()
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	if username != wantUser || !auth.VerifyPassword(string(passHash), password) {
-		a.redirectFlash(w, r, "/login", "用户名或密码错误 / invalid username or password", "err")
+		a.redirectFlash(w, r, "/login", a.message(r, "flash.invalidCredentials"), "err")
 		return
 	}
 

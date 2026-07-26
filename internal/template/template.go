@@ -465,6 +465,17 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 			}
 		}
 
+	case "issue_comment":
+		// GitHub fires issue_comment for both issue comments and PR conversation
+		// comments. When the comment is on a PR, payload.issue.pull_request is
+		// present — tag it so a PR-specific comment template can be selected
+		// (without misclassifying real issue comments, which have no such field).
+		if issue, ok := payload["issue"].(map[string]any); ok {
+			if pr, ok := issue["pull_request"].(map[string]any); ok && len(pr) > 0 {
+				tags = append(tags, "pull_request")
+			}
+		}
+
 	case "workflow_run":
 		// For workflow runs, emit tags that describe completion and outcome so
 		// templates can select success/failure-specific payloads.

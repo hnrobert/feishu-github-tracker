@@ -36,12 +36,12 @@ func (a *App) handleBotEdit(w http.ResponseWriter, r *http.Request) {
 	idx, _ := strconv.Atoi(r.URL.Query().Get("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/bots", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	data.Templates = a.knownTemplates(cfg)
 	if idx < 0 || idx >= len(cfg.FeishuBots.FeishuBots) {
-		a.redirectFlash(w, r, "/bots", "机器人不存在 / bot not found", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.botNotFound"), "err")
 		return
 	}
 	b := cfg.FeishuBots.FeishuBots[idx]
@@ -52,7 +52,7 @@ func (a *App) handleBotEdit(w http.ResponseWriter, r *http.Request) {
 // handleBotSave creates or updates a bot.
 func (a *App) handleBotSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/bots", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
@@ -60,13 +60,13 @@ func (a *App) handleBotSave(w http.ResponseWriter, r *http.Request) {
 	url := strings.TrimSpace(r.FormValue("url"))
 	tmpl := strings.TrimSpace(r.FormValue("template"))
 	if alias == "" || url == "" {
-		a.redirectFlash(w, r, "/bots", "alias 和 url 不能为空 / alias and url required", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.botFieldsRequired"), "err")
 		return
 	}
 
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/bots", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 
@@ -78,34 +78,34 @@ func (a *App) handleBotSave(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := SaveYAML(a.cfgDir+"/feishu-bots.yaml", cfg.FeishuBots); err != nil {
-		a.redirectFlash(w, r, "/bots", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/bots", "机器人已保存 / bot saved", "ok")
+	a.redirectFlash(w, r, "/bots", a.message(r, "flash.botSaved"), "ok")
 }
 
 // handleBotDelete removes a bot by index.
 func (a *App) handleBotDelete(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/bots", "表单解析失败 / invalid form", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/bots", "读取配置失败 / failed to load config", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	if idx < 0 || idx >= len(cfg.FeishuBots.FeishuBots) {
-		a.redirectFlash(w, r, "/bots", "机器人不存在 / bot not found", "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.botNotFound"), "err")
 		return
 	}
 	cfg.FeishuBots.FeishuBots = append(cfg.FeishuBots.FeishuBots[:idx], cfg.FeishuBots.FeishuBots[idx+1:]...)
 	if err := SaveYAML(a.cfgDir+"/feishu-bots.yaml", cfg.FeishuBots); err != nil {
-		a.redirectFlash(w, r, "/bots", "保存失败: "+err.Error(), "err")
+		a.redirectFlash(w, r, "/bots", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/bots", "机器人已删除 / bot deleted", "ok")
+	a.redirectFlash(w, r, "/bots", a.message(r, "flash.botDeleted"), "ok")
 }
