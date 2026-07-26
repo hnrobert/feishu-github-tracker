@@ -1,0 +1,1114 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "closed",
+        "merged"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd2e Pull Request Merged"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "{{pr_body}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed",
+        "unmerged"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u274c Pull Request Closed (Not Merged)"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "This PR was closed without merging"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "opened"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd00 New Pull Request Opened"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "{{pr_body}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "Review PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "reopened"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 Pull Request Reopened"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "synchronize"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 Pull Request Updated"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "New commits pushed to this PR"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Changes"
+                  },
+                  "url": "{{pr_url}}/files",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "ready_for_review"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 Pull Request Ready for Review"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "This PR is ready for review"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "Review Now"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "converted_to_draft"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udcdd Pull Request Converted to Draft"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Converted by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "This PR is now in draft mode"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "review_requested"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udc41\ufe0f Review Requested"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Requested by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "Review PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd00 Pull Request {{action}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View PR"
+                  },
+                  "url": "{{pr_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "assigned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Assigned"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "auto_merge_disabled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Auto Merge Disabled"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "auto_merge_enabled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Auto Merge Enabled"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "demilestoned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Demilestoned"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "dequeued"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Dequeued"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "edited"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Edited"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "enqueued"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Enqueued"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "labeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Labeled"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "locked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Locked"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "milestoned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Milestoned"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "review_request_removed"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Review Request Removed"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unassigned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Unassigned"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlabeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Unlabeled"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlocked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 Pull Request Unlocked"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

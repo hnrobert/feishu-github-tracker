@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd01 Status update: {{state}}"
+            },
+            "template": "gray"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Context:** {{context}}\n**State:** {{state}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+types:
+- parent_issue_added
+- parent_issue_removed
+- sub_issue_added
+- sub_issue_removed

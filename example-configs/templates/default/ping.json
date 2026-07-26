@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 GitHub Webhook Successfully Added"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**GitHub says:** {{zen}}\n\n{{#if repository}}**Repository:** [{{repository.full_name}}]({{repository.html_url}})\n{{/if}}{{#if organization}}**Organization:** [{{organization.login}}](https://github.com/{{organization.login}})\n{{/if}}**Hook ID:** {{hook_id}}\n**Hook Type:** {{hook_type}}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

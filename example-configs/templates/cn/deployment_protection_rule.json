@@ -1,0 +1,50 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "requested"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd14 \u90e8\u7f72\u4fdd\u62a4\u89c4\u5219 \u5df2\u8bf7\u6c42"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u8be6\u60c5"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

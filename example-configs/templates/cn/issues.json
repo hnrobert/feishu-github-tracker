@@ -1,0 +1,1375 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "opened",
+        "type:bug"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udc1b Bug \u62a5\u544a\uff1a{{issue.title}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udc1b **\u53d1\u73b0 Bug**\uff0c\u62a5\u544a\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Bug"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "opened",
+        "type:feature"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2728 \u65b0\u529f\u80fd\u8bf7\u6c42\uff1a{{issue.title}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2728 **\u65b0\u529f\u80fd\u8bf7\u6c42**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u529f\u80fd"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "opened",
+        "type:task"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udccb \u4efb\u52a1\u521b\u5efa\uff1a{{issue.title}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udccb **\u4efb\u52a1\u521b\u5efa**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u4efb\u52a1"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed",
+        "type:bug"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 Bug \u5df2\u4fee\u590d\uff1a{{issue.title}}"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2705 **Bug \u5df2\u4fee\u590d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Bug"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed",
+        "type:feature"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 \u529f\u80fd\u5df2\u5b8c\u6210\uff1a{{issue.title}}"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2705 **\u529f\u80fd\u5df2\u5b8c\u6210**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u529f\u80fd"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed",
+        "type:task"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 \u4efb\u52a1\u5df2\u5b8c\u6210\uff1a{{issue.title}}"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2705 **\u4efb\u52a1\u5df2\u5b8c\u6210**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u4efb\u52a1"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "reopened",
+        "type:bug"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 Bug \u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd04 **Bug \u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Bug"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "reopened",
+        "type:feature"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 \u529f\u80fd\u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd04 **\u529f\u80fd\u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u529f\u80fd"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "reopened",
+        "type:task"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 \u4efb\u52a1\u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd04 **\u4efb\u52a1\u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b\u4efb\u52a1"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "opened"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udcdd Issue \u5df2\u5f00\u542f\uff1a{{issue.title}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udcdd **Issue \u5df2\u5f00\u542f**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2705 Issue \u5df2\u5173\u95ed\uff1a{{issue.title}}"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2705 **Issue \u5df2\u5173\u95ed**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "reopened"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd04 Issue \u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd04 **Issue \u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "assigned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udc64 Issue \u5df2\u5206\u914d\uff1a{{issue.title}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udc64 **Issue \u5df2\u5206\u914d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**\u5206\u914d\u7ed9\uff1a** {{assignee_link_md}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unassigned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udc64 Issue \u5df2\u53d6\u6d88\u5206\u914d\uff1a{{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udc64 **Issue \u5df2\u53d6\u6d88\u5206\u914d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**\u79fb\u9664\u5206\u914d\uff1a** {{assignee_link_md}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "edited"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u270f\ufe0f Issue \u5df2\u7f16\u8f91\uff1a{{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u270f\ufe0f **Issue \u5df2\u7f16\u8f91**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**\u6807\u9898\u6539\u81ea\uff1a** {{changes_title_from}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "milestoned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83c\udfaf \u91cc\u7a0b\u7891\u5df2\u6dfb\u52a0\uff1a{{issue.title}}"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83c\udfaf **\u91cc\u7a0b\u7891\u5df2\u6dfb\u52a0**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**\u91cc\u7a0b\u7891\uff1a** {{milestone_title}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "demilestoned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83c\udfaf \u91cc\u7a0b\u7891\u5df2\u79fb\u9664\uff1a{{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83c\udfaf **\u91cc\u7a0b\u7891\u5df2\u79fb\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**\u79fb\u9664\u91cc\u7a0b\u7891\uff1a** {{milestone_title}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "transferred"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udce6 Issue \u5df2\u8f6c\u79fb\uff1a{{issue.title}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udce6 **Issue \u5df2\u8f6c\u79fb**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**\u8f6c\u79fb\u5230\u4ed3\u5e93\uff1a** {{changes_new_repository_full_name}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "deleted"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\uddd1\ufe0f Issue \u5df2\u5220\u9664\uff1a{{issue.title}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\uddd1\ufe0f **Issue \u5df2\u5220\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "pinned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udccc Issue \u5df2\u7f6e\u9876\uff1a{{issue.title}}"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udccc **Issue \u5df2\u7f6e\u9876**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unpinned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udccc Issue \u5df2\u53d6\u6d88\u7f6e\u9876\uff1a{{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udccc **Issue \u5df2\u53d6\u6d88\u7f6e\u9876**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "locked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd12 Issue \u5df2\u9501\u5b9a\uff1a{{issue.title}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd12 **Issue \u5df2\u9501\u5b9a**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**\u539f\u56e0\uff1a** {{issue.active_lock_reason}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlocked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udd13 Issue \u5df2\u89e3\u9501\uff1a{{issue.title}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udd13 **Issue \u5df2\u89e3\u9501**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "labeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83c\udff7\ufe0f \u6807\u7b7e\u5df2\u6dfb\u52a0\uff1a{{labeled_label_name}} - {{issue.title}}"
+            },
+            "template": "teal"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**\u6807\u7b7e\uff1a** {{labeled_label_link_md | default(labeled_label_name)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u64cd\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlabeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83c\udff7\ufe0f \u6807\u7b7e\u5df2\u79fb\u9664\uff1a{{labeled_label_name}} - {{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**\u6807\u7b7e\uff1a** {{labeled_label_link_md | default(labeled_label_name)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u64cd\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "typed"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u270f\ufe0f Issue \u5df2\u8bbe\u7f6e\u7c7b\u578b\uff1a{{issue.title}}"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u270f\ufe0f **Issue \u5df2\u8bbe\u7f6e\u7c7b\u578b**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**\u7c7b\u578b\uff1a** {{issue_type}}{{/if}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "untyped"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u270f\ufe0f Issue \u7c7b\u578b\u5df2\u79fb\u9664\uff1a{{issue.title}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u270f\ufe0f **Issue \u7c7b\u578b\u5df2\u79fb\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "type:bug"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udc1e Bug\uff1a{{issue.title}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udc1b **\u53d1\u73b0 Bug**\uff0c\u62a5\u544a\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "type:feature"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2728 Feature\uff1a{{issue.title}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u2728 **\u529f\u80fd\u9700\u6c42**\uff0c\u63d0\u51fa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "type:task"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udcdd \u4efb\u52a1\uff1a{{issue.title}}"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\ud83d\udcdd **\u4efb\u52a1**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "type:unknown"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u26a0\ufe0f Issue\uff1a{{issue.title}}"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "\u26a0\ufe0f **Issue**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udcdd Issue\uff1a{{issue.title}}"
+            },
+            "template": "gray"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u72b6\u6001\uff1a** {{issue.state | default('unknown')}}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "\u67e5\u770b Issue"
+                  },
+                  "url": "{{issue.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

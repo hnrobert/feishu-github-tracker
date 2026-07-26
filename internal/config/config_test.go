@@ -171,99 +171,61 @@ feishu_bots:
 	}
 }
 
-// TestLoadRealTemplates tests loading the actual templates.jsonc and templates.cn.jsonc files
-// This test is skipped by default as the real template files are very large and may have formatting issues
+// TestLoadRealTemplates tests loading the actual example-configs directory
+// using config.Load (which transparently handles both old flat and new split layouts).
 
 func TestLoadRealTemplates(t *testing.T) {
-	// Use real templates from the project's versioned example-configs directory.
-	// This test requires the files to exist in the repository root.
 	projectRoot := filepath.Join("..", "..", "example-configs")
 
-	// Ensure templates.jsonc exists
-	templatesPath := filepath.Join(projectRoot, "templates.jsonc")
-	if _, err := os.Stat(templatesPath); os.IsNotExist(err) {
-		t.Fatalf("Required file missing: %s", templatesPath)
+	// Ensure the directory exists
+	if _, err := os.Stat(projectRoot); os.IsNotExist(err) {
+		t.Skipf("example-configs not found at %s", projectRoot)
 	}
 
-	// Ensure templates.cn.jsonc exists
-	templatesCnPath := filepath.Join(projectRoot, "templates.cn.jsonc")
-	if _, err := os.Stat(templatesCnPath); os.IsNotExist(err) {
-		t.Fatalf("Required file missing: %s", templatesCnPath)
+	// Use config.Load which handles both layouts
+	cfg, err := Load(projectRoot)
+	if err != nil {
+		t.Fatalf("Failed to load example-configs: %v", err)
 	}
 
-	// Test loading templates.jsonc
-	t.Run("LoadDefaultTemplates", func(t *testing.T) {
-		var templates TemplatesConfig
-		err := loadConfigFile(templatesPath, &templates)
-		if err != nil {
-			t.Fatalf("Failed to load templates.jsonc: %v", err)
+	// Test default templates
+	t.Run("DefaultTemplates", func(t *testing.T) {
+		defaultTmpl := cfg.GetTemplateConfig("default")
+		if _, ok := defaultTmpl.Templates["ping"]; !ok {
+			t.Error("Expected ping template in default")
 		}
-
-		// Check if ping template exists
-		if _, ok := templates.Templates["ping"]; !ok {
-			t.Error("Expected ping template in templates.jsonc")
-		}
-
-		// Check if other common templates exist
 		commonTemplates := []string{"push", "pull_request", "issues", "issue_comment"}
 		for _, tmpl := range commonTemplates {
-			if _, ok := templates.Templates[tmpl]; !ok {
-				t.Errorf("Expected %s template in templates.jsonc", tmpl)
+			if _, ok := defaultTmpl.Templates[tmpl]; !ok {
+				t.Errorf("Expected %s template in default", tmpl)
 			}
 		}
-
-		t.Logf("Successfully loaded %d templates from templates.jsonc", len(templates.Templates))
+		t.Logf("Default: %d templates", len(defaultTmpl.Templates))
 	})
 
-	// Test loading templates.cn.jsonc if it exists
-	t.Run("LoadChineseTemplates", func(t *testing.T) {
-		templatesCnPath := filepath.Join(projectRoot, "templates.cn.jsonc")
-		if _, err := os.Stat(templatesCnPath); os.IsNotExist(err) {
-			t.Skip("Skipping test: templates.cn.jsonc not found")
+	// Test CN templates if present
+	t.Run("ChineseTemplates", func(t *testing.T) {
+		if _, ok := cfg.Templates["cn"]; !ok {
+			t.Skip("cn locale not found")
 		}
-
-		var templates TemplatesConfig
-		err := loadConfigFile(templatesCnPath, &templates)
-		if err != nil {
-			t.Fatalf("Failed to load templates.cn.jsonc: %v", err)
+		cnTmpl := cfg.GetTemplateConfig("cn")
+		if _, ok := cnTmpl.Templates["ping"]; !ok {
+			t.Error("Expected ping template in cn")
 		}
-
-		// Check if ping template exists
-		if _, ok := templates.Templates["ping"]; !ok {
-			t.Error("Expected ping template in templates.cn.jsonc")
-		}
-
-		// Check if other common templates exist
-		commonTemplates := []string{"push", "pull_request", "issues", "issue_comment"}
-		for _, tmpl := range commonTemplates {
-			if _, ok := templates.Templates[tmpl]; !ok {
-				t.Errorf("Expected %s template in templates.cn.jsonc", tmpl)
-			}
-		}
-
-		t.Logf("Successfully loaded %d templates from templates.cn.jsonc", len(templates.Templates))
+		t.Logf("CN: %d templates", len(cnTmpl.Templates))
 	})
 
-	// Test ping template structure
+	// Validate ping template structure
 	t.Run("ValidatePingTemplate", func(t *testing.T) {
-		var templates TemplatesConfig
-		err := loadConfigFile(templatesPath, &templates)
-		if err != nil {
-			t.Fatalf("Failed to load templates.jsonc: %v", err)
-		}
-
-		pingTemplate, ok := templates.Templates["ping"]
+		defaultTmpl := cfg.GetTemplateConfig("default")
+		pingTemplate, ok := defaultTmpl.Templates["ping"]
 		if !ok {
 			t.Fatal("ping template not found")
 		}
-
 		if len(pingTemplate.Payloads) == 0 {
 			t.Fatal("ping template has no payloads")
 		}
-
-		// Validate first payload
 		firstPayload := pingTemplate.Payloads[0]
-
 		if len(firstPayload.Tags) == 0 {
 			t.Error("ping template payload has no tags")
 		}
@@ -281,71 +243,14 @@ func TestLoadRealTemplates(t *testing.T) {
 	})
 
 	// Test loading complete config with real templates
+
+	// LoadCompleteConfigWithRealTemplates: just use config.Load on example-configs
 	t.Run("LoadCompleteConfigWithRealTemplates", func(t *testing.T) {
-		// Create temp dir with minimal config files
-		tmpDir := t.TempDir()
-
-		serverYAML := `
-server:
-  host: "127.0.0.1"
-  port: 4594
-  secret: "test_secret"
-`
-
-		reposYAML := `
-repos:
-  - pattern: "test/repo"
-    events:
-      push:
-    notify_to:
-      - test-bot
-`
-
-		eventsYAML := `
-events:
-  push:
-`
-
-		botsYAML := `
-feishu_bots:
-  - alias: "test-bot"
-    url: "https://example.com/webhook"
-`
-
-		// Write minimal configs
-		files := map[string]string{
-			"server.yaml":      serverYAML,
-			"repos.yaml":       reposYAML,
-			"events.yaml":      eventsYAML,
-			"feishu-bots.yaml": botsYAML,
-		}
-
-		for name, content := range files {
-			path := filepath.Join(tmpDir, name)
-			if err := os.WriteFile(path, []byte(content), 0644); err != nil {
-				t.Fatalf("Failed to write %s: %v", name, err)
-			}
-		}
-
-		// Copy real templates
-		realTemplatesPath := filepath.Join(projectRoot, "templates.jsonc")
-		templatesData, err := os.ReadFile(realTemplatesPath)
-		if err != nil {
-			t.Fatalf("Failed to read real templates.jsonc: %v", err)
-		}
-
-		tmpTemplatesPath := filepath.Join(tmpDir, "templates.jsonc")
-		if err := os.WriteFile(tmpTemplatesPath, templatesData, 0644); err != nil {
-			t.Fatalf("Failed to write templates.jsonc to temp dir: %v", err)
-		}
-
-		// Load config
-		cfg, err := Load(tmpDir)
+		cfg, err := Load(projectRoot)
 		if err != nil {
 			t.Fatalf("Failed to load config with real templates: %v", err)
 		}
 
-		// Validate
 		if _, ok := cfg.Templates["default"]; !ok {
 			t.Error("Expected default template to be loaded")
 		}

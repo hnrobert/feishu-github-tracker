@@ -1,0 +1,16 @@
+pattern: CompPsyUnion/motion-vote-backend
+events:
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
+    types:
+    - opened
+    - closed
+    - reopened
+  issues: null
+  release: null
+notify_to:
+- ops-team
+- https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz

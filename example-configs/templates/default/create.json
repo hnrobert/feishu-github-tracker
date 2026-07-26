@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\u2728 Created: {{ref_type}} in {{repository.full_name}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Creator:** {{sender_link_md | default(sender.login)}}\n**Type:** {{ref_type}}  Name: {{ref}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

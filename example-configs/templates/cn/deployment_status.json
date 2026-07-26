@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udce3 \u90e8\u7f72\u72b6\u6001\uff1a{{deployment_status.state}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**\u90e8\u7f72\uff1a** {{deployment.ref}}\n**\u72b6\u6001\uff1a** {{deployment_status.state}}\n**\u63cf\u8ff0\uff1a** {{deployment_status.description}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\uddd1\ufe0f Deleted: {{ref_type}} in {{repository.full_name}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Actor:** {{sender_link_md | default(sender.login)}}\n**Deleted:** {{ref_type}} {{ref}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

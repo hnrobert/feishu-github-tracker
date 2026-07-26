@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udce3 Deployment status: {{deployment_status.state}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Ref:** {{deployment.ref}}\n**State:** {{deployment_status.state}}\n**Description:** {{deployment_status.description}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

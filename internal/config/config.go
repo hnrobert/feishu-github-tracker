@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -17,10 +18,9 @@ type Config struct {
 	Repos      ReposConfig
 	Events     EventsConfig
 	FeishuBots FeishuBotsConfig
-	Templates  map[string]TemplatesConfig // Key: template name (e.g., "default", "cn")
+	Templates  map[string]TemplatesConfig
 }
 
-// ServerConfig represents server.yaml
 type ServerConfig struct {
 	Server struct {
 		Host           string `yaml:"host"`
@@ -35,18 +35,15 @@ type ServerConfig struct {
 	Panel          PanelConfig `yaml:"panel"`
 }
 
-// PanelConfig represents the optional `panel:` block in server.yaml, used to
-// configure the web management panel (admin username/password + JWT secret).
 type PanelConfig struct {
 	Enabled      bool   `yaml:"enabled,omitempty"`
-	Username     string `yaml:"username,omitempty"`      // admin login username; defaults to "admin"
-	Password     string `yaml:"password,omitempty"`      // plaintext password (hashed at runtime); convenient but less secure
-	PasswordHash string `yaml:"password_hash,omitempty"` // sha256(password) hex (legacy bcrypt also accepted); preferred over Password
-	Secret       string `yaml:"secret,omitempty"`        // JWT signing secret; falls back to an ephemeral random secret
-	PublicURL    string `yaml:"public_url,omitempty"`    // optional canonical public base URL (scheme+host[:port]) for the dashboard guide
+	Username     string `yaml:"username,omitempty"`
+	Password     string `yaml:"password,omitempty"`
+	PasswordHash string `yaml:"password_hash,omitempty"`
+	Secret       string `yaml:"secret,omitempty"`
+	PublicURL    string `yaml:"public_url,omitempty"`
 }
 
-// ReposConfig represents repos.yaml
 type ReposConfig struct {
 	Repos []RepoPattern `yaml:"repos"`
 }
@@ -55,16 +52,14 @@ type RepoPattern struct {
 	Pattern  string         `yaml:"pattern"`
 	Events   map[string]any `yaml:"events"`
 	NotifyTo []string       `yaml:"notify_to"`
-	Secret   string         `yaml:"secret,omitempty"` // optional per-rule webhook secret; falls back to server.secret
+	Secret   string         `yaml:"secret,omitempty"`
 }
 
-// EventsConfig represents events.yaml
 type EventsConfig struct {
 	EventSets map[string]map[string]any `yaml:"event_sets"`
 	Events    map[string]any            `yaml:"events"`
 }
 
-// FeishuBotsConfig represents feishu-bots.yaml
 type FeishuBotsConfig struct {
 	FeishuBots []FeishuBot `yaml:"feishu_bots"`
 }
@@ -72,10 +67,9 @@ type FeishuBotsConfig struct {
 type FeishuBot struct {
 	Alias    string `yaml:"alias"`
 	URL      string `yaml:"url"`
-	Template string `yaml:"template,omitempty"` // Optional: template name (e.g., "cn"), defaults to "default"
+	Template string `yaml:"template,omitempty"`
 }
 
-// TemplatesConfig represents templates.jsonc (JSONC)
 type TemplatesConfig struct {
 	Templates map[string]EventTemplate `yaml:"templates"`
 }
@@ -89,70 +83,223 @@ type PayloadTemplate struct {
 	Payload map[string]any `yaml:"payload"`
 }
 
-// Load loads all configuration files from the given directory
+// Load loads all configuration from configDir, transparently supporting
+// both legacy flat files and per-item subdirectories (subdirs checked first).
 func Load(configDir string) (*Config, error) {
-	cfg := &Config{
-		Templates: make(map[string]TemplatesConfig),
-	}
+	cfg := &Config{Templates: make(map[string]TemplatesConfig)}
 
-	// Load server.yaml
 	if err := loadConfigFile(filepath.Join(configDir, "server.yaml"), &cfg.Server); err != nil {
 		return nil, fmt.Errorf("failed to load server.yaml: %w", err)
 	}
 
-	// Load repos.yaml
-	if err := loadConfigFile(filepath.Join(configDir, "repos.yaml"), &cfg.Repos); err != nil {
-		return nil, fmt.Errorf("failed to load repos.yaml: %w", err)
-	}
-
-	// Load events.yaml
-	if err := loadConfigFile(filepath.Join(configDir, "events.yaml"), &cfg.Events); err != nil {
-		return nil, fmt.Errorf("failed to load events.yaml: %w", err)
-	}
-
-	// Load feishu-bots.yaml
-	if err := loadConfigFile(filepath.Join(configDir, "feishu-bots.yaml"), &cfg.FeishuBots); err != nil {
-		return nil, fmt.Errorf("failed to load feishu-bots.yaml: %w", err)
-	}
-
-	// Load templates.jsonc as default template (required)
-	defaultTemplatesPath := filepath.Join(configDir, "templates.jsonc")
-	var defaultTemplates TemplatesConfig
-	if err := loadConfigFile(defaultTemplatesPath, &defaultTemplates); err != nil {
-		return nil, fmt.Errorf("failed to load templates.jsonc: %w", err)
-	}
-	cfg.Templates["default"] = defaultTemplates
-
-	// Load additional template files (templates.*.jsonc)
-	// Scan for templates.cn.jsonc, templates.en.jsonc, etc.
-	entries, err := os.ReadDir(configDir)
+	repos, err := loadPatterns(configDir)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read config directory: %w", err)
+		return nil, err
 	}
+	cfg.Repos = ReposConfig{Repos: repos}
 
-	templatePattern := regexp.MustCompile(`^templates\.([a-zA-Z0-9_-]+)\.jsonc$`)
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-
-		matches := templatePattern.FindStringSubmatch(entry.Name())
-		if len(matches) > 1 {
-			templateName := matches[1]
-			var tmpl TemplatesConfig
-			templatePath := filepath.Join(configDir, entry.Name())
-			if err := loadConfigFile(templatePath, &tmpl); err != nil {
-				return nil, fmt.Errorf("failed to load %s: %w", entry.Name(), err)
-			}
-			cfg.Templates[templateName] = tmpl
-		}
+	bots, err := loadBots(configDir)
+	if err != nil {
+		return nil, err
 	}
+	cfg.FeishuBots = FeishuBotsConfig{FeishuBots: bots}
+
+	events, err := loadEvents(configDir)
+	if err != nil {
+		return nil, err
+	}
+	cfg.Events = events
+
+	templates, err := loadTemplates(configDir)
+	if err != nil {
+		return nil, err
+	}
+	cfg.Templates = templates
 
 	return cfg, nil
 }
 
-// GetBotTemplate returns the template name for a given bot alias
-// Returns "default" if the bot doesn't specify a template or if the bot is not found
+// ── Per-type merge loaders (subdir-first, flat-file fallback) ──
+
+func loadPatterns(configDir string) ([]RepoPattern, error) {
+	subDir := filepath.Join(configDir, "patterns")
+	entries, err := scanYAMLDir(subDir)
+	if err == nil && len(entries) > 0 {
+		var repos []RepoPattern
+		for _, name := range entries {
+			var rp RepoPattern
+			if err := loadConfigFile(filepath.Join(subDir, name), &rp); err != nil {
+				return nil, fmt.Errorf("failed to load patterns/%s: %w", name, err)
+			}
+			repos = append(repos, rp)
+		}
+		return repos, nil
+	}
+	var rc ReposConfig
+	if err := loadConfigFile(filepath.Join(configDir, "repos.yaml"), &rc); err != nil {
+		return nil, fmt.Errorf("failed to load repos.yaml: %w", err)
+	}
+	return rc.Repos, nil
+}
+
+func loadBots(configDir string) ([]FeishuBot, error) {
+	subDir := filepath.Join(configDir, "bots")
+	entries, err := scanYAMLDir(subDir)
+	if err == nil && len(entries) > 0 {
+		var bots []FeishuBot
+		for _, name := range entries {
+			var bot FeishuBot
+			if err := loadConfigFile(filepath.Join(subDir, name), &bot); err != nil {
+				return nil, fmt.Errorf("failed to load bots/%s: %w", name, err)
+			}
+			bots = append(bots, bot)
+		}
+		return bots, nil
+	}
+	var bc FeishuBotsConfig
+	if err := loadConfigFile(filepath.Join(configDir, "feishu-bots.yaml"), &bc); err != nil {
+		return nil, fmt.Errorf("failed to load feishu-bots.yaml: %w", err)
+	}
+	return bc.FeishuBots, nil
+}
+
+func loadEvents(configDir string) (EventsConfig, error) {
+	eventsDir := filepath.Join(configDir, "events")
+	esDir := filepath.Join(eventsDir, "event_sets")
+	defDir := filepath.Join(eventsDir, "definitions")
+
+	esEntries, esErr := scanYAMLDir(esDir)
+	defEntries, defErr := scanYAMLDir(defDir)
+
+	if (esErr == nil && len(esEntries) > 0) || (defErr == nil && len(defEntries) > 0) {
+		ec := EventsConfig{
+			EventSets: make(map[string]map[string]any),
+			Events:    make(map[string]any),
+		}
+		for _, name := range esEntries {
+			setName := strings.TrimSuffix(name, ".yaml")
+			var body map[string]any
+			if err := loadConfigFile(filepath.Join(esDir, name), &body); err != nil {
+				return ec, fmt.Errorf("failed to load events/event_sets/%s: %w", name, err)
+			}
+			ec.EventSets[setName] = body
+		}
+		for _, name := range defEntries {
+			evName := strings.TrimSuffix(name, ".yaml")
+			var body any
+			if err := loadConfigFile(filepath.Join(defDir, name), &body); err != nil {
+				return ec, fmt.Errorf("failed to load events/definitions/%s: %w", name, err)
+			}
+			ec.Events[evName] = body
+		}
+		return ec, nil
+	}
+
+	var ec EventsConfig
+	if err := loadConfigFile(filepath.Join(configDir, "events.yaml"), &ec); err != nil {
+		return EventsConfig{}, fmt.Errorf("failed to load events.yaml: %w", err)
+	}
+	if ec.EventSets == nil {
+		ec.EventSets = make(map[string]map[string]any)
+	}
+	if ec.Events == nil {
+		ec.Events = make(map[string]any)
+	}
+	return ec, nil
+}
+
+func loadTemplates(configDir string) (map[string]TemplatesConfig, error) {
+	templatesDir := filepath.Join(configDir, "templates")
+	entries, err := os.ReadDir(templatesDir)
+	if err == nil && len(entries) > 0 {
+		result := make(map[string]TemplatesConfig)
+		for _, entry := range entries {
+			if !entry.IsDir() {
+				continue
+			}
+			locale := entry.Name()
+			localeDir := filepath.Join(templatesDir, locale)
+			tc := TemplatesConfig{Templates: make(map[string]EventTemplate)}
+
+			files, ferr := os.ReadDir(localeDir)
+			if ferr != nil {
+				continue
+			}
+			for _, f := range files {
+				if f.IsDir() {
+					continue
+				}
+				ext := ""
+				if strings.HasSuffix(f.Name(), ".json") {
+					ext = ".json"
+				} else if strings.HasSuffix(f.Name(), ".jsonc") {
+					ext = ".jsonc"
+				}
+				if ext == "" {
+					continue
+				}
+				eventName := strings.TrimSuffix(f.Name(), ext)
+				var perEvent struct {
+					Payloads []PayloadTemplate `json:"payloads"`
+				}
+				if err := loadConfigFile(filepath.Join(localeDir, f.Name()), &perEvent); err != nil {
+					return nil, fmt.Errorf("failed to load templates/%s/%s: %w", locale, f.Name(), err)
+				}
+				tc.Templates[eventName] = EventTemplate{Payloads: perEvent.Payloads}
+			}
+			result[locale] = tc
+		}
+		if len(result) > 0 {
+			return result, nil
+		}
+	}
+
+	// Fallback: legacy flat files
+	result := make(map[string]TemplatesConfig)
+	var defaultTmpl TemplatesConfig
+	if err := loadConfigFile(filepath.Join(configDir, "templates.jsonc"), &defaultTmpl); err != nil {
+		return nil, fmt.Errorf("failed to load templates.jsonc: %w", err)
+	}
+	result["default"] = defaultTmpl
+
+	entries, err = os.ReadDir(configDir)
+	if err != nil {
+		return result, nil
+	}
+	templateRe := regexp.MustCompile(`^templates\.([a-zA-Z0-9_-]+)\.jsonc$`)
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		matches := templateRe.FindStringSubmatch(entry.Name())
+		if len(matches) > 1 {
+			var tmpl TemplatesConfig
+			if err := loadConfigFile(filepath.Join(configDir, entry.Name()), &tmpl); err != nil {
+				return nil, fmt.Errorf("failed to load %s: %w", entry.Name(), err)
+			}
+			result[matches[1]] = tmpl
+		}
+	}
+	return result, nil
+}
+
+// ── Helpers ──
+
+func scanYAMLDir(dir string) ([]string, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+	var files []string
+	for _, e := range entries {
+		if !e.IsDir() && strings.HasSuffix(e.Name(), ".yaml") {
+			files = append(files, e.Name())
+		}
+	}
+	sort.Strings(files)
+	return files, nil
+}
+
 func (c *Config) GetBotTemplate(botAlias string) string {
 	for _, bot := range c.FeishuBots.FeishuBots {
 		if bot.Alias == botAlias {
@@ -165,32 +312,30 @@ func (c *Config) GetBotTemplate(botAlias string) string {
 	return "default"
 }
 
-// GetTemplateConfig returns the template configuration for a given template name
-// Returns the default template if the specified template is not found
 func (c *Config) GetTemplateConfig(templateName string) TemplatesConfig {
 	if tmpl, exists := c.Templates[templateName]; exists {
 		return tmpl
 	}
-	// Fallback to default
 	if tmpl, exists := c.Templates["default"]; exists {
 		return tmpl
 	}
-	// Return empty config if even default is missing (shouldn't happen)
 	return TemplatesConfig{}
 }
 
-// loadConfigFile loads either YAML or JSONC (JSON with comments) based on file extension
+// loadConfigFile loads YAML, JSONC, or JSON based on extension.
+// .jsonc: strips // and /* */ comments before JSON parsing.
+// .json:  parsed directly (no comment stripping — prevents // inside URLs
+//         from being misinterpreted as comments).
+// .*:     YAML.
 func loadConfigFile(path string, out any) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
 
-	if strings.HasSuffix(path, ".jsonc") || strings.HasSuffix(path, ".json") {
-		// strip comments and unmarshal as JSON
+	if strings.HasSuffix(path, ".jsonc") {
 		cleaned := stripJSONCComments(string(data))
 		if err := json.Unmarshal([]byte(cleaned), out); err != nil {
-			// If it's a syntax error, try to compute line/column
 			if serr, ok := err.(*json.SyntaxError); ok {
 				line, col := offsetToLineCol([]byte(cleaned), serr.Offset)
 				return fmt.Errorf("%w at line %d column %d (offset %d)", err, line, col, serr.Offset)
@@ -200,11 +345,20 @@ func loadConfigFile(path string, out any) error {
 		return nil
 	}
 
-	// default to YAML
+	if strings.HasSuffix(path, ".json") {
+		if err := json.Unmarshal(data, out); err != nil {
+			if serr, ok := err.(*json.SyntaxError); ok {
+				line, col := offsetToLineCol(data, serr.Offset)
+				return fmt.Errorf("%w at line %d column %d (offset %d)", err, line, col, serr.Offset)
+			}
+			return err
+		}
+		return nil
+	}
+
 	return yaml.Unmarshal(data, out)
 }
 
-// offsetToLineCol converts a 1-based byte offset into line and column numbers (1-based)
 func offsetToLineCol(b []byte, offset int64) (int, int) {
 	if offset <= 0 {
 		return 1, 1
@@ -223,12 +377,9 @@ func offsetToLineCol(b []byte, offset int64) (int, int) {
 	return line, col
 }
 
-// stripJSONCComments removes // and /* */ style comments from JSONC input.
 func stripJSONCComments(s string) string {
-	// Remove /* ... */ block comments
 	reBlock := regexp.MustCompile(`/\*[\s\S]*?\*/`)
 	s = reBlock.ReplaceAllString(s, "")
-	// Remove // line comments
 	reLine := regexp.MustCompile(`(?m)//.*$`)
 	s = reLine.ReplaceAllString(s, "")
 	return s

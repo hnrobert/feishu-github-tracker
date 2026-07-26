@@ -1,0 +1,5 @@
+pattern: CompPsyUnion/experimental-*
+events:
+  all: null
+notify_to:
+- dev-team

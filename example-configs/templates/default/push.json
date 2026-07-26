@@ -1,0 +1,90 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udcbe New Push: {{repository.full_name}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "{{pusher_link_md | default(pusher.name)}} pushed {{commits | length}} commits to **{{branch_name}}**\n\n**Repository:** {{repository_link_md | default('')}} \u00b7 {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('No commit messages'))) }}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View commits"
+                  },
+                  "url": "{{compare_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "force"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udea8 Force Push: {{repository.full_name}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Force push detected** by {{sender_link_md | default(sender.login)}} on **{{branch_name}}**\nThis may have rewritten history. Commits: {{commits | length}}\n\n**Repository:** {{repository_link_md | default('')}} \u00b7 {{branch_link_md | default('')}}\n\n**Commit messages:**\n{{commit_messages_joined | default(commit_message | default('No commit messages')) }}\n"
+              }
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View commits"
+                  },
+                  "url": "{{compare_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

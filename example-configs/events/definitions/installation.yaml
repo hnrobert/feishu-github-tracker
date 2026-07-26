@@ -1,0 +1,6 @@
+types:
+- created
+- deleted
+- new_permissions_accepted
+- suspend
+- unsuspend

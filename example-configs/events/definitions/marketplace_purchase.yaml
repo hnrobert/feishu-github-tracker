@@ -1,0 +1,6 @@
+types:
+- cancelled
+- changed
+- pending_change
+- pending_change_cancelled
+- purchased

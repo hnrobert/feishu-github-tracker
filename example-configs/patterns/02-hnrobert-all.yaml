@@ -1,0 +1,5 @@
+pattern: hnrobert/*
+events:
+  custom: null
+notify_to:
+- ops-team

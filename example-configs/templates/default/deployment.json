@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "\ud83d\udea2 Deployment: {{deployment.environment}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Ref:** {{deployment.ref}}\n**Environment:** {{deployment.environment}}\n**Actor:** {{sender_link_md | default(sender.login)}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
