@@ -23,11 +23,6 @@
 - 安全可靠：支持签名验证，防止伪造请求
 - 开源免费：MIT 许可证，欢迎自开分支或者贡献回来（plz）
 
-### TODO
-
-- [x] 已添加基于 `html/template` 的 `web` 管理面板（白色 + `#4EACF8`/`#071C37` 主题，中英双语），可在浏览器中查看日志 / 修改仓库规则、飞书机器人、服务设置、事件与消息模板。详见 [docs/quickstart.md](docs/quickstart.md#5-web-管理面板可选)。
-- [ ] 计划添加更多的事件模板（目前已经包含了大部分常用事件的模板，后续会根据反馈继续完善）
-
 ## 支持的 GitHub 事件
 
 目前支持所有的 GitHub Webhook 事件
@@ -336,6 +331,12 @@ templates:
 - `[pull_request, closed, merged]` - 仅当 PR 被合并时
 
 更多 `占位符` 和 `tag` 相关说明详见我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md))
+
+## 管理面板配置（v1.2.0+）
+
+自从 v1.2.0 版本开始，服务内置了一个 Web 管理面板，方便用户在浏览器中直接管理仓库规则、飞书机器人、事件模板等配置，可与手动编辑 YAML 文件来更新配置的方法共存。
+
+![web-panel](assets/images/web-panel.png)
 
 ## 高级功能
 
