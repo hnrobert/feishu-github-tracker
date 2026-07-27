@@ -143,19 +143,6 @@ func loadPatterns(configDir string) ([]RepoPattern, error) {
 }
 
 func loadBots(configDir string) ([]FeishuBot, error) {
-	subDir := filepath.Join(configDir, "bots")
-	entries, err := scanYAMLDir(subDir)
-	if err == nil && len(entries) > 0 {
-		var bots []FeishuBot
-		for _, name := range entries {
-			var bot FeishuBot
-			if err := loadConfigFile(filepath.Join(subDir, name), &bot); err != nil {
-				return nil, fmt.Errorf("failed to load bots/%s: %w", name, err)
-			}
-			bots = append(bots, bot)
-		}
-		return bots, nil
-	}
 	var bc FeishuBotsConfig
 	if err := loadConfigFile(filepath.Join(configDir, "feishu-bots.yaml"), &bc); err != nil {
 		return nil, fmt.Errorf("failed to load feishu-bots.yaml: %w", err)
