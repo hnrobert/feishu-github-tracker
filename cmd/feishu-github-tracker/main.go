@@ -45,6 +45,12 @@ func main() {
 		}
 	}
 
+	// Auto-migrate legacy flat-file configs to the new per-item subdirectory
+	// layout. Old files are backed up to legacy/ intact.
+	if err := config.Migrate(configDir); err != nil {
+		fmt.Fprintf(os.Stderr, "Config migration warning: %v (continuing)\n", err)
+	}
+
 	// Load configuration
 	cfg, err := config.Load(configDir)
 	if err != nil {
