@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 GitHub Webhook Successfully Added"
+              "content": "✅ GitHub Webhook Successfully Added"
             },
             "template": "green"
           },

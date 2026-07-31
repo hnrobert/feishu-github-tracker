@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Personal Access Token Request Approved"
+              "content": "🔔 Personal Access Token Request Approved"
             },
             "template": "green"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Personal Access Token Request Cancelled"
+              "content": "🔔 Personal Access Token Request Cancelled"
             },
             "template": "orange"
           },
@@ -105,7 +105,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Personal Access Token Request Created"
+              "content": "🔔 Personal Access Token Request Created"
             },
             "template": "green"
           },
@@ -151,7 +151,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Personal Access Token Request Denied"
+              "content": "🔔 Personal Access Token Request Denied"
             },
             "template": "turquoise"
           },

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Deployment Protection Rule Requested"
+              "content": "🔔 Deployment Protection Rule Requested"
             },
             "template": "orange"
           },

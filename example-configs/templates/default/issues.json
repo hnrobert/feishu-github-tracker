@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc1b Bug reported: {{issue.title}}"
+              "content": "🐛 Bug reported: {{issue.title}}"
             },
             "template": "red"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc1b **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -58,7 +58,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 Feature request: {{issue.title}}"
+              "content": "✨ Feature request: {{issue.title}}"
             },
             "template": "blue"
           },
@@ -67,7 +67,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2728 **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccb Task created: {{issue.title}}"
+              "content": "📋 Task created: {{issue.title}}"
             },
             "template": "green"
           },
@@ -111,7 +111,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccb **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "📋 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -146,7 +146,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Bug fixed: {{issue.title}}"
+              "content": "✅ Bug fixed: {{issue.title}}"
             },
             "template": "purple"
           },
@@ -155,7 +155,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Bug fixed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Bug fixed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -190,7 +190,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Feature completed: {{issue.title}}"
+              "content": "✅ Feature completed: {{issue.title}}"
             },
             "template": "purple"
           },
@@ -199,7 +199,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Feature completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Feature completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -234,7 +234,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Task completed: {{issue.title}}"
+              "content": "✅ Task completed: {{issue.title}}"
             },
             "template": "purple"
           },
@@ -243,7 +243,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Task completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Task completed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -278,7 +278,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Bug reopened: {{issue.title}}"
+              "content": "🔄 Bug reopened: {{issue.title}}"
             },
             "template": "orange"
           },
@@ -287,7 +287,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Bug reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Bug reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -322,7 +322,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Feature reopened: {{issue.title}}"
+              "content": "🔄 Feature reopened: {{issue.title}}"
             },
             "template": "orange"
           },
@@ -331,7 +331,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Feature reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Feature reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -366,7 +366,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Task reopened: {{issue.title}}"
+              "content": "🔄 Task reopened: {{issue.title}}"
             },
             "template": "orange"
           },
@@ -375,7 +375,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Task reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Task reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -409,7 +409,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Issue opened: {{issue.title}}"
+              "content": "📝 Issue opened: {{issue.title}}"
             },
             "template": "green"
           },
@@ -418,7 +418,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udcdd **Issue opened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "📝 **Issue opened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**Description:** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -452,7 +452,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Issue closed: {{issue.title}}"
+              "content": "✅ Issue closed: {{issue.title}}"
             },
             "template": "purple"
           },
@@ -461,7 +461,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Issue closed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Issue closed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n**State:** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -495,7 +495,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Issue reopened: {{issue.title}}"
+              "content": "🔄 Issue reopened: {{issue.title}}"
             },
             "template": "orange"
           },
@@ -504,7 +504,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Issue reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Issue reopened** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**Labels:** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -538,7 +538,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc64 Issue assigned: {{issue.title}}"
+              "content": "👤 Issue assigned: {{issue.title}}"
             },
             "template": "blue"
           },
@@ -547,7 +547,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc64 **Issue assigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Assignee:** {{assignee_link_md}}{{/if}}"
+                "content": "👤 **Issue assigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Assignee:** {{assignee_link_md}}{{/if}}"
               }
             },
             {
@@ -581,7 +581,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc64 Issue unassigned: {{issue.title}}"
+              "content": "👤 Issue unassigned: {{issue.title}}"
             },
             "template": "grey"
           },
@@ -590,7 +590,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc64 **Issue unassigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Removed assignee:** {{assignee_link_md}}{{/if}}"
+                "content": "👤 **Issue unassigned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**Removed assignee:** {{assignee_link_md}}{{/if}}"
               }
             },
             {
@@ -624,7 +624,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue edited: {{issue.title}}"
+              "content": "✏️ Issue edited: {{issue.title}}"
             },
             "template": "grey"
           },
@@ -633,7 +633,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue edited** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**Title changed from:** {{changes_title_from}}{{/if}}"
+                "content": "✏️ **Issue edited** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**Title changed from:** {{changes_title_from}}{{/if}}"
               }
             },
             {
@@ -667,7 +667,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfaf Milestone added: {{issue.title}}"
+              "content": "🎯 Milestone added: {{issue.title}}"
             },
             "template": "turquoise"
           },
@@ -676,7 +676,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83c\udfaf **Milestone added** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Milestone:** {{milestone_title}}{{/if}}"
+                "content": "🎯 **Milestone added** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Milestone:** {{milestone_title}}{{/if}}"
               }
             },
             {
@@ -710,7 +710,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfaf Milestone removed: {{issue.title}}"
+              "content": "🎯 Milestone removed: {{issue.title}}"
             },
             "template": "grey"
           },
@@ -719,7 +719,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83c\udfaf **Milestone removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Removed milestone:** {{milestone_title}}{{/if}}"
+                "content": "🎯 **Milestone removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**Removed milestone:** {{milestone_title}}{{/if}}"
               }
             },
             {
@@ -753,7 +753,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udce6 Issue transferred: {{issue.title}}"
+              "content": "📦 Issue transferred: {{issue.title}}"
             },
             "template": "blue"
           },
@@ -762,7 +762,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udce6 **Issue transferred** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**To repository:** {{changes_new_repository_full_name}}{{/if}}"
+                "content": "📦 **Issue transferred** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**To repository:** {{changes_new_repository_full_name}}{{/if}}"
               }
             },
             {
@@ -796,7 +796,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f Issue deleted: {{issue.title}}"
+              "content": "🗑️ Issue deleted: {{issue.title}}"
             },
             "template": "red"
           },
@@ -805,7 +805,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\uddd1\ufe0f **Issue deleted** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "🗑️ **Issue deleted** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             }
           ]
@@ -825,7 +825,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccc Issue pinned: {{issue.title}}"
+              "content": "📌 Issue pinned: {{issue.title}}"
             },
             "template": "yellow"
           },
@@ -834,7 +834,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccc **Issue pinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "📌 **Issue pinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -868,7 +868,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccc Issue unpinned: {{issue.title}}"
+              "content": "📌 Issue unpinned: {{issue.title}}"
             },
             "template": "grey"
           },
@@ -877,7 +877,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccc **Issue unpinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "📌 **Issue unpinned** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -911,7 +911,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd12 Issue locked: {{issue.title}}"
+              "content": "🔒 Issue locked: {{issue.title}}"
             },
             "template": "red"
           },
@@ -920,7 +920,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd12 **Issue locked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**Reason:** {{issue.active_lock_reason}}{{/if}}"
+                "content": "🔒 **Issue locked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**Reason:** {{issue.active_lock_reason}}{{/if}}"
               }
             },
             {
@@ -954,7 +954,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd13 Issue unlocked: {{issue.title}}"
+              "content": "🔓 Issue unlocked: {{issue.title}}"
             },
             "template": "green"
           },
@@ -963,7 +963,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd13 **Issue unlocked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "🔓 **Issue unlocked** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -997,7 +997,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f Label added: {{labeled_label_name}} on {{issue.title}}"
+              "content": "🏷️ Label added: {{labeled_label_name}} on {{issue.title}}"
             },
             "template": "teal"
           },
@@ -1040,7 +1040,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f Label removed: {{labeled_label_name}} from {{issue.title}}"
+              "content": "🏷️ Label removed: {{labeled_label_name}} from {{issue.title}}"
             },
             "template": "grey"
           },
@@ -1083,7 +1083,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue typed: {{issue.title}}"
+              "content": "✏️ Issue typed: {{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1092,7 +1092,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**Type:** {{issue_type}}{{/if}}"
+                "content": "✏️ **Issue typed** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**Type:** {{issue_type}}{{/if}}"
               }
             },
             {
@@ -1126,7 +1126,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue type removed: {{issue.title}}"
+              "content": "✏️ Issue type removed: {{issue.title}}"
             },
             "template": "grey"
           },
@@ -1135,7 +1135,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue type removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "✏️ **Issue type removed** by {{sender_link_md | default(sender.login)}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -1169,7 +1169,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc1e Bug: {{issue.title}}"
+              "content": "🐞 Bug: {{issue.title}}"
             },
             "template": "red"
           },
@@ -1178,7 +1178,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc1b **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "🐛 **Bug reported** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1212,7 +1212,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 Feature: {{issue.title}}"
+              "content": "✨ Feature: {{issue.title}}"
             },
             "template": "blue"
           },
@@ -1221,7 +1221,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2728 **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "✨ **Feature request** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1255,7 +1255,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Task: {{issue.title}}"
+              "content": "📝 Task: {{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1264,7 +1264,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udcdd **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "📝 **Task created** by {{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1298,7 +1298,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u26a0\ufe0f Issue: {{issue.title}}"
+              "content": "⚠️ Issue: {{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1307,7 +1307,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u26a0\ufe0f **Issue** by {{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "⚠️ **Issue** by {{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**Repository:** {{repository_link_md}}\n**Issue:** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1341,7 +1341,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f Label added: {{labeled_label_name}} on {{issue.title}}"
+              "content": "🏷️ Label added: {{labeled_label_name}} on {{issue.title}}"
             },
             "template": "teal"
           },
@@ -1384,7 +1384,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Issue: {{issue.title}}"
+              "content": "📝 Issue: {{issue.title}}"
             },
             "template": "gray"
           },

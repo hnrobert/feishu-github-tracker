@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f Deleted: {{ref_type}} in {{repository.full_name}}"
+              "content": "🗑️ Deleted: {{ref_type}} in {{repository.full_name}}"
             },
             "template": "red"
           },

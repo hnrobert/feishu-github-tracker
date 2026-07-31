@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Advisory Published"
+              "content": "🔔 Repository Advisory Published"
             },
             "template": "green"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Advisory Reported"
+              "content": "🔔 Repository Advisory Reported"
             },
             "template": "turquoise"
           },

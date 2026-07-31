@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Custom Property Created"
+              "content": "🔔 Custom Property Created"
             },
             "template": "green"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Custom Property Deleted"
+              "content": "🔔 Custom Property Deleted"
             },
             "template": "red"
           },
@@ -105,7 +105,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Custom Property Promote To Enterprise"
+              "content": "🔔 Custom Property Promote To Enterprise"
             },
             "template": "turquoise"
           },
@@ -151,7 +151,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Custom Property Updated"
+              "content": "🔔 Custom Property Updated"
             },
             "template": "blue"
           },

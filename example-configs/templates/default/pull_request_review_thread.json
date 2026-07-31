@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac PR Review Thread {{action}}"
+              "content": "💬 PR Review Thread {{action}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Thread Resolved"
+              "content": "🔔 Pull Request Review Thread Resolved"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Thread Unresolved"
+              "content": "🔔 Pull Request Review Thread Unresolved"
             },
             "template": "turquoise"
           },

@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd2e Pull Request Merged"
+              "content": "🔮 Pull Request Merged"
             },
             "template": "purple"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Merged by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -68,7 +68,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Pull Request Closed (Not Merged)"
+              "content": "❌ Pull Request Closed (Not Merged)"
             },
             "template": "red"
           },
@@ -77,7 +77,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Closed by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -123,7 +123,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd00 New Pull Request Opened"
+              "content": "🔀 New Pull Request Opened"
             },
             "template": "green"
           },
@@ -132,7 +132,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -176,7 +176,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Pull Request Reopened"
+              "content": "🔄 Pull Request Reopened"
             },
             "template": "green"
           },
@@ -185,7 +185,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Reopened by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -222,7 +222,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Pull Request Updated"
+              "content": "🔄 Pull Request Updated"
             },
             "template": "blue"
           },
@@ -231,7 +231,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Updated by:** {{sender_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -277,7 +277,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Pull Request Ready for Review"
+              "content": "✅ Pull Request Ready for Review"
             },
             "template": "green"
           },
@@ -286,7 +286,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**PR:** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**Author:** {{pr_user_link_md}}\n**Branch:** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -332,7 +332,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Pull Request Converted to Draft"
+              "content": "📝 Pull Request Converted to Draft"
             },
             "template": "grey"
           },
@@ -387,7 +387,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc41\ufe0f Review Requested"
+              "content": "👁️ Review Requested"
             },
             "template": "orange"
           },
@@ -433,7 +433,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd00 Pull Request {{action}}"
+              "content": "🔀 Pull Request {{action}}"
             },
             "template": "blue"
           },
@@ -479,7 +479,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Assigned"
+              "content": "🔔 Pull Request Assigned"
             },
             "template": "turquoise"
           },
@@ -525,7 +525,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Auto Merge Disabled"
+              "content": "🔔 Pull Request Auto Merge Disabled"
             },
             "template": "turquoise"
           },
@@ -571,7 +571,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Auto Merge Enabled"
+              "content": "🔔 Pull Request Auto Merge Enabled"
             },
             "template": "turquoise"
           },
@@ -617,7 +617,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Demilestoned"
+              "content": "🔔 Pull Request Demilestoned"
             },
             "template": "turquoise"
           },
@@ -663,7 +663,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Dequeued"
+              "content": "🔔 Pull Request Dequeued"
             },
             "template": "turquoise"
           },
@@ -709,7 +709,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Edited"
+              "content": "🔔 Pull Request Edited"
             },
             "template": "blue"
           },
@@ -755,7 +755,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Enqueued"
+              "content": "🔔 Pull Request Enqueued"
             },
             "template": "turquoise"
           },
@@ -801,7 +801,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Labeled"
+              "content": "🔔 Pull Request Labeled"
             },
             "template": "turquoise"
           },
@@ -847,7 +847,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Locked"
+              "content": "🔔 Pull Request Locked"
             },
             "template": "orange"
           },
@@ -893,7 +893,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Milestoned"
+              "content": "🔔 Pull Request Milestoned"
             },
             "template": "turquoise"
           },
@@ -939,7 +939,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Request Removed"
+              "content": "🔔 Pull Request Review Request Removed"
             },
             "template": "turquoise"
           },
@@ -985,7 +985,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Unassigned"
+              "content": "🔔 Pull Request Unassigned"
             },
             "template": "turquoise"
           },
@@ -1031,7 +1031,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Unlabeled"
+              "content": "🔔 Pull Request Unlabeled"
             },
             "template": "turquoise"
           },
@@ -1077,7 +1077,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Unlocked"
+              "content": "🔔 Pull Request Unlocked"
             },
             "template": "green"
           },

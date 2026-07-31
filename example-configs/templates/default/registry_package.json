@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Registry Package Published"
+              "content": "🔔 Registry Package Published"
             },
             "template": "green"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ufffd Registry Package Updated"
+              "content": "� Registry Package Updated"
             },
             "template": "blue"
           },

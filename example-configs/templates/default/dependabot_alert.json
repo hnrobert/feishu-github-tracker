@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83e\udd16 Dependabot Alert {{action}}"
+              "content": "🤖 Dependabot Alert {{action}}"
             },
             "template": "orange"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Auto Dismissed"
+              "content": "🔔 Dependabot Alert Auto Dismissed"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Auto Reopened"
+              "content": "🔔 Dependabot Alert Auto Reopened"
             },
             "template": "turquoise"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Created"
+              "content": "🔔 Dependabot Alert Created"
             },
             "template": "green"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Dismissed"
+              "content": "🔔 Dependabot Alert Dismissed"
             },
             "template": "orange"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Fixed"
+              "content": "🔔 Dependabot Alert Fixed"
             },
             "template": "green"
           },
@@ -272,7 +272,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Reintroduced"
+              "content": "🔔 Dependabot Alert Reintroduced"
             },
             "template": "turquoise"
           },
@@ -318,7 +318,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Dependabot Alert Reopened"
+              "content": "🔔 Dependabot Alert Reopened"
             },
             "template": "orange"
           },

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac \u8ba8\u8bba\u8bc4\u8bba\uff1a{{discussion.title}}"
+              "content": "💬 讨论评论：{{discussion.title}}"
             },
             "template": "teal"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u8ba8\u8bba\uff1a** {{discussion.title}}\n**\u8bc4\u8bba\uff1a** {{comment.body}}\n"
+                "content": "**作者：** {{sender_link_md | default(sender.login)}}\n**讨论：** {{discussion.title}}\n**评论：** {{comment.body}}\n"
               }
             },
             {
@@ -32,7 +32,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8bc4\u8bba"
+                    "content": "查看评论"
                   },
                   "url": "{{comment.html_url}}",
                   "type": "primary"
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 discussion_comment \u5df2\u521b\u5efa"
+              "content": "🔔 discussion_comment 已创建"
             },
             "template": "green"
           },
@@ -65,7 +65,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -78,7 +78,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 discussion_comment \u5df2\u5220\u9664"
+              "content": "🔔 discussion_comment 已删除"
             },
             "template": "red"
           },
@@ -111,7 +111,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -124,7 +124,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 discussion_comment \u5df2\u7f16\u8f91"
+              "content": "🔔 discussion_comment 已编辑"
             },
             "template": "blue"
           },
@@ -157,7 +157,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -170,7 +170,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

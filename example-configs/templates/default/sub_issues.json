@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sub Issues Parent Issue Added"
+              "content": "🔔 Sub Issues Parent Issue Added"
             },
             "template": "turquoise"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sub Issues Parent Issue Removed"
+              "content": "🔔 Sub Issues Parent Issue Removed"
             },
             "template": "turquoise"
           },
@@ -105,7 +105,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sub Issues Sub Issue Added"
+              "content": "🔔 Sub Issues Sub Issue Added"
             },
             "template": "turquoise"
           },
@@ -151,7 +151,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sub Issues Sub Issue Removed"
+              "content": "🔔 Sub Issues Sub Issue Removed"
             },
             "template": "turquoise"
           },

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcda Wiki \u66f4\u65b0\uff1a{{repository.full_name}}"
+              "content": "📚 Wiki 更新：{{repository.full_name}}"
             },
             "template": "gray"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u63a8\u9001\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u53d8\u66f4\uff1a** {{pages | length}} \u4e2a\u9875\u9762\u5df2\u66f4\u65b0\n"
+                "content": "**推送者：** {{sender_link_md | default(sender.login)}}\n**变更：** {{pages | length}} 个页面已更新\n"
               }
             },
             {
@@ -32,7 +32,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4ed3\u5e93"
+                    "content": "查看仓库"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "primary"

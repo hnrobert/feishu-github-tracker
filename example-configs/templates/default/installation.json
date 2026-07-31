@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83e\udd16 GitHub App {{action}}"
+              "content": "🤖 GitHub App {{action}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Created"
+              "content": "🔔 Installation Created"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Deleted"
+              "content": "🔔 Installation Deleted"
             },
             "template": "red"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation New Permissions Accepted"
+              "content": "🔔 Installation New Permissions Accepted"
             },
             "template": "turquoise"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Suspend"
+              "content": "🔔 Installation Suspend"
             },
             "template": "turquoise"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Unsuspend"
+              "content": "🔔 Installation Unsuspend"
             },
             "template": "turquoise"
           },

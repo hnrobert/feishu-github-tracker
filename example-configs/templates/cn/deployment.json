@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udea2 \u90e8\u7f72\uff1a{{deployment.environment}}"
+              "content": "🚢 部署：{{deployment.environment}}"
             },
             "template": "green"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u5e94\u7528\uff1a** {{deployment.ref}}\n**\u73af\u5883\uff1a** {{deployment.environment}}\n**\u53d1\u8d77\u4eba\uff1a** {{sender_link_md | default(sender.login)}}\n"
+                "content": "**应用：** {{deployment.ref}}\n**环境：** {{deployment.environment}}\n**发起人：** {{sender_link_md | default(sender.login)}}\n"
               }
             }
           ]

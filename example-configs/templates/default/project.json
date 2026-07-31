@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccb Project: {{action}} {{project.name}}"
+              "content": "📋 Project: {{action}} {{project.name}}"
             },
             "template": "brown"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Closed"
+              "content": "🔔 Project Closed"
             },
             "template": "red"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Created"
+              "content": "🔔 Project Created"
             },
             "template": "green"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Deleted"
+              "content": "🔔 Project Deleted"
             },
             "template": "red"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Reopened"
+              "content": "🔔 Project Reopened"
             },
             "template": "orange"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Updated"
+              "content": "🔔 Project Updated"
             },
             "template": "blue"
           },

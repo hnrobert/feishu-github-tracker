@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd00 Merge Queue {{action}}"
+              "content": "🔀 Merge Queue {{action}}"
             },
             "template": "purple"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Merge Group Checks Requested"
+              "content": "🔔 Merge Group Checks Requested"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Merge Group Destroyed"
+              "content": "🔔 Merge Group Destroyed"
             },
             "template": "turquoise"
           },

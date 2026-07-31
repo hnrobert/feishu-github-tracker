@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 GitHub Webhook \u6dfb\u52a0\u6210\u529f"
+              "content": "✅ GitHub Webhook 添加成功"
             },
             "template": "green"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**GitHub \u5bc4\u8bed\uff1a** {{zen}}\n\n{{#if repository}}**\u4ed3\u5e93\uff1a** [{{repository.full_name}}]({{repository.html_url}})\n{{/if}}{{#if organization}}**\u7ec4\u7ec7\uff1a** [{{organization.login}}](https://github.com/{{organization.login}})\n{{/if}}**Hook ID\uff1a** {{hook_id}}\n**Hook \u7c7b\u578b\uff1a** {{hook_type}}"
+                "content": "**GitHub 寄语：** {{zen}}\n\n{{#if repository}}**仓库：** [{{repository.full_name}}]({{repository.html_url}})\n{{/if}}{{#if organization}}**组织：** [{{organization.login}}](https://github.com/{{organization.login}})\n{{/if}}**Hook ID：** {{hook_id}}\n**Hook 类型：** {{hook_type}}"
               }
             }
           ]

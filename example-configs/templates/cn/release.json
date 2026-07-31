@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\ude80 \u7248\u672c\u5df2\u53d1\u5e03"
+              "content": "🚀 版本已发布"
             },
             "template": "green"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u7248\u672c\uff1a** {{release.tag_name}}\n**\u53d1\u5e03\u540d\u79f0\uff1a** {{release.name}}\n**\u53d1\u5e03\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
               }
             },
             {
@@ -45,7 +45,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u53d1\u5e03"
+                    "content": "查看发布"
                   },
                   "url": "{{release.html_url}}",
                   "type": "primary"
@@ -69,7 +69,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd36 \u9884\u53d1\u5e03\u7248\u672c\u5df2\u53d1\u5e03"
+              "content": "🔶 预发布版本已发布"
             },
             "template": "orange"
           },
@@ -78,7 +78,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u7248\u672c\uff1a** {{release.tag_name}}\n**\u53d1\u5e03\u540d\u79f0\uff1a** {{release.name}}\n**\u53d1\u5e03\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**发布者：** {{sender_link_md}}"
               }
             },
             {
@@ -89,7 +89,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u26a0\ufe0f \u8fd9\u662f\u4e00\u4e2a\u9884\u53d1\u5e03\u7248\u672c"
+                  "content": "⚠️ 这是一个预发布版本"
                 }
               ]
             },
@@ -110,7 +110,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u9884\u53d1\u5e03"
+                    "content": "查看预发布"
                   },
                   "url": "{{release.html_url}}",
                   "type": "default"
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd \u8349\u7a3f\u53d1\u5e03\u5df2\u521b\u5efa"
+              "content": "📝 草稿发布已创建"
             },
             "template": "grey"
           },
@@ -143,7 +143,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u7248\u672c\uff1a** {{release.tag_name}}\n**\u53d1\u5e03\u540d\u79f0\uff1a** {{release.name}}\n**\u521b\u5efa\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**创建者：** {{sender_link_md}}"
               }
             },
             {
@@ -154,7 +154,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u8fd9\u662f\u4e00\u4e2a\u8349\u7a3f\u53d1\u5e03\uff08\u5c1a\u672a\u53d1\u5e03\uff09"
+                  "content": "这是一个草稿发布（尚未发布）"
                 }
               ]
             },
@@ -165,7 +165,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8349\u7a3f"
+                    "content": "查看草稿"
                   },
                   "url": "{{release.html_url}}",
                   "type": "default"
@@ -189,7 +189,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f \u53d1\u5e03\u5df2\u5220\u9664"
+              "content": "🗑️ 发布已删除"
             },
             "template": "red"
           },
@@ -198,7 +198,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u7248\u672c\uff1a** {{release.tag_name}}\n**\u5220\u9664\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**删除者：** {{sender_link_md}}"
               }
             },
             {
@@ -209,7 +209,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u6b64\u53d1\u5e03\u5df2\u88ab\u5220\u9664"
+                  "content": "此发布已被删除"
                 }
               ]
             }
@@ -230,7 +230,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\ude80 \u53d1\u5e03 {{action}}"
+              "content": "🚀 发布 {{action}}"
             },
             "template": "green"
           },
@@ -239,7 +239,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u7248\u672c\uff1a** {{release.tag_name}}\n**\u53d1\u5e03\u540d\u79f0\uff1a** {{release.name}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**版本：** {{release.tag_name}}\n**发布名称：** {{release.name}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -252,7 +252,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u53d1\u5e03"
+                    "content": "查看发布"
                   },
                   "url": "{{release.html_url}}",
                   "type": "primary"
@@ -276,7 +276,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 release \u5df2\u7f16\u8f91"
+              "content": "🔔 release 已编辑"
             },
             "template": "blue"
           },
@@ -285,7 +285,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -298,7 +298,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -322,7 +322,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 release released"
+              "content": "🔔 release released"
             },
             "template": "turquoise"
           },
@@ -331,7 +331,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -344,7 +344,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -368,7 +368,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 release unpublished"
+              "content": "🔔 release unpublished"
             },
             "template": "turquoise"
           },
@@ -377,7 +377,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -390,7 +390,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

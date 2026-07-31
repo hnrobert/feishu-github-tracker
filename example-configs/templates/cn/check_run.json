@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 \u68c0\u67e5\u901a\u8fc7\uff1a{{check_run.name}}"
+              "content": "✅ 检查通过：{{check_run.name}}"
             },
             "template": "green"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md | default('')}}**\u68c0\u67e5\uff1a** {{check_run.name}}\n\n**\u72b6\u6001\uff1a** {{check_run.status}}\n**\u7ed3\u679c\uff1a** {{check_run.conclusion}}\n"
+                "content": "**仓库：** {{repository_link_md | default('')}}**检查：** {{check_run.name}}\n\n**状态：** {{check_run.status}}\n**结果：** {{check_run.conclusion}}\n"
               }
             }
           ]
@@ -44,7 +44,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c \u68c0\u67e5\u5931\u8d25\uff1a{{check_run.name}}"
+              "content": "❌ 检查失败：{{check_run.name}}"
             },
             "template": "red"
           },
@@ -53,7 +53,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md | default('')}}\n**\u68c0\u67e5\uff1a** {{check_run.name}}\n**\u72b6\u6001\uff1a** {{check_run.status}}\n**\u7ed3\u679c\uff1a** {{check_run.conclusion}}\n"
+                "content": "**仓库：** {{repository_link_md | default('')}}\n**检查：** {{check_run.name}}\n**状态：** {{check_run.status}}\n**结果：** {{check_run.conclusion}}\n"
               }
             }
           ]
@@ -73,7 +73,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Check Run\uff1a{{check_run.name}} {{check_run.status}}"
+              "content": "✅ Check Run：{{check_run.name}} {{check_run.status}}"
             },
             "template": "green"
           },
@@ -82,7 +82,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md | default('')}}\n**\u68c0\u67e5\uff1a** {{check_run.name}}\n**\u72b6\u6001\uff1a** {{check_run.status}}\n**\u7ed3\u679c\uff1a** {{check_run.conclusion}}\n"
+                "content": "**仓库：** {{repository_link_md | default('')}}\n**检查：** {{check_run.name}}\n**状态：** {{check_run.status}}\n**结果：** {{check_run.conclusion}}\n"
               }
             }
           ]
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u68c0\u67e5\u8fd0\u884c \u5df2\u521b\u5efa"
+              "content": "🔔 检查运行 已创建"
             },
             "template": "green"
           },
@@ -111,7 +111,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -124,7 +124,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u68c0\u67e5\u8fd0\u884c \u5df2\u8bf7\u6c42\u64cd\u4f5c"
+              "content": "🔔 检查运行 已请求操作"
             },
             "template": "turquoise"
           },
@@ -157,7 +157,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -170,7 +170,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -194,7 +194,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u68c0\u67e5\u8fd0\u884c \u5df2\u91cd\u65b0\u8bf7\u6c42"
+              "content": "🔔 检查运行 已重新请求"
             },
             "template": "turquoise"
           },
@@ -203,7 +203,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -216,7 +216,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

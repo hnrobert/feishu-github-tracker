@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Watch: {{action}} by {{sender_name | default(sender.login)}}"
+              "content": "🔔 Watch: {{action}} by {{sender_name | default(sender.login)}}"
             },
             "template": "yellow"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Watch Started"
+              "content": "🔔 Watch Started"
             },
             "template": "turquoise"
           },

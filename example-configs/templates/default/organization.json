@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfe2 Organization change: {{action}}"
+              "content": "🏢 Organization change: {{action}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Organization Member Added"
+              "content": "🔔 Organization Member Added"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Organization Member Invited"
+              "content": "🔔 Organization Member Invited"
             },
             "template": "turquoise"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Organization Member Removed"
+              "content": "🔔 Organization Member Removed"
             },
             "template": "turquoise"
           },

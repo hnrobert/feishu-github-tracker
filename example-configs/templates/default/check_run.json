@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Check Succeeded: {{check_run.name}}"
+              "content": "✅ Check Succeeded: {{check_run.name}}"
             },
             "template": "green"
           },
@@ -44,7 +44,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Check Failed: {{check_run.name}}"
+              "content": "❌ Check Failed: {{check_run.name}}"
             },
             "template": "red"
           },
@@ -73,7 +73,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Check Run: {{check_run.name}} {{check_run.status}}"
+              "content": "✅ Check Run: {{check_run.name}} {{check_run.status}}"
             },
             "template": "green"
           },
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Run Created"
+              "content": "🔔 Check Run Created"
             },
             "template": "green"
           },
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Run Requested Action"
+              "content": "🔔 Check Run Requested Action"
             },
             "template": "turquoise"
           },
@@ -194,7 +194,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Run Rerequested"
+              "content": "🔔 Check Run Rerequested"
             },
             "template": "turquoise"
           },

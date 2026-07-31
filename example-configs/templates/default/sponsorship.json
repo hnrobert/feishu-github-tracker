@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc96 New Sponsor!"
+              "content": "💖 New Sponsor!"
             },
             "template": "pink"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc96 Sponsorship {{action}}"
+              "content": "💖 Sponsorship {{action}}"
             },
             "template": "blue"
           },
@@ -71,7 +71,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sponsorship Cancelled"
+              "content": "🔔 Sponsorship Cancelled"
             },
             "template": "orange"
           },
@@ -117,7 +117,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sponsorship Edited"
+              "content": "🔔 Sponsorship Edited"
             },
             "template": "blue"
           },
@@ -163,7 +163,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sponsorship Pending Cancellation"
+              "content": "🔔 Sponsorship Pending Cancellation"
             },
             "template": "yellow"
           },
@@ -209,7 +209,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sponsorship Pending Tier Change"
+              "content": "🔔 Sponsorship Pending Tier Change"
             },
             "template": "yellow"
           },
@@ -255,7 +255,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Sponsorship Tier Changed"
+              "content": "🔔 Sponsorship Tier Changed"
             },
             "template": "turquoise"
           },

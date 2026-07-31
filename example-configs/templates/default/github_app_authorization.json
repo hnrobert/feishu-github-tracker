@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Github App Authorization Revoked"
+              "content": "🔔 Github App Authorization Revoked"
             },
             "template": "turquoise"
           },

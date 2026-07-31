@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcd0 Project Column: {{action}}"
+              "content": "📐 Project Column: {{action}}"
             },
             "template": "brown"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Column Created"
+              "content": "🔔 Project Column Created"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Column Deleted"
+              "content": "🔔 Project Column Deleted"
             },
             "template": "red"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Column Moved"
+              "content": "🔔 Project Column Moved"
             },
             "template": "turquoise"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Column Updated"
+              "content": "🔔 Project Column Updated"
             },
             "template": "blue"
           },

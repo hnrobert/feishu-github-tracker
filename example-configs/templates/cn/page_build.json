@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcc4 \u9875\u9762\u6784\u5efa\uff1a{{action}}"
+              "content": "📄 页面构建：{{action}}"
             },
             "template": "grey"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository.full_name}}\n**\u64cd\u4f5c\uff1a** {{action}}\n"
+                "content": "**仓库：** {{repository.full_name}}\n**操作：** {{action}}\n"
               }
             }
           ]

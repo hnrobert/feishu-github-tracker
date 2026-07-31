@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2b50 {{action}} by {{sender_name | default(sender.login)}}"
+              "content": "⭐ {{action}} by {{sender_name | default(sender.login)}}"
             },
             "template": "yellow"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Star Created"
+              "content": "🔔 Star Created"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Star Deleted"
+              "content": "🔔 Star Deleted"
             },
             "template": "red"
           },

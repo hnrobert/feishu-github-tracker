@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd2e Pull Request \u5df2\u5408\u5e76"
+              "content": "🔮 Pull Request 已合并"
             },
             "template": "purple"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u5408\u5e76\u8005\uff1a** {{sender_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**合并者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -43,7 +43,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b PR"
+                    "content": "查看 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "primary"
@@ -68,7 +68,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Pull Request \u5173\u95ed\uff08\u672a\u5408\u5e76\uff09"
+              "content": "❌ Pull Request 关闭（未合并）"
             },
             "template": "red"
           },
@@ -77,7 +77,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u5173\u95ed\u8005\uff1a** {{sender_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**关闭者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -88,7 +88,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u6b64 PR \u672a\u5408\u5e76\u5373\u5173\u95ed"
+                  "content": "此 PR 未合并即关闭"
                 }
               ]
             },
@@ -99,7 +99,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b PR"
+                    "content": "查看 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "default"
@@ -123,7 +123,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd00 \u65b0 Pull Request \u5df2\u521b\u5efa"
+              "content": "🔀 新 Pull Request 已创建"
             },
             "template": "green"
           },
@@ -132,7 +132,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u4f5c\u8005\uff1a** {{pr_user_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -152,7 +152,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u5ba1\u67e5 PR"
+                    "content": "审查 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "primary"
@@ -176,7 +176,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Pull Request \u5df2\u91cd\u65b0\u6253\u5f00"
+              "content": "🔄 Pull Request 已重新打开"
             },
             "template": "green"
           },
@@ -185,7 +185,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u91cd\u65b0\u6253\u5f00\u8005\uff1a** {{sender_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**重新打开者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -198,7 +198,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b PR"
+                    "content": "查看 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "primary"
@@ -222,7 +222,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Pull Request \u5df2\u66f4\u65b0"
+              "content": "🔄 Pull Request 已更新"
             },
             "template": "blue"
           },
@@ -231,7 +231,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u66f4\u65b0\u8005\uff1a** {{sender_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**更新者：** {{sender_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -242,7 +242,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u65b0\u63d0\u4ea4\u5df2\u63a8\u9001\u5230\u6b64 PR"
+                  "content": "新提交已推送到此 PR"
                 }
               ]
             },
@@ -253,7 +253,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u53d8\u66f4"
+                    "content": "查看变更"
                   },
                   "url": "{{pr_url}}/files",
                   "type": "default"
@@ -277,7 +277,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Pull Request \u5df2\u51c6\u5907\u597d\u5ba1\u67e5"
+              "content": "✅ Pull Request 已准备好审查"
             },
             "template": "green"
           },
@@ -286,7 +286,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u4f5c\u8005\uff1a** {{pr_user_link_md}}\n**\u5206\u652f\uff1a** {{pr_head_branch_link_md}} \u2192 {{pr_base_branch_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**作者：** {{pr_user_link_md}}\n**分支：** {{pr_head_branch_link_md}} → {{pr_base_branch_link_md}}"
               }
             },
             {
@@ -297,7 +297,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u6b64 PR \u5df2\u51c6\u5907\u597d\u63a5\u53d7\u5ba1\u67e5"
+                  "content": "此 PR 已准备好接受审查"
                 }
               ]
             },
@@ -308,7 +308,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u7acb\u5373\u5ba1\u67e5"
+                    "content": "立即审查"
                   },
                   "url": "{{pr_url}}",
                   "type": "primary"
@@ -332,7 +332,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Pull Request \u5df2\u8f6c\u4e3a\u8349\u7a3f"
+              "content": "📝 Pull Request 已转为草稿"
             },
             "template": "grey"
           },
@@ -341,7 +341,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u8f6c\u6362\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**转换者：** {{sender_link_md}}"
               }
             },
             {
@@ -352,7 +352,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u6b64 PR \u73b0\u5728\u5904\u4e8e\u8349\u7a3f\u6a21\u5f0f"
+                  "content": "此 PR 现在处于草稿模式"
                 }
               ]
             },
@@ -363,7 +363,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b PR"
+                    "content": "查看 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "default"
@@ -387,7 +387,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc41\ufe0f \u8bf7\u6c42\u5ba1\u67e5"
+              "content": "👁️ 请求审查"
             },
             "template": "orange"
           },
@@ -396,7 +396,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u8bf7\u6c42\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**请求者：** {{sender_link_md}}"
               }
             },
             {
@@ -409,7 +409,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u5ba1\u67e5 PR"
+                    "content": "审查 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "primary"
@@ -433,7 +433,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd00 Pull Request {{action}}"
+              "content": "🔀 Pull Request {{action}}"
             },
             "template": "blue"
           },
@@ -442,7 +442,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**PR\uff1a** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**PR：** [#{{pr_number}} {{pr_title}}]({{pr_url}})\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -455,7 +455,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b PR"
+                    "content": "查看 PR"
                   },
                   "url": "{{pr_url}}",
                   "type": "default"
@@ -479,7 +479,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u5206\u914d"
+              "content": "🔔 pull_request 已分配"
             },
             "template": "turquoise"
           },
@@ -488,7 +488,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -501,7 +501,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -525,7 +525,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request auto_merge_disabled"
+              "content": "🔔 pull_request auto_merge_disabled"
             },
             "template": "turquoise"
           },
@@ -534,7 +534,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -547,7 +547,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -571,7 +571,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request auto_merge_enabled"
+              "content": "🔔 pull_request auto_merge_enabled"
             },
             "template": "turquoise"
           },
@@ -580,7 +580,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -593,7 +593,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -617,7 +617,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u79fb\u9664\u91cc\u7a0b\u7891"
+              "content": "🔔 pull_request 已移除里程碑"
             },
             "template": "turquoise"
           },
@@ -626,7 +626,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -639,7 +639,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -663,7 +663,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request dequeued"
+              "content": "🔔 pull_request dequeued"
             },
             "template": "turquoise"
           },
@@ -672,7 +672,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -685,7 +685,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -709,7 +709,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u7f16\u8f91"
+              "content": "🔔 pull_request 已编辑"
             },
             "template": "blue"
           },
@@ -718,7 +718,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -731,7 +731,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -755,7 +755,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request enqueued"
+              "content": "🔔 pull_request enqueued"
             },
             "template": "turquoise"
           },
@@ -764,7 +764,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -777,7 +777,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -801,7 +801,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u6dfb\u52a0\u6807\u7b7e"
+              "content": "🔔 pull_request 已添加标签"
             },
             "template": "turquoise"
           },
@@ -810,7 +810,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -823,7 +823,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -847,7 +847,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u9501\u5b9a"
+              "content": "🔔 pull_request 已锁定"
             },
             "template": "orange"
           },
@@ -856,7 +856,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -869,7 +869,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -893,7 +893,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u6dfb\u52a0\u91cc\u7a0b\u7891"
+              "content": "🔔 pull_request 已添加里程碑"
             },
             "template": "turquoise"
           },
@@ -902,7 +902,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -915,7 +915,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -939,7 +939,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request review_request_removed"
+              "content": "🔔 pull_request review_request_removed"
             },
             "template": "turquoise"
           },
@@ -948,7 +948,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -961,7 +961,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -985,7 +985,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u53d6\u6d88\u5206\u914d"
+              "content": "🔔 pull_request 已取消分配"
             },
             "template": "turquoise"
           },
@@ -994,7 +994,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -1007,7 +1007,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -1031,7 +1031,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u79fb\u9664\u6807\u7b7e"
+              "content": "🔔 pull_request 已移除标签"
             },
             "template": "turquoise"
           },
@@ -1040,7 +1040,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -1053,7 +1053,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -1077,7 +1077,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request \u5df2\u89e3\u9501"
+              "content": "🔔 pull_request 已解锁"
             },
             "template": "green"
           },
@@ -1086,7 +1086,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -1099,7 +1099,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

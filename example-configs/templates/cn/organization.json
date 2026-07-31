@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfe2 \u7ec4\u7ec7\u6210\u5458\u53d8\u66f4\uff1a{{action}}"
+              "content": "🏢 组织成员变更：{{action}}"
             },
             "template": "blue"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u7ec4\u7ec7\uff1a** {{organization.login}}\n**\u6210\u5458\uff1a** {{membership.user.login | default('N/A')}}\n"
+                "content": "**组织：** {{organization.login}}\n**成员：** {{membership.user.login | default('N/A')}}\n"
               }
             }
           ]
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u7ec4\u7ec7 \u6210\u5458\u5df2\u6dfb\u52a0"
+              "content": "🔔 组织 成员已添加"
             },
             "template": "turquoise"
           },
@@ -51,7 +51,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -64,7 +64,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u7ec4\u7ec7 \u6210\u5458\u5df2\u9080\u8bf7"
+              "content": "🔔 组织 成员已邀请"
             },
             "template": "turquoise"
           },
@@ -97,7 +97,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -110,7 +110,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u7ec4\u7ec7 \u6210\u5458\u5df2\u79fb\u9664"
+              "content": "🔔 组织 成员已移除"
             },
             "template": "turquoise"
           },
@@ -143,7 +143,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -156,7 +156,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

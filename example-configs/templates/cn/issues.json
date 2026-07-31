@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc1b Bug \u62a5\u544a\uff1a{{issue.title}}"
+              "content": "🐛 Bug 报告：{{issue.title}}"
             },
             "template": "red"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc1b **\u53d1\u73b0 Bug**\uff0c\u62a5\u544a\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -33,7 +33,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Bug"
+                    "content": "查看 Bug"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -58,7 +58,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 \u65b0\u529f\u80fd\u8bf7\u6c42\uff1a{{issue.title}}"
+              "content": "✨ 新功能请求：{{issue.title}}"
             },
             "template": "blue"
           },
@@ -67,7 +67,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2728 **\u65b0\u529f\u80fd\u8bf7\u6c42**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "✨ **新功能请求**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -77,7 +77,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u529f\u80fd"
+                    "content": "查看功能"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccb \u4efb\u52a1\u521b\u5efa\uff1a{{issue.title}}"
+              "content": "📋 任务创建：{{issue.title}}"
             },
             "template": "green"
           },
@@ -111,7 +111,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccb **\u4efb\u52a1\u521b\u5efa**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "📋 **任务创建**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -121,7 +121,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4efb\u52a1"
+                    "content": "查看任务"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -146,7 +146,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Bug \u5df2\u4fee\u590d\uff1a{{issue.title}}"
+              "content": "✅ Bug 已修复：{{issue.title}}"
             },
             "template": "purple"
           },
@@ -155,7 +155,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Bug \u5df2\u4fee\u590d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Bug 已修复**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -165,7 +165,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Bug"
+                    "content": "查看 Bug"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -190,7 +190,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 \u529f\u80fd\u5df2\u5b8c\u6210\uff1a{{issue.title}}"
+              "content": "✅ 功能已完成：{{issue.title}}"
             },
             "template": "purple"
           },
@@ -199,7 +199,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **\u529f\u80fd\u5df2\u5b8c\u6210**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **功能已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -209,7 +209,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u529f\u80fd"
+                    "content": "查看功能"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -234,7 +234,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 \u4efb\u52a1\u5df2\u5b8c\u6210\uff1a{{issue.title}}"
+              "content": "✅ 任务已完成：{{issue.title}}"
             },
             "template": "purple"
           },
@@ -243,7 +243,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **\u4efb\u52a1\u5df2\u5b8c\u6210**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **任务已完成**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -253,7 +253,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4efb\u52a1"
+                    "content": "查看任务"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -278,7 +278,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Bug \u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+              "content": "🔄 Bug 已重新开启：{{issue.title}}"
             },
             "template": "orange"
           },
@@ -287,7 +287,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Bug \u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Bug 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -297,7 +297,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Bug"
+                    "content": "查看 Bug"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -322,7 +322,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 \u529f\u80fd\u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+              "content": "🔄 功能已重新开启：{{issue.title}}"
             },
             "template": "orange"
           },
@@ -331,7 +331,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **\u529f\u80fd\u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **功能已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -341,7 +341,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u529f\u80fd"
+                    "content": "查看功能"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -366,7 +366,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 \u4efb\u52a1\u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+              "content": "🔄 任务已重新开启：{{issue.title}}"
             },
             "template": "orange"
           },
@@ -375,7 +375,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **\u4efb\u52a1\u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **任务已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -385,7 +385,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4efb\u52a1"
+                    "content": "查看任务"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -409,7 +409,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Issue \u5df2\u5f00\u542f\uff1a{{issue.title}}"
+              "content": "📝 Issue 已开启：{{issue.title}}"
             },
             "template": "green"
           },
@@ -418,7 +418,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udcdd **Issue \u5df2\u5f00\u542f**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**\u63cf\u8ff0\uff1a** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "📝 **Issue 已开启**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.body}}**描述：** {{issue.body | truncate(200)}}{{/if}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -428,7 +428,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -452,7 +452,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Issue \u5df2\u5173\u95ed\uff1a{{issue.title}}"
+              "content": "✅ Issue 已关闭：{{issue.title}}"
             },
             "template": "purple"
           },
@@ -461,7 +461,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2705 **Issue \u5df2\u5173\u95ed**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u72b6\u6001\uff1a** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "✅ **Issue 已关闭**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**状态：** {{issue.state | default('closed')}} ({{issue_state_reason | default('completed')}})\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -471,7 +471,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -495,7 +495,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd04 Issue \u5df2\u91cd\u65b0\u5f00\u542f\uff1a{{issue.title}}"
+              "content": "🔄 Issue 已重新开启：{{issue.title}}"
             },
             "template": "orange"
           },
@@ -504,7 +504,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd04 **Issue \u5df2\u91cd\u65b0\u5f00\u542f**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**\u6807\u7b7e\uff1a** {{issue_labels_joined}}{{/if}}"
+                "content": "🔄 **Issue 已重新开启**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_labels_joined}}**标签：** {{issue_labels_joined}}{{/if}}"
               }
             },
             {
@@ -514,7 +514,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -538,7 +538,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc64 Issue \u5df2\u5206\u914d\uff1a{{issue.title}}"
+              "content": "👤 Issue 已分配：{{issue.title}}"
             },
             "template": "blue"
           },
@@ -547,7 +547,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc64 **Issue \u5df2\u5206\u914d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**\u5206\u914d\u7ed9\uff1a** {{assignee_link_md}}{{/if}}"
+                "content": "👤 **Issue 已分配**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**分配给：** {{assignee_link_md}}{{/if}}"
               }
             },
             {
@@ -557,7 +557,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -581,7 +581,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc64 Issue \u5df2\u53d6\u6d88\u5206\u914d\uff1a{{issue.title}}"
+              "content": "👤 Issue 已取消分配：{{issue.title}}"
             },
             "template": "grey"
           },
@@ -590,7 +590,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc64 **Issue \u5df2\u53d6\u6d88\u5206\u914d**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**\u79fb\u9664\u5206\u914d\uff1a** {{assignee_link_md}}{{/if}}"
+                "content": "👤 **Issue 已取消分配**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if assignee_link_md}}**移除分配：** {{assignee_link_md}}{{/if}}"
               }
             },
             {
@@ -600,7 +600,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -624,7 +624,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue \u5df2\u7f16\u8f91\uff1a{{issue.title}}"
+              "content": "✏️ Issue 已编辑：{{issue.title}}"
             },
             "template": "grey"
           },
@@ -633,7 +633,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue \u5df2\u7f16\u8f91**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**\u6807\u9898\u6539\u81ea\uff1a** {{changes_title_from}}{{/if}}"
+                "content": "✏️ **Issue 已编辑**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_title_from}}**标题改自：** {{changes_title_from}}{{/if}}"
               }
             },
             {
@@ -643,7 +643,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -667,7 +667,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfaf \u91cc\u7a0b\u7891\u5df2\u6dfb\u52a0\uff1a{{issue.title}}"
+              "content": "🎯 里程碑已添加：{{issue.title}}"
             },
             "template": "turquoise"
           },
@@ -676,7 +676,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83c\udfaf **\u91cc\u7a0b\u7891\u5df2\u6dfb\u52a0**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**\u91cc\u7a0b\u7891\uff1a** {{milestone_title}}{{/if}}"
+                "content": "🎯 **里程碑已添加**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**里程碑：** {{milestone_title}}{{/if}}"
               }
             },
             {
@@ -686,7 +686,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -710,7 +710,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfaf \u91cc\u7a0b\u7891\u5df2\u79fb\u9664\uff1a{{issue.title}}"
+              "content": "🎯 里程碑已移除：{{issue.title}}"
             },
             "template": "grey"
           },
@@ -719,7 +719,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83c\udfaf **\u91cc\u7a0b\u7891\u5df2\u79fb\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**\u79fb\u9664\u91cc\u7a0b\u7891\uff1a** {{milestone_title}}{{/if}}"
+                "content": "🎯 **里程碑已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if milestone_title}}**移除里程碑：** {{milestone_title}}{{/if}}"
               }
             },
             {
@@ -729,7 +729,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -753,7 +753,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udce6 Issue \u5df2\u8f6c\u79fb\uff1a{{issue.title}}"
+              "content": "📦 Issue 已转移：{{issue.title}}"
             },
             "template": "blue"
           },
@@ -762,7 +762,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udce6 **Issue \u5df2\u8f6c\u79fb**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**\u8f6c\u79fb\u5230\u4ed3\u5e93\uff1a** {{changes_new_repository_full_name}}{{/if}}"
+                "content": "📦 **Issue 已转移**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if changes_new_repository_full_name}}**转移到仓库：** {{changes_new_repository_full_name}}{{/if}}"
               }
             },
             {
@@ -772,7 +772,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -796,7 +796,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f Issue \u5df2\u5220\u9664\uff1a{{issue.title}}"
+              "content": "🗑️ Issue 已删除：{{issue.title}}"
             },
             "template": "red"
           },
@@ -805,7 +805,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\uddd1\ufe0f **Issue \u5df2\u5220\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "🗑️ **Issue 已删除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             }
           ]
@@ -825,7 +825,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccc Issue \u5df2\u7f6e\u9876\uff1a{{issue.title}}"
+              "content": "📌 Issue 已置顶：{{issue.title}}"
             },
             "template": "yellow"
           },
@@ -834,7 +834,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccc **Issue \u5df2\u7f6e\u9876**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "📌 **Issue 已置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -844,7 +844,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -868,7 +868,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccc Issue \u5df2\u53d6\u6d88\u7f6e\u9876\uff1a{{issue.title}}"
+              "content": "📌 Issue 已取消置顶：{{issue.title}}"
             },
             "template": "grey"
           },
@@ -877,7 +877,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udccc **Issue \u5df2\u53d6\u6d88\u7f6e\u9876**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "📌 **Issue 已取消置顶**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -887,7 +887,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -911,7 +911,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd12 Issue \u5df2\u9501\u5b9a\uff1a{{issue.title}}"
+              "content": "🔒 Issue 已锁定：{{issue.title}}"
             },
             "template": "red"
           },
@@ -920,7 +920,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd12 **Issue \u5df2\u9501\u5b9a**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**\u539f\u56e0\uff1a** {{issue.active_lock_reason}}{{/if}}"
+                "content": "🔒 **Issue 已锁定**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue.active_lock_reason}}**原因：** {{issue.active_lock_reason}}{{/if}}"
               }
             },
             {
@@ -930,7 +930,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -954,7 +954,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd13 Issue \u5df2\u89e3\u9501\uff1a{{issue.title}}"
+              "content": "🔓 Issue 已解锁：{{issue.title}}"
             },
             "template": "green"
           },
@@ -963,7 +963,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udd13 **Issue \u5df2\u89e3\u9501**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "🔓 **Issue 已解锁**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -973,7 +973,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -997,7 +997,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f \u6807\u7b7e\u5df2\u6dfb\u52a0\uff1a{{labeled_label_name}} - {{issue.title}}"
+              "content": "🏷️ 标签已添加：{{labeled_label_name}} - {{issue.title}}"
             },
             "template": "teal"
           },
@@ -1006,7 +1006,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u6807\u7b7e\uff1a** {{labeled_label_link_md | default(labeled_label_name)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u64cd\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n"
+                "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
               }
             },
             {
@@ -1016,7 +1016,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1040,7 +1040,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f \u6807\u7b7e\u5df2\u79fb\u9664\uff1a{{labeled_label_name}} - {{issue.title}}"
+              "content": "🏷️ 标签已移除：{{labeled_label_name}} - {{issue.title}}"
             },
             "template": "grey"
           },
@@ -1049,7 +1049,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u6807\u7b7e\uff1a** {{labeled_label_link_md | default(labeled_label_name)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u64cd\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n"
+                "content": "**标签：** {{labeled_label_link_md | default(labeled_label_name)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**操作者：** {{sender_link_md | default(sender.login)}}\n"
               }
             },
             {
@@ -1059,7 +1059,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -1083,7 +1083,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue \u5df2\u8bbe\u7f6e\u7c7b\u578b\uff1a{{issue.title}}"
+              "content": "✏️ Issue 已设置类型：{{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1092,7 +1092,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue \u5df2\u8bbe\u7f6e\u7c7b\u578b**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**\u7c7b\u578b\uff1a** {{issue_type}}{{/if}}"
+                "content": "✏️ **Issue 已设置类型**，操作者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n{{#if issue_type}}**类型：** {{issue_type}}{{/if}}"
               }
             },
             {
@@ -1102,7 +1102,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1126,7 +1126,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u270f\ufe0f Issue \u7c7b\u578b\u5df2\u79fb\u9664\uff1a{{issue.title}}"
+              "content": "✏️ Issue 类型已移除：{{issue.title}}"
             },
             "template": "grey"
           },
@@ -1135,7 +1135,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u270f\ufe0f **Issue \u7c7b\u578b\u5df2\u79fb\u9664**\uff0c\u64cd\u4f5c\u8005\uff1a{{sender_link_md | default(sender.login)}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}"
+                "content": "✏️ **Issue 类型已移除**，操作者：{{sender_link_md | default(sender.login)}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}"
               }
             },
             {
@@ -1145,7 +1145,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "default"
@@ -1169,7 +1169,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc1e Bug\uff1a{{issue.title}}"
+              "content": "🐞 Bug：{{issue.title}}"
             },
             "template": "red"
           },
@@ -1178,7 +1178,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udc1b **\u53d1\u73b0 Bug**\uff0c\u62a5\u544a\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "🐛 **发现 Bug**，报告者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1188,7 +1188,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1212,7 +1212,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 Feature\uff1a{{issue.title}}"
+              "content": "✨ Feature：{{issue.title}}"
             },
             "template": "blue"
           },
@@ -1221,7 +1221,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u2728 **\u529f\u80fd\u9700\u6c42**\uff0c\u63d0\u51fa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "✨ **功能需求**，提出者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1231,7 +1231,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1255,7 +1255,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd \u4efb\u52a1\uff1a{{issue.title}}"
+              "content": "📝 任务：{{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1264,7 +1264,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\ud83d\udcdd **\u4efb\u52a1**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "📝 **任务**，创建者：{{sender_link_md | default(sender.login)}} {{issue_user_link_md | default('')}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1274,7 +1274,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1298,7 +1298,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u26a0\ufe0f Issue\uff1a{{issue.title}}"
+              "content": "⚠️ Issue：{{issue.title}}"
             },
             "template": "yellow"
           },
@@ -1307,7 +1307,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "\u26a0\ufe0f **Issue**\uff0c\u521b\u5efa\u8005\uff1a{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n"
+                "content": "⚠️ **Issue**，创建者：{{sender_link_md | default(sender.login)}} {{issue_type_display | default(issue_user_link_md | default(''))}}\n**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n"
               }
             },
             {
@@ -1317,7 +1317,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"
@@ -1341,7 +1341,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Issue\uff1a{{issue.title}}"
+              "content": "📝 Issue：{{issue.title}}"
             },
             "template": "gray"
           },
@@ -1350,7 +1350,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**Issue\uff1a** {{issue_link_md | default(issue.html_url | default(''))}}\n**\u4f5c\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u72b6\u6001\uff1a** {{issue.state | default('unknown')}}\n"
+                "content": "**仓库：** {{repository_link_md}}\n**Issue：** {{issue_link_md | default(issue.html_url | default(''))}}\n**作者：** {{sender_link_md | default(sender.login)}}\n**状态：** {{issue.state | default('unknown')}}\n"
               }
             },
             {
@@ -1360,7 +1360,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b Issue"
+                    "content": "查看 Issue"
                   },
                   "url": "{{issue.html_url}}",
                   "type": "primary"

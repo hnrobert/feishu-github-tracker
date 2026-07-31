@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udf74 Fork\uff1a{{forkee.full_name}}"
+              "content": "🍴 Fork：{{forkee.full_name}}"
             },
             "template": "purple"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Fork\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u76ee\u6807\u4ed3\u5e93\uff1a** {{forkee.full_name}}\n"
+                "content": "**Fork者：** {{sender_link_md | default(sender.login)}}\n**目标仓库：** {{forkee.full_name}}\n"
               }
             },
             {
@@ -32,7 +32,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770bFork\u4ed3\u5e93"
+                    "content": "查看Fork仓库"
                   },
                   "url": "{{forkee.html_url}}",
                   "type": "primary"

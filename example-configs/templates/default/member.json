@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc64 Member event: {{action}} {{member.login}}"
+              "content": "👤 Member event: {{action}} {{member.login}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Member Added"
+              "content": "🔔 Member Added"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Member Edited"
+              "content": "🔔 Member Edited"
             },
             "template": "blue"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Member Removed"
+              "content": "🔔 Member Removed"
             },
             "template": "red"
           },

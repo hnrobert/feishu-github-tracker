@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Branch Protection Configuration Disabled"
+              "content": "🔔 Branch Protection Configuration Disabled"
             },
             "template": "turquoise"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Branch Protection Configuration Enabled"
+              "content": "🔔 Branch Protection Configuration Enabled"
             },
             "template": "turquoise"
           },

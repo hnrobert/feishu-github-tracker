@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\ude80 Release Published"
+              "content": "🚀 Release Published"
             },
             "template": "green"
           },
@@ -69,7 +69,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd36 Pre-release Published"
+              "content": "🔶 Pre-release Published"
             },
             "template": "orange"
           },
@@ -89,7 +89,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u26a0\ufe0f This is a pre-release version"
+                  "content": "⚠️ This is a pre-release version"
                 }
               ]
             },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd Release Draft Created"
+              "content": "📝 Release Draft Created"
             },
             "template": "grey"
           },
@@ -189,7 +189,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f Release Deleted"
+              "content": "🗑️ Release Deleted"
             },
             "template": "red"
           },
@@ -230,7 +230,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\ude80 Release {{action}}"
+              "content": "🚀 Release {{action}}"
             },
             "template": "green"
           },
@@ -276,7 +276,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Release Edited"
+              "content": "🔔 Release Edited"
             },
             "template": "blue"
           },
@@ -322,7 +322,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Release Released"
+              "content": "🔔 Release Released"
             },
             "template": "turquoise"
           },
@@ -368,7 +368,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Release Unpublished"
+              "content": "🔔 Release Unpublished"
             },
             "template": "turquoise"
           },

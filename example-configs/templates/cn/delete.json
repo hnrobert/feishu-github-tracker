@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\uddd1\ufe0f \u5220\u9664\uff1a{{ref_type}} \u5728 {{repository.full_name}}"
+              "content": "🗑️ 删除：{{ref_type}} 在 {{repository.full_name}}"
             },
             "template": "red"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u89e6\u53d1\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u5220\u9664\uff1a** {{ref_type}} {{ref}}\n"
+                "content": "**触发者：** {{sender_link_md | default(sender.login)}}\n**删除：** {{ref_type}} {{ref}}\n"
               }
             }
           ]

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Deployment Approved"
+              "content": "✅ Deployment Approved"
             },
             "template": "green"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Deployment Rejected"
+              "content": "❌ Deployment Rejected"
             },
             "template": "red"
           },
@@ -71,7 +71,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Deployment Review {{action}}"
+              "content": "🔔 Deployment Review {{action}}"
             },
             "template": "blue"
           },
@@ -100,7 +100,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Deployment Review Requested"
+              "content": "🔔 Deployment Review Requested"
             },
             "template": "orange"
           },

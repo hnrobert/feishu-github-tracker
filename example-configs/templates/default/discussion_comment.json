@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac Discussion Comment: {{discussion.title}}"
+              "content": "💬 Discussion Comment: {{discussion.title}}"
             },
             "template": "teal"
           },
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Comment Created"
+              "content": "🔔 Discussion Comment Created"
             },
             "template": "green"
           },
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Comment Deleted"
+              "content": "🔔 Discussion Comment Deleted"
             },
             "template": "red"
           },
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Comment Edited"
+              "content": "🔔 Discussion Comment Edited"
             },
             "template": "blue"
           },

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udfc1 Milestone: {{action}} {{milestone.title}}"
+              "content": "🏁 Milestone: {{action}} {{milestone.title}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Milestone Closed"
+              "content": "🔔 Milestone Closed"
             },
             "template": "red"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Milestone Created"
+              "content": "🔔 Milestone Created"
             },
             "template": "green"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Milestone Deleted"
+              "content": "🔔 Milestone Deleted"
             },
             "template": "red"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Milestone Edited"
+              "content": "🔔 Milestone Edited"
             },
             "template": "blue"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Milestone Opened"
+              "content": "🔔 Milestone Opened"
             },
             "template": "green"
           },

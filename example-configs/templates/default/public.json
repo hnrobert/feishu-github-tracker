@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udf10 Repository made public: {{repository.full_name}}"
+              "content": "🌐 Repository made public: {{repository.full_name}}"
             },
             "template": "green"
           },

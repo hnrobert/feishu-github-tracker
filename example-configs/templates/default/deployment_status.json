@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udce3 Deployment status: {{deployment_status.state}}"
+              "content": "📣 Deployment status: {{deployment_status.state}}"
             },
             "template": "green"
           },

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd12 Security Advisory: {{action}}"
+              "content": "🔒 Security Advisory: {{action}}"
             },
             "template": "red"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Security Advisory Published"
+              "content": "🔔 Security Advisory Published"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Security Advisory Updated"
+              "content": "🔔 Security Advisory Updated"
             },
             "template": "blue"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Security Advisory Withdrawn"
+              "content": "🔔 Security Advisory Withdrawn"
             },
             "template": "turquoise"
           },

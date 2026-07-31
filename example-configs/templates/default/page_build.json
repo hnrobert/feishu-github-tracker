@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcc4 Page Build: {{action}}"
+              "content": "📄 Page Build: {{action}}"
             },
             "template": "gray"
           },

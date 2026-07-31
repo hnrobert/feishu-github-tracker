@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 \u4efb\u52a1\u6210\u529f\uff1a{{job_name}}"
+              "content": "✅ 任务成功：{{job_name}}"
             },
             "template": "green"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4efb\u52a1\uff1a** {{job_name}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow_name}}\n**\u72b6\u6001\uff1a** {{job_status}}\n**\u7ed3\u679c\uff1a** {{job_conclusion}}\n"
+                "content": "**任务：** {{job_name}}\n**工作流：** {{workflow_name}}\n**状态：** {{job_status}}\n**结果：** {{job_conclusion}}\n"
               }
             },
             {
@@ -33,7 +33,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4efb\u52a1"
+                    "content": "查看任务"
                   },
                   "url": "{{job_html_url}}",
                   "type": "primary"
@@ -58,7 +58,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c \u4efb\u52a1\u5931\u8d25\uff1a{{job_name}}"
+              "content": "❌ 任务失败：{{job_name}}"
             },
             "template": "red"
           },
@@ -67,7 +67,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4efb\u52a1\uff1a** {{job_name}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow_name}}\n**\u72b6\u6001\uff1a** {{job_status}}\n**\u7ed3\u679c\uff1a** {{job_conclusion}}\n"
+                "content": "**任务：** {{job_name}}\n**工作流：** {{workflow_name}}\n**状态：** {{job_status}}\n**结果：** {{job_conclusion}}\n"
               }
             },
             {
@@ -77,7 +77,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u4efb\u52a1"
+                    "content": "查看任务"
                   },
                   "url": "{{job_html_url}}",
                   "type": "danger"
@@ -101,7 +101,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2699\ufe0f \u4efb\u52a1{{action}}\uff1a{{job_name}}"
+              "content": "⚙️ 任务{{action}}：{{job_name}}"
             },
             "template": "blue"
           },
@@ -110,7 +110,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4efb\u52a1\uff1a** {{job_name}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow_name}}\n**\u72b6\u6001\uff1a** {{job_status}}\n"
+                "content": "**任务：** {{job_name}}\n**工作流：** {{workflow_name}}\n**状态：** {{job_status}}\n"
               }
             }
           ]
@@ -130,7 +130,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u5de5\u4f5c\u6d41\u4f5c\u4e1a \u8fdb\u884c\u4e2d"
+              "content": "🔔 工作流作业 进行中"
             },
             "template": "blue"
           },
@@ -139,7 +139,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -152,7 +152,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -176,7 +176,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u5de5\u4f5c\u6d41\u4f5c\u4e1a \u5df2\u6392\u961f"
+              "content": "🔔 工作流作业 已排队"
             },
             "template": "turquoise"
           },
@@ -185,7 +185,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -198,7 +198,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -222,7 +222,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u5de5\u4f5c\u6d41\u4f5c\u4e1a \u7b49\u5f85\u4e2d"
+              "content": "🔔 工作流作业 等待中"
             },
             "template": "turquoise"
           },
@@ -231,7 +231,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -244,7 +244,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

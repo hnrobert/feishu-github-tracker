@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Repositories Added"
+              "content": "🔔 Installation Repositories Added"
             },
             "template": "turquoise"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Installation Repositories Removed"
+              "content": "🔔 Installation Repositories Removed"
             },
             "template": "red"
           },

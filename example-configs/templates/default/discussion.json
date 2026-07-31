@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac New Discussion Created"
+              "content": "💬 New Discussion Created"
             },
             "template": "green"
           },
@@ -69,7 +69,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Discussion Answered"
+              "content": "✅ Discussion Answered"
             },
             "template": "purple"
           },
@@ -124,7 +124,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd12 Discussion Locked"
+              "content": "🔒 Discussion Locked"
             },
             "template": "orange"
           },
@@ -179,7 +179,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd13 Discussion Unlocked"
+              "content": "🔓 Discussion Unlocked"
             },
             "template": "green"
           },
@@ -234,7 +234,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udccb Discussion Closed"
+              "content": "📋 Discussion Closed"
             },
             "template": "grey"
           },
@@ -280,7 +280,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac Discussion {{action}}"
+              "content": "💬 Discussion {{action}}"
             },
             "template": "turquoise"
           },
@@ -326,7 +326,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Deleted"
+              "content": "🔔 Discussion Deleted"
             },
             "template": "red"
           },
@@ -372,7 +372,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Edited"
+              "content": "🔔 Discussion Edited"
             },
             "template": "blue"
           },
@@ -418,7 +418,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Labeled"
+              "content": "🔔 Discussion Labeled"
             },
             "template": "turquoise"
           },
@@ -464,7 +464,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Pinned"
+              "content": "🔔 Discussion Pinned"
             },
             "template": "turquoise"
           },
@@ -510,7 +510,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Transferred"
+              "content": "🔔 Discussion Transferred"
             },
             "template": "turquoise"
           },
@@ -556,7 +556,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Unanswered"
+              "content": "🔔 Discussion Unanswered"
             },
             "template": "turquoise"
           },
@@ -602,7 +602,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Unlabeled"
+              "content": "🔔 Discussion Unlabeled"
             },
             "template": "turquoise"
           },
@@ -648,7 +648,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Discussion Unpinned"
+              "content": "🔔 Discussion Unpinned"
             },
             "template": "turquoise"
           },

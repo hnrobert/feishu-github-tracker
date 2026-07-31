@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 \u5de5\u4f5c\u6d41\u6267\u884c\u6210\u529f"
+              "content": "✅ 工作流执行成功"
             },
             "template": "green"
           },
@@ -23,7 +23,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow.name}}\n**\u8fd0\u884c\u7f16\u53f7\uff1a** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**\u5206\u652f\uff1a** {{workflow_run.head_branch}}\n**\u89e6\u53d1\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
               }
             },
             {
@@ -34,7 +34,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u2705 \u6240\u6709\u68c0\u67e5\u5df2\u901a\u8fc7"
+                  "content": "✅ 所有检查已通过"
                 }
               ]
             },
@@ -45,7 +45,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8fd0\u884c"
+                    "content": "查看运行"
                   },
                   "url": "{{workflow_run.html_url}}",
                   "type": "primary"
@@ -70,7 +70,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c \u5de5\u4f5c\u6d41\u6267\u884c\u5931\u8d25"
+              "content": "❌ 工作流执行失败"
             },
             "template": "red"
           },
@@ -79,7 +79,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow.name}}\n**\u8fd0\u884c\u7f16\u53f7\uff1a** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**\u5206\u652f\uff1a** {{workflow_run.head_branch}}\n**\u89e6\u53d1\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
               }
             },
             {
@@ -90,7 +90,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u274c \u5de5\u4f5c\u6d41\u6267\u884c\u5931\u8d25"
+                  "content": "❌ 工作流执行失败"
                 }
               ]
             },
@@ -101,7 +101,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u65e5\u5fd7"
+                    "content": "查看日志"
                   },
                   "url": "{{workflow_run.html_url}}",
                   "type": "danger"
@@ -126,7 +126,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u26a0\ufe0f \u5de5\u4f5c\u6d41\u5df2\u53d6\u6d88"
+              "content": "⚠️ 工作流已取消"
             },
             "template": "yellow"
           },
@@ -135,7 +135,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow.name}}\n**\u8fd0\u884c\u7f16\u53f7\uff1a** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**\u5206\u652f\uff1a** {{workflow_run.head_branch}}\n**\u53d6\u6d88\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**取消者：** {{sender_link_md}}"
               }
             },
             {
@@ -146,7 +146,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u6b64\u5de5\u4f5c\u6d41\u8fd0\u884c\u5df2\u88ab\u53d6\u6d88"
+                  "content": "此工作流运行已被取消"
                 }
               ]
             },
@@ -157,7 +157,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8fd0\u884c"
+                    "content": "查看运行"
                   },
                   "url": "{{workflow_run.html_url}}",
                   "type": "default"
@@ -181,7 +181,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u23f3 \u5de5\u4f5c\u6d41\u8fd0\u884c\u4e2d"
+              "content": "⏳ 工作流运行中"
             },
             "template": "blue"
           },
@@ -190,7 +190,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow.name}}\n**\u8fd0\u884c\u7f16\u53f7\uff1a** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**\u5206\u652f\uff1a** {{workflow_run.head_branch}}\n**\u89e6\u53d1\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**分支：** {{workflow_run.head_branch}}\n**触发者：** {{sender_link_md}}"
               }
             },
             {
@@ -201,7 +201,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u23f3 \u5de5\u4f5c\u6d41\u6b63\u5728\u8fd0\u884c\u4e2d..."
+                  "content": "⏳ 工作流正在运行中..."
                 }
               ]
             },
@@ -212,7 +212,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8fdb\u5ea6"
+                    "content": "查看进度"
                   },
                   "url": "{{workflow_run.html_url}}",
                   "type": "default"
@@ -236,7 +236,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2699\ufe0f \u5de5\u4f5c\u6d41 {{action}}"
+              "content": "⚙️ 工作流 {{action}}"
             },
             "template": "purple"
           },
@@ -245,7 +245,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5de5\u4f5c\u6d41\uff1a** {{workflow.name}}\n**\u8fd0\u884c\u7f16\u53f7\uff1a** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**\u72b6\u6001\uff1a** {{workflow_run.conclusion | default(workflow_run.status)}}\n**\u64cd\u4f5c\uff1a** {{action}}"
+                "content": "**仓库：** {{repository_link_md}}\n**工作流：** {{workflow.name}}\n**运行编号：** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**状态：** {{workflow_run.conclusion | default(workflow_run.status)}}\n**操作：** {{action}}"
               }
             },
             {
@@ -258,7 +258,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8fd0\u884c"
+                    "content": "查看运行"
                   },
                   "url": "{{workflow_run.html_url}}",
                   "type": "default"
@@ -282,7 +282,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 workflow_run \u5df2\u8bf7\u6c42"
+              "content": "🔔 workflow_run 已请求"
             },
             "template": "orange"
           },
@@ -291,7 +291,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -304,7 +304,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

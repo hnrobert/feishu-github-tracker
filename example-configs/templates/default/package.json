@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udce6 Package: {{action}} {{package.name | default('package')}}"
+              "content": "📦 Package: {{action}} {{package.name | default('package')}}"
             },
             "template": "purple"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Package Published"
+              "content": "🔔 Package Published"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Package Updated"
+              "content": "🔔 Package Updated"
             },
             "template": "blue"
           },

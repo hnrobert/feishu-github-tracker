@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83e\uddea Check Suite: {{action}}"
+              "content": "🧪 Check Suite: {{action}}"
             },
             "template": "green"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Suite Completed"
+              "content": "🔔 Check Suite Completed"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Suite Requested"
+              "content": "🔔 Check Suite Requested"
             },
             "template": "orange"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Check Suite Rerequested"
+              "content": "🔔 Check Suite Rerequested"
             },
             "template": "turquoise"
           },

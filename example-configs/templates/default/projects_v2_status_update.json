@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Projects V2 Status Update Created"
+              "content": "🔔 Projects V2 Status Update Created"
             },
             "template": "green"
           },
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Projects V2 Status Update Deleted"
+              "content": "🔔 Projects V2 Status Update Deleted"
             },
             "template": "red"
           },
@@ -105,7 +105,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Projects V2 Status Update Edited"
+              "content": "🔔 Projects V2 Status Update Edited"
             },
             "template": "blue"
           },

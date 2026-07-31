@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udee1\ufe0f Branch Protection {{action}}"
+              "content": "🛡️ Branch Protection {{action}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Branch Protection Rule Created"
+              "content": "🔔 Branch Protection Rule Created"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Branch Protection Rule Deleted"
+              "content": "🔔 Branch Protection Rule Deleted"
             },
             "template": "red"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Branch Protection Rule Edited"
+              "content": "🔔 Branch Protection Rule Edited"
             },
             "template": "blue"
           },

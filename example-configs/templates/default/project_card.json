@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udccf Project Card: {{action}}"
+              "content": "🃏 Project Card: {{action}}"
             },
             "template": "brown"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Card Converted"
+              "content": "🔔 Project Card Converted"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Card Created"
+              "content": "🔔 Project Card Created"
             },
             "template": "green"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Card Deleted"
+              "content": "🔔 Project Card Deleted"
             },
             "template": "red"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Card Edited"
+              "content": "🔔 Project Card Edited"
             },
             "template": "blue"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Project Card Moved"
+              "content": "🔔 Project Card Moved"
             },
             "template": "turquoise"
           },

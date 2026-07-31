@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ufffd \u6ce8\u518c\u8868\u5305\u5df2\u53d1\u5e03"
+              "content": "� 注册表包已发布"
             },
             "template": "green"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5305\u540d\uff1a** {{package_name}}\n**\u7c7b\u578b\uff1a** {{package_type | upper}}\n**\u7248\u672c\uff1a** {{package_version}}\n**\u53d1\u5e03\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**包名：** {{package_name}}\n**类型：** {{package_type | upper}}\n**版本：** {{package_version}}\n**发布者：** {{sender_link_md}}"
               }
             },
             {
@@ -35,7 +35,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u5305"
+                    "content": "查看包"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "primary"
@@ -59,7 +59,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 \u4ed3\u5e93\u5305 \u5df2\u66f4\u65b0"
+              "content": "🔔 仓库包 已更新"
             },
             "template": "blue"
           },
@@ -68,7 +68,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u5305\u540d\uff1a** {{package_name}}\n**\u7c7b\u578b\uff1a** {{package_type | upper}}\n**\u7248\u672c\uff1a** {{package_version}}\n**\u66f4\u65b0\u8005\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**包名：** {{package_name}}\n**类型：** {{package_type | upper}}\n**版本：** {{package_version}}\n**更新者：** {{sender_link_md}}"
               }
             },
             {
@@ -81,7 +81,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

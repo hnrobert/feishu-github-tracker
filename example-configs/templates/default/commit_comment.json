@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac Commit Comment"
+              "content": "💬 Commit Comment"
             },
             "template": "blue"
           },
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Commit Comment Created"
+              "content": "🔔 Commit Comment Created"
             },
             "template": "green"
           },

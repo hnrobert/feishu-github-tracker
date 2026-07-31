@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcbe \u65b0\u63a8\u9001\uff1a{{repository.full_name}}"
+              "content": "💾 新推送：{{repository.full_name}}"
             },
             "template": "blue"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "{{pusher_link_md | default(pusher.name)}} \u63a8\u9001\u4e86 {{commits | length}} \u4e2a\u63d0\u4ea4\u5230\u5206\u652f **{{branch_name}}** {{branch_link_md | default('')}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**\u63d0\u4ea4\u4fe1\u606f\uff1a**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('\u65e0\u63d0\u4ea4\u4fe1\u606f'))) }}\n"
+                "content": "{{pusher_link_md | default(pusher.name)}} 推送了 {{commits | length}} 个提交到分支 **{{branch_name}}** {{branch_link_md | default('')}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default(pull_request.body | default('无提交信息'))) }}\n"
               }
             },
             {
@@ -32,7 +32,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u63d0\u4ea4\u8be6\u60c5"
+                    "content": "查看提交详情"
                   },
                   "url": "{{compare_url}}",
                   "type": "primary"
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udea8 \u5f3a\u5236\u63a8\u9001\uff1a{{repository.full_name}}"
+              "content": "🚨 强制推送：{{repository.full_name}}"
             },
             "template": "red"
           },
@@ -65,7 +65,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u68c0\u6d4b\u5230\u5f3a\u5236\u63a8\u9001**\uff0c\u64cd\u4f5c\u4eba\uff1a{{sender_link_md | default(sender.login)}}\uff0c\u5206\u652f\uff1a**{{branch_name}}** {{branch_link_md | default('')}}\n\u53ef\u80fd\u5df2\u91cd\u5199\u5386\u53f2\u3002\u63d0\u4ea4\u6570\uff1a{{commits | length}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**\u63d0\u4ea4\u4fe1\u606f\uff1a**\n{{commit_messages_joined | default(commit_message | default('\u65e0\u63d0\u4ea4\u4fe1\u606f')) }}\n"
+                "content": "**检测到强制推送**，操作人：{{sender_link_md | default(sender.login)}}，分支：**{{branch_name}}** {{branch_link_md | default('')}}\n可能已重写历史。提交数：{{commits | length}}\n{{repository_link_md | default('')}} {{branch_link_md | default('')}}\n\n**提交信息：**\n{{commit_messages_joined | default(commit_message | default('无提交信息')) }}\n"
               }
             },
             {
@@ -75,7 +75,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u63d0\u4ea4\u8be6\u60c5"
+                    "content": "查看提交详情"
                   },
                   "url": "{{compare_url}}",
                   "type": "primary"

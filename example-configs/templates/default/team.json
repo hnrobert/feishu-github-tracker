@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udc65 Team event: {{action}} {{team.name}}"
+              "content": "👥 Team event: {{action}} {{team.name}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Team Added To Repository"
+              "content": "🔔 Team Added To Repository"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Team Created"
+              "content": "🔔 Team Created"
             },
             "template": "green"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Team Deleted"
+              "content": "🔔 Team Deleted"
             },
             "template": "red"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Team Edited"
+              "content": "🔔 Team Edited"
             },
             "template": "blue"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Team Removed From Repository"
+              "content": "🔔 Team Removed From Repository"
             },
             "template": "turquoise"
           },

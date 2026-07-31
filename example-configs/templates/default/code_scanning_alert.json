@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd0d Code Scanning Alert {{action}}"
+              "content": "🔍 Code Scanning Alert {{action}}"
             },
             "template": "orange"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Appeared In Branch"
+              "content": "🔔 Code Scanning Alert Appeared In Branch"
             },
             "template": "turquoise"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Closed By User"
+              "content": "🔔 Code Scanning Alert Closed By User"
             },
             "template": "turquoise"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Created"
+              "content": "🔔 Code Scanning Alert Created"
             },
             "template": "green"
           },
@@ -180,7 +180,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Fixed"
+              "content": "🔔 Code Scanning Alert Fixed"
             },
             "template": "green"
           },
@@ -226,7 +226,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Reopened"
+              "content": "🔔 Code Scanning Alert Reopened"
             },
             "template": "orange"
           },
@@ -272,7 +272,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Code Scanning Alert Reopened By User"
+              "content": "🔔 Code Scanning Alert Reopened By User"
             },
             "template": "turquoise"
           },

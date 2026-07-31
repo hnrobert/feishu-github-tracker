@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 \u65b0\u521b\u5efa\uff1a{{ref_type}} \u5728 {{repository.full_name}}"
+              "content": "✨ 新创建：{{ref_type}} 在 {{repository.full_name}}"
             },
             "template": "blue"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u521b\u5efa\u8005\uff1a** {{sender_link_md | default(sender.login)}}\n**\u7c7b\u578b\uff1a** {{ref_type}}  \u540d\u79f0\uff1a {{ref}}\n"
+                "content": "**创建者：** {{sender_link_md | default(sender.login)}}\n**类型：** {{ref_type}}  名称： {{ref}}\n"
               }
             }
           ]

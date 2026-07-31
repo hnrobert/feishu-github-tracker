@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac PR Review Comment: #{{pull_request.number}}"
+              "content": "💬 PR Review Comment: #{{pull_request.number}}"
             },
             "template": "cyan"
           },
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Comment Created"
+              "content": "🔔 Pull Request Review Comment Created"
             },
             "template": "green"
           },
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Comment Deleted"
+              "content": "🔔 Pull Request Review Comment Deleted"
             },
             "template": "red"
           },
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Pull Request Review Comment Edited"
+              "content": "🔔 Pull Request Review Comment Edited"
             },
             "template": "blue"
           },

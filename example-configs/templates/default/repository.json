@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f Repository change: {{repository.full_name}}"
+              "content": "🏷️ Repository change: {{repository.full_name}}"
             },
             "template": "blue"
           },
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Archived"
+              "content": "🔔 Repository Archived"
             },
             "template": "turquoise"
           },
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Created"
+              "content": "🔔 Repository Created"
             },
             "template": "green"
           },
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Deleted"
+              "content": "🔔 Repository Deleted"
             },
             "template": "red"
           },
@@ -194,7 +194,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Edited"
+              "content": "🔔 Repository Edited"
             },
             "template": "blue"
           },
@@ -240,7 +240,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Privatized"
+              "content": "🔔 Repository Privatized"
             },
             "template": "turquoise"
           },
@@ -286,7 +286,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Publicized"
+              "content": "🔔 Repository Publicized"
             },
             "template": "turquoise"
           },
@@ -332,7 +332,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Renamed"
+              "content": "🔔 Repository Renamed"
             },
             "template": "turquoise"
           },
@@ -378,7 +378,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Transferred"
+              "content": "🔔 Repository Transferred"
             },
             "template": "turquoise"
           },
@@ -424,7 +424,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Repository Unarchived"
+              "content": "🔔 Repository Unarchived"
             },
             "template": "turquoise"
           },

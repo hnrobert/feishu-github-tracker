@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udff7\ufe0f Label {{action}}"
+              "content": "🏷️ Label {{action}}"
             },
             "template": "blue"
           },
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Label Created"
+              "content": "🔔 Label Created"
             },
             "template": "green"
           },
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Label Deleted"
+              "content": "🔔 Label Deleted"
             },
             "template": "red"
           },
@@ -134,7 +134,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Label Edited"
+              "content": "🔔 Label Edited"
             },
             "template": "blue"
           },

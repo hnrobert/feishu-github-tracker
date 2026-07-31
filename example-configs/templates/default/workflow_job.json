@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Job succeeded: {{job_name}}"
+              "content": "✅ Job succeeded: {{job_name}}"
             },
             "template": "green"
           },
@@ -58,7 +58,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Job failed: {{job_name}}"
+              "content": "❌ Job failed: {{job_name}}"
             },
             "template": "red"
           },
@@ -101,7 +101,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2699\ufe0f Job {{action}}: {{job_name}}"
+              "content": "⚙️ Job {{action}}: {{job_name}}"
             },
             "template": "blue"
           },
@@ -130,7 +130,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Workflow Job In Progress"
+              "content": "🔔 Workflow Job In Progress"
             },
             "template": "blue"
           },
@@ -176,7 +176,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Workflow Job Queued"
+              "content": "🔔 Workflow Job Queued"
             },
             "template": "turquoise"
           },
@@ -222,7 +222,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Workflow Job Waiting"
+              "content": "🔔 Workflow Job Waiting"
             },
             "template": "turquoise"
           },

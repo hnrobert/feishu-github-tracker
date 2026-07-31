@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83c\udf10 \u4ed3\u5e93\u516c\u5f00\uff1a{{repository.full_name}}"
+              "content": "🌐 仓库公开：{{repository.full_name}}"
             },
             "template": "green"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\u5df2\u516c\u5f00\uff1a** {{repository.full_name}}\n"
+                "content": "**仓库已公开：** {{repository.full_name}}\n"
               }
             }
           ]

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcdd PR \u5ba1\u67e5 {{action}}\uff1a#{{pull_request.number}}"
+              "content": "📝 PR 审查 {{action}}：#{{pull_request.number}}"
             },
             "template": "cyan"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u5ba1\u67e5\u8005\uff1a** {{review_user_link_md | default(review.user.login)}}\n**PR\uff1a** #{{pull_request.number}} {{pull_request.title}}\n**\u7ed3\u679c\uff1a** {{review.state}}\n{{review.body}}\n"
+                "content": "**审查者：** {{review_user_link_md | default(review.user.login)}}\n**PR：** #{{pull_request.number}} {{pull_request.title}}\n**结果：** {{review.state}}\n{{review.body}}\n"
               }
             },
             {
@@ -32,7 +32,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u5ba1\u67e5"
+                    "content": "查看审查"
                   },
                   "url": "{{review.html_url}}",
                   "type": "primary"
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request_review \u5df2\u9a73\u56de"
+              "content": "🔔 pull_request_review 已驳回"
             },
             "template": "orange"
           },
@@ -65,7 +65,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -78,7 +78,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request_review \u5df2\u7f16\u8f91"
+              "content": "🔔 pull_request_review 已编辑"
             },
             "template": "blue"
           },
@@ -111,7 +111,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -124,7 +124,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 pull_request_review \u5df2\u63d0\u4ea4"
+              "content": "🔔 pull_request_review 已提交"
             },
             "template": "turquoise"
           },
@@ -157,7 +157,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -170,7 +170,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

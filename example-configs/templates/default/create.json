@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2728 Created: {{ref_type}} in {{repository.full_name}}"
+              "content": "✨ Created: {{ref_type}} in {{repository.full_name}}"
             },
             "template": "blue"
           },

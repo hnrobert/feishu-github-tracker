@@ -14,7 +14,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2705 Workflow Succeeded"
+              "content": "✅ Workflow Succeeded"
             },
             "template": "green"
           },
@@ -34,7 +34,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u2705 All checks passed"
+                  "content": "✅ All checks passed"
                 }
               ]
             },
@@ -70,7 +70,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u274c Workflow Failed"
+              "content": "❌ Workflow Failed"
             },
             "template": "red"
           },
@@ -90,7 +90,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u274c Workflow execution failed"
+                  "content": "❌ Workflow execution failed"
                 }
               ]
             },
@@ -126,7 +126,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u26a0\ufe0f Workflow Cancelled"
+              "content": "⚠️ Workflow Cancelled"
             },
             "template": "yellow"
           },
@@ -181,7 +181,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u23f3 Workflow Running"
+              "content": "⏳ Workflow Running"
             },
             "template": "blue"
           },
@@ -201,7 +201,7 @@
               "elements": [
                 {
                   "tag": "plain_text",
-                  "content": "\u23f3 Workflow is currently running..."
+                  "content": "⏳ Workflow is currently running..."
                 }
               ]
             },
@@ -236,7 +236,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\u2699\ufe0f Workflow {{action}}"
+              "content": "⚙️ Workflow {{action}}"
             },
             "template": "purple"
           },
@@ -282,7 +282,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Workflow Run Requested"
+              "content": "🔔 Workflow Run Requested"
             },
             "template": "orange"
           },

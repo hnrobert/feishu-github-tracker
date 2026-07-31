@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udce6 \u5305\u4e8b\u4ef6\uff1a{{action}} {{package.name | default('package')}}"
+              "content": "📦 包事件：{{action}} {{package.name | default('package')}}"
             },
             "template": "purple"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u5305\u540d\uff1a** {{package_link_md | default(package.name)}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7c7b\u578b\uff1a** {{package.package_type | default('')}}\n**\u7248\u672c/Tag\uff1a** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**\u53d1\u5e03\u8005\uff1a** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
+                "content": "**包名：** {{package_link_md | default(package.name)}}\n**操作：** {{action}}\n**类型：** {{package.package_type | default('')}}\n**版本/Tag：** {{package.version | default('')}} {{package_tag_name | default(package.tag_name | default(''))}}\n**发布者：** {{sender_link_md | default(pusher_link_md | default(''))}}\n"
               }
             }
           ]
@@ -42,7 +42,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 package \u5df2\u53d1\u5e03"
+              "content": "🔔 package 已发布"
             },
             "template": "green"
           },
@@ -51,7 +51,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -64,7 +64,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"
@@ -88,7 +88,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 package \u5df2\u66f4\u65b0"
+              "content": "🔔 package 已更新"
             },
             "template": "blue"
           },
@@ -97,7 +97,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**\u4ed3\u5e93\uff1a** {{repository_link_md}}\n**\u64cd\u4f5c\uff1a** {{action}}\n**\u7528\u6237\uff1a** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
               }
             },
             {
@@ -110,7 +110,7 @@
                   "tag": "button",
                   "text": {
                     "tag": "plain_text",
-                    "content": "\u67e5\u770b\u8be6\u60c5"
+                    "content": "查看详情"
                   },
                   "url": "{{repository.html_url}}",
                   "type": "default"

@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac Issue Comment: #{{issue.number}}"
+              "content": "💬 Issue Comment: #{{issue.number}}"
             },
             "template": "orange"
           },
@@ -56,7 +56,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Issue Comment Created"
+              "content": "🔔 Issue Comment Created"
             },
             "template": "green"
           },
@@ -102,7 +102,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Issue Comment Deleted"
+              "content": "🔔 Issue Comment Deleted"
             },
             "template": "red"
           },
@@ -148,7 +148,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 Issue Comment Edited"
+              "content": "🔔 Issue Comment Edited"
             },
             "template": "blue"
           },
@@ -194,7 +194,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udcac PR Comment: #{{issue.number}}"
+              "content": "💬 PR Comment: #{{issue.number}}"
             },
             "template": "orange"
           },
@@ -238,7 +238,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 PR Comment Created"
+              "content": "🔔 PR Comment Created"
             },
             "template": "green"
           },
@@ -285,7 +285,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 PR Comment Deleted"
+              "content": "🔔 PR Comment Deleted"
             },
             "template": "red"
           },
@@ -332,7 +332,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "\ud83d\udd14 PR Comment Edited"
+              "content": "🔔 PR Comment Edited"
             },
             "template": "blue"
           },
