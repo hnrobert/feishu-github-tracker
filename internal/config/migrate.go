@@ -14,12 +14,11 @@ import (
 
 // Migrate detects legacy flat-file configs and migrates them to the new
 // per-item subdirectory layout. Old files are moved intact to legacy/ (all
-// comments preserved) and split into clean per-item files in the new dirs.
-// If the new dirs already exist with content, migration for that type is
-// skipped. This is a no-op when no legacy files are found.
+// comments preserved) and split into per-item files that also preserve
+// comments via yaml.Node round-trip. This is a no-op when no legacy files
+// are found or when the new dirs already have content.
 func Migrate(configDir string) error {
 	legacyDir := filepath.Join(configDir, "legacy")
-	migrated := false
 
 	// repos.yaml → patterns/*.yaml
 	if fileExists(filepath.Join(configDir, "repos.yaml")) && !dirHasYAML(filepath.Join(configDir, "patterns")) {
@@ -29,7 +28,6 @@ func Migrate(configDir string) error {
 		if err := migrateRepos(configDir, legacyDir); err != nil {
 			return fmt.Errorf("migrate repos: %w", err)
 		}
-		migrated = true
 	}
 
 	// events.yaml → events/event_sets/*.yaml + events/definitions/*.yaml
@@ -40,7 +38,6 @@ func Migrate(configDir string) error {
 		if err := migrateEvents(configDir, legacyDir); err != nil {
 			return fmt.Errorf("migrate events: %w", err)
 		}
-		migrated = true
 	}
 
 	// templates.jsonc + templates.*.jsonc → templates/<locale>/*.json
@@ -51,14 +48,12 @@ func Migrate(configDir string) error {
 		if err := migrateTemplates(configDir, legacyDir); err != nil {
 			return fmt.Errorf("migrate templates: %w", err)
 		}
-		migrated = true
 	}
 
-	_ = migrated
 	return nil
 }
 
-// ── Per-type migrations ──
+// ── Per-type migrations (using yaml.Node to preserve comments) ──
 
 func migrateRepos(configDir, legacyDir string) error {
 	src := filepath.Join(configDir, "repos.yaml")
@@ -69,30 +64,42 @@ func migrateRepos(configDir, legacyDir string) error {
 		return err
 	}
 
-	var rc struct {
-		Repos []RepoPattern `yaml:"repos"`
-	}
-	if err := yaml.Unmarshal(data, &rc); err != nil {
+	// Parse into yaml.Node tree — preserves HeadComment/LineComment/FootComment
+	var root yaml.Node
+	if err := yaml.Unmarshal(data, &root); err != nil {
 		return err
+	}
+
+	// Navigate: document → top mapping → "repos" key → sequence
+	seqNode := findSequenceByKey(root, "repos")
+	if seqNode == nil {
+		// No repos found — just move the file
+		return os.Rename(src, filepath.Join(legacyDir, "repos.yaml"))
 	}
 
 	if err := ensureDir(dstDir); err != nil {
 		return err
 	}
 
-	for i, rp := range rc.Repos {
-		name := sanitizeFilename(rp.Pattern)
+	for i, item := range seqNode.Content {
+		// item is a yaml.Node mapping — its HeadComment carries any comment
+		// that was above this entry in the original file.
+		out, err := marshalYAMLNode(item)
+		if err != nil {
+			return fmt.Errorf("marshal repo %d: %w", i, err)
+		}
+
+		// Derive filename from the pattern field if possible
+		name := nodePattern(item) // returns the "pattern" value or ""
 		if name == "" {
 			name = fmt.Sprintf("rule-%d", i)
 		}
-		fname := fmt.Sprintf("%02d-%s.yaml", i, name)
-		out, _ := yaml.Marshal(rp)
+		fname := fmt.Sprintf("%02d-%s.yaml", i, sanitizeFilename(name))
 		if err := os.WriteFile(filepath.Join(dstDir, fname), out, 0o644); err != nil {
 			return err
 		}
 	}
 
-	// Move original to legacy/
 	return os.Rename(src, filepath.Join(legacyDir, "repos.yaml"))
 }
 
@@ -106,8 +113,8 @@ func migrateEvents(configDir, legacyDir string) error {
 		return err
 	}
 
-	var ec EventsConfig
-	if err := yaml.Unmarshal(data, &ec); err != nil {
+	var root yaml.Node
+	if err := yaml.Unmarshal(data, &root); err != nil {
 		return err
 	}
 
@@ -118,36 +125,48 @@ func migrateEvents(configDir, legacyDir string) error {
 		return err
 	}
 
-	// event_sets
-	for name, body := range ec.EventSets {
-		fname := sanitizeFilename(name) + ".yaml"
-		out, _ := yaml.Marshal(body)
-		if err := os.WriteFile(filepath.Join(esDir, fname), out, 0o644); err != nil {
-			return err
+	// event_sets: top mapping → "event_sets" key → mapping of setName → body
+	if esMap := findMappingByKey(root, "event_sets"); esMap != nil {
+		for i := 0; i+1 < len(esMap.Content); i += 2 {
+			keyNode := esMap.Content[i]
+			valNode := esMap.Content[i+1]
+			// The key's HeadComment (or value's HeadComment) carries any
+			// comment above this entry.
+			out, err := marshalYAMLNode(valNode)
+			if err != nil {
+				continue
+			}
+			fname := sanitizeFilename(keyNode.Value) + ".yaml"
+			if err := os.WriteFile(filepath.Join(esDir, fname), out, 0o644); err != nil {
+				return err
+			}
 		}
 	}
 
-	// definitions
-	for name, body := range ec.Events {
-		fname := sanitizeFilename(name) + ".yaml"
-		var out []byte
-		if body != nil {
-			out, _ = yaml.Marshal(body)
-		} else {
-			out = []byte("null\n")
-		}
-		if err := os.WriteFile(filepath.Join(defDir, fname), out, 0o644); err != nil {
-			return err
+	// events: top mapping → "events" key → mapping of eventName → body
+	if evMap := findMappingByKey(root, "events"); evMap != nil {
+		for i := 0; i+1 < len(evMap.Content); i += 2 {
+			keyNode := evMap.Content[i]
+			valNode := evMap.Content[i+1]
+			out, err := marshalYAMLNode(valNode)
+			if err != nil {
+				continue
+			}
+			fname := sanitizeFilename(keyNode.Value) + ".yaml"
+			if err := os.WriteFile(filepath.Join(defDir, fname), out, 0o644); err != nil {
+				return err
+			}
 		}
 	}
 
 	return os.Rename(src, filepath.Join(legacyDir, "events.yaml"))
 }
 
+// Templates are JSON/JSONC — comments cannot be preserved in JSON output.
+// Originals are kept intact in legacy/ for reference.
 func migrateTemplates(configDir, legacyDir string) error {
 	templatesDir := filepath.Join(configDir, "templates")
 
-	// Find all template files: templates.jsonc + templates.*.jsonc
 	defaultPath := filepath.Join(configDir, "templates.jsonc")
 	entries, _ := os.ReadDir(configDir)
 	templateRe := regexp.MustCompile(`^templates\.([a-zA-Z0-9_-]+)\.jsonc$`)
@@ -187,7 +206,6 @@ func migrateTemplates(configDir, legacyDir string) error {
 			return err
 		}
 
-		// Sort event names for deterministic output
 		events := make([]string, 0, len(tc.Templates))
 		for k := range tc.Templates {
 			events = append(events, k)
@@ -203,7 +221,6 @@ func migrateTemplates(configDir, legacyDir string) error {
 			}
 		}
 
-		// Move original to legacy/
 		baseName := filepath.Base(tf.path)
 		if err := os.Rename(tf.path, filepath.Join(legacyDir, baseName)); err != nil {
 			return err
@@ -213,7 +230,78 @@ func migrateTemplates(configDir, legacyDir string) error {
 	return nil
 }
 
-// ── Helpers ──
+// ── yaml.Node navigation helpers ──
+
+// findSequenceByKey drills into a document node → top mapping → key → sequence.
+func findSequenceByKey(root yaml.Node, key string) *yaml.Node {
+	m := topMappingNode(&root)
+	if m == nil {
+		return nil
+	}
+	for i := 0; i+1 < len(m.Content); i += 2 {
+		if m.Content[i].Value == key && m.Content[i+1].Kind == yaml.SequenceNode {
+			return m.Content[i+1]
+		}
+	}
+	return nil
+}
+
+// findMappingByKey drills into a document node → top mapping → key → mapping.
+func findMappingByKey(root yaml.Node, key string) *yaml.Node {
+	m := topMappingNode(&root)
+	if m == nil {
+		return nil
+	}
+	for i := 0; i+1 < len(m.Content); i += 2 {
+		if m.Content[i].Value == key && m.Content[i+1].Kind == yaml.MappingNode {
+			return m.Content[i+1]
+		}
+	}
+	return nil
+}
+
+func topMappingNode(root *yaml.Node) *yaml.Node {
+	if root == nil {
+		return nil
+	}
+	if root.Kind == yaml.DocumentNode && len(root.Content) > 0 {
+		root = root.Content[0]
+	}
+	if root.Kind == yaml.MappingNode {
+		return root
+	}
+	return nil
+}
+
+// nodePattern extracts the "pattern" value from a repo mapping node.
+func nodePattern(n *yaml.Node) string {
+	if n == nil || n.Kind != yaml.MappingNode {
+		return ""
+	}
+	for i := 0; i+1 < len(n.Content); i += 2 {
+		if n.Content[i].Value == "pattern" {
+			return n.Content[i+1].Value
+		}
+	}
+	return ""
+}
+
+// marshalYAMLNode encodes a yaml.Node with 2-space indent, preserving all
+// attached comments (HeadComment, LineComment, FootComment).
+func marshalYAMLNode(n *yaml.Node) ([]byte, error) {
+	var buf strings.Builder
+	enc := yaml.NewEncoder(&buf)
+	enc.SetIndent(2)
+	if err := enc.Encode(n); err != nil {
+		return nil, err
+	}
+	if err := enc.Close(); err != nil {
+		return nil, err
+	}
+	return []byte(buf.String()), nil
+}
+
+// ── Generic helpers ──
 
 func fileExists(path string) bool {
 	_, err := os.Stat(path)
@@ -246,14 +334,12 @@ func ensureDir(dir string) error {
 	return os.MkdirAll(dir, 0o755)
 }
 
-// sanitizeFilename converts a pattern/name to a safe filename component.
 func sanitizeFilename(s string) string {
 	s = strings.ReplaceAll(s, "/", "-")
 	s = strings.ReplaceAll(s, "*", "all")
 	s = strings.ReplaceAll(s, "?", "_")
 	s = strings.ReplaceAll(s, ":", "_")
 	s = strings.ReplaceAll(s, " ", "_")
-	// keep only safe chars
 	var b strings.Builder
 	for _, r := range s {
 		if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') || r == '-' || r == '_' || r == '.' {
