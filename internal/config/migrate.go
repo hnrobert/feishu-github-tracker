@@ -12,16 +12,17 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Migrate detects legacy flat-file configs and migrates them to the new
-// per-item subdirectory layout. Old files are moved intact to legacy/ (all
-// comments preserved) and split into per-item files that also preserve
-// comments via yaml.Node round-trip. This is a no-op when no legacy files
-// are found or when the new dirs already have content.
+// Migrate detects legacy flat-file configs in the config root and migrates
+// them to the new per-item subdirectory layout. Old files are ALWAYS moved
+// to legacy/ (comments preserved) and split into per-item files, regardless
+// of whether the target subdirectory already exists (e.g. from
+// initializeConfigDir seeding example defaults). This ensures the user's
+// actual configuration is never ignored.
 func Migrate(configDir string) error {
 	legacyDir := filepath.Join(configDir, "legacy")
 
 	// repos.yaml → patterns/*.yaml
-	if fileExists(filepath.Join(configDir, "repos.yaml")) && !dirHasYAML(filepath.Join(configDir, "patterns")) {
+	if fileExists(filepath.Join(configDir, "repos.yaml")) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
@@ -31,7 +32,7 @@ func Migrate(configDir string) error {
 	}
 
 	// events.yaml → events/event_sets/*.yaml + events/definitions/*.yaml
-	if fileExists(filepath.Join(configDir, "events.yaml")) && !dirHasYAML(filepath.Join(configDir, "events")) {
+	if fileExists(filepath.Join(configDir, "events.yaml")) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
@@ -41,7 +42,7 @@ func Migrate(configDir string) error {
 	}
 
 	// templates.jsonc + templates.*.jsonc → templates/<locale>/*.json
-	if fileExists(filepath.Join(configDir, "templates.jsonc")) && !dirHasContent(filepath.Join(configDir, "templates")) {
+	if fileExists(filepath.Join(configDir, "templates.jsonc")) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
