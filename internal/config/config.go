@@ -49,6 +49,7 @@ type ReposConfig struct {
 }
 
 type RepoPattern struct {
+	Weight   int            `yaml:"weight,omitempty"`
 	Pattern  string         `yaml:"pattern"`
 	Events   map[string]any `yaml:"events"`
 	NotifyTo []string       `yaml:"notify_to"`
@@ -133,6 +134,14 @@ func loadPatterns(configDir string) ([]RepoPattern, error) {
 			}
 			repos = append(repos, rp)
 		}
+		// Sort by weight DESCENDING (higher weight = higher priority = evaluated first).
+		// Ties broken by pattern name (ascending) for deterministic ordering.
+		sort.SliceStable(repos, func(i, j int) bool {
+			if repos[i].Weight != repos[j].Weight {
+				return repos[i].Weight > repos[j].Weight
+			}
+			return repos[i].Pattern < repos[j].Pattern
+		})
 		return repos, nil
 	}
 	var rc ReposConfig

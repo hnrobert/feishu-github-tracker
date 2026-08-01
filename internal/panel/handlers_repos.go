@@ -56,6 +56,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/repos", a.message(r, "flash.patternRequired"), "err")
 		return
 	}
+	weight, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("weight")))
 
 	events, err := parseEventsYAML(r.FormValue("events"))
 	if err != nil {
@@ -71,7 +72,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rp := config.RepoPattern{Pattern: pattern, Events: events, NotifyTo: notifyTo, Secret: secret}
+	rp := config.RepoPattern{Weight: weight, Pattern: pattern, Events: events, NotifyTo: notifyTo, Secret: secret}
 	if idx >= 0 && idx < len(cfg.Repos.Repos) {
 		cfg.Repos.Repos[idx] = rp
 	} else {
@@ -115,6 +116,7 @@ func (a *App) handleRepoDelete(w http.ResponseWriter, r *http.Request) {
 func repoListRow(i int, rp config.RepoPattern) RepoRow {
 	return RepoRow{
 		Index:      i,
+		Weight:     rp.Weight,
 		Pattern:    rp.Pattern,
 		NotifyTo:   rp.NotifyTo,
 		EventCount: len(rp.Events),
@@ -126,6 +128,7 @@ func repoListRow(i int, rp config.RepoPattern) RepoRow {
 func repoEditRow(i int, rp config.RepoPattern) RepoRow {
 	row := RepoRow{
 		Index:       i,
+		Weight:      rp.Weight,
 		Pattern:     rp.Pattern,
 		NotifyTo:    rp.NotifyTo,
 		NotifyToRaw: strings.Join(rp.NotifyTo, "\n"),

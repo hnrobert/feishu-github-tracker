@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -82,20 +83,26 @@ func migrateRepos(configDir, legacyDir string) error {
 		return err
 	}
 
+	total := len(seqNode.Content)
 	for i, item := range seqNode.Content {
-		// item is a yaml.Node mapping — its HeadComment carries any comment
-		// that was above this entry in the original file.
+		// Assign weight: first rule (index 0) gets highest weight (total-1),
+		// last rule gets weight 0. This preserves the original evaluation order
+		// where the first match wins, and the catch-all "*" at the end gets
+		// the lowest priority (weight 0).
+		weight := total - 1 - i
+		injectWeight(item, weight)
+
 		out, err := marshalYAMLNode(item)
 		if err != nil {
 			return fmt.Errorf("marshal repo %d: %w", i, err)
 		}
 
-		// Derive filename from the pattern field if possible
-		name := nodePattern(item) // returns the "pattern" value or ""
+		// Filename is just the sanitized pattern name (no index prefix)
+		name := nodePattern(item)
 		if name == "" {
 			name = fmt.Sprintf("rule-%d", i)
 		}
-		fname := fmt.Sprintf("%02d-%s.yaml", i, sanitizeFilename(name))
+		fname := sanitizeFilename(name) + ".yaml"
 		if err := os.WriteFile(filepath.Join(dstDir, fname), out, 0o644); err != nil {
 			return err
 		}
@@ -313,33 +320,23 @@ func marshalYAMLNode(n *yaml.Node) ([]byte, error) {
 	return []byte(out), nil
 }
 
+// injectWeight inserts a `weight: N` key-value pair at the beginning of a
+// mapping node, preserving any existing HeadComment on the node.
+func injectWeight(mappingNode *yaml.Node, weight int) {
+	if mappingNode == nil || mappingNode.Kind != yaml.MappingNode {
+		return
+	}
+	keyNode := &yaml.Node{Kind: yaml.ScalarNode, Tag: "", Value: "weight"}
+	valNode := &yaml.Node{Kind: yaml.ScalarNode, Tag: "", Value: strconv.Itoa(weight)}
+	// Prepend key+value to the mapping's Content
+	mappingNode.Content = append([]*yaml.Node{keyNode, valNode}, mappingNode.Content...)
+}
+
 // ── Generic helpers ──
 
 func fileExists(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
-}
-
-func dirHasYAML(dir string) bool {
-	files, err := scanYAMLDir(dir)
-	return err == nil && len(files) > 0
-}
-
-func dirHasContent(dir string) bool {
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		return false
-	}
-	for _, e := range entries {
-		if e.IsDir() {
-			if dirHasContent(filepath.Join(dir, e.Name())) {
-				return true
-			}
-		} else {
-			return true
-		}
-	}
-	return false
 }
 
 func ensureDir(dir string) error {

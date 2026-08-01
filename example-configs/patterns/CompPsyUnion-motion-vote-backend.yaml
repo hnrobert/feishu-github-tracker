@@ -1,3 +1,4 @@
+weight: 3
 pattern: CompPsyUnion/motion-vote-backend
 events:
   push:
@@ -9,8 +10,8 @@ events:
     - opened
     - closed
     - reopened
-  issues: null
-  release: null
+  issues:
+  release:
 notify_to:
 - ops-team
 - https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz

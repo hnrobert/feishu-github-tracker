@@ -1,6 +1,0 @@
-pattern: '*'
-events:
-  basic: null
-  project: null
-notify_to:
-- org-notify

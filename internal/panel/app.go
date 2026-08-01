@@ -107,14 +107,15 @@ type ServerInfo struct {
 // RepoRow represents one repos.yaml entry, for both list display and editing.
 type RepoRow struct {
 	Index       int
+	Weight      int
 	Pattern     string
-	NotifyTo    []string // list display
-	NotifyToRaw string   // newline-joined, for the edit form
+	NotifyTo    []string
+	NotifyToRaw string
 	Events      map[string]any
-	EventsYAML  string // raw YAML text, for the edit textarea
+	EventsYAML  string
 	EventCount  int
-	Secret      string // per-rule webhook secret (edit form)
-	HasSecret   bool   // whether a per-rule secret is set (list badge)
+	Secret      string
+	HasSecret   bool
 }
 
 // BotRow represents one feishu-bots.yaml entry.

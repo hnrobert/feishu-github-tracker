@@ -8,8 +8,16 @@
 <form method="post" action="/repos/save" class="card">
   <input type="hidden" name="index" value="{{.EditRepo.Index}}" />
 
-  <label>{{t . "repos.pattern"}} <span class="muted">({{t . "repo.patternHint"}})</span></label>
-  <input type="text" name="pattern" value="{{.EditRepo.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
+  <div class="row">
+    <div>
+      <label>Weight <span class="muted">(higher = higher priority; 0 = lowest, e.g. catch-all)</span></label>
+      <input type="number" name="weight" value="{{.EditRepo.Weight}}" placeholder="0" style="width:120px;" />
+    </div>
+    <div>
+      <label>{{t . "repos.pattern"}} <span class="muted">({{t . "repo.patternHint"}})</span></label>
+      <input type="text" name="pattern" value="{{.EditRepo.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
+    </div>
+  </div>
 
   <label>{{t . "repo.secret"}} <span class="muted">({{t . "repo.secretHint"}})</span></label>
   <input type="text" name="secret" value="{{.EditRepo.Secret}}" placeholder="{{t . "repo.secretPlaceholder"}}" autocomplete="off" />

@@ -1,5 +1,6 @@
+weight: 2
 pattern: CompPsyUnion/experimental-*
 events:
-  all: null
+  all:
 notify_to:
 - dev-team
