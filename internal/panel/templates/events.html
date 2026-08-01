@@ -13,7 +13,7 @@
 {{end}}
 
 {{if $hasSets}}
-<h3 style="margin:0 0 12px;">{{t . "events.title"}} — Event Sets</h3>
+<h3 style="margin:0 0 12px;">{{t $ "events.title"}} — Event Sets</h3>
 {{range .EventFiles}}
 {{if eq .Section "event_sets"}}
 <form method="post" action="/events/save" class="card">
@@ -22,8 +22,8 @@
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
     <strong><code>{{.Name}}</code></strong>
     <div class="actions">
-      <button class="btn small primary" type="submit">{{t . "action.save"}}</button>
-      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t . "action.delete"}}</button>
+      <button class="btn small primary" type="submit">{{t $ "action.save"}}</button>
+      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t $ "action.delete"}}</button>
     </div>
   </div>
   <textarea name="content" style="min-height:200px; font-size:13px;">{{.Content}}</textarea>
@@ -38,7 +38,7 @@
       <label style="margin:0;">New event set</label>
       <input type="text" name="name" placeholder="my-set" style="width:200px;" />
     </div>
-    <button class="btn primary small" type="submit">+ {{t . "action.new"}}</button>
+    <button class="btn primary small" type="submit">+ {{t $ "action.new"}}</button>
   </div>
 </form>
 {{end}}
@@ -53,8 +53,8 @@
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
     <strong><code>{{.Name}}</code></strong>
     <div class="actions">
-      <button class="btn small primary" type="submit">{{t . "action.save"}}</button>
-      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t . "action.delete"}}</button>
+      <button class="btn small primary" type="submit">{{t $ "action.save"}}</button>
+      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t $ "action.delete"}}</button>
     </div>
   </div>
   <textarea name="content" style="min-height:120px; font-size:13px;">{{.Content}}</textarea>
@@ -76,7 +76,7 @@
       <label style="margin:0;">New event definition</label>
       <input type="text" name="name" placeholder="push" style="width:200px;" />
     </div>
-    <button class="btn primary small" type="submit">+ {{t . "action.new"}}</button>
+    <button class="btn primary small" type="submit">+ {{t $ "action.new"}}</button>
   </div>
 </form>
 {{end}}
