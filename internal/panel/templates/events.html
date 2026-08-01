@@ -5,12 +5,80 @@
   <div class="sub">{{t . "events.subtitle"}}</div>
 </div>
 
+{{$hasSets := false}}
+{{$hasDefs := false}}
+{{range .EventFiles}}
+  {{if eq .Section "event_sets"}}{{$hasSets = true}}{{end}}
+  {{if eq .Section "definitions"}}{{$hasDefs = true}}{{end}}
+{{end}}
+
+{{if $hasSets}}
+<h3 style="margin:0 0 12px;">{{t . "events.title"}} — Event Sets</h3>
+{{range .EventFiles}}
+{{if eq .Section "event_sets"}}
 <form method="post" action="/events/save" class="card">
-  <label>events.yaml</label>
-  <textarea name="events_yaml" class="code-lg">{{.EventsYAML}}</textarea>
-  <div class="note">{{t . "events.preserve"}}</div>
-  <div class="actions" style="margin-top:14px;">
-    <button class="btn primary" type="submit">{{t . "action.save"}}</button>
+  <input type="hidden" name="section" value="event_sets" />
+  <input type="hidden" name="name" value="{{.Name}}" />
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <strong><code>{{.Name}}</code></strong>
+    <div class="actions">
+      <button class="btn small primary" type="submit">{{t . "action.save"}}</button>
+      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t . "action.delete"}}</button>
+    </div>
+  </div>
+  <textarea name="content" style="min-height:200px; font-size:13px;">{{.Content}}</textarea>
+</form>
+{{end}}
+{{end}}
+
+<form method="post" action="/events/create" class="card" style="padding:12px 20px;">
+  <input type="hidden" name="section" value="event_sets" />
+  <div class="row" style="align-items:flex-end;">
+    <div style="flex:0 0 auto;">
+      <label style="margin:0;">New event set</label>
+      <input type="text" name="name" placeholder="my-set" style="width:200px;" />
+    </div>
+    <button class="btn primary small" type="submit">+ {{t . "action.new"}}</button>
   </div>
 </form>
+{{end}}
+
+{{if $hasDefs}}
+<h3 style="margin:24px 0 12px;">Event Definitions</h3>
+{{range .EventFiles}}
+{{if eq .Section "definitions"}}
+<form method="post" action="/events/save" class="card">
+  <input type="hidden" name="section" value="definitions" />
+  <input type="hidden" name="name" value="{{.Name}}" />
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <strong><code>{{.Name}}</code></strong>
+    <div class="actions">
+      <button class="btn small primary" type="submit">{{t . "action.save"}}</button>
+      <button class="btn small danger" type="submit" formaction="/events/delete" onclick="return confirm('Delete {{.Name}}?');">{{t . "action.delete"}}</button>
+    </div>
+  </div>
+  <textarea name="content" style="min-height:120px; font-size:13px;">{{.Content}}</textarea>
+</form>
+{{end}}
+{{end}}
+{{end}}
+
+{{if eq (len .EventFiles) 0}}
+<div class="card"><div class="empty">No events configuration found.</div></div>
+{{end}}
+
+{{if not $hasDefs}}
+{{if $hasSets}}
+<form method="post" action="/events/create" class="card" style="padding:12px 20px;">
+  <input type="hidden" name="section" value="definitions" />
+  <div class="row" style="align-items:flex-end;">
+    <div style="flex:0 0 auto;">
+      <label style="margin:0;">New event definition</label>
+      <input type="text" name="name" placeholder="push" style="width:200px;" />
+    </div>
+    <button class="btn primary small" type="submit">+ {{t . "action.new"}}</button>
+  </div>
+</form>
+{{end}}
+{{end}}
 {{end}}

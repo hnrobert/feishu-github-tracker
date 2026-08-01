@@ -287,7 +287,9 @@ func nodePattern(n *yaml.Node) string {
 }
 
 // marshalYAMLNode encodes a yaml.Node with 2-space indent, preserving all
-// attached comments (HeadComment, LineComment, FootComment).
+// attached comments (HeadComment, LineComment, FootComment). Also strips
+// trailing ": null" → ":" for cosmetic compatibility (Go's yaml.v3 writes
+// `key: null` for nil values; the original files used `key:`).
 func marshalYAMLNode(n *yaml.Node) ([]byte, error) {
 	var buf strings.Builder
 	enc := yaml.NewEncoder(&buf)
@@ -298,7 +300,9 @@ func marshalYAMLNode(n *yaml.Node) ([]byte, error) {
 	if err := enc.Close(); err != nil {
 		return nil, err
 	}
-	return []byte(buf.String()), nil
+	// Strip ": null\n" → ":\n" for cosmetic compatibility
+	out := strings.ReplaceAll(buf.String(), ": null\n", ":\n")
+	return []byte(out), nil
 }
 
 // ── Generic helpers ──

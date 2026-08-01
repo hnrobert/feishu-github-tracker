@@ -87,6 +87,7 @@ type ViewData struct {
 	// events
 	EventSetsYAML string
 	EventsYAML    string
+	EventFiles    []EventFileRow
 
 	// templates
 	TemplateFilesList []TemplateFileRow
@@ -295,6 +296,8 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/events", a.requireAuth(a.handleEvents))
 	mux.HandleFunc("/events/save", a.requireAuth(a.handleEventsSave))
+	mux.HandleFunc("/events/create", a.requireAuth(a.handleEventsCreateFile))
+	mux.HandleFunc("/events/delete", a.requireAuth(a.handleEventsDeleteFile))
 
 	mux.HandleFunc("/templates", a.requireAuth(a.handleTemplatesList))
 	mux.HandleFunc("/templates/edit", a.requireAuth(a.handleTemplateEdit))
