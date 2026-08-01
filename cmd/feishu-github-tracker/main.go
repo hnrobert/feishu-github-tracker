@@ -38,17 +38,20 @@ func main() {
 		configDir = filepath.Join(filepath.Dir(execPath), "configs")
 	}
 
+	// Auto-migrate legacy flat-file configs FIRST, BEFORE seeding defaults.
+	// If old files (repos.yaml, events.yaml, etc.) exist, they are moved to
+	// legacy/ and split into the new per-item layout. This must run before
+	// initializeConfigDir so the user's existing config isn't overwritten by
+	// the example-configs defaults.
+	if err := config.Migrate(configDir); err != nil {
+		fmt.Fprintf(os.Stderr, "Config migration warning: %v (continuing)\n", err)
+	}
+
 	if defaultConfigDir := os.Getenv("DEFAULT_CONFIG_DIR"); defaultConfigDir != "" {
 		if err := initializeConfigDir(defaultConfigDir, configDir); err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to initialize configuration: %v\n", err)
 			os.Exit(1)
 		}
-	}
-
-	// Auto-migrate legacy flat-file configs to the new per-item subdirectory
-	// layout. Old files are backed up to legacy/ intact.
-	if err := config.Migrate(configDir); err != nil {
-		fmt.Fprintf(os.Stderr, "Config migration warning: %v (continuing)\n", err)
 	}
 
 	// Load configuration
