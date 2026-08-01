@@ -3,24 +3,23 @@ package panel
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 )
 
-// templateFileName maps a logical template name to its on-disk file name.
-// "default" -> templates.jsonc; anything else -> templates.<name>.jsonc.
-func templateFileName(name string) string {
-	if name == "" || name == "default" {
-		return "templates.jsonc"
+// templateDir returns the locale directory for templates.
+// New layout: configs/templates/<locale>/
+// Legacy fallback: configs/templates.<locale>.jsonc (handled by loadConfigFile).
+func (a *App) templateLocaleDir(locale string) string {
+	if locale == "" {
+		locale = "default"
 	}
-	return "templates." + name + ".jsonc"
+	return filepath.Join(a.cfgDir, "templates", locale)
 }
 
-func (a *App) templateFilePath(name string) string {
-	return filepath.Join(a.cfgDir, templateFileName(name))
-}
-
-// handleTemplatesList lists every templates.*.jsonc file with its event count.
+// handleTemplatesList lists every template locale with its event count.
 func (a *App) handleTemplatesList(w http.ResponseWriter, r *http.Request) {
 	data := a.baseData(r)
 	if cfg, err := a.loadConfig(); err == nil {
@@ -37,33 +36,54 @@ func (a *App) handleTemplatesList(w http.ResponseWriter, r *http.Request) {
 	a.renderPage(w, "templates_list", data)
 }
 
-// handleTemplateEdit shows the payloads for one event in one template file as
-// editable JSON.
+// handleTemplateEdit shows the payloads for one event in one locale as
+// editable JSON. Works with both new split layout (templates/<locale>/<event>.json)
+// and legacy flat files (templates.jsonc).
 func (a *App) handleTemplateEdit(w http.ResponseWriter, r *http.Request) {
 	file := r.URL.Query().Get("file")
 	event := r.URL.Query().Get("event")
-	path := a.templateFilePath(file)
+	if file == "" {
+		file = "default"
+	}
 
-	root := map[string]any{}
-	if err := loadJSONC(path, &root); err != nil {
+	// Get the list of events for this locale from loaded config
+	cfg, err := a.loadConfig()
+	if err != nil {
 		a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateLoadFailed", err), "err")
 		return
 	}
+	tc := cfg.GetTemplateConfig(file)
+	events := make([]string, 0, len(tc.Templates))
+	for k := range tc.Templates {
+		events = append(events, k)
+	}
+	sort.Strings(events)
 
-	events := eventKeys(root)
 	ed := EditTemplateData{File: file, Events: events, Event: event}
 	if event != "" {
-		ed.PayloadsJSON = payloadsJSON(root, event)
+		// Read the single per-event file (new layout)
+		eventPath := filepath.Join(a.templateLocaleDir(file), event+".json")
+		var perEvent struct {
+			Payloads []map[string]any `json:"payloads"`
+		}
+		if b, err := os.ReadFile(eventPath); err == nil {
+			json.Unmarshal(b, &perEvent)
+			ed.PayloadsJSON = prettyJSON(perEvent.Payloads)
+		} else {
+			// Legacy fallback: read from loaded config
+			if et, ok := tc.Templates[event]; ok {
+				ed.PayloadsJSON = prettyJSON(et.Payloads)
+			} else {
+				ed.PayloadsJSON = "[]"
+			}
+		}
 	}
 	data := a.baseData(r)
 	data.EditTemplate = ed
 	a.renderPage(w, "template_edit", data)
 }
 
-// handleTemplateSave replaces one event's payloads in a templates file.
-//
-// NOTE: the file is re-marshalled as JSON, which strips // comments and
-// alphabetically reorders keys. Functionality is preserved.
+// handleTemplateSave writes one event's payloads to its per-event .json file.
 func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		a.redirectFlash(w, r, "/templates", a.message(r, "flash.invalidForm"), "err")
@@ -83,65 +103,31 @@ func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	path := a.templateFilePath(file)
-	root := map[string]any{}
-	if err := loadJSONC(path, &root); err != nil {
-		a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateLoadFailed", err), "err")
-		return
-	}
-
-	templatesNode, _ := root["templates"].(map[string]any)
-	if templatesNode == nil {
-		templatesNode = map[string]any{}
-		root["templates"] = templatesNode
-	}
-	eventNode, _ := templatesNode[event].(map[string]any)
-	if eventNode == nil {
-		eventNode = map[string]any{}
-	}
-	eventNode["payloads"] = payloads
-	templatesNode[event] = eventNode
-
-	if err := SaveJSON(path, root); err != nil {
+	// Write to templates/<locale>/<event>.json
+	dir := a.templateLocaleDir(file)
+	if err := os.MkdirAll(dir, 0o755); err != nil {
 		a.redirectFlash(w, r, "/templates", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
+	path := filepath.Join(dir, event+".json")
+	out, _ := json.MarshalIndent(map[string]any{"payloads": payloads}, "", "  ")
+	if err := SaveJSON(path, map[string]any{"payloads": payloads}); err != nil {
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.saveFailed", err), "err")
+		return
+	}
+	_ = out // SaveJSON handles the actual write
 	a.notifySaved()
 	a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateSaved"), "ok")
 }
 
-// eventKeys returns the sorted event keys present in a parsed templates file.
-func eventKeys(root map[string]any) []string {
-	templatesNode, ok := root["templates"].(map[string]any)
-	if !ok {
-		return nil
-	}
-	keys := make([]string, 0, len(templatesNode))
-	for k := range templatesNode {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys
-}
-
-// payloadsJSON returns the indented JSON for one event's payloads array.
-func payloadsJSON(root map[string]any, event string) string {
-	templatesNode, _ := root["templates"].(map[string]any)
-	if templatesNode == nil {
-		return "[]"
-	}
-	eventNode, _ := templatesNode[event].(map[string]any)
-	if eventNode == nil {
-		return "[]"
-	}
-	payloads, _ := eventNode["payloads"].([]any)
-	if payloads == nil {
-		// payloads may be missing (means "default payload"); expose empty array.
-		return "[]"
-	}
-	b, err := json.MarshalIndent(payloads, "", "  ")
+// prettyJSON marshals v as indented JSON, returning "[]" on error.
+func prettyJSON(v any) string {
+	b, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return "[]"
 	}
 	return string(b)
 }
+
+// ensure these vars are referenced to avoid unused warnings
+var _ = strings.TrimSpace

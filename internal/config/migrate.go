@@ -131,8 +131,12 @@ func migrateEvents(configDir, legacyDir string) error {
 		for i := 0; i+1 < len(esMap.Content); i += 2 {
 			keyNode := esMap.Content[i]
 			valNode := esMap.Content[i+1]
-			// The key's HeadComment (or value's HeadComment) carries any
-			// comment above this entry.
+			// The comment above the key (e.g., "# custom template...") is
+			// stored on keyNode.HeadComment. Move it to valNode so it's
+			// preserved when we marshal the value as a standalone file.
+			if keyNode.HeadComment != "" && valNode.HeadComment == "" {
+				valNode.HeadComment = keyNode.HeadComment
+			}
 			out, err := marshalYAMLNode(valNode)
 			if err != nil {
 				continue
@@ -149,6 +153,9 @@ func migrateEvents(configDir, legacyDir string) error {
 		for i := 0; i+1 < len(evMap.Content); i += 2 {
 			keyNode := evMap.Content[i]
 			valNode := evMap.Content[i+1]
+			if keyNode.HeadComment != "" && valNode.HeadComment == "" {
+				valNode.HeadComment = keyNode.HeadComment
+			}
 			out, err := marshalYAMLNode(valNode)
 			if err != nil {
 				continue
