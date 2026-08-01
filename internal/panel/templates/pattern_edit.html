@@ -1,0 +1,45 @@
+{{define "title"}}{{if lt .EditPattern.Index 0}}{{t . "pattern.newTitle"}}{{else}}{{t . "pattern.editTitle"}}{{end}} · Feishu GitHub Tracker{{end}}
+{{define "content"}}
+<div class="pageHead">
+  <h2>{{if lt .EditPattern.Index 0}}{{t . "pattern.newTitle"}}{{else}}{{t . "pattern.editTitle"}}{{end}}</h2>
+  <div class="sub">{{t . "pattern.subtitle"}}</div>
+</div>
+
+<form method="post" action="/patterns/save" class="card">
+  <input type="hidden" name="index" value="{{.EditPattern.Index}}" />
+
+  <div class="row">
+    <div>
+      <label>Weight <span class="muted">(higher = higher priority; 0 = lowest, e.g. catch-all)</span></label>
+      <input type="number" name="weight" value="{{.EditPattern.Weight}}" placeholder="0" style="width:120px;" />
+    </div>
+    <div>
+      <label>{{t . "patterns.pattern"}} <span class="muted">({{t . "pattern.patternHint"}})</span></label>
+      <input type="text" name="pattern" value="{{.EditPattern.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
+    </div>
+  </div>
+
+  <label>{{t . "pattern.secret"}} <span class="muted">({{t . "pattern.secretHint"}})</span></label>
+  <input type="text" name="secret" value="{{.EditPattern.Secret}}" placeholder="{{t . "pattern.secretPlaceholder"}}" autocomplete="off" />
+
+  <div class="row">
+    <div>
+      <label>{{t . "patterns.notifyTo"}} <span class="muted">({{t . "pattern.notifyHint"}})</span></label>
+      <textarea name="notify_to" placeholder="dev-team&#10;ops-team&#10;https://open.feishu.cn/open-apis/bot/v2/hook/...">{{.EditPattern.NotifyToRaw}}</textarea>
+    </div>
+    <div>
+      <label>{{t . "patterns.events"}} <span class="muted">(YAML)</span></label>
+      <textarea name="events" placeholder="push:&#10;  branches:&#10;    - main&#10;pull_request:&#10;release:">{{.EditPattern.EventsYAML}}</textarea>
+    </div>
+  </div>
+
+  <div class="note">
+    {{t . "pattern.eventsHint"}}
+  </div>
+
+  <div class="actions" style="margin-top:18px;">
+    <button class="btn primary" type="submit">{{t . "action.save"}}</button>
+    <a class="btn" href="/patterns">{{t . "action.cancel"}}</a>
+  </div>
+</form>
+{{end}}

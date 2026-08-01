@@ -1,0 +1,54 @@
+{{define "title"}}{{t . "patterns.title"}} · Feishu GitHub Tracker{{end}}
+{{define "content"}}
+<div class="pageHead" style="display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap;">
+  <div>
+    <h2>{{t . "patterns.title"}}</h2>
+    <div class="sub">{{t . "patterns.subtitle"}}</div>
+  </div>
+  <a class="btn primary" href="/patterns/new">+ {{t . "action.new"}}</a>
+</div>
+
+<div class="card">
+  {{if .Patterns}}
+  <div class="tableScroll">
+  <table>
+    <thead>
+      <tr>
+        <th>W</th>
+        <th>{{t . "patterns.pattern"}}</th>
+        <th>{{t . "patterns.events"}}</th>
+        <th>{{t . "patterns.notifyTo"}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Patterns}}
+      <tr>
+        <td><span class="pill">{{.Weight}}</span></td>
+        <td><code>{{.Pattern}}</code></td>
+        <td>
+          {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} {{t $ "patterns.eventsCount"}}</span>{{else}}<span class="pill muted">0</span>{{end}}
+          {{if .HasSecret}}<span class="pill" title="{{t $ "patterns.customSecret"}}">🔒</span>{{end}}
+        </td>
+        <td>
+          {{if .NotifyTo}}{{range .NotifyTo}}<span class="pill muted">{{.}}</span>{{end}}{{else}}<span class="muted">—</span>{{end}}
+        </td>
+        <td>
+          <div class="actions" style="justify-content:flex-end;">
+            <a class="btn small" href="/patterns/edit?index={{.Index}}">{{t $ "action.edit"}}</a>
+            <form method="post" action="/patterns/delete" style="margin:0;">
+              <input type="hidden" name="index" value="{{.Index}}" />
+              <button class="btn small danger" type="submit" onclick="return confirm('{{t $ "patterns.deleteConfirm"}}');">{{t $ "action.delete"}}</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  </div>
+  {{else}}
+  <div class="empty">{{t . "patterns.empty"}}</div>
+  {{end}}
+</div>
+{{end}}

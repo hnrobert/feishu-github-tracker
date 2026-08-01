@@ -9,58 +9,58 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// handleRepos lists all repo rules.
-func (a *App) handleRepos(w http.ResponseWriter, r *http.Request) {
+// handlePatterns lists all pattern rules.
+func (a *App) handlePatterns(w http.ResponseWriter, r *http.Request) {
 	data := a.baseData(r)
 	if cfg, err := a.loadConfig(); err == nil {
 		for i, rp := range cfg.Repos.Repos {
-			data.Repos = append(data.Repos, repoListRow(i, rp))
+			data.Patterns = append(data.Patterns, patternListRow(i, rp))
 		}
 	}
-	a.renderPage(w, "repos", data)
+	a.renderPage(w, "patterns", data)
 }
 
-// handleRepoNew renders a blank edit form for a new repo rule.
-func (a *App) handleRepoNew(w http.ResponseWriter, r *http.Request) {
+// handlePatternNew renders a blank edit form for a new pattern rule.
+func (a *App) handlePatternNew(w http.ResponseWriter, r *http.Request) {
 	data := a.baseData(r)
-	data.EditRepo = RepoRow{Index: -1}
-	a.renderPage(w, "repo_edit", data)
+	data.EditPattern = PatternRow{Index: -1}
+	a.renderPage(w, "pattern_edit", data)
 }
 
-// handleRepoEdit renders the edit form for an existing repo rule by index.
-func (a *App) handleRepoEdit(w http.ResponseWriter, r *http.Request) {
+// handlePatternEdit renders the edit form for an existing pattern rule by index.
+func (a *App) handlePatternEdit(w http.ResponseWriter, r *http.Request) {
 	data := a.baseData(r)
 	idx, _ := strconv.Atoi(r.URL.Query().Get("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	if idx < 0 || idx >= len(cfg.Repos.Repos) {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoNotFound"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternNotFound"), "err")
 		return
 	}
-	data.EditRepo = repoEditRow(idx, cfg.Repos.Repos[idx])
-	a.renderPage(w, "repo_edit", data)
+	data.EditPattern = patternEditRow(idx, cfg.Repos.Repos[idx])
+	a.renderPage(w, "pattern_edit", data)
 }
 
-// handleRepoSave creates or updates a repo rule.
-func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
+// handlePatternSave creates or updates a pattern rule.
+func (a *App) handlePatternSave(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.invalidForm"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
 	pattern := strings.TrimSpace(r.FormValue("pattern"))
 	if pattern == "" {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.patternRequired"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternRequired"), "err")
 		return
 	}
 	weight, _ := strconv.Atoi(strings.TrimSpace(r.FormValue("weight")))
 
 	events, err := parseEventsYAML(r.FormValue("events"))
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.eventsParseFailed", err), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.eventsParseFailed", err), "err")
 		return
 	}
 	notifyTo := splitLines(r.FormValue("notify_to"))
@@ -68,7 +68,7 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 
@@ -80,41 +80,41 @@ func (a *App) handleRepoSave(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.saveFailed", err), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoSaved"), "ok")
+	a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternSaved"), "ok")
 }
 
-// handleRepoDelete removes a repo rule by index.
-func (a *App) handleRepoDelete(w http.ResponseWriter, r *http.Request) {
+// handlePatternDelete removes a pattern rule by index.
+func (a *App) handlePatternDelete(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.invalidForm"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.invalidForm"), "err")
 		return
 	}
 	idx, _ := strconv.Atoi(r.FormValue("index"))
 	cfg, err := a.loadConfig()
 	if err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.configLoadFailed"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.configLoadFailed"), "err")
 		return
 	}
 	if idx < 0 || idx >= len(cfg.Repos.Repos) {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoNotFound"), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternNotFound"), "err")
 		return
 	}
 	cfg.Repos.Repos = append(cfg.Repos.Repos[:idx], cfg.Repos.Repos[idx+1:]...)
 	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
-		a.redirectFlash(w, r, "/repos", a.message(r, "flash.saveFailed", err), "err")
+		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
 	a.notifySaved()
-	a.redirectFlash(w, r, "/repos", a.message(r, "flash.repoDeleted"), "ok")
+	a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternDeleted"), "ok")
 }
 
-// repoListRow builds a RepoRow for list display.
-func repoListRow(i int, rp config.RepoPattern) RepoRow {
-	return RepoRow{
+// patternListRow builds a PatternRow for list display.
+func patternListRow(i int, rp config.RepoPattern) PatternRow {
+	return PatternRow{
 		Index:      i,
 		Weight:     rp.Weight,
 		Pattern:    rp.Pattern,
@@ -124,9 +124,9 @@ func repoListRow(i int, rp config.RepoPattern) RepoRow {
 	}
 }
 
-// repoEditRow builds a RepoRow for the edit form (with raw textarea contents).
-func repoEditRow(i int, rp config.RepoPattern) RepoRow {
-	row := RepoRow{
+// patternEditRow builds a PatternRow for the edit form (with raw textarea contents).
+func patternEditRow(i int, rp config.RepoPattern) PatternRow {
+	row := PatternRow{
 		Index:       i,
 		Weight:      rp.Weight,
 		Pattern:     rp.Pattern,
@@ -145,8 +145,7 @@ func repoEditRow(i int, rp config.RepoPattern) RepoRow {
 	return row
 }
 
-// parseEventsYAML parses the events textarea into a map[string]any. An empty
-// textarea yields an empty (non-nil) map so the rule still subscribes to events.
+// parseEventsYAML parses the events textarea into a map[string]any.
 func parseEventsYAML(text string) (map[string]any, error) {
 	text = strings.TrimSpace(text)
 	out := map[string]any{}

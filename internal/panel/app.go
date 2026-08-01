@@ -73,8 +73,8 @@ type ViewData struct {
 	Topology      Topology
 
 	// repos
-	Repos    []RepoRow
-	EditRepo RepoRow
+	Patterns    []PatternRow
+	EditPattern PatternRow
 
 	// bots
 	Bots      []BotRow
@@ -105,7 +105,7 @@ type ServerInfo struct {
 }
 
 // RepoRow represents one repos.yaml entry, for both list display and editing.
-type RepoRow struct {
+type PatternRow struct {
 	Index       int
 	Weight      int
 	Pattern     string
@@ -204,8 +204,8 @@ func New(opts Options) (*App, error) {
 		"login",
 		"dashboard",
 		"topology",
-		"repos",
-		"repo_edit",
+		"patterns",
+		"pattern_edit",
 		"bots",
 		"bot_edit",
 		"server_settings",
@@ -280,11 +280,11 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/", a.requireAuth(a.handleDashboard))
 	mux.HandleFunc("/topology", a.requireAuth(a.handleTopology))
-	mux.HandleFunc("/repos", a.requireAuth(a.handleRepos))
-	mux.HandleFunc("/repos/new", a.requireAuth(a.handleRepoNew))
-	mux.HandleFunc("/repos/edit", a.requireAuth(a.handleRepoEdit))
-	mux.HandleFunc("/repos/save", a.requireAuth(a.handleRepoSave))
-	mux.HandleFunc("/repos/delete", a.requireAuth(a.handleRepoDelete))
+	mux.HandleFunc("/patterns", a.requireAuth(a.handlePatterns))
+	mux.HandleFunc("/patterns/new", a.requireAuth(a.handlePatternNew))
+	mux.HandleFunc("/patterns/edit", a.requireAuth(a.handlePatternEdit))
+	mux.HandleFunc("/patterns/save", a.requireAuth(a.handlePatternSave))
+	mux.HandleFunc("/patterns/delete", a.requireAuth(a.handlePatternDelete))
 
 	mux.HandleFunc("/bots", a.requireAuth(a.handleBots))
 	mux.HandleFunc("/bots/new", a.requireAuth(a.handleBotNew))
