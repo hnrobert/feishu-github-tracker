@@ -23,7 +23,7 @@ jobs:
       tag: ${{ steps.create_tag.outputs.tag }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -48,14 +48,14 @@ jobs:
     if: always() && !cancelled() && !failure()
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.create-tag.outputs.tag || github.ref }}
 
       - name: Setup Go with cache
         uses: ./.github/actions/setup-go
         with:
-          go-version: "1.21"
+          go-version: "1.23"
 
       - name: Run tests
         run: go test -v ./...
@@ -70,14 +70,14 @@ jobs:
     if: always() && !cancelled() && needs.test.result == 'success'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.create-tag.outputs.tag || github.ref }}
 
       - name: Setup Go with cache
         uses: ./.github/actions/setup-go
         with:
-          go-version: "1.21"
+          go-version: "1.23"
 
       - name: Get version
         id: version
@@ -93,7 +93,7 @@ jobs:
         run: go build -v -ldflags "-X main.Version=${{ steps.version.outputs.version }}" -o bin/feishu-github-tracker ./cmd/feishu-github-tracker
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: feishu-github-tracker-binary-${{ steps.version.outputs.version }}
           path: bin/feishu-github-tracker
@@ -109,7 +109,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.create-tag.outputs.tag || github.ref }}
 
@@ -134,17 +134,17 @@ jobs:
           echo "tags=${TAGS}" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           provenance: false
           sbom: false
@@ -165,7 +165,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.create-tag.outputs.tag || github.ref }}
           fetch-depth: 0
@@ -181,7 +181,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Download binary artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: feishu-github-tracker-binary-${{ steps.version.outputs.version }}
           path: ./release
@@ -208,7 +208,7 @@ jobs:
           fi
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.version }}
           name: Release ${{ steps.version.outputs.version }}
