@@ -33,12 +33,12 @@
 
 <form method="post" action="/events/create" class="card" style="padding:12px 20px;">
   <input type="hidden" name="section" value="event_sets" />
-  <div class="row" style="align-items:flex-end;">
+  <div class="row" style="align-items:flex-end; gap:12px;">
     <div style="flex:0 0 auto;">
-      <label style="margin:0;">New event set</label>
-      <input type="text" name="name" placeholder="my-set" style="width:200px;" />
+      <label style="margin:0 0 6px;">New event set</label>
+      <input type="text" name="name" placeholder="my-set" style="width:200px; height:42px;" />
     </div>
-    <button class="btn primary small" type="submit">+ {{t $ "action.new"}}</button>
+    <button class="btn primary" type="submit" style="height:42px;">+ {{t $ "action.new"}}</button>
   </div>
 </form>
 {{end}}
@@ -71,12 +71,12 @@
 {{if $hasSets}}
 <form method="post" action="/events/create" class="card" style="padding:12px 20px;">
   <input type="hidden" name="section" value="definitions" />
-  <div class="row" style="align-items:flex-end;">
+  <div class="row" style="align-items:flex-end; gap:12px;">
     <div style="flex:0 0 auto;">
-      <label style="margin:0;">New event definition</label>
-      <input type="text" name="name" placeholder="push" style="width:200px;" />
+      <label style="margin:0 0 6px;">New event definition</label>
+      <input type="text" name="name" placeholder="push" style="width:200px; height:42px;" />
     </div>
-    <button class="btn primary small" type="submit">+ {{t $ "action.new"}}</button>
+    <button class="btn primary" type="submit" style="height:42px;">+ {{t $ "action.new"}}</button>
   </div>
 </form>
 {{end}}
