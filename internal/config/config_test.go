@@ -3,7 +3,10 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
+
+	"gopkg.in/yaml.v3"
 )
 
 func TestLoad(t *testing.T) {
@@ -262,4 +265,148 @@ func TestLoadRealTemplates(t *testing.T) {
 
 		t.Log("Successfully loaded complete config with real templates")
 	})
+}
+
+// countWeightLines counts how many `weight:` keys appear at the start of a line.
+func countWeightLines(data []byte) int {
+	count := strings.Count(string(data), "\nweight:")
+	if strings.HasPrefix(string(data), "weight:") {
+		count++
+	}
+	return count
+}
+
+// TestMigrateIdempotent reproduces the duplicate-weight bug: after the first
+// migration, a stale repos.yaml that still carries weights (e.g. written by an
+// older panel build) must not cause a second migration to stack a second
+// `weight:` line onto each pattern file.
+func TestMigrateIdempotent(t *testing.T) {
+	tmpDir := t.TempDir()
+
+	// Legacy repos.yaml WITHOUT weights — the starting point for an upgrade.
+	legacyRepos := `
+repos:
+  - pattern: "AIMEtherCAT/*"
+    events:
+      basic:
+    notify_to:
+      - aim-ecat
+  - pattern: "org/repo"
+    events:
+      push:
+    notify_to:
+      - dev-team
+  - pattern: "*"
+    events:
+      default:
+    notify_to:
+      - all
+`
+	if err := os.WriteFile(filepath.Join(tmpDir, "repos.yaml"), []byte(legacyRepos), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	// First migration: repos.yaml → patterns/*.yaml (one weight injected each).
+	if err := Migrate(tmpDir); err != nil {
+		t.Fatalf("first Migrate failed: %v", err)
+	}
+
+	files, err := os.ReadDir(filepath.Join(tmpDir, "patterns"))
+	if err != nil {
+		t.Fatalf("patterns dir not created: %v", err)
+	}
+	if len(files) != 3 {
+		t.Fatalf("expected 3 pattern files, got %d", len(files))
+	}
+	for _, f := range files {
+		data, err := os.ReadFile(filepath.Join(tmpDir, "patterns", f.Name()))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if c := countWeightLines(data); c != 1 {
+			t.Errorf("%s: expected exactly 1 weight line after first migrate, got %d\n%s", f.Name(), c, data)
+		}
+	}
+
+	// Simulate an older panel build writing repos.yaml back WITH weights — the
+	// exact trigger for the duplicate-weight bug on the next restart.
+	panelWrittenRepos := `
+repos:
+  - weight: 5
+    pattern: "AIMEtherCAT/*"
+    events:
+      basic:
+    notify_to:
+      - aim-ecat
+  - weight: 4
+    pattern: "org/repo"
+    events:
+      push:
+    notify_to:
+      - dev-team
+  - weight: 3
+    pattern: "*"
+    events:
+      default:
+    notify_to:
+      - all
+`
+	if err := os.WriteFile(filepath.Join(tmpDir, "repos.yaml"), []byte(panelWrittenRepos), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Second migration must be a no-op (patterns/ already populated).
+	if err := Migrate(tmpDir); err != nil {
+		t.Fatalf("second Migrate failed: %v", err)
+	}
+
+	// The guard must hold: the stale top-level repos.yaml must NOT have been
+	// consumed by a second migration (if it had, migrateRepos would have
+	// Rename'd it into legacy/, overwriting the original backup).
+	if _, err := os.Stat(filepath.Join(tmpDir, "repos.yaml")); err != nil {
+		t.Error("second Migrate consumed the stale repos.yaml (guard failed)")
+	}
+
+	// Pattern files must STILL have exactly one weight line each.
+	for _, f := range files {
+		data, err := os.ReadFile(filepath.Join(tmpDir, "patterns", f.Name()))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if c := countWeightLines(data); c != 1 {
+			t.Errorf("%s: duplicate weight after second migrate (got %d)\n%s", f.Name(), c, data)
+		}
+	}
+}
+
+// TestInjectWeightIdempotent verifies the defense-in-depth layer: even if
+// injectWeight is called twice on the same node, it updates in place rather
+// than stacking a second weight key.
+func TestInjectWeightIdempotent(t *testing.T) {
+	var root yaml.Node
+	src := `
+pattern: foo
+events:
+  push:
+`
+	if err := yaml.Unmarshal([]byte(src), &root); err != nil {
+		t.Fatal(err)
+	}
+	m := topMappingNode(&root)
+	if m == nil {
+		t.Fatal("topMappingNode returned nil")
+	}
+	injectWeight(m, 5)
+	injectWeight(m, 3) // must update in place, not stack
+
+	out, err := marshalYAMLNode(m)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if c := countWeightLines(out); c != 1 {
+		t.Errorf("expected 1 weight line, got %d\n%s", c, out)
+	}
+	if !strings.Contains(string(out), "weight: 3") {
+		t.Errorf("weight was not updated to 3\n%s", out)
+	}
 }

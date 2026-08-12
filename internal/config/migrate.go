@@ -14,16 +14,21 @@ import (
 )
 
 // Migrate detects legacy flat-file configs in the config root and migrates
-// them to the new per-item subdirectory layout. Old files are ALWAYS moved
-// to legacy/ (comments preserved) and split into per-item files, regardless
-// of whether the target subdirectory already exists (e.g. from
-// initializeConfigDir seeding example defaults). This ensures the user's
-// actual configuration is never ignored.
+// them to the new per-item subdirectory layout. Each legacy file is moved to
+// legacy/ (comments preserved) and split into per-item files.
+//
+// Idempotency: a type is migrated at most once. Each branch is guarded so it
+// only runs when the target subdirectory is still empty. This is safe because
+// Migrate runs BEFORE initializeConfigDir (the example-configs seeding), so on
+// a genuine first upgrade the subdirectories are empty at migrate time. On
+// later startups the subdirectories already hold the split files, so even if a
+// stale top-level legacy file reappears (e.g. an older panel build wrote
+// repos.yaml), migration is skipped instead of re-injecting weights.
 func Migrate(configDir string) error {
 	legacyDir := filepath.Join(configDir, "legacy")
 
 	// repos.yaml → patterns/*.yaml
-	if fileExists(filepath.Join(configDir, "repos.yaml")) {
+	if fileExists(filepath.Join(configDir, "repos.yaml")) && !dirHasYAML(filepath.Join(configDir, "patterns")) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
@@ -33,7 +38,9 @@ func Migrate(configDir string) error {
 	}
 
 	// events.yaml → events/event_sets/*.yaml + events/definitions/*.yaml
-	if fileExists(filepath.Join(configDir, "events.yaml")) {
+	if fileExists(filepath.Join(configDir, "events.yaml")) &&
+		!dirHasYAML(filepath.Join(configDir, "events", "event_sets")) &&
+		!dirHasYAML(filepath.Join(configDir, "events", "definitions")) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
@@ -43,7 +50,7 @@ func Migrate(configDir string) error {
 	}
 
 	// templates.jsonc + templates.*.jsonc → templates/<locale>/*.json
-	if fileExists(filepath.Join(configDir, "templates.jsonc")) {
+	if fileExists(filepath.Join(configDir, "templates.jsonc")) && !templatesDirHasContent(configDir) {
 		if err := ensureDir(legacyDir); err != nil {
 			return err
 		}
@@ -102,7 +109,7 @@ func migrateRepos(configDir, legacyDir string) error {
 		if name == "" {
 			name = fmt.Sprintf("rule-%d", i)
 		}
-		fname := sanitizeFilename(name) + ".yaml"
+		fname := SanitizeFilename(name) + ".yaml"
 		if err := os.WriteFile(filepath.Join(dstDir, fname), out, 0o644); err != nil {
 			return err
 		}
@@ -148,7 +155,7 @@ func migrateEvents(configDir, legacyDir string) error {
 			if err != nil {
 				continue
 			}
-			fname := sanitizeFilename(keyNode.Value) + ".yaml"
+			fname := SanitizeFilename(keyNode.Value) + ".yaml"
 			if err := os.WriteFile(filepath.Join(esDir, fname), out, 0o644); err != nil {
 				return err
 			}
@@ -167,7 +174,7 @@ func migrateEvents(configDir, legacyDir string) error {
 			if err != nil {
 				continue
 			}
-			fname := sanitizeFilename(keyNode.Value) + ".yaml"
+			fname := SanitizeFilename(keyNode.Value) + ".yaml"
 			if err := os.WriteFile(filepath.Join(defDir, fname), out, 0o644); err != nil {
 				return err
 			}
@@ -230,7 +237,7 @@ func migrateTemplates(configDir, legacyDir string) error {
 		for _, event := range events {
 			payloads := tc.Templates[event].Payloads
 			out, _ := json.MarshalIndent(map[string]any{"payloads": payloads}, "", "  ")
-			fname := sanitizeFilename(event) + ".json"
+			fname := SanitizeFilename(event) + ".json"
 			if err := os.WriteFile(filepath.Join(localeDir, fname), append(out, '\n'), 0o644); err != nil {
 				return err
 			}
@@ -320,11 +327,19 @@ func marshalYAMLNode(n *yaml.Node) ([]byte, error) {
 	return []byte(out), nil
 }
 
-// injectWeight inserts a `weight: N` key-value pair at the beginning of a
-// mapping node, preserving any existing HeadComment on the node.
+// injectWeight ensures a mapping node has exactly one `weight: N` entry with
+// the given value. If a weight key already exists (e.g. the source file was
+// already migrated and re-processed), its value is updated in place rather
+// than a second key being prepended — this keeps the migration idempotent.
 func injectWeight(mappingNode *yaml.Node, weight int) {
 	if mappingNode == nil || mappingNode.Kind != yaml.MappingNode {
 		return
+	}
+	for i := 0; i+1 < len(mappingNode.Content); i += 2 {
+		if mappingNode.Content[i].Value == "weight" {
+			mappingNode.Content[i+1].Value = strconv.Itoa(weight)
+			return
+		}
 	}
 	keyNode := &yaml.Node{Kind: yaml.ScalarNode, Tag: "", Value: "weight"}
 	valNode := &yaml.Node{Kind: yaml.ScalarNode, Tag: "", Value: strconv.Itoa(weight)}
@@ -343,7 +358,49 @@ func ensureDir(dir string) error {
 	return os.MkdirAll(dir, 0o755)
 }
 
-func sanitizeFilename(s string) string {
+// dirHasYAML reports whether dir contains at least one .yaml file (non-recursive).
+func dirHasYAML(dir string) bool {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return false
+	}
+	for _, e := range entries {
+		if !e.IsDir() && strings.HasSuffix(e.Name(), ".yaml") {
+			return true
+		}
+	}
+	return false
+}
+
+// templatesDirHasContent reports whether the templates/ locale layout already
+// holds any per-event template files (split format adopted).
+func templatesDirHasContent(configDir string) bool {
+	templatesDir := filepath.Join(configDir, "templates")
+	locales, err := os.ReadDir(templatesDir)
+	if err != nil {
+		return false
+	}
+	for _, locale := range locales {
+		if !locale.IsDir() {
+			continue
+		}
+		files, err := os.ReadDir(filepath.Join(templatesDir, locale.Name()))
+		if err != nil {
+			continue
+		}
+		for _, f := range files {
+			if !f.IsDir() && (strings.HasSuffix(f.Name(), ".json") || strings.HasSuffix(f.Name(), ".jsonc")) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// SanitizeFilename converts a pattern or event name into a safe filename stem
+// (no extension). Shared by migration and the panel so they target the same
+// per-item files.
+func SanitizeFilename(s string) string {
 	s = strings.ReplaceAll(s, "/", "-")
 	s = strings.ReplaceAll(s, "*", "all")
 	s = strings.ReplaceAll(s, "?", "_")

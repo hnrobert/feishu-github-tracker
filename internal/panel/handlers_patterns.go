@@ -2,6 +2,8 @@ package panel
 
 import (
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -73,13 +75,27 @@ func (a *App) handlePatternSave(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rp := config.RepoPattern{Weight: weight, Pattern: pattern, Events: events, NotifyTo: notifyTo, Secret: secret}
-	if idx >= 0 && idx < len(cfg.Repos.Repos) {
-		cfg.Repos.Repos[idx] = rp
-	} else {
-		cfg.Repos.Repos = append(cfg.Repos.Repos, rp)
+
+	patternsDir := filepath.Join(a.cfgDir, "patterns")
+	_ = os.MkdirAll(patternsDir, 0o755)
+
+	// If patterns/ is empty (e.g. a legacy install whose split migration did not
+	// populate the directory), bootstrap it from the full in-memory list first so
+	// the other rules are not dropped when we write only the edited rule.
+	if !patternDirHasFiles(patternsDir) {
+		for _, p := range cfg.Repos.Repos {
+			_ = SaveYAML(patternFilePath(patternsDir, p.Pattern), p)
+		}
 	}
 
-	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
+	// Editing an existing rule: remove its old file in case the pattern string
+	// changed (so the new file uses the new name and no orphan remains).
+	if idx >= 0 && idx < len(cfg.Repos.Repos) {
+		old := cfg.Repos.Repos[idx]
+		_ = os.Remove(patternFilePath(patternsDir, old.Pattern))
+	}
+
+	if err := SaveYAML(patternFilePath(patternsDir, pattern), rp); err != nil {
 		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.saveFailed", err), "err")
 		return
 	}
@@ -103,11 +119,10 @@ func (a *App) handlePatternDelete(w http.ResponseWriter, r *http.Request) {
 		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternNotFound"), "err")
 		return
 	}
-	cfg.Repos.Repos = append(cfg.Repos.Repos[:idx], cfg.Repos.Repos[idx+1:]...)
-	if err := SaveYAML(a.cfgDir+"/repos.yaml", cfg.Repos); err != nil {
-		a.redirectFlash(w, r, "/patterns", a.message(r, "flash.saveFailed", err), "err")
-		return
-	}
+	target := cfg.Repos.Repos[idx]
+	patternsDir := filepath.Join(a.cfgDir, "patterns")
+	_ = os.Remove(patternFilePath(patternsDir, target.Pattern))
+
 	a.notifySaved()
 	a.redirectFlash(w, r, "/patterns", a.message(r, "flash.patternDeleted"), "ok")
 }
@@ -168,4 +183,25 @@ func splitLines(s string) []string {
 		}
 	}
 	return res
+}
+
+// patternFilePath returns the per-item file path for a pattern, using the same
+// sanitization rules as the migration so panel edits target the right file.
+func patternFilePath(patternsDir, pattern string) string {
+	return filepath.Join(patternsDir, config.SanitizeFilename(pattern)+".yaml")
+}
+
+// patternDirHasFiles reports whether the patterns/ directory already holds any
+// split-format pattern files.
+func patternDirHasFiles(patternsDir string) bool {
+	entries, err := os.ReadDir(patternsDir)
+	if err != nil {
+		return false
+	}
+	for _, e := range entries {
+		if !e.IsDir() && strings.HasSuffix(e.Name(), ".yaml") {
+			return true
+		}
+	}
+	return false
 }
