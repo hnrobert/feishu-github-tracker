@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "📄 页面构建：{{action}}"
+              "content": "📄 页面构建：{{build.status}}"
             },
             "template": "grey"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**仓库：** {{repository.full_name}}\n**操作：** {{action}}\n"
+                "content": "**仓库：** {{repository.full_name}}\n**状态：** {{build.status}}\n**触发者：** {{build_pusher}}\n"
               }
             }
           ]

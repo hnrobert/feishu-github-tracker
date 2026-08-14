@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "📄 Page Build: {{action}}"
+              "content": "📄 Page Build: {{build.status}}"
             },
             "template": "gray"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository.full_name}}\n**Action:** {{action}}\n"
+                "content": "**Repository:** {{repository.full_name}}\n**Status:** {{build.status}}\n**Pusher:** {{build_pusher}}\n"
               }
             }
           ]

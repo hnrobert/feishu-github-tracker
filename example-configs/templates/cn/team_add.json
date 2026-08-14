@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "🔔 团队添加"
+              "content": "🔔 团队已添加到仓库"
             },
             "template": "turquoise"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+                "content": "**仓库：** {{repository_link_md}}\n**团队：** {{team_name}}\n**权限：** {{team.permission}}\n**用户：** {{sender_link_md}}"
               }
             },
             {

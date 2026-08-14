@@ -13,7 +13,7 @@
           "header": {
             "title": {
               "tag": "plain_text",
-              "content": "🔔 Team Add Event"
+              "content": "🔔 Team Added To Repository"
             },
             "template": "turquoise"
           },
@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+                "content": "**Repository:** {{repository_link_md}}\n**Team:** {{team_name}}\n**Permission:** {{team.permission}}\n**User:** {{sender_link_md}}"
               }
             },
             {
