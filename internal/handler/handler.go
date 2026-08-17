@@ -109,6 +109,21 @@ func (h *Handler) Reload() {
 	}
 }
 
+// snapshot pairs the config and notifier captured under the read lock so
+// webhook processing (which includes network I/O) can run WITHOUT holding the
+// lock: a pending config reload is never blocked by a slow webhook delivery,
+// while a single request still sees one consistent config generation.
+type snapshot struct {
+	cfg      *config.Config
+	notifier *notifier.Notifier
+}
+
+func (h *Handler) snapshot() snapshot {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+	return snapshot{cfg: h.config, notifier: h.notifier}
+}
+
 // ServeHTTP handles incoming webhook requests
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Hot reload configuration if enabled
@@ -185,9 +200,11 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// server.secret plus any secret configured on the repo/org rule this
 	// webhook matches (so each GitHub-side webhook can use its own secret). If
 	// no secret is configured anywhere, verification is skipped (as before).
-	h.mu.RLock()
-	defer h.mu.RUnlock()
-	secrets := h.candidateSecrets(payload)
+	// The snapshot captures config+notifier under the read lock and is then
+	// used lock-free, so a reload triggered from the panel is never blocked
+	// by the notifier's network I/O below.
+	snap := h.snapshot()
+	secrets := h.candidateSecrets(snap, payload)
 	if len(secrets) > 0 {
 		if !h.verifySignatureAny(r.Header.Get("X-Hub-Signature-256"), body, secrets) {
 			logger.Warn("Invalid signature")
@@ -197,7 +214,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Process the webhook
-	if err := h.processWebhook(eventType, payload); err != nil {
+	if err := h.processWebhook(eventType, payload, snap); err != nil {
 		logger.Error("Failed to process webhook: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
@@ -207,7 +224,10 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
-const defaultMaxPayloadBytes int64 = 5 << 20
+// defaultMaxPayloadBytes matches GitHub's own webhook payload cap (25MB) so a
+// legitimate oversized event — e.g. a push with hundreds of commits — is never
+// rejected by a default smaller than what GitHub itself may deliver.
+const defaultMaxPayloadBytes int64 = 25 << 20
 
 func (h *Handler) maxPayloadBytes() int64 {
 	h.mu.RLock()
@@ -257,7 +277,7 @@ func parseMaxPayloadBytes(value string) int64 {
 // request: the global server.secret, plus any secret configured on the repo (or
 // org) rule(s) the payload matches. Deduplicated. Empty (and thus no signature
 // verification) when no secret is configured anywhere.
-func (h *Handler) candidateSecrets(payload map[string]any) []string {
+func (h *Handler) candidateSecrets(snap snapshot, payload map[string]any) []string {
 	seen := make(map[string]struct{})
 	var out []string
 	add := func(s string) {
@@ -272,16 +292,16 @@ func (h *Handler) candidateSecrets(payload map[string]any) []string {
 		out = append(out, s)
 	}
 
-	add(h.config.Server.Server.Secret)
+	add(snap.cfg.Server.Server.Secret)
 
 	if repo := h.extractRepoFullName(payload); repo != "" {
-		if rules, err := h.matchRepositoryRules(repo); err == nil {
+		if rules, err := matchRepositoryRules(snap.cfg, repo); err == nil {
 			for _, rule := range rules {
 				add(rule.Secret)
 			}
 		}
 	} else if org := h.extractOrgName(payload); org != "" {
-		for _, rp := range h.config.Repos.Repos {
+		for _, rp := range snap.cfg.Repos.Repos {
 			if rp.Pattern == org+"/*" {
 				add(rp.Secret)
 			}
@@ -292,12 +312,12 @@ func (h *Handler) candidateSecrets(payload map[string]any) []string {
 
 // matchRepositoryRules returns either the first matching rule (the historical
 // default) or every matching rule when match_all_rules is enabled.
-func (h *Handler) matchRepositoryRules(fullName string) ([]*config.RepoPattern, error) {
-	if h.config.Server.Server.MatchAllRules {
-		return matcher.MatchAllRepos(fullName, h.config.Repos.Repos)
+func matchRepositoryRules(cfg *config.Config, fullName string) ([]*config.RepoPattern, error) {
+	if cfg.Server.Server.MatchAllRules {
+		return matcher.MatchAllRepos(fullName, cfg.Repos.Repos)
 	}
 
-	rule, err := matcher.MatchRepo(fullName, h.config.Repos.Repos)
+	rule, err := matcher.MatchRepo(fullName, cfg.Repos.Repos)
 	if err != nil || rule == nil {
 		return nil, err
 	}
@@ -322,14 +342,14 @@ func (h *Handler) verifySignatureAny(signature string, body []byte, secrets []st
 	return false
 }
 
-func (h *Handler) processWebhook(eventType string, payload map[string]any) error {
+func (h *Handler) processWebhook(eventType string, payload map[string]any, snap snapshot) error {
 	// Extract repository full name (may be empty for org-level webhooks or certain events)
 	repoFullName := h.extractRepoFullName(payload)
 
 	// Extract organization name (for org-level webhooks)
 	orgName := h.extractOrgName(payload)
-	if repoFullName != "" && h.config.Server.Server.MatchAllRules {
-		rules, err := matcher.MatchAllRepos(repoFullName, h.config.Repos.Repos)
+	if repoFullName != "" && snap.cfg.Server.Server.MatchAllRules {
+		rules, err := matcher.MatchAllRepos(repoFullName, snap.cfg.Repos.Repos)
 		if err != nil {
 			return fmt.Errorf("failed to match repository: %w", err)
 		}
@@ -337,7 +357,7 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 			logger.Debug("No matching repository pattern found for %s, skipping", repoFullName)
 			return nil
 		}
-		return h.processAllRepositoryRules(eventType, payload, rules)
+		return h.processAllRepositoryRules(eventType, payload, rules, snap)
 	}
 
 	// Determine target bots based on repository or organization
@@ -349,7 +369,7 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 		// Repository-level webhook
 		logger.Debug("Processing %s event for repository: %s", eventType, repoFullName)
 
-		repoPattern, err = matcher.MatchRepo(repoFullName, h.config.Repos.Repos)
+		repoPattern, err = matcher.MatchRepo(repoFullName, snap.cfg.Repos.Repos)
 		if err != nil {
 			return fmt.Errorf("failed to match repository: %w", err)
 		}
@@ -366,7 +386,7 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 		logger.Debug("Processing %s event for organization: %s", eventType, orgName)
 
 		// Find all repo patterns matching this organization (exact match for org/*)
-		for _, repo := range h.config.Repos.Repos {
+		for _, repo := range snap.cfg.Repos.Repos {
 			if repo.Pattern == orgName+"/*" {
 				targetBots = append(targetBots, repo.NotifyTo...)
 			}
@@ -399,8 +419,8 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 		// Expand events (resolve templates)
 		expandedEvents := matcher.ExpandEvents(
 			repoPattern.Events,
-			h.config.Events.EventSets,
-			h.config.Events.Events,
+			snap.cfg.Events.EventSets,
+			snap.cfg.Events.Events,
 		)
 
 		// Extract event details
@@ -417,13 +437,13 @@ func (h *Handler) processWebhook(eventType string, payload map[string]any) error
 	}
 
 	logger.Info("Event matched: %s, sending notification", eventType)
-	return h.sendNotification(eventType, payload, targetBots)
+	return h.sendNotification(eventType, payload, targetBots, snap)
 }
 
 // processAllRepositoryRules evaluates every matching rule in configuration
 // order. A rule that does not subscribe to this event is skipped; failures in
 // one eligible rule do not prevent later eligible rules from being attempted.
-func (h *Handler) processAllRepositoryRules(eventType string, payload map[string]any, rules []*config.RepoPattern) error {
+func (h *Handler) processAllRepositoryRules(eventType string, payload map[string]any, rules []*config.RepoPattern, snap snapshot) error {
 	isPingEvent := eventType == "ping"
 	action := h.extractAction(payload)
 	ref := h.extractRef(payload)
@@ -433,7 +453,7 @@ func (h *Handler) processAllRepositoryRules(eventType string, payload map[string
 	for _, rule := range rules {
 		logger.Debug("Matched repository pattern: %s", rule.Pattern)
 		if !isPingEvent {
-			expandedEvents := matcher.ExpandEvents(rule.Events, h.config.Events.EventSets, h.config.Events.Events)
+			expandedEvents := matcher.ExpandEvents(rule.Events, snap.cfg.Events.EventSets, snap.cfg.Events.Events)
 			if !matcher.MatchEvent(eventType, action, ref, payload, expandedEvents) {
 				logger.Debug("Event %s (action: %s, ref: %s) does not match rule %s, skipping", eventType, action, ref, rule.Pattern)
 				continue
@@ -447,7 +467,7 @@ func (h *Handler) processAllRepositoryRules(eventType string, payload map[string
 		}
 
 		logger.Info("Event matched: %s (rule: %s), sending notification", eventType, rule.Pattern)
-		if err := h.sendNotification(eventType, payload, targets); err != nil {
+		if err := h.sendNotification(eventType, payload, targets, snap); err != nil {
 			logger.Error("Failed to send notifications for rule %s: %v", rule.Pattern, err)
 			errs = append(errs, fmt.Sprintf("rule %s: %v", rule.Pattern, err))
 		}
@@ -473,14 +493,14 @@ func uniqueUnseenTargets(targets []string, seen map[string]struct{}) []string {
 	return result
 }
 
-func (h *Handler) sendNotification(eventType string, payload map[string]any, targets []string) error {
+func (h *Handler) sendNotification(eventType string, payload map[string]any, targets []string, snap snapshot) error {
 	tags := template.DetermineTags(eventType, payload)
 	data := h.prepareTemplateData(eventType, payload)
-	targetsByTemplate := h.groupTargetsByTemplate(targets)
+	targetsByTemplate := h.groupTargetsByTemplate(targets, snap)
 	var errs []string
 	for templateName, templateTargets := range targetsByTemplate {
 		logger.Debug("Processing %d target(s) with template: %s", len(templateTargets), templateName)
-		templatesConfig := h.config.GetTemplateConfig(templateName)
+		templatesConfig := snap.cfg.GetTemplateConfig(templateName)
 		tmpl, err := template.SelectTemplate(eventType, tags, templatesConfig)
 		if err != nil {
 			logger.Error("Failed to select template for %s: %v", templateName, err)
@@ -493,7 +513,7 @@ func (h *Handler) sendNotification(eventType string, payload map[string]any, tar
 			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
 			continue
 		}
-		if err := h.notifier.Send(templateTargets, filledPayload); err != nil {
+		if err := snap.notifier.Send(templateTargets, filledPayload); err != nil {
 			logger.Error("Failed to send notifications for template %s: %v", templateName, err)
 			errs = append(errs, fmt.Sprintf("template %s: %v", templateName, err))
 		}
@@ -505,11 +525,11 @@ func (h *Handler) sendNotification(eventType string, payload map[string]any, tar
 }
 
 // groupTargetsByTemplate groups notification targets by their template preference
-func (h *Handler) groupTargetsByTemplate(targets []string) map[string][]string {
+func (h *Handler) groupTargetsByTemplate(targets []string, snap snapshot) map[string][]string {
 	result := make(map[string][]string)
 
 	for _, target := range targets {
-		templateName := h.config.GetBotTemplate(target)
+		templateName := snap.cfg.GetBotTemplate(target)
 		result[templateName] = append(result[templateName], target)
 	}
 

@@ -107,11 +107,28 @@ func (n *Notifier) sendToWebhook(url string, payload map[string]any) error {
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("received non-2xx status code %d", resp.StatusCode)
+		return fmt.Errorf("received non-2xx status code %d: %s", resp.StatusCode, summarizeBody(body))
 	}
 
 	logger.Debug("Webhook response was %d bytes", len(body))
 	return nil
+}
+
+// summarizeBody renders a bounded, single-line snippet of a webhook response
+// for error messages. Feishu API failures (sign mismatch, rate limit, bad
+// card payload) are only explained by the response body, so a short snippet
+// is included. The body never contains the webhook token (that lives in the
+// URL), and whitespace collapsing keeps log injection out.
+func summarizeBody(body []byte) string {
+	const maxBodySnippet = 200
+	snippet := strings.Join(strings.Fields(string(body)), " ")
+	if len(snippet) > maxBodySnippet {
+		snippet = snippet[:maxBodySnippet] + "…(truncated)"
+	}
+	if snippet == "" {
+		snippet = "<empty response body>"
+	}
+	return snippet
 }
 
 func targetLabel(target string) string {

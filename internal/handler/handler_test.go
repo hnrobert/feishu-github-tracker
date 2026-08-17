@@ -76,14 +76,16 @@ func TestProcessWebhookMatchAllRules(t *testing.T) {
 		"action":     "edited",
 		"repository": map[string]any{"full_name": "org/repo"},
 	}
-	if err := newHandler(false).processWebhook("issue_comment", payload); err != nil {
+	firstMatch := newHandler(false)
+	if err := firstMatch.processWebhook("issue_comment", payload, firstMatch.snapshot()); err != nil {
 		t.Fatalf("default matching returned error: %v", err)
 	}
 	if len(received) != 0 {
 		t.Fatalf("default matching delivered %#v, want no messages", received)
 	}
 
-	if err := newHandler(true).processWebhook("issue_comment", payload); err != nil {
+	matchAll := newHandler(true)
+	if err := matchAll.processWebhook("issue_comment", payload, matchAll.snapshot()); err != nil {
 		t.Fatalf("match_all_rules returned error: %v", err)
 	}
 	if received["/action"] != 1 || received["/reviewer"] != 1 || received["/shared"] != 1 || received["/sl"] != 0 {

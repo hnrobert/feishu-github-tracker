@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
@@ -75,5 +76,35 @@ func TestSend_RejectsOversizedResponse(t *testing.T) {
 	n := &Notifier{bots: map[string]string{}, client: server.Client()}
 	if err := n.Send([]string{server.URL}, map[string]any{"hello": "world"}); err == nil {
 		t.Fatal("expected oversized response to fail")
+	}
+}
+
+func TestSend_ErrorIncludesResponseBody(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write([]byte("{\"code\":19021,\"msg\":\"sign match fail\"}"))
+	}))
+	defer server.Close()
+
+	n := &Notifier{bots: map[string]string{}, client: server.Client()}
+	err := n.Send([]string{server.URL}, map[string]any{"hello": "world"})
+	if err == nil {
+		t.Fatal("expected non-2xx response to fail")
+	}
+	if !strings.Contains(err.Error(), "19021") || !strings.Contains(err.Error(), "sign match fail") {
+		t.Fatalf("error should include the Feishu response body for debugging, got: %v", err)
+	}
+}
+
+func TestSummarizeBody(t *testing.T) {
+	if got := summarizeBody(nil); got != "<empty response body>" {
+		t.Fatalf("empty body = %q", got)
+	}
+	if got := summarizeBody([]byte("line1\nline2\twith\ttabs")); got != "line1 line2 with tabs" {
+		t.Fatalf("whitespace not collapsed: %q", got)
+	}
+	long := strings.Repeat("x", 500)
+	if got := summarizeBody([]byte(long)); len(got) > 220 || !strings.Contains(got, "truncated") {
+		t.Fatalf("long body not truncated: %q (len=%d)", got, len(got))
 	}
 }
