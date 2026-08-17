@@ -157,8 +157,8 @@ func main() {
 	if err := srv.Shutdown(ctx); err != nil {
 		logger.Error("Server forced to shutdown: %v", err)
 	}
-
 	logger.Info("Server stopped")
+	_ = logger.Close()
 }
 
 // initializeConfigDir copies default configuration files that do not yet exist.
@@ -244,12 +244,15 @@ func initializeConfigDir(defaultConfigDir, configDir string) error {
 // NewServer creates an *http.Server configured from cfg and handler.
 func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Server.Host, cfg.Server.Server.Port)
+	timeout := time.Duration(cfg.Server.Server.Timeout) * time.Second
 	return &http.Server{
-		Addr:         addr,
-		Handler:      handler,
-		ReadTimeout:  time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		IdleTimeout:  60 * time.Second,
+		Addr:              addr,
+		Handler:           handler,
+		ReadTimeout:       timeout,
+		ReadHeaderTimeout: timeout,
+		WriteTimeout:      timeout,
+		IdleTimeout:       60 * time.Second,
+		MaxHeaderBytes:    1 << 20,
 	}
 }
 
