@@ -5,11 +5,14 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
@@ -20,8 +23,11 @@ import (
 
 // Handler handles GitHub webhook requests
 type Handler struct {
+	mu        sync.RWMutex
+	reloadMu  sync.Mutex
 	config    *config.Config
 	notifier  *notifier.Notifier
+	maxBytes  int64
 	hotReload bool
 	configDir string
 	// OnReload, if set, is invoked after a successful hot-reload of config (e.g.
@@ -31,9 +37,14 @@ type Handler struct {
 
 // New creates a new Handler
 func New(cfg *config.Config, n *notifier.Notifier) *Handler {
+	maxBytes := defaultMaxPayloadBytes
+	if cfg != nil {
+		maxBytes = parseMaxPayloadBytes(cfg.Server.Server.MaxPayloadSize)
+	}
 	return &Handler{
 		config:    cfg,
 		notifier:  n,
+		maxBytes:  maxBytes,
 		hotReload: false,
 		configDir: "",
 	}
@@ -41,8 +52,10 @@ func New(cfg *config.Config, n *notifier.Notifier) *Handler {
 
 // EnableHotReload enables configuration hot reload on each webhook request
 func (h *Handler) EnableHotReload(configDir string) {
+	h.mu.Lock()
 	h.hotReload = true
 	h.configDir = configDir
+	h.mu.Unlock()
 	logger.Info("Hot reload enabled for config directory: %s", configDir)
 }
 
@@ -51,18 +64,26 @@ func (h *Handler) EnableHotReload(configDir string) {
 // webhook when hot reload is enabled, and also by the management panel after a
 // configuration edit so that changes take effect immediately without a restart.
 func (h *Handler) Reload() {
-	if h.configDir == "" {
+	h.reloadMu.Lock()
+	defer h.reloadMu.Unlock()
+	h.mu.RLock()
+	configDir := h.configDir
+	h.mu.RUnlock()
+	if configDir == "" {
 		return
 	}
-	logger.Debug("Reloading configuration from %s", h.configDir)
-	cfg, err := config.Load(h.configDir)
+	logger.Debug("Reloading configuration from %s", configDir)
+	cfg, err := config.Load(configDir)
 	if err != nil {
 		logger.Error("Failed to reload configuration: %v", err)
 		return
 	}
 	changed := false
-	if h.config != nil {
-		oldB, _ := json.Marshal(h.config)
+	h.mu.RLock()
+	oldConfig := h.config
+	h.mu.RUnlock()
+	if oldConfig != nil {
+		oldB, _ := json.Marshal(oldConfig)
 		newB, _ := json.Marshal(cfg)
 		if string(oldB) != string(newB) {
 			logger.Info("Configuration changes detected, applying new configuration")
@@ -73,11 +94,14 @@ func (h *Handler) Reload() {
 		changed = true
 	}
 
+	h.mu.Lock()
 	h.config = cfg
 	h.notifier = notifier.New(cfg.FeishuBots)
+	h.maxBytes = parseMaxPayloadBytes(cfg.Server.Server.MaxPayloadSize)
+	h.mu.Unlock()
 
 	if h.OnReload != nil {
-		h.OnReload(h.configDir)
+		h.OnReload(configDir)
 	}
 
 	if !changed {
@@ -97,15 +121,21 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Read body
+	// Read body within the configured limit so an unauthenticated webhook cannot
+	// force an unbounded allocation before signature verification.
+	r.Body = http.MaxBytesReader(w, r.Body, h.maxPayloadBytes())
+	defer r.Body.Close()
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
+		var maxErr *http.MaxBytesError
+		if errors.As(err, &maxErr) {
+			http.Error(w, "Webhook payload too large", http.StatusRequestEntityTooLarge)
+			return
+		}
 		logger.Error("Failed to read request body: %v", err)
 		http.Error(w, "Failed to read request body", http.StatusBadRequest)
 		return
 	}
-	defer r.Body.Close()
-
 	// Get event type
 	eventType := r.Header.Get("X-GitHub-Event")
 	if eventType == "" {
@@ -149,13 +179,14 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	logger.Debug("Received %s event", eventType)
-	logger.Debug("Payload: %v", payload)
+	logger.Debug("Received %s event (%d bytes)", eventType, len(body))
 
 	// Verify signature. The signing secret is resolved per-request: the global
 	// server.secret plus any secret configured on the repo/org rule this
 	// webhook matches (so each GitHub-side webhook can use its own secret). If
 	// no secret is configured anywhere, verification is skipped (as before).
+	h.mu.RLock()
+	defer h.mu.RUnlock()
 	secrets := h.candidateSecrets(payload)
 	if len(secrets) > 0 {
 		if !h.verifySignatureAny(r.Header.Get("X-Hub-Signature-256"), body, secrets) {
@@ -174,6 +205,52 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
+}
+
+const defaultMaxPayloadBytes int64 = 5 << 20
+
+func (h *Handler) maxPayloadBytes() int64 {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+	if h.maxBytes > 0 {
+		return h.maxBytes
+	}
+	return defaultMaxPayloadBytes
+}
+
+func parseMaxPayloadBytes(value string) int64 {
+	value = strings.TrimSpace(strings.ToUpper(value))
+	if value == "" {
+		return defaultMaxPayloadBytes
+	}
+	index := 0
+	for index < len(value) && value[index] >= '0' && value[index] <= '9' {
+		index++
+	}
+	if index == 0 {
+		return defaultMaxPayloadBytes
+	}
+	number, err := strconv.ParseInt(value[:index], 10, 64)
+	if err != nil || number <= 0 {
+		return defaultMaxPayloadBytes
+	}
+	suffix := strings.TrimSpace(value[index:])
+	multiplier := int64(1)
+	switch suffix {
+	case "B", "":
+	case "KB", "KIB":
+		multiplier = 1 << 10
+	case "MB", "MIB":
+		multiplier = 1 << 20
+	case "GB", "GIB":
+		multiplier = 1 << 30
+	default:
+		return defaultMaxPayloadBytes
+	}
+	if number > (int64(^uint64(0)>>1) / multiplier) {
+		return defaultMaxPayloadBytes
+	}
+	return number * multiplier
 }
 
 // candidateSecrets returns the webhook signing secrets that may apply to this
