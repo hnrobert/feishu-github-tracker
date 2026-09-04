@@ -18,7 +18,7 @@
 
 - 简单易用：配置简单，Docker Compose 开箱即用，基于 GitHub 的 Webhook 实现
 - 可视化管理：内置 Web 管理面板，浏览器里即可增删改仓库规则、飞书机器人、事件、模板等，无需手改 YAML
-- 灵活可定制：支持多种事件过滤和自定义消息模板，只要替换现有的 `configs/templates.jsonc` 就可以满足大部分的模版定制需求。
+- 灵活可定制：支持多种事件过滤和自定义消息模板，按事件修改 `configs/templates/<语言>/` 下的对应文件即可满足大部分的模版定制需求。
 - 高效稳定：使用 Go 语言编写，性能优越
 - 安全可靠：支持签名验证，防止伪造请求
 - 开源免费：MIT 许可证，欢迎自开分支或者贡献回来（plz）
@@ -27,16 +27,16 @@
 
 目前支持所有的 GitHub Webhook 事件
 
-- 详见 [example-configs/events.yaml](example-configs/events.yaml)
+- 事件集合定义详见 [example-configs/events/event_sets/](example-configs/events/event_sets/)，单个事件的默认过滤配置详见 [example-configs/events/definitions/](example-configs/events/definitions/)
 - 对应的处理方法以及文档详见 [internal/handler/](internal/handler/)
-- 默认提供的消息模板详见 [example-configs/templates.jsonc](example-configs/templates.jsonc)
+- 默认提供的消息模板详见 [example-configs/templates/default/](example-configs/templates/default/)（中文模板在 [example-configs/templates/cn/](example-configs/templates/cn/)）
 - 也可以自定义模板，使用我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md)) 以及 `template` 提供的 `模板引擎的语法` `过滤器` `条件块` 等功能 ([详见文档](internal/template/README.md)) 对发出消息的格式做相应的修改
 
 ### Webhook 设置提醒
 
 当你在 GitHub 上添加 Webhook 时（无论是仓库级别还是组织级别），GitHub 会发送一个 **ping 事件**来测试 Webhook 配置。本服务会：
 
-1. **自动识别 ping 事件**：无需在 `repos.yaml` 中特别配置
+1. **自动识别 ping 事件**：无需在 `patterns/` 规则中特别配置
 2. **智能匹配通知目标**：
    - 对于组织级 webhook：自动发送到配置了该组织所有仓库的飞书 bot, 即仅 `org-name/*` 模式匹配的仓库
    - 对于仓库级 webhook：自动发送到配置了该仓库的飞书 bot
@@ -63,7 +63,7 @@
 
 - 支持中英文双语快速切换
 - 所有事件卡片均有对应的中英文版本
-- 模板可通过 `configs/templates.cn.jsonc` 和 `configs/templates.en.jsonc` 自定义
+- 模板目录按语言组织：`configs/templates/default/`（默认/英文）与 `configs/templates/cn/`（中文），每个事件一个 JSON 文件
 
 <img width="675" height="521" alt="image" src="https://github.com/user-attachments/assets/21143037-9132-42c9-b3b4-3b0d6075ede9" />
 
@@ -124,19 +124,22 @@ feishu-github-tracker/
 │   └── feishu-github-tracker/          # 主程序入口
 │       └── main.go
 ├── internal/             # 内部包
-│   ├── config/          # 配置加载
+│   ├── auth/            # 签名验证
+│   ├── config/          # 配置加载与旧格式自动迁移
 │   ├── handler/         # Webhook 处理器
+│   ├── logger/          # 日志模块（按天轮转）
 │   ├── matcher/         # 仓库和事件匹配
 │   ├── notifier/        # 飞书通知发送
+│   ├── panel/           # Web 管理面板
 │   └── template/        # 模板处理
-├── pkg/
-│   └── logger/          # 日志模块
 ├── example-configs/     # 受 Git 跟踪的默认配置与注释示例
-│   ├── server.yaml
-│   ├── repos.yaml
-│   ├── events.yaml
-│   ├── feishu-bots.yaml
-│   └── templates.jsonc
+│   ├── server.yaml      # 服务监听 / 密钥 / 面板账号（单文件）
+│   ├── feishu-bots.yaml # 飞书机器人别名（单文件）
+│   ├── patterns/        # 每条仓库规则一个 YAML 文件
+│   ├── events/          # event_sets/ 事件集合 + definitions/ 事件定义
+│   └── templates/       # 按语言分目录，每个事件一个 JSON 文件
+│       ├── default/
+│       └── cn/
 ├── configs/             # 运行时配置目录，首次启动生成且不受 Git 跟踪
 ├── logs/                 # 日志文件目录
 ├── Dockerfile           # Docker 镜像构建
@@ -149,6 +152,24 @@ feishu-github-tracker/
 
 仓库中的 [example-configs](example-configs) 是可随版本更新的默认配置；运行时请编辑 `configs/`。Docker Compose 首次启动会自动从示例目录复制缺失文件，已有文件绝不会被覆盖，因此更新代码不会再因本地配置修改而阻塞。
 
+配置按「每条规则一个文件」组织：
+
+| 内容 | 位置 | 说明 |
+| --- | --- | --- |
+| 服务监听 / 密钥 / 面板账号 | `server.yaml` | 单文件 |
+| 飞书机器人别名 | `feishu-bots.yaml` | 单文件 |
+| 仓库规则（pattern） | `patterns/*.yaml` | 每条规则一个文件 |
+| 事件集合 / 事件定义 | `events/event_sets/*.yaml`、`events/definitions/*.yaml` | 每个集合/事件一个文件 |
+| 消息模板 | `templates/<语言>/<事件>.json` | 按语言分目录，每个事件一个文件 |
+
+### 旧版本配置自动迁移
+
+从旧版镜像升级时，启动会自动检测旧版单文件配置（`repos.yaml`、`events.yaml`、`templates.jsonc`、`templates.*.jsonc`）：
+
+- 原文件**原样**移动到 `configs/legacy/` 备份
+- 同时拆分为上述新的分文件格式；`repos.yaml` 中的规则顺序会转换为 `patterns/*.yaml` 里的 `weight` 字段（越靠前的规则 weight 越大，评估顺序与原配置一致）
+- 迁移只执行一次，之后以新格式为准；旧格式的单文件也仍然兼容读取（子目录优先）
+
 ### server.yaml
 
 服务器基础配置：
@@ -157,9 +178,10 @@ feishu-github-tracker/
 server:
   host: '0.0.0.0' # Webhook监听主机
   port: 4594 # Webhook监听端口
-  # secret: 'your_secret' # 可选：全局 Webhook 密钥（fallback），用于验证 GitHub X-Hub-Signature。留空/注释掉则不启用全局校验（可改用每条 repos 匹配各自的 secret）。若某条 repos 匹配单独配置了 secret，则该规则优先使用自己的 secret，否则回退到这里
+  # secret: 'your_secret' # 可选：全局 Webhook 密钥（fallback），用于验证 GitHub X-Hub-Signature。留空/注释掉则不启用全局校验（可改用每条 pattern 规则各自的 secret）。若某条规则单独配置了 secret，则该规则优先使用自己的 secret，否则回退到这里
   log_level: 'info' # 可选: debug, info, warn, error
-  max_payload_size: 5MB # 限制单次Webhook body大小
+  match_all_rules: false # 可选：让同一 webhook 依次匹配所有规则；false 时仅首条（按 weight 最高）匹配生效
+  max_payload_size: 25MB # 限制单次 Webhook body 大小（GitHub 官方载荷上限为 25MB；超过返回 413）
   timeout: 15 # 单次请求处理超时 (秒)
 
 # 允许的来源（用于白名单过滤，可选）
@@ -169,13 +191,15 @@ allowed_sources:
   - 'your-github-enterprise-domain.com'
 ```
 
+管理面板账号也配置在 `server.yaml` 的 `panel:` 段（默认 `admin`/`admin`），详见下方[管理面板](#管理面板)一节。
+
 ### feishu-bots.yaml
 
 定义飞书机器人及其别名：
 
 ```yaml
 feishu_bots:
-  - alias: 'dev-team' # 可以在 repos.yaml 中通过该别名引用这个链接
+  - alias: 'dev-team' # 可以在 patterns/*.yaml 中通过该别名引用这个链接
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxx'
 
   - alias: 'ops-team'
@@ -200,122 +224,117 @@ feishu_bots:
 配置方法：
 
 1. 在 `feishu-bots.yaml` 中为 bot 指定 `template` 字段（可选）
-2. 在 `configs/` 目录下创建对应的模板文件，命名格式为 `templates.<name>.jsonc`
+2. 在 `configs/templates/` 下创建以该模板名命名的目录，目录内每个事件一个 `<事件名>.json` 文件
 
 例如：
 
-- `templates.jsonc` - 默认模板（必需）
-- `templates.cn.jsonc` - 中文模板
-- `templates.en.jsonc` - 英文模板
-- `templates.simple.jsonc` - 简化模板
+- `templates/default/` - 默认模板（必需）
+- `templates/cn/` - 中文模板
+- `templates/en/` - 英文模板
+- `templates/simple/` - 简化模板
 
-如果某个 bot 没有指定 `template` 字段，或指定的模板文件不存在，将自动使用 `templates.jsonc` 作为默认模板。
+如果某个 bot 没有指定 `template` 字段，或指定的模板目录不存在，将自动使用 `templates/default/` 作为默认模板。
 
-### events.yaml
+> 旧版的单文件 `templates.jsonc` / `templates.<名称>.jsonc` 仍然兼容读取；启动时会自动迁移为分文件格式（原件备份到 `configs/legacy/`）。
 
-定义事件模板和具体事件配置：
+### events/
 
-```yaml
-event_sets:
-  # 基础事件集
-  basic:
-    push:
-    pull_request:
-    pull_request_review:
-    pull_request_review_comment:
-    issues:
-    issue_comment:
-    discussion:
-    discussion_comment:
-    release:
-    package:
+事件配置分两个子目录：
 
-  # 可以自定义事件集
-  custom:
-    push:
-      branches:
-        - main
-        - develop
-    pull_request:
-      types:
-        - opened
-        - closed
-
-  # 完整事件集
-  all:
-    # 包含所有 GitHub 支持的事件...
-```
-
-具体参考 [./example-configs/events.yaml](./example-configs/events.yaml) 中的详细内容
-
-### repos.yaml
-
-配置仓库匹配规则和通知目标：
+- `events/event_sets/<名称>.yaml` — 事件集合（可复用的事件包，供 pattern 规则引用）
+- `events/definitions/<事件名>.yaml` — 单个事件的默认过滤配置（分支 / action 等）
 
 ```yaml
-repos:
-  # 示例：针对特定项目定义更详细监听
-  - pattern: 'CompPsyUnion/motion-vote-backend'
-    events:
-      push: # 直接引用 events.yaml 中的事件
-        branches: # 可以进一步细化，覆盖 events.yaml 中的默认配置
-          - main
-          - develop
-      pull_request: # 同理
-        branches:
-          - main
-        types:
-          - opened
-          - closed
-          - reopened
-      issues: # 如果不细化，直接监听所有 types
-      release:
-    notify_to:
-      - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
-      - 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz' # 这里是 dev-team, 但直接使用完整 URL 也可以。如有冲突 alias 优先
-
-  # 示例：匹配实验性项目（使用 glob 模式）
-  - pattern: 'CompPsyUnion/experimental-*'
-    events:
-      all: # 直接应用 event_sets: 中定义的的模板。如果有命名重合，优先使用自定义模板
-    notify_to:
-      - dev-team # 引用 feishu-bots.yaml 的 alias
-
-  # 示例：匹配所有个人项目
-  - pattern: 'hnrobert/*'
-    events:
-      custom: # 直接应用 event_sets: 中定义的的模板
-    notify_to:
-      - ops-team # 引用 feishu-bots.yaml 的 alias
-
-  # 示例：匹配所有仓库（放在最后，作为兜底配置，已经被匹配过的仓库会被拦截，不会用到这里）
-  - pattern: '*'
-    events:
-      basic: # 应用 events.yaml 内 event_sets: 中定义的的模板。可以理解将 basic 里的事件展开添加到该仓库监听
-      project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
-    notify_to:
-      - org-notify # 引用 feishu-bots.yaml 的 alias
+# events/event_sets/basic.yaml —— 基础事件集
+push:
+pull_request:
+pull_request_review:
+pull_request_review_comment:
+issues:
+issue_comment:
+discussion:
+discussion_comment:
+release:
+package:
 ```
 
-### templates.jsonc
+```yaml
+# events/event_sets/custom.yaml —— 自定义事件集
+push:
+  branches:
+    - main
+    - develop
+pull_request:
+  types:
+    - opened
+    - closed
+```
 
-定义飞书消息卡片模板。支持为不同事件类型和状态定义多个模板变体。当前已经包括了所有你需要的常用事件的模板，你可以根据自己的需要进行修改和扩展。
+具体参考 [example-configs/events/event_sets/](example-configs/events/event_sets/) 与 [example-configs/events/definitions/](example-configs/events/definitions/) 中的示例与注释。事件配置可在管理面板「事件集合」页可视化编辑（逐文件卡片，保存时注释原样保留）。
+
+### patterns/
+
+每条仓库匹配规则一个文件（`patterns/<名称>.yaml`），文件名由 pattern 生成（`/` → `-`、`*` → `all`）：
+
+```yaml
+# patterns/CompPsyUnion-motion-vote-backend.yaml
+weight: 5 # 优先级：数值越大越先评估。兜底的 * 规则应给最小值
+pattern: 'CompPsyUnion/motion-vote-backend'
+events:
+  push: # 直接引用 events/definitions/ 中的事件
+    branches: # 可以进一步细化，覆盖事件定义中的默认配置
+      - main
+      - develop
+  pull_request: # 同理
+    branches:
+      - main
+    types:
+      - opened
+      - closed
+      - reopened
+  issues: # 如果不细化，直接监听所有 types
+  release:
+notify_to:
+  - ops-team # 引用 feishu-bots.yaml 的 alias. 引号可加可不加
+  - 'https://open.feishu.cn/open-apis/bot/v2/hook/zzzzzzz' # 直接使用完整 URL 也可以。如有冲突 alias 优先
+```
+
+```yaml
+# patterns/all.yaml —— 兜底规则：weight 最小，放最后评估
+weight: 0
+pattern: '*'
+events:
+  basic: # 应用 event_sets 中定义的 basic 集合（展开为该规则监听的事件）
+  project: # 也可以同时叠加更多事件。注意后添加的会覆盖先添加的的同类事件配置
+notify_to:
+  - org-notify
+```
+
+**weight 说明**：规则按 `weight` **降序**评估（同 weight 时按 pattern 名排序）。默认仅使用第一条匹配的规则——精确规则给高 weight、`*` 兜底给低 weight，即可复现旧版「自上而下、`*` 放最后」的语义。管理面板中创建/编辑规则时可直接填写 weight。
+
+### templates/
+
+定义飞书消息卡片模板，按语言分目录、每个事件一个 JSON 文件（`templates/<语言>/<事件>.json`）。支持为同一事件定义多个模板变体（通过 `tags` 区分）。默认已内置所有常用事件的模板，可按需修改扩展。
 
 这里的模板是基于飞书的消息卡片格式设计的，详情请参考 [飞书开放平台文档](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/create)。
 
-```yaml
-templates:
-  push:
-    payloads:
-      - tags: [push, default]
-        payload:
-          msg_type: interactive
-          card:
-            # 飞书卡片配置...
-
-      - tags: [push, force]
-        payload:
-          # Force push 的特殊模板...
+```json
+// templates/default/push.json
+{
+  "payloads": [
+    {
+      "tags": ["push", "default"],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {}
+      }
+    },
+    {
+      "tags": ["push", "force"],
+      "payload": {}
+    }
+  ]
+}
 ```
 
 模板支持 `占位符替换` ，如：
@@ -332,11 +351,20 @@ templates:
 
 更多 `占位符` 和 `tag` 相关说明详见我们 `handler` 提供的的 `占位符变量` ([详见文档](internal/handler/README.md))
 
-## 管理面板配置（v1.2.0+）
+## 管理面板
 
-自从 v1.2.0 版本开始，服务内置了一个 Web 管理面板，方便用户在浏览器中直接管理仓库规则、飞书机器人、事件模板等配置，可与手动编辑 YAML 文件来更新配置的方法共存。
+自 v1.2.0 起服务内置了一个 Web 管理面板，方便用户在浏览器中直接管理仓库规则、飞书机器人、事件模板等配置，可与手动编辑 YAML 文件来更新配置的方法共存。
 
 ![web-panel](assets/images/web-panel.png)
+
+- **访问**：`http://<host>:4594/`（与 webhook 同端口；`/webhook`、`/health` 仍照常工作）
+- **登录**：默认用户名 `admin` / 密码 `admin`（老版本升级且未配置过面板账号时也自动使用默认账号）
+  - 用户名：`server.yaml` 的 `panel.username`、环境变量 `PANEL_USERNAME`，或面板「服务设置」页修改
+  - 密码（优先级从高到低）：环境变量 `PANEL_PASSWORD`（推荐）→ `panel.password`（明文，启动/reload 时自动转为 `password_hash` 并删除明文行）→ `panel.password_hash`（直接填 `sha256(密码)` 的十六进制）
+  - 浏览器登录时会把密码做 SHA-256 后再发送，明文不上网；修改密码需先验证当前密码
+- **功能**：仓库规则（含 weight）、飞书机器人、事件集合/事件定义可视化编辑（逐文件卡片，注释保留）、按语言×事件编辑消息模板、服务设置与面板账号、运行概览仪表盘（投递趋势 / 事件分布 / 最近活动）、配置关系图谱；界面支持中/EN 切换
+- **生效方式**：面板内保存后自动 reload（无需重启）；手动编辑 `configs/` 则需以 `-reload` 启动或重启进程。端口 / 密钥改动仍需重启
+- **JWT 密钥**：`panel.secret` 或环境变量 `PANEL_JWT_SECRET`；留空则每次重启随机生成（所有人被登出）
 
 ## 高级功能
 
@@ -349,9 +377,9 @@ templates:
 3. **分支级别**：为 push/PR 指定分支规则
 4. **动作级别**：为事件指定具体的 action（如 opened, closed）
 
-### 多规则匹配
+### 多规则匹配与 weight
 
-默认情况下，仓库事件只使用 `repos.yaml` 中第一条匹配的规则，适合使用精确规则覆盖通配符、将 `*` 作为兜底规则的配置方式。
+默认情况下，仓库事件只使用**weight 最高**的那条匹配规则（规则按 `weight` 降序、同 weight 按 pattern 名排序评估），适合使用精确规则覆盖通配符、将 `*` 作为兜底规则的配置方式。
 
 若同一个仓库需要按事件发送到不同飞书机器人，可在 `server.yaml` 的 `server:` 下开启：
 
@@ -359,22 +387,33 @@ templates:
 match_all_rules: true
 ```
 
-开启后会按 `repos.yaml` 的顺序评估所有匹配规则：不订阅当前事件的规则会跳过，订阅该事件的规则会使用自己的 `notify_to` 发送通知。相同目标在同一次 webhook 内只会收到一条消息，发送仍按顺序执行。例如：
+开启后会按 weight 降序评估所有匹配规则：不订阅当前事件的规则会跳过，订阅该事件的规则会使用自己的 `notify_to` 发送通知。相同目标在同一次 webhook 内只会收到一条消息，发送仍按顺序执行。例如：
 
 ```yaml
-repos:
-  - pattern: "acme/widget"
-    events:
-      release:
-    notify_to: [release-bot]
-  - pattern: "acme/widget"
-    events:
-      all:
-    notify_to: [activity-bot]
-  - pattern: "acme/widget"
-    events:
-      reviewer:
-    notify_to: [review-bot]
+# patterns/acme-widget-release.yaml
+weight: 30
+pattern: "acme/widget"
+events:
+  release:
+notify_to: [release-bot]
+```
+
+```yaml
+# patterns/acme-widget-activity.yaml
+weight: 20
+pattern: "acme/widget"
+events:
+  all:
+notify_to: [activity-bot]
+```
+
+```yaml
+# patterns/acme-widget-review.yaml
+weight: 10
+pattern: "acme/widget"
+events:
+  reviewer:
+notify_to: [review-bot]
 ```
 
 在这个例子中，`issue_comment` 会通知 `activity-bot` 和 `review-bot`，而 `release` 会通知 `release-bot` 和 `activity-bot`。组织级 Webhook 保持原有行为。
@@ -396,16 +435,17 @@ repos:
 
 ### Webhook 密钥（可选 / per-rule secret）
 
-默认情况下，所有 Webhook 用 `server.yaml` 中的全局 `server.secret` 校验签名。如果不同仓库/组织需要各自独立的密钥，可以在 `repos.yaml` 的某条匹配上单独配置 `secret`：
+默认情况下，所有 Webhook 用 `server.yaml` 中的全局 `server.secret` 校验签名。如果不同仓库/组织需要各自独立的密钥，可以在某条 pattern 规则文件中单独配置 `secret`：
 
 ```yaml
-repos:
-  - pattern: 'acme/widget'
-    events:
-      push:
-    notify_to:
-      - dev-team
-    secret: 'this-repo-only-secret' # 可选：仅该校验该仓库 Webhook 的签名
+# patterns/acme-widget.yaml
+weight: 10
+pattern: 'acme/widget'
+events:
+  push:
+notify_to:
+  - dev-team
+secret: 'this-repo-only-secret' # 可选：仅校验该仓库 Webhook 的签名
 ```
 
 校验规则：匹配到该仓库/组织的 Webhook，会尝试用「该规则的 `secret`」与「全局 `server.secret`」两者校验，任一通过即可；若两者都为空则跳过校验。这样不同 GitHub 端的 Webhook 可以使用各自独立的密钥。
@@ -458,6 +498,9 @@ make fmt
 - `DEFAULT_CONFIG_DIR` - 默认配置示例目录；启动时仅复制其中缺失的文件到 `CONFIG_DIR`
 - `LOG_DIR` - 日志文件目录路径（默认：`./logs`）
 - `TZ` - 时区设置（默认：`Asia/Shanghai`）
+- `PANEL_USERNAME` - 管理面板用户名（覆盖 `server.yaml` 的 `panel.username`）
+- `PANEL_PASSWORD` - 管理面板密码明文（自动取其 SHA-256 存储；优先级最高，推荐）
+- `PANEL_JWT_SECRET` - 面板 JWT 签名密钥（覆盖 `server.yaml` 的 `panel.secret`）
 
 ## 贡献
 

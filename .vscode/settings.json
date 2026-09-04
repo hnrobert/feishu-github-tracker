@@ -16,6 +16,7 @@
         "cython",
         "delaycompress",
         "demilestoned",
+        "dgst",
         "dmypy",
         "elif",
         "endscript",
@@ -32,6 +33,7 @@
         "GOOS",
         "gopkg",
         "healthcheck",
+        "hnrobert",
         "htmlcov",
         "htpasswd",
         "ipynb",
@@ -99,6 +101,7 @@
         "spyderproject",
         "spyproject",
         "streamlit",
+        "subkey",
         "surl",
         "timezone",
         "tmap",
@@ -115,11 +118,6 @@
         "yourdomain",
         "zoneinfo"
     ],
-    "markdownlint.config": {
-        "no-inline-html": false,
-        "first-line-h1": false,
-        "no-duplicate-heading": false
-    },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "handler.go": "handler_*.go"

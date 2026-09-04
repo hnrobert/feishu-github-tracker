@@ -5,7 +5,7 @@
 ## 前置条件
 
 - `Git`
-- `Docker` 与 `Docker Compose`（容器构建方式），**或** `Go 1.21+`（本地直接编译）
+- `Docker` 与 `Docker Compose`（容器构建方式），**或** `Go 1.23+`（本地直接编译）
 
 ## 克隆仓库
 

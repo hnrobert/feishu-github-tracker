@@ -55,11 +55,12 @@ http://localhost:4594/health
 
 编辑 `./configs/` 下的运行时配置，参考 [../README.md](../README.md) 或 [../example-configs](../example-configs/) 下示例文件的注释。最常需要改的有：
 
-- `./configs/server.yaml`（示例：[server.yaml](../example-configs/server.yaml)）：监听地址、端口、`secret`（测试可不设）
+- `./configs/server.yaml`（示例：[server.yaml](../example-configs/server.yaml)）：监听地址、端口、`secret`（测试可不设）、面板账号
 - `./configs/feishu-bots.yaml`（示例：[feishu-bots.yaml](../example-configs/feishu-bots.yaml)）：飞书机器人的 Webhook URL 与别名
   - 不清楚「飞书机器人 / Webhook URL」是什么？参考 [飞书文档](https://open.feishu.cn/document/client-docs/bot-v3/add-custom-bot)，在群里建一个机器人并复制其 Webhook URL
-- `./configs/repos.yaml`（示例：[repos.yaml](../example-configs/repos.yaml)）：要监听的 GitHub 仓库、事件及通知对象
-- `./configs/templates.jsonc`（示例：[templates.jsonc](../example-configs/templates.jsonc)）：默认消息模板（可选：创建 `templates.<名称>.jsonc` 自定义模板）
+- `./configs/patterns/*.yaml`（示例：[patterns/](../example-configs/patterns/)）：要监听的 GitHub 仓库规则，每条规则一个文件（`pattern` + `weight` 优先级 + 事件 + 通知对象）
+- `./configs/events/`（示例：[events/event_sets/](../example-configs/events/event_sets/)、[events/definitions/](../example-configs/events/definitions/)）：事件集合与事件过滤定义，每个集合/事件一个文件
+- `./configs/templates/<语言>/<事件>.json`（示例：[templates/default/](../example-configs/templates/default/)）：消息模板，按语言分目录（`default` / `cn`），每个事件一个文件
 
 修改后保存，程序会在下一次收到 GitHub Webhook 时自动热重载。
 
@@ -76,7 +77,7 @@ http://localhost:4594/health
     - `panel.password_hash`（直接填 `sha256(密码)` 的十六进制：`printf '%s' '你的密码' | openssl dgst -sha256 | awk '{print $NF}'`；浏览器登录时会发送同样的 SHA-256 值，已有的 password_hash 不会失效；旧版 bcrypt 哈希也兼容）
   - 修改密码需先填「当前密码」校验通过后才生效；保存后下次登录即用新账号，无需重启
 - 面板内修改保存后会自动 reload 生效（无需等下一次 webhook 或重启）；手动编辑 `./configs/` 则需以 `--reload` 启动或重启进程。端口 / 密钥的改动仍需重启
-- 注意：在「消息模板」页保存 `templates.*.jsonc` 会移除文件中的 `//` 注释并按字母重排键（功能不变）
+- 注意：事件配置在面板里是逐文件的可视化编辑，保存时 YAML 注释与格式原样保留
 
 ## 6. 多模板配置（可选）
 
@@ -86,10 +87,10 @@ http://localhost:4594/health
 feishu_bots:
   - alias: 'team-cn'
     url: 'https://open.feishu.cn/open-apis/bot/v2/hook/cn-webhook'
-    template: 'cn' # 不设置则默认用 templates.jsonc
+    template: 'cn' # 不设置则默认用 templates/default/
 ```
 
-也可基于现有模板创建 `templates.<名称>.jsonc`，再在 `feishu-bots.yaml` 中引用。
+模板按语言放在 `./configs/templates/<名称>/` 目录（如 `templates/cn/`），目录内每个事件一个 `<事件名>.json` 文件；可复制 [templates/default/](../example-configs/templates/default/) 后修改，再在 `feishu-bots.yaml` 中用 `template` 引用。
 
 ## 7. 添加 GitHub Webhook
 
@@ -97,7 +98,7 @@ feishu_bots:
 - Payload URL：你的服务器地址，如 `http://your-domain-or-ip:4594/webhook`
 - Content type：选什么都支持
 - Secret：填你在 `server.yaml` 配置的 `secret`（如果配了）
-- 事件类型：可选 `Let me select individual events` 勾选需要的事件，并在 `./configs/repos.yaml` 对应仓库里用 `all:` 等做更细控制；详见 [events.yaml 示例](../example-configs/events.yaml)
+- 事件类型：可选 `Let me select individual events` 勾选需要的事件，并在 `./configs/patterns/` 对应仓库规则里用 `all:` 等做更细控制；详见 [event_sets 示例](../example-configs/events/event_sets/)
 - 点击 `Add webhook`
 - ✅ 配置无误的话，几秒后飞书群会收到一条「GitHub Webhook 添加成功」通知（GitHub 发送的 ping 事件），说明 Webhook 已生效
 
@@ -120,7 +121,8 @@ docker compose up -d     # 用新镜像重建容器（本地配置保留）
 
 升级后注意：
 
-- 你已有的 `./configs/*.yaml`、`templates.*.jsonc` 都会保留；镜像只会在文件缺失时补上默认配置
+- 你已有的 `./configs/` 配置都会保留；镜像只会在文件缺失时补上默认配置
+- **旧版单文件配置会自动无损迁移**：若检测到旧版的 `repos.yaml` / `events.yaml` / `templates.jsonc`（或 `templates.<名称>.jsonc`），启动时会自动拆分为新格式（`patterns/`、`events/`、`templates/<语言>/`），原文件连同注释完整备份到 `./configs/legacy/`，规则顺序转换为 `weight` 优先级，无需手工处理
 - 新版本引入的新默认配置项，也只在你对应文件缺失时才会自动补入
 - 管理面板账号：若你从老版本升级且没配置过面板账号，默认登录 `admin` / `admin`（见 [§5](#5-web-管理面板可选)）
 

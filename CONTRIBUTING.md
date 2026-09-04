@@ -37,6 +37,7 @@
    - 遵循现有的代码风格
    - 添加必要的测试
    - 更新相关文档
+   - 默认配置示例在 `example-configs/`，按分文件布局组织：`patterns/`（每条仓库规则一个文件，含 `weight` 优先级）、`events/event_sets/` 与 `events/definitions/`、`templates/<语言>/<事件>.json`（`server.yaml` 与 `feishu-bots.yaml` 为单文件）；改动配置行为时同步更新对应示例
 
 4. **提交更改**
 
