@@ -12,6 +12,10 @@ server:
   match_all_rules: false # 是否让同一 webhook 依次匹配所有仓库规则；false 时首条匹配规则生效
   max_payload_size: 25MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)
+  # migrate_config: true # 一次性开关：把旧版单文件配置（repos.yaml/events.yaml/templates*.jsonc）无损迁移为分文件
+  #   格式，原件连同注释备份到 configs/legacy/，完成后此行自动被注释掉。旧格式不迁移也可一直正常使用；管理面板
+  #   「服务设置」页也提供同样的一键迁移按钮。/ One-shot opt-in legacy→split migration (same action is available
+  #   as a button in the panel); the option is commented back out automatically after it runs.
 
 # 允许的来源（用于白名单过滤，可选）
 allowed_sources:

@@ -59,7 +59,7 @@ func (a *App) handleTemplateEdit(w http.ResponseWriter, r *http.Request) {
 	}
 	sort.Strings(events)
 
-	ed := EditTemplateData{File: file, Events: events, Event: event}
+	ed := EditTemplateData{File: file, Events: events, Event: event, Legacy: a.templatesLegacyPath(file) != ""}
 	if event != "" {
 		// Read the single per-event file (new layout)
 		eventPath := filepath.Join(a.templateLocaleDir(file), event+".json")
@@ -103,6 +103,19 @@ func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Legacy templates.jsonc / templates.<locale>.jsonc is authoritative until
+	// the user migrates: merge the event back into the flat file instead of
+	// writing a split file that would shadow every other event.
+	if legacyPath := a.templatesLegacyPath(file); legacyPath != "" {
+		if err := a.saveTemplateLegacy(legacyPath, event, payloads); err != nil {
+			a.redirectFlash(w, r, "/templates", a.message(r, "flash.saveFailed", err), "err")
+			return
+		}
+		a.notifySaved()
+		a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateSaved"), "ok")
+		return
+	}
+
 	// Write to templates/<locale>/<event>.json
 	dir := a.templateLocaleDir(file)
 	if err := os.MkdirAll(dir, 0o755); err != nil {
@@ -120,6 +133,56 @@ func (a *App) handleTemplateSave(w http.ResponseWriter, r *http.Request) {
 	a.redirectFlash(w, r, "/templates", a.message(r, "flash.templateSaved"), "ok")
 }
 
+// templatesLegacyPath returns the legacy jsonc file that is the ACTIVE source
+// for the given locale ("" when the locale is served from templates/<locale>/).
+// Mirrors the loader: the split directory wins whenever it has any file.
+func (a *App) templatesLegacyPath(locale string) string {
+	if locale == "" {
+		locale = "default"
+	}
+	name := "templates.jsonc"
+	if locale != "default" {
+		name = "templates." + locale + ".jsonc"
+	}
+	path := filepath.Join(a.cfgDir, name)
+	if _, err := os.Stat(path); err != nil {
+		return ""
+	}
+	dir := filepath.Join(a.cfgDir, "templates", locale)
+	if entries, err := os.ReadDir(dir); err == nil {
+		for _, e := range entries {
+			if !e.IsDir() && (strings.HasSuffix(e.Name(), ".json") || strings.HasSuffix(e.Name(), ".jsonc")) {
+				return ""
+			}
+		}
+	}
+	return path
+}
+
+// saveTemplateLegacy merges one event's payloads back into a legacy
+// templates(.locale).jsonc file. JSONC comments cannot survive a JSON rewrite;
+// the editor warns about this while the legacy format is active.
+func (a *App) saveTemplateLegacy(path, event string, payloads any) error {
+	var doc map[string]any
+	if err := loadJSONC(path, &doc); err != nil {
+		return err
+	}
+	if doc == nil {
+		doc = map[string]any{}
+	}
+	tmpls, _ := doc["templates"].(map[string]any)
+	if tmpls == nil {
+		tmpls = map[string]any{}
+		doc["templates"] = tmpls
+	}
+	tmpls[event] = map[string]any{"payloads": payloads}
+	out, err := json.MarshalIndent(doc, "", "  ")
+	if err != nil {
+		return err
+	}
+	return atomicWriteFile(path, append(out, '\n'), 0o644)
+}
+
 // prettyJSON marshals v as indented JSON, returning "[]" on error.
 func prettyJSON(v any) string {
 	b, err := json.MarshalIndent(v, "", "  ")
@@ -128,6 +191,3 @@ func prettyJSON(v any) string {
 	}
 	return string(b)
 }
-
-// ensure these vars are referenced to avoid unused warnings
-var _ = strings.TrimSpace

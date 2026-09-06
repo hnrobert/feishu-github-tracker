@@ -31,9 +31,11 @@
 
   <label><code>{{.EditTemplate.Event}}</code> {{t . "template.payloads"}} <span class="muted">({{t . "template.jsonArray"}})</span></label>
   <textarea name="payloads_json" class="code-lg">{{.EditTemplate.PayloadsJSON}}</textarea>
+  {{if .EditTemplate.Legacy}}
   <div class="note">
     {{t . "template.saveWarning"}}
   </div>
+  {{end}}
 
   <div class="actions" style="margin-top:14px;">
     <button class="btn primary" type="submit">{{t . "action.save"}}</button>

@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -38,17 +39,19 @@ func main() {
 		configDir = filepath.Join(filepath.Dir(execPath), "configs")
 	}
 
-	// Auto-migrate legacy flat-file configs FIRST, BEFORE seeding defaults.
-	// If old files (repos.yaml, events.yaml, etc.) exist, they are moved to
-	// legacy/ and split into the new per-item layout. This must run before
-	// initializeConfigDir so the user's existing config isn't overwritten by
-	// the example-configs defaults.
-	if err := config.Migrate(configDir); err != nil {
+	// Migration is EXPLICIT and opt-in: legacy flat files keep working by
+	// default. Only `server.migrate_config: true` in server.yaml triggers the
+	// one-shot conversion here (the panel also offers a button); after it runs
+	// the option is commented back out automatically.
+	if ran, status, err := config.MigrateIfRequested(configDir); err != nil {
 		fmt.Fprintf(os.Stderr, "Config migration warning: %v (continuing)\n", err)
+	} else if ran {
+		fmt.Fprintf(os.Stderr, "Legacy config migrated (%s); originals preserved under %s\n",
+			strings.Join(status.Files, ", "), filepath.Join(configDir, "legacy"))
 	}
 
 	if defaultConfigDir := os.Getenv("DEFAULT_CONFIG_DIR"); defaultConfigDir != "" {
-		if err := initializeConfigDir(defaultConfigDir, configDir); err != nil {
+		if err := initializeConfigDir(defaultConfigDir, configDir, config.SeedingSkips(configDir)); err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to initialize configuration: %v\n", err)
 			os.Exit(1)
 		}
@@ -163,7 +166,10 @@ func main() {
 
 // initializeConfigDir copies default configuration files that do not yet exist.
 // Existing files are never overwritten so user configuration remains intact.
-func initializeConfigDir(defaultConfigDir, configDir string) error {
+// skipDirs names top-level example subdirectories that must NOT be seeded —
+// used when a legacy flat file is authoritative (e.g. a user's repos.yaml must
+// not be shadowed by seeded patterns/ defaults).
+func initializeConfigDir(defaultConfigDir, configDir string, skipDirs map[string]bool) error {
 	sourceInfo, err := os.Stat(defaultConfigDir)
 	if err != nil {
 		return fmt.Errorf("read default configuration directory: %w", err)
@@ -186,6 +192,14 @@ func initializeConfigDir(defaultConfigDir, configDir string) error {
 			return err
 		}
 		if relativePath == "." {
+			return nil
+		}
+
+		// Skip whole subtrees whose legacy flat counterpart is authoritative.
+		if top := strings.SplitN(relativePath, string(filepath.Separator), 2)[0]; skipDirs[top] {
+			if entry.IsDir() {
+				return fs.SkipDir
+			}
 			return nil
 		}
 

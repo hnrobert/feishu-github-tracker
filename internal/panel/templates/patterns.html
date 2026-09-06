@@ -14,7 +14,7 @@
   <table>
     <thead>
       <tr>
-        <th>W</th>
+        {{if not $.PatternsLegacy}}<th>W</th>{{end}}
         <th>{{t . "patterns.pattern"}}</th>
         <th>{{t . "patterns.events"}}</th>
         <th>{{t . "patterns.notifyTo"}}</th>
@@ -24,7 +24,7 @@
     <tbody>
       {{range .Patterns}}
       <tr>
-        <td><span class="pill">{{.Weight}}</span></td>
+        {{if not $.PatternsLegacy}}<td><span class="pill">{{.Weight}}</span></td>{{end}}
         <td><code>{{.Pattern}}</code></td>
         <td>
           {{if gt .EventCount 0}}<span class="pill">{{.EventCount}} {{t $ "patterns.eventsCount"}}</span>{{else}}<span class="pill muted">0</span>{{end}}

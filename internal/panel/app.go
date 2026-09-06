@@ -78,8 +78,12 @@ type ViewData struct {
 	Topology      Topology
 
 	// repos
-	Patterns    []PatternRow
-	EditPattern PatternRow
+	Patterns       []PatternRow
+	EditPattern    PatternRow
+	PatternsLegacy bool // pattern rules live in the legacy repos.yaml (pre-migration)
+
+	// migration (settings page)
+	LegacyFiles []string // legacy flat files detected and eligible for migration
 
 	// bots
 	Bots      []BotRow
@@ -156,6 +160,7 @@ type EditTemplateData struct {
 	Events       []string // available event keys
 	Event        string   // selected event key
 	PayloadsJSON string   // editable JSON for the event's payloads array
+	Legacy       bool     // editing the legacy flat templates.*.jsonc (comments lost on save)
 }
 
 // New constructs a panel App from opts.
@@ -299,6 +304,7 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/settings", a.requireAuth(a.handleSettings))
 	mux.HandleFunc("/settings/save", a.requireAuth(a.handleSettingsSave))
+	mux.HandleFunc("/settings/migrate", a.requireAuth(a.handleSettingsMigrate))
 
 	mux.HandleFunc("/events", a.requireAuth(a.handleEvents))
 	mux.HandleFunc("/events/save", a.requireAuth(a.handleEventsSave))

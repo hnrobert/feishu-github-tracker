@@ -13,53 +13,203 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Migrate detects legacy flat-file configs in the config root and migrates
-// them to the new per-item subdirectory layout. Each legacy file is moved to
-// legacy/ (comments preserved) and split into per-item files.
+// ── Explicit, opt-in migration ──
 //
-// Idempotency: a type is migrated at most once. Each branch is guarded so it
-// only runs when the target subdirectory is still empty. This is safe because
-// Migrate runs BEFORE initializeConfigDir (the example-configs seeding), so on
-// a genuine first upgrade the subdirectories are empty at migrate time. On
-// later startups the subdirectories already hold the split files, so even if a
-// stale top-level legacy file reappears (e.g. an older panel build wrote
-// repos.yaml), migration is skipped instead of re-injecting weights.
-func Migrate(configDir string) error {
-	legacyDir := filepath.Join(configDir, "legacy")
+// Migration NEVER happens automatically at startup. Legacy flat files keep
+// working forever (the loaders fall back to them); a user converts to the
+// split per-item layout only by:
+//   1. pressing "Migrate" in the web panel (internal/panel settings page), or
+//   2. setting `migrate_config: true` under `server:` in server.yaml.
+//
+// The config-file path runs MigrateIfRequested at startup and comments the
+// option back out once the migration is done (mirroring how the panel
+// normalizes panel.password).
 
-	// repos.yaml → patterns/*.yaml
+// LegacyStatus describes which legacy flat files are still present.
+type LegacyStatus struct {
+	Repos     bool     // repos.yaml
+	Events    bool     // events.yaml
+	Templates bool     // templates.jsonc and/or templates.<locale>.jsonc
+	Files     []string // file names for display
+}
+
+func (s LegacyStatus) Any() bool { return s.Repos || s.Events || s.Templates }
+
+// DetectLegacy scans the config root for unmigrated legacy flat files.
+// A type counts as legacy when its flat file exists AND its split
+// subdirectory is empty — exactly the condition under which the loaders
+// would serve the flat file, so this matches the active format.
+func DetectLegacy(configDir string) LegacyStatus {
+	var st LegacyStatus
 	if fileExists(filepath.Join(configDir, "repos.yaml")) && !dirHasYAML(filepath.Join(configDir, "patterns")) {
-		if err := ensureDir(legacyDir); err != nil {
-			return err
-		}
-		if err := migrateRepos(configDir, legacyDir); err != nil {
-			return fmt.Errorf("migrate repos: %w", err)
-		}
+		st.Repos = true
+		st.Files = append(st.Files, "repos.yaml")
 	}
-
-	// events.yaml → events/event_sets/*.yaml + events/definitions/*.yaml
 	if fileExists(filepath.Join(configDir, "events.yaml")) &&
 		!dirHasYAML(filepath.Join(configDir, "events", "event_sets")) &&
 		!dirHasYAML(filepath.Join(configDir, "events", "definitions")) {
-		if err := ensureDir(legacyDir); err != nil {
-			return err
+		st.Events = true
+		st.Files = append(st.Files, "events.yaml")
+	}
+	if templatesFlat := listLegacyTemplates(configDir); len(templatesFlat) > 0 && !templatesDirHasContent(configDir) {
+		st.Templates = true
+		st.Files = append(st.Files, templatesFlat...)
+	}
+	return st
+}
+
+// MigrateAll runs every pending legacy→split migration (explicit user action:
+// panel button or server.migrate_config). Each legacy file is moved to
+// legacy/ (comments preserved) and split into per-item files; patterns get a
+// weight injected per their original order so evaluation order is unchanged.
+func MigrateAll(configDir string) (LegacyStatus, error) {
+	st := DetectLegacy(configDir)
+	if !st.Any() {
+		return st, nil
+	}
+	legacyDir := filepath.Join(configDir, "legacy")
+	if err := ensureDir(legacyDir); err != nil {
+		return st, err
+	}
+	if st.Repos {
+		if err := migrateRepos(configDir, legacyDir); err != nil {
+			return st, fmt.Errorf("migrate repos: %w", err)
 		}
+	}
+	if st.Events {
 		if err := migrateEvents(configDir, legacyDir); err != nil {
-			return fmt.Errorf("migrate events: %w", err)
+			return st, fmt.Errorf("migrate events: %w", err)
 		}
 	}
-
-	// templates.jsonc + templates.*.jsonc → templates/<locale>/*.json
-	if fileExists(filepath.Join(configDir, "templates.jsonc")) && !templatesDirHasContent(configDir) {
-		if err := ensureDir(legacyDir); err != nil {
-			return err
-		}
+	if st.Templates {
 		if err := migrateTemplates(configDir, legacyDir); err != nil {
-			return fmt.Errorf("migrate templates: %w", err)
+			return st, fmt.Errorf("migrate templates: %w", err)
+		}
+	}
+	return st, nil
+}
+
+// MigrateIfRequested implements the server.yaml trigger: when `server:
+// migrate_config: true` is set, MigrateAll runs and the option is commented
+// back out (so it fires exactly once). Returns whether a migration ran and
+// what it migrated. A missing server.yaml is a plain no-op.
+func MigrateIfRequested(configDir string) (ran bool, status LegacyStatus, err error) {
+	serverPath := filepath.Join(configDir, "server.yaml")
+	data, readErr := os.ReadFile(serverPath)
+	if readErr != nil {
+		if os.IsNotExist(readErr) {
+			return false, LegacyStatus{}, nil
+		}
+		return false, LegacyStatus{}, readErr
+	}
+
+	var root yaml.Node
+	if err := yaml.Unmarshal(data, &root); err != nil {
+		return false, LegacyStatus{}, fmt.Errorf("parse server.yaml: %w", err)
+	}
+	serverMap := findMappingByKey(root, "server")
+	if serverMap == nil {
+		return false, LegacyStatus{}, nil
+	}
+	keyIdx := findKeyIndex(serverMap, "migrate_config")
+	if keyIdx < 0 || !isTrueScalar(serverMap.Content[keyIdx+1]) {
+		return false, LegacyStatus{}, nil
+	}
+
+	status, err = MigrateAll(configDir)
+	if err != nil {
+		return true, status, err
+	}
+
+	// Comment the option back out regardless of whether anything was left to
+	// migrate: the user asked once, it is done (or nothing to do).
+	commentOutKey(serverMap, keyIdx)
+	if err := writeYAMLNodeFile(serverPath, &root); err != nil {
+		return true, status, err
+	}
+	return true, status, nil
+}
+
+// SeedingSkips returns the example-configs subdirectories that must NOT be
+// seeded into configDir because the corresponding legacy flat file is
+// authoritative there (seeding patterns/ next to a user's repos.yaml would
+// let the split dir silently shadow the user's config).
+func SeedingSkips(configDir string) map[string]bool {
+	st := DetectLegacy(configDir)
+	skips := map[string]bool{}
+	if st.Repos {
+		skips["patterns"] = true
+	}
+	if st.Events {
+		skips["events"] = true
+	}
+	if st.Templates {
+		skips["templates"] = true
+	}
+	return skips
+}
+
+// ── yaml key helpers (server.migrate_config handling) ──
+
+// findKeyIndex returns the content index of the key node for key, or -1.
+func findKeyIndex(m *yaml.Node, key string) int {
+	for i := 0; i+1 < len(m.Content); i += 2 {
+		if m.Content[i].Value == key {
+			return i
+		}
+	}
+	return -1
+}
+
+func isTrueScalar(n *yaml.Node) bool {
+	switch strings.ToLower(strings.TrimSpace(n.Value)) {
+	case "true", "yes", "on":
+		return n.Tag == "!!bool" || n.Tag == "" || n.Tag == "!!str"
+	}
+	return false
+}
+
+// commentOutKey removes the key/value pair at keyIdx from the mapping and
+// leaves a rendered comment in its place, attached to the next remaining key
+// (yaml.v3 renders a pair's leading comment from its key node; when the pair
+// was last, the comment becomes the previous key's foot comment instead).
+func commentOutKey(m *yaml.Node, keyIdx int) {
+	if m == nil || keyIdx < 0 || keyIdx+1 >= len(m.Content) {
+		return
+	}
+	keyNode, valueNode := m.Content[keyIdx], m.Content[keyIdx+1]
+
+	line := "migrate_config: true  # 迁移完成，已自动注释；如需再次触发请取消注释"
+	for _, extra := range []string{valueNode.HeadComment, keyNode.HeadComment} {
+		if extra != "" {
+			line = extra + "\n" + line
 		}
 	}
 
-	return nil
+	rest := append(m.Content[:keyIdx:keyIdx], m.Content[keyIdx+2:]...)
+	if keyIdx < len(rest) {
+		next := rest[keyIdx]
+		if next.HeadComment != "" {
+			line = line + "\n" + next.HeadComment
+		}
+		next.HeadComment = line
+	} else if len(rest) > 0 {
+		last := rest[len(rest)-1]
+		if last.FootComment != "" {
+			line = last.FootComment + "\n" + line
+		}
+		last.FootComment = line
+	}
+	m.Content = rest
+}
+
+// writeYAMLNodeFile writes a yaml.Node document with 2-space indent atomically.
+func writeYAMLNodeFile(path string, root *yaml.Node) error {
+	out, err := marshalYAMLNode(root)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, out, 0o644)
 }
 
 // ── Per-type migrations (using yaml.Node to preserve comments) ──
@@ -83,7 +233,7 @@ func migrateRepos(configDir, legacyDir string) error {
 	seqNode := findSequenceByKey(root, "repos")
 	if seqNode == nil {
 		// No repos found — just move the file
-		return os.Rename(src, filepath.Join(legacyDir, "repos.yaml"))
+		return moveToLegacy(src, legacyDir)
 	}
 
 	if err := ensureDir(dstDir); err != nil {
@@ -115,7 +265,7 @@ func migrateRepos(configDir, legacyDir string) error {
 		}
 	}
 
-	return os.Rename(src, filepath.Join(legacyDir, "repos.yaml"))
+	return moveToLegacy(src, legacyDir)
 }
 
 func migrateEvents(configDir, legacyDir string) error {
@@ -181,17 +331,33 @@ func migrateEvents(configDir, legacyDir string) error {
 		}
 	}
 
-	return os.Rename(src, filepath.Join(legacyDir, "events.yaml"))
+	return moveToLegacy(src, legacyDir)
 }
 
 // Templates are JSON/JSONC — comments cannot be preserved in JSON output.
 // Originals are kept intact in legacy/ for reference.
+
+var legacyTemplateRe = regexp.MustCompile(`^templates\.([a-zA-Z0-9_-]+)\.jsonc$`)
+
+// listLegacyTemplates returns the legacy template file names present in the
+// config root (templates.jsonc plus any templates.<locale>.jsonc).
+func listLegacyTemplates(configDir string) []string {
+	var names []string
+	if fileExists(filepath.Join(configDir, "templates.jsonc")) {
+		names = append(names, "templates.jsonc")
+	}
+	entries, _ := os.ReadDir(configDir)
+	for _, e := range entries {
+		if !e.IsDir() && legacyTemplateRe.MatchString(e.Name()) {
+			names = append(names, e.Name())
+		}
+	}
+	sort.Strings(names)
+	return names
+}
+
 func migrateTemplates(configDir, legacyDir string) error {
 	templatesDir := filepath.Join(configDir, "templates")
-
-	defaultPath := filepath.Join(configDir, "templates.jsonc")
-	entries, _ := os.ReadDir(configDir)
-	templateRe := regexp.MustCompile(`^templates\.([a-zA-Z0-9_-]+)\.jsonc$`)
 
 	type tmplFile struct {
 		path   string
@@ -199,13 +365,12 @@ func migrateTemplates(configDir, legacyDir string) error {
 	}
 	var files []tmplFile
 
-	if fileExists(defaultPath) {
-		files = append(files, tmplFile{defaultPath, "default"})
-	}
-	for _, e := range entries {
-		if m := templateRe.FindStringSubmatch(e.Name()); len(m) > 1 {
-			files = append(files, tmplFile{filepath.Join(configDir, e.Name()), m[1]})
+	for _, name := range listLegacyTemplates(configDir) {
+		locale := "default"
+		if m := legacyTemplateRe.FindStringSubmatch(name); len(m) > 1 {
+			locale = m[1]
 		}
+		files = append(files, tmplFile{filepath.Join(configDir, name), locale})
 	}
 
 	if len(files) == 0 {
@@ -243,13 +408,31 @@ func migrateTemplates(configDir, legacyDir string) error {
 			}
 		}
 
-		baseName := filepath.Base(tf.path)
-		if err := os.Rename(tf.path, filepath.Join(legacyDir, baseName)); err != nil {
+		if err := moveToLegacy(tf.path, legacyDir); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+// moveToLegacy moves src into legacyDir keeping its base name. If the target
+// already exists (e.g. from an earlier migration round), a numeric suffix is
+// added instead of overwriting the previous backup.
+func moveToLegacy(src, legacyDir string) error {
+	base := filepath.Base(src)
+	dst := filepath.Join(legacyDir, base)
+	if _, err := os.Stat(dst); err == nil {
+		ext := filepath.Ext(base)
+		stem := strings.TrimSuffix(base, ext)
+		for i := 1; ; i++ {
+			dst = filepath.Join(legacyDir, fmt.Sprintf("%s-%d%s", stem, i, ext))
+			if _, err := os.Stat(dst); os.IsNotExist(err) {
+				break
+			}
+		}
+	}
+	return os.Rename(src, dst)
 }
 
 // ── yaml.Node navigation helpers ──

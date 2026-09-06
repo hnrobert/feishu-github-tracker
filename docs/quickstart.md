@@ -122,7 +122,7 @@ docker compose up -d     # 用新镜像重建容器（本地配置保留）
 升级后注意：
 
 - 你已有的 `./configs/` 配置都会保留；镜像只会在文件缺失时补上默认配置
-- **旧版单文件配置会自动无损迁移**：若检测到旧版的 `repos.yaml` / `events.yaml` / `templates.jsonc`（或 `templates.<名称>.jsonc`），启动时会自动拆分为新格式（`patterns/`、`events/`、`templates/<语言>/`），原文件连同注释完整备份到 `./configs/legacy/`，规则顺序转换为 `weight` 优先级，无需手工处理
+- **旧版单文件配置默认不迁移、可一直正常使用**（面板编辑也会写回原文件）。想切换到分文件格式（`patterns/`、`events/`、`templates/<语言>/`，含 weight 优先级）时，在管理面板「服务设置」页点「迁移到新配置格式」，或在 `server.yaml` 设 `server.migrate_config: true` 重启（完成后该行自动注释掉）；原文件连同注释完整备份到 `./configs/legacy/`
 - 新版本引入的新默认配置项，也只在你对应文件缺失时才会自动补入
 - 管理面板账号：若你从老版本升级且没配置过面板账号，默认登录 `admin` / `admin`（见 [§5](#5-web-管理面板可选)）
 

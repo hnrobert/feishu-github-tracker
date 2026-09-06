@@ -276,16 +276,14 @@ func countWeightLines(data []byte) int {
 	return count
 }
 
-// TestMigrateIdempotent reproduces the duplicate-weight bug: after the first
-// migration, a stale repos.yaml that still carries weights (e.g. written by an
-// older panel build) must not cause a second migration to stack a second
-// `weight:` line onto each pattern file.
-func TestMigrateIdempotent(t *testing.T) {
-	tmpDir := t.TempDir()
-
-	// Legacy repos.yaml WITHOUT weights — the starting point for an upgrade.
-	legacyRepos := `
+// writeLegacyFixture seeds a config dir with legacy flat files (repos.yaml,
+// events.yaml, templates.jsonc) plus a server.yaml.
+func writeLegacyFixture(t *testing.T, dir, serverYAML string) {
+	t.Helper()
+	files := map[string]string{
+		"repos.yaml": `
 repos:
+  # exact rule first, catch-all last — order must survive migration as weights
   - pattern: "AIMEtherCAT/*"
     events:
       basic:
@@ -301,81 +299,187 @@ repos:
       default:
     notify_to:
       - all
-`
-	if err := os.WriteFile(filepath.Join(tmpDir, "repos.yaml"), []byte(legacyRepos), 0o644); err != nil {
-		t.Fatal(err)
+`,
+		"events.yaml": `
+event_sets:
+  basic:
+    push:
+events:
+  push:
+    branches:
+      - main
+`,
+		"templates.jsonc": `
+{
+  // legacy templates
+  "templates": {
+    "push": {
+      "payloads": [
+        {"tags": ["default"], "payload": {"msg_type": "text"}}
+      ]
+    }
+  }
+}
+`,
+	}
+	if serverYAML != "" {
+		files["server.yaml"] = serverYAML
+	}
+	for name, content := range files {
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(content), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+// TestMigrateAllExplicit covers the opt-in migration: nothing happens until
+// MigrateAll is called, one call migrates everything (weights injected per
+// original order, originals backed up), and a second call is a no-op.
+func TestMigrateAllExplicit(t *testing.T) {
+	tmpDir := t.TempDir()
+	writeLegacyFixture(t, tmpDir, "")
+
+	// Before: legacy detected, no split dirs.
+	if st := DetectLegacy(tmpDir); !st.Repos || !st.Events || !st.Templates || len(st.Files) != 3 {
+		t.Fatalf("DetectLegacy = %+v, want all three types", st)
+	}
+	if _, err := os.Stat(filepath.Join(tmpDir, "patterns")); !os.IsNotExist(err) {
+		t.Fatal("patterns/ must not exist before an explicit migration")
 	}
 
-	// First migration: repos.yaml → patterns/*.yaml (one weight injected each).
-	if err := Migrate(tmpDir); err != nil {
-		t.Fatalf("first Migrate failed: %v", err)
+	status, err := MigrateAll(tmpDir)
+	if err != nil {
+		t.Fatalf("MigrateAll failed: %v", err)
+	}
+	if !status.Any() {
+		t.Fatal("MigrateAll reported nothing migrated")
+	}
+
+	// All three legacy files moved to legacy/, split dirs populated.
+	for _, name := range []string{"repos.yaml", "events.yaml", "templates.jsonc"} {
+		if _, err := os.Stat(filepath.Join(tmpDir, name)); !os.IsNotExist(err) {
+			t.Errorf("%s still present after migration", name)
+		}
+		if _, err := os.Stat(filepath.Join(tmpDir, "legacy", name)); err != nil {
+			t.Errorf("legacy/%s missing: %v", name, err)
+		}
 	}
 
 	files, err := os.ReadDir(filepath.Join(tmpDir, "patterns"))
-	if err != nil {
-		t.Fatalf("patterns dir not created: %v", err)
+	if err != nil || len(files) != 3 {
+		t.Fatalf("expected 3 pattern files, got %d (err %v)", len(files), err)
 	}
-	if len(files) != 3 {
-		t.Fatalf("expected 3 pattern files, got %d", len(files))
-	}
+	// Weight order preserved: first rule highest, catch-all zero.
 	for _, f := range files {
-		data, err := os.ReadFile(filepath.Join(tmpDir, "patterns", f.Name()))
-		if err != nil {
-			t.Fatal(err)
-		}
+		data, _ := os.ReadFile(filepath.Join(tmpDir, "patterns", f.Name()))
 		if c := countWeightLines(data); c != 1 {
-			t.Errorf("%s: expected exactly 1 weight line after first migrate, got %d\n%s", f.Name(), c, data)
+			t.Errorf("%s: expected exactly 1 weight line, got %d\n%s", f.Name(), c, data)
 		}
+	}
+	catchAll, _ := os.ReadFile(filepath.Join(tmpDir, "patterns", "all.yaml"))
+	if !strings.Contains(string(catchAll), "weight: 0") {
+		t.Errorf("catch-all should carry weight 0:\n%s", catchAll)
 	}
 
-	// Simulate an older panel build writing repos.yaml back WITH weights — the
-	// exact trigger for the duplicate-weight bug on the next restart.
-	panelWrittenRepos := `
-repos:
-  - weight: 5
-    pattern: "AIMEtherCAT/*"
-    events:
-      basic:
-    notify_to:
-      - aim-ecat
-  - weight: 4
-    pattern: "org/repo"
-    events:
-      push:
-    notify_to:
-      - dev-team
-  - weight: 3
-    pattern: "*"
-    events:
-      default:
-    notify_to:
-      - all
-`
-	if err := os.WriteFile(filepath.Join(tmpDir, "repos.yaml"), []byte(panelWrittenRepos), 0o644); err != nil {
+	// Second call: nothing left to migrate.
+	status, err = MigrateAll(tmpDir)
+	if err != nil {
+		t.Fatalf("second MigrateAll failed: %v", err)
+	}
+	if status.Any() {
+		t.Errorf("second MigrateAll migrated again: %+v", status)
+	}
+}
+
+// TestMigrateIfRequested covers the server.yaml trigger: migrate_config: true
+// migrates once and comments the option back out; a second startup is a no-op.
+func TestMigrateIfRequested(t *testing.T) {
+	tmpDir := t.TempDir()
+	writeLegacyFixture(t, tmpDir, `server:
+  host: "0.0.0.0"
+  port: 4594
+  migrate_config: true
+  timeout: 15
+`)
+
+	ran, status, err := MigrateIfRequested(tmpDir)
+	if err != nil {
+		t.Fatalf("MigrateIfRequested failed: %v", err)
+	}
+	if !ran || !status.Repos {
+		t.Fatalf("expected migration to run, ran=%v status=%+v", ran, status)
+	}
+
+	// The option must now be commented out in server.yaml, other keys intact.
+	data, err := os.ReadFile(filepath.Join(tmpDir, "server.yaml"))
+	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Second migration must be a no-op (patterns/ already populated).
-	if err := Migrate(tmpDir); err != nil {
-		t.Fatalf("second Migrate failed: %v", err)
+	text := string(data)
+	if strings.Contains(text, "\n  migrate_config: true") {
+		t.Errorf("migrate_config still active after migration:\n%s", text)
+	}
+	if !strings.Contains(text, "# migrate_config: true") {
+		t.Errorf("migrate_config was not left as a comment:\n%s", text)
+	}
+	if !strings.Contains(text, "port: 4594") || !strings.Contains(text, "timeout: 15") {
+		t.Errorf("neighboring keys lost:\n%s", text)
 	}
 
-	// The guard must hold: the stale top-level repos.yaml must NOT have been
-	// consumed by a second migration (if it had, migrateRepos would have
-	// Rename'd it into legacy/, overwriting the original backup).
-	if _, err := os.Stat(filepath.Join(tmpDir, "repos.yaml")); err != nil {
-		t.Error("second Migrate consumed the stale repos.yaml (guard failed)")
+	// Second startup: option is commented → no-op.
+	ran2, status2, err := MigrateIfRequested(tmpDir)
+	if err != nil {
+		t.Fatalf("second MigrateIfRequested failed: %v", err)
+	}
+	if ran2 || status2.Any() {
+		t.Errorf("second run should be a no-op, ran=%v status=%+v", ran2, status2)
+	}
+}
+
+// TestMigrateIfRequestedNoOption verifies the default: without migrate_config
+// (absent or false), NOTHING migrates — legacy files stay in place.
+func TestMigrateIfRequestedNoOption(t *testing.T) {
+	for name, serverYAML := range map[string]string{
+		"absent": "server:\n  port: 4594\n",
+		"false":  "server:\n  migrate_config: false\n",
+	} {
+		t.Run(name, func(t *testing.T) {
+			tmpDir := t.TempDir()
+			writeLegacyFixture(t, tmpDir, serverYAML)
+			ran, _, err := MigrateIfRequested(tmpDir)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if ran {
+				t.Error("migration ran without the explicit option")
+			}
+			if _, err := os.Stat(filepath.Join(tmpDir, "repos.yaml")); err != nil {
+				t.Error("repos.yaml must stay untouched by default")
+			}
+			if !DetectLegacy(tmpDir).Repos {
+				t.Error("legacy state must remain detectable")
+			}
+		})
+	}
+}
+
+// TestSeedingSkips verifies that a legacy flat file keeps its split counterpart
+// from being seeded (so the seeded examples never shadow user config).
+func TestSeedingSkips(t *testing.T) {
+	tmpDir := t.TempDir()
+	writeLegacyFixture(t, tmpDir, "")
+
+	skips := SeedingSkips(tmpDir)
+	if !skips["patterns"] || !skips["events"] || !skips["templates"] {
+		t.Fatalf("SeedingSkips = %v, want patterns/events/templates", skips)
 	}
 
-	// Pattern files must STILL have exactly one weight line each.
-	for _, f := range files {
-		data, err := os.ReadFile(filepath.Join(tmpDir, "patterns", f.Name()))
-		if err != nil {
-			t.Fatal(err)
-		}
-		if c := countWeightLines(data); c != 1 {
-			t.Errorf("%s: duplicate weight after second migrate (got %d)\n%s", f.Name(), c, data)
-		}
+	// After migration, nothing is skipped anymore.
+	if _, err := MigrateAll(tmpDir); err != nil {
+		t.Fatal(err)
+	}
+	if skips := SeedingSkips(tmpDir); len(skips) != 0 {
+		t.Fatalf("SeedingSkips after migration = %v, want empty", skips)
 	}
 }
 

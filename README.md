@@ -125,7 +125,7 @@ feishu-github-tracker/
 │       └── main.go
 ├── internal/             # 内部包
 │   ├── auth/            # 签名验证
-│   ├── config/          # 配置加载与旧格式自动迁移
+│   ├── config/          # 配置加载与旧格式迁移（显式触发）
 │   ├── handler/         # Webhook 处理器
 │   ├── logger/          # 日志模块（按天轮转）
 │   ├── matcher/         # 仓库和事件匹配
@@ -162,13 +162,16 @@ feishu-github-tracker/
 | 事件集合 / 事件定义 | `events/event_sets/*.yaml`、`events/definitions/*.yaml` | 每个集合/事件一个文件 |
 | 消息模板 | `templates/<语言>/<事件>.json` | 按语言分目录，每个事件一个文件 |
 
-### 旧版本配置自动迁移
+### 旧版本配置兼容与迁移（可选）
 
-从旧版镜像升级时，启动会自动检测旧版单文件配置（`repos.yaml`、`events.yaml`、`templates.jsonc`、`templates.*.jsonc`）：
+旧版单文件配置（`repos.yaml`、`events.yaml`、`templates.jsonc`、`templates.*.jsonc`）**默认不迁移、可一直正常使用**——加载器在子目录为空时自动回退到单文件；管理面板在旧格式下也照常可用（规则编辑直接写回 `repos.yaml`，模板编辑合并回对应 jsonc，其它条目的注释保留）。
 
-- 原文件**原样**移动到 `configs/legacy/` 备份
-- 同时拆分为上述新的分文件格式；`repos.yaml` 中的规则顺序会转换为 `patterns/*.yaml` 里的 `weight` 字段（越靠前的规则 weight 越大，评估顺序与原配置一致）
-- 迁移只执行一次，之后以新格式为准；旧格式的单文件也仍然兼容读取（子目录优先）
+想切换到分文件格式时，二选一显式触发：
+
+1. **管理面板**：「服务设置」页会检测旧文件并显示「迁移到新配置格式」按钮（一键迁移所有检测到的类型，需确认）
+2. **配置文件**：在 `server.yaml` 的 `server:` 下设置 `migrate_config: true` 后重启——迁移完成后该行会被**自动注释掉**，只生效一次
+
+迁移行为：原文件**原样**备份到 `configs/legacy/`（注释完整保留）；拆分为分文件格式；`repos.yaml` 中的规则顺序转换为 `patterns/*.yaml` 里的 `weight`（越靠前 weight 越大，评估顺序与原配置完全一致）。未迁移时旧格式按文件内顺序首条匹配，无 weight 概念。
 
 ### server.yaml
 
@@ -183,6 +186,7 @@ server:
   match_all_rules: false # 可选：让同一 webhook 依次匹配所有规则；false 时仅首条（按 weight 最高）匹配生效
   max_payload_size: 25MB # 限制单次 Webhook body 大小（GitHub 官方载荷上限为 25MB；超过返回 413）
   timeout: 15 # 单次请求处理超时 (秒)
+  # migrate_config: true # 一次性：把旧版单文件配置迁移为分文件格式（原件备份到 configs/legacy/），完成后自动注释
 
 # 允许的来源（用于白名单过滤，可选）
 allowed_sources:
@@ -235,7 +239,7 @@ feishu_bots:
 
 如果某个 bot 没有指定 `template` 字段，或指定的模板目录不存在，将自动使用 `templates/default/` 作为默认模板。
 
-> 旧版的单文件 `templates.jsonc` / `templates.<名称>.jsonc` 仍然兼容读取；启动时会自动迁移为分文件格式（原件备份到 `configs/legacy/`）。
+> 旧版的单文件 `templates.jsonc` / `templates.<名称>.jsonc` 仍然兼容读取，面板编辑会写回原文件；需要分文件格式时在「服务设置」页或经 `server.migrate_config: true` 显式迁移（原件备份到 `configs/legacy/`）。
 
 ### events/
 

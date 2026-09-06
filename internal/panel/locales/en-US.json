@@ -107,6 +107,10 @@
   "template.saveWarning": "Saving removes // comments and sorts keys alphabetically. Behavior is unchanged.",
   "settings.title": "Server settings",
   "settings.subtitle": "Edit server.yaml. Port and secret changes require a service restart.",
+  "settings.migrateTitle": "Migrate legacy configuration",
+  "settings.migrateDesc": "Legacy single-file configuration detected. Migration splits it into the new per-item layout (patterns/, events/, templates/<locale>/) and injects weights into pattern rules following their original order; originals are preserved with comments under configs/legacy/ and the new format takes effect immediately. The legacy format keeps working forever — migrating is entirely up to you.",
+  "settings.migrateConfirm": "Migrate to the new config layout? Originals are backed up under configs/legacy/.",
+  "settings.migrateBtn": "Migrate to new layout",
   "settings.host": "Listen host",
   "settings.port": "Port",
   "settings.secret": "Webhook secret",
@@ -156,6 +160,10 @@
   "flash.settingsUsernamePasswordSaved": "Server settings, username, and password saved.",
   "flash.settingsUsernameSaved": "Server settings and username saved.",
   "flash.settingsPasswordSaved": "Server settings and password saved.",
+  "flash.migrateDone": "Migration complete: %s. Originals preserved under configs/legacy/; the new layout is active.",
+  "flash.migrateFailed": "Migration failed: %s",
+  "flash.migrateNone": "No legacy configuration to migrate.",
+  "patterns.legacyNote": "Pattern rules currently live in the legacy repos.yaml (first match in file order, no weight). Edits are written back to that file; to switch to per-file layout with weight priorities, migrate from the Server settings page.",
   "footer.tagline": "Feishu GitHub Tracker · GitHub → Feishu webhook forwarder.",
   "footer.note": "Panel edits auto-reload on save; hand-edited config files apply via <code>-reload</code> or a restart."
 }

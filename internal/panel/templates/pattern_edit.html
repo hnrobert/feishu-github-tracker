@@ -8,6 +8,7 @@
 <form method="post" action="/patterns/save" class="card">
   <input type="hidden" name="index" value="{{.EditPattern.Index}}" />
 
+  {{if not .PatternsLegacy}}
   <div class="row">
     <div>
       <label>Weight <span class="muted">(higher = higher priority; 0 = lowest, e.g. catch-all)</span></label>
@@ -18,6 +19,11 @@
       <input type="text" name="pattern" value="{{.EditPattern.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
     </div>
   </div>
+  {{else}}
+  <label>{{t . "patterns.pattern"}} <span class="muted">({{t . "pattern.patternHint"}})</span></label>
+  <input type="text" name="pattern" value="{{.EditPattern.Pattern}}" placeholder="CompPsyUnion/motion-vote-backend" required />
+  <div class="note">{{t . "patterns.legacyNote"}}</div>
+  {{end}}
 
   <label>{{t . "pattern.secret"}} <span class="muted">({{t . "pattern.secretHint"}})</span></label>
   <input type="text" name="secret" value="{{.EditPattern.Secret}}" placeholder="{{t . "pattern.secretPlaceholder"}}" autocomplete="off" />
