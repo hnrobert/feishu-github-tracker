@@ -1,6 +1,6 @@
 module github.com/hnrobert/feishu-github-tracker
 
-go 1.21
+go 1.23
 
 require (
 	github.com/gobwas/glob v0.2.3

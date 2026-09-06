@@ -1,0 +1,292 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "created"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "💖 新赞助者！"
+            },
+            "template": "pink"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**赞助者：** {{sponsor_login}}\n**等级：** {{tier_name}}\n**金额：** ${{tier_monthly_price_in_dollars}}/月\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "💖 赞助{{action}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**赞助者：** {{sponsor_login}}\n**操作：** {{action}}\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "cancelled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 赞助 已取消"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "edited"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 赞助 已编辑"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "pending_cancellation"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 赞助 待取消"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "pending_tier_change"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 赞助 待变更等级"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "tier_changed"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 赞助 等级已变更"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

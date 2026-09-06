@@ -6,7 +6,7 @@ Keys are grouped into families. Each family has a `Common` subsection listing ke
 
 ## Tagging and template selection (overview)
 
-Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.jsonc` carries a `tags` list (examples: `tags: ["issues", "opened"]`, `tags: ["push", "force"]`, or `tags: ["pull_request", "closed", "merged"]`).
+Templates are chosen by matching a set of tags. Each template payload in `configs/templates/<locale>/<event>.json` (one file per event, e.g. `configs/templates/default/push.json`) carries a `tags` list (examples: `tags: ["issues", "opened"]`, `tags: ["push", "force"]`, or `tags: ["pull_request", "closed", "merged"]`).
 
 ### How tags work
 
@@ -23,7 +23,7 @@ Templates are chosen by matching a set of tags. Each template payload in `config
 
 4. **Default tag**: If no specific tags are added beyond event type and action, a `default` tag is appended as a fallback.
 
-> Note: For details on template substitution (placeholders, filters, and supported `{{#if ...}}{{/if}}` conditional blocks), see `internal/template/README.md`. It is recommended to read that document before editing `configs/templates*.jsonc`.
+> Note: For details on template substitution (placeholders, filters, and supported `{{#if ...}}{{/if}}` conditional blocks), see `internal/template/README.md`. It is recommended to read that document before editing files under `configs/templates/`.
 
 ### Tag matching priority
 
@@ -373,12 +373,17 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ## Pages
 
-### Common
+### page_build
 
-- `page_build` (object)
+GitHub's `page_build` payload has no top-level `action`; the outcome lives in the `build` object.
 
-- Tags: `[default]`.
-- Condition: use family tag `page_build`.
+- `build` (object) — the raw `build` object from the payload
+- `build_status` (string) — build.status (e.g. `built`, `errored`)
+- `build_pusher` (string) — build.pusher.login
+- `build_error` (string) — build.error.message (only present when the build errored)
+
+- Tags: `[page_build, default]`.
+- Condition: use family tag `page_build`; templates may branch on `{{build.status}}`.
 
 ---
 

@@ -1,0 +1,10 @@
+types:
+- created
+- deleted
+- archived
+- unarchived
+- edited
+- renamed
+- transferred
+- publicized
+- privatized

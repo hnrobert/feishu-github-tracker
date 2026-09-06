@@ -1,0 +1,8 @@
+types:
+- auto_dismissed
+- auto_reopened
+- created
+- dismissed
+- fixed
+- reintroduced
+- reopened

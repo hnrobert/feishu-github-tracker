@@ -1,0 +1,6 @@
+types:
+- created
+- deleted
+- edited
+- added_to_repository
+- removed_from_repository

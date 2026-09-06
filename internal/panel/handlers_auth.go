@@ -45,11 +45,11 @@ func (a *App) handleLoginPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to issue session", http.StatusInternalServerError)
 		return
 	}
-	a.issueCookie(w, tok)
+	a.issueCookie(w, tok, requestIsSecure(r))
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (a *App) handleLogout(w http.ResponseWriter, r *http.Request) {
-	a.clearCookie(w)
+	a.clearCookie(w, requestIsSecure(r))
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

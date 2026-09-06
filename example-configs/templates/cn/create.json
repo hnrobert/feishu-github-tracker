@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "✨ 新创建：{{ref_type}} 在 {{repository.full_name}}"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**创建者：** {{sender_link_md | default(sender.login)}}\n**类型：** {{ref_type}}  名称： {{ref}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

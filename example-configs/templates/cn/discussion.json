@@ -1,0 +1,685 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "created"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "💬 新讨论已创建"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**标题：** {{discussion.title}}\n**作者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "{{discussion.body}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "参与讨论"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "answered"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "✅ 讨论已被回答"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**回答者：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "此讨论已标记了答案"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看答案"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "locked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔒 讨论已锁定"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**锁定者：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "此讨论已被锁定"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看讨论"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlocked"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "� 讨论已解锁"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**解锁者：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "此讨论现已开放评论"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "参与讨论"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "closed"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "📋 讨论已关闭"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**关闭者：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看讨论"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "💬 讨论 {{action}}"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**讨论：** {{discussion.title}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}\n**分类：** {{discussion.category.name}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看讨论"
+                  },
+                  "url": "{{discussion.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "deleted"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已删除"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "edited"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已编辑"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "labeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已添加标签"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "pinned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已固定"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "transferred"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已转移"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unanswered"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 未回答"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unlabeled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已移除标签"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "unpinned"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 discussion 已取消固定"
+            },
+            "template": "turquoise"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository_link_md}}\n**操作：** {{action}}\n**用户：** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "查看详情"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "📣 部署状态：{{deployment_status.state}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**部署：** {{deployment.ref}}\n**状态：** {{deployment_status.state}}\n**描述：** {{deployment_status.description}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -5,6 +5,15 @@
   <div class="sub">{{t . "settings.subtitle"}}</div>
 </div>
 
+{{if .LegacyFiles}}
+<form method="post" action="/settings/migrate" class="card">
+  <h3 style="margin-bottom:8px;">{{t . "settings.migrateTitle"}}</h3>
+  <div style="margin-bottom:10px;">{{range .LegacyFiles}}<span class="pill"><code>{{.}}</code></span> {{end}}</div>
+  <div class="note" style="margin-bottom:14px;">{{t . "settings.migrateDesc"}}</div>
+  <button class="btn primary" type="submit" onclick="return confirm('{{t . "settings.migrateConfirm"}}');">{{t . "settings.migrateBtn"}}</button>
+</form>
+{{end}}
+
 <form id="settings-form" method="post" action="/settings/save" class="card">
   <div class="row">
     <div>

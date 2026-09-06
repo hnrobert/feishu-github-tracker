@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "📄 页面构建：{{build.status}}"
+            },
+            "template": "grey"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**仓库：** {{repository.full_name}}\n**状态：** {{build.status}}\n**触发者：** {{build_pusher}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

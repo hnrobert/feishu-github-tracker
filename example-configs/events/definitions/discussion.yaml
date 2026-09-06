@@ -1,0 +1,13 @@
+types:
+- created
+- edited
+- deleted
+- transferred
+- pinned
+- unpinned
+- locked
+- unlocked
+- labeled
+- unlabeled
+- answered
+- unanswered

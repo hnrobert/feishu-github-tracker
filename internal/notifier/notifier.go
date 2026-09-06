@@ -3,6 +3,7 @@ package notifier
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,6 +19,8 @@ type Notifier struct {
 	bots   map[string]string
 	client *http.Client
 }
+
+const maxWebhookResponseBytes int64 = 1 << 20
 
 // New creates a new Notifier
 func New(botsConfig config.FeishuBotsConfig) *Notifier {
@@ -46,10 +49,10 @@ func (n *Notifier) Send(targets []string, payload map[string]any) error {
 		}
 
 		if err := n.sendToWebhook(url, payload); err != nil {
-			logger.Error("Failed to send notification to %s: %v", url, err)
+			logger.Error("Failed to send notification to target %s: %v", targetLabel(target), err)
 			errs = append(errs, err.Error())
 		} else {
-			logger.Info("Successfully sent notification to %s", target)
+			logger.Info("Successfully sent notification to %s", targetLabel(target))
 		}
 	}
 
@@ -80,27 +83,57 @@ func (n *Notifier) sendToWebhook(url string, payload map[string]any) error {
 		return fmt.Errorf("failed to marshal payload: %w", err)
 	}
 
-	logger.Debug("Sending payload to %s: %s", url, string(jsonData))
+	logger.Debug("Sending %d-byte webhook payload", len(jsonData))
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return fmt.Errorf("failed to create request: %w", err)
+		return errors.New("failed to create webhook request")
 	}
 
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := n.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to send request: %w", err)
+		return errors.New("failed to send webhook request")
 	}
 	defer resp.Body.Close()
 
-	body, _ := io.ReadAll(resp.Body)
-
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("received non-2xx status code %d: %s", resp.StatusCode, string(body))
+	body, err := io.ReadAll(io.LimitReader(resp.Body, maxWebhookResponseBytes+1))
+	if err != nil {
+		return fmt.Errorf("failed to read response: %w", err)
+	}
+	if int64(len(body)) > maxWebhookResponseBytes {
+		return fmt.Errorf("webhook response exceeds %d bytes", maxWebhookResponseBytes)
 	}
 
-	logger.Debug("Response from webhook: %s", string(body))
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("received non-2xx status code %d: %s", resp.StatusCode, summarizeBody(body))
+	}
+
+	logger.Debug("Webhook response was %d bytes", len(body))
 	return nil
+}
+
+// summarizeBody renders a bounded, single-line snippet of a webhook response
+// for error messages. Feishu API failures (sign mismatch, rate limit, bad
+// card payload) are only explained by the response body, so a short snippet
+// is included. The body never contains the webhook token (that lives in the
+// URL), and whitespace collapsing keeps log injection out.
+func summarizeBody(body []byte) string {
+	const maxBodySnippet = 200
+	snippet := strings.Join(strings.Fields(string(body)), " ")
+	if len(snippet) > maxBodySnippet {
+		snippet = snippet[:maxBodySnippet] + "…(truncated)"
+	}
+	if snippet == "" {
+		snippet = "<empty response body>"
+	}
+	return snippet
+}
+
+func targetLabel(target string) string {
+	if strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://") {
+		return "direct webhook"
+	}
+	return target
 }

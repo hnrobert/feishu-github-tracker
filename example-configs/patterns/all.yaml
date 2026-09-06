@@ -1,0 +1,14 @@
+# =========================================
+# Catch-all rule (weight 0 = lowest priority)
+# -----------------------------------------
+# This rule matches ALL repositories and is evaluated last.
+# Place it at the end with the lowest weight so more specific
+# rules (higher weight) are evaluated first.
+# =========================================
+weight: 0
+pattern: '*'
+events:
+  basic:
+  project:
+notify_to:
+  - org-notify

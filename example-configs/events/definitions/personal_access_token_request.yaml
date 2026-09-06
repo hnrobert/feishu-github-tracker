@@ -1,0 +1,5 @@
+types:
+- approved
+- cancelled
+- created
+- denied

@@ -1,0 +1,319 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "completed",
+        "success"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "✅ Workflow Succeeded"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "✅ All checks passed"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Run"
+                  },
+                  "url": "{{workflow_run.html_url}}",
+                  "type": "primary"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "completed",
+        "failure"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "❌ Workflow Failed"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "❌ Workflow execution failed"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Logs"
+                  },
+                  "url": "{{workflow_run.html_url}}",
+                  "type": "danger"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "completed",
+        "cancelled"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "⚠️ Workflow Cancelled"
+            },
+            "template": "yellow"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Cancelled by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "This workflow run was cancelled"
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Run"
+                  },
+                  "url": "{{workflow_run.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "in_progress"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "⏳ Workflow Running"
+            },
+            "template": "blue"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Branch:** {{workflow_run.head_branch}}\n**Triggered by:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "note",
+              "elements": [
+                {
+                  "tag": "plain_text",
+                  "content": "⏳ Workflow is currently running..."
+                }
+              ]
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "Watch Progress"
+                  },
+                  "url": "{{workflow_run.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "⚙️ Workflow {{action}}"
+            },
+            "template": "purple"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Workflow:** {{workflow.name}}\n**Run #:** [#{{workflow_run_number}}]({{workflow_run.html_url}})\n**Status:** {{workflow_run.conclusion | default(workflow_run.status)}}\n**Action:** {{action}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Run"
+                  },
+                  "url": "{{workflow_run.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tags": [
+        "requested"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🔔 Workflow Run Requested"
+            },
+            "template": "orange"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**Repository:** {{repository_link_md}}\n**Action:** {{action}}\n**User:** {{sender_link_md}}"
+              }
+            },
+            {
+              "tag": "hr"
+            },
+            {
+              "tag": "action",
+              "actions": [
+                {
+                  "tag": "button",
+                  "text": {
+                    "tag": "plain_text",
+                    "content": "View Details"
+                  },
+                  "url": "{{repository.html_url}}",
+                  "type": "default"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+discussion:
+  types:
+  - created
+  - answered
+issues:
+  types:
+  - opened
+  - closed
+  - reopened
+pull_request:
+  branches:
+  - main
+  - develop
+  - release/*
+  types:
+  - opened
+  - closed
+  - reopened
+push:
+  branches:
+  - main
+  - develop
+  - release/*
+release:
+  types:
+  - published
+  - edited
