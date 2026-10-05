@@ -35,6 +35,43 @@ func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
 	}
 }
 
+// TestPrepareDiscussionData exposes the raw discussion object (including the
+// nested category) so the shipped card templates' {{discussion.title}} and
+// {{discussion.category.name}} placeholders resolve instead of rendering
+// literally.
+func TestPrepareDiscussionData(t *testing.T) {
+	cfg := &config.Config{}
+	h := New(cfg, notifier.New(config.FeishuBotsConfig{}))
+
+	payload := map[string]any{
+		"action": "edited",
+		"discussion": map[string]any{
+			"title":    "Week 3 lab",
+			"html_url": "https://github.com/org/repo/discussions/1",
+			"category": map[string]any{"name": "Q&A"},
+		},
+	}
+
+	data := h.prepareTemplateData("discussion", payload)
+
+	raw, ok := data["discussion"].(map[string]any)
+	if !ok {
+		t.Fatal("expected raw discussion object in data")
+	}
+	if raw["title"] != "Week 3 lab" {
+		t.Errorf("discussion.title = %v", raw["title"])
+	}
+	if cat, ok := raw["category"].(map[string]any); !ok || cat["name"] != "Q&A" {
+		t.Errorf("discussion.category.name missing or wrong: %#v", raw["category"])
+	}
+	if data["discussion_category"] != "Q&A" {
+		t.Errorf("flat discussion_category = %v", data["discussion_category"])
+	}
+	if data["discussion_title"] != "Week 3 lab" {
+		t.Errorf("flat discussion_title = %v", data["discussion_title"])
+	}
+}
+
 func TestProcessWebhookMatchAllRules(t *testing.T) {
 	logger.Init("error", os.TempDir())
 	defer logger.Close()
