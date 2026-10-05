@@ -32,6 +32,9 @@ func prepareSponsorshipData(data map[string]any, payload map[string]any) {
 			}
 			if monthlyPriceInCents, ok := tier["monthly_price_in_cents"].(float64); ok {
 				data["tier_monthly_price_cents"] = int(monthlyPriceInCents)
+				// The shipped template renders {{tier_monthly_price_in_dollars}};
+				// the older *_dollars alias is kept for user templates.
+				data["tier_monthly_price_in_dollars"] = monthlyPriceInCents / 100
 				data["tier_monthly_price_dollars"] = monthlyPriceInCents / 100
 			}
 		}

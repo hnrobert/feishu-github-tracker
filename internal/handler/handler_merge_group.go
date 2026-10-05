@@ -10,6 +10,7 @@ func prepareMergeGroupData(data map[string]any, payload map[string]any) {
 
 		if headSha, ok := mergeGroup["head_sha"].(string); ok {
 			data["head_sha"] = headSha
+			data["merge_group_head_sha"] = headSha
 		}
 
 		if headRef, ok := mergeGroup["head_ref"].(string); ok {

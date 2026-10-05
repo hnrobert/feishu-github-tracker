@@ -22,7 +22,7 @@
               "tag": "div",
               "text": {
                 "tag": "lark_md",
-                "content": "**组织：** {{organization.login}}\n**成员：** {{membership.user.login | default('N/A')}}\n"
+                "content": "**组织：** {{organization.login}}\n"
               }
             }
           ]

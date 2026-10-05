@@ -281,7 +281,8 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ### deployment_status
 
-- (see deployment_status object)
+- `deployment_status` (object) — the raw deployment_status object
+- `deployment` (object) — the raw deployment object (templates use `{{deployment.ref}}`)
 
 ### check_run
 
@@ -310,7 +311,14 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ### status
 
-- `status_state` (string)
+GitHub's status payload keeps these at the top level (there is no `status` object):
+
+- `state` (string) — payload.state (success/failure/pending/error)
+- `context` (string) — payload.context (e.g. "ci/build")
+- `status_state` (string) — alias of state
+- `status_description` (string) — payload.description
+- `status_target_url` (string) — payload.target_url
+- `status_branches` (array) — payload.branches
 
 ---
 
@@ -675,7 +683,8 @@ GitHub's `page_build` payload has no top-level `action`; the outcome lives in th
 - `sponsorable_login` (string)
 - `tier_name` (string)
 - `tier_monthly_price_cents` (int)
-- `tier_monthly_price_dollars` (float)
+- `tier_monthly_price_in_dollars` (float) — cents / 100 (the shipped template uses this)
+- `tier_monthly_price_dollars` (float) — alias of the above
 
 ---
 
