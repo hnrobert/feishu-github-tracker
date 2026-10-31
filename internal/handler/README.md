@@ -6,7 +6,7 @@ Keys are grouped into families. Each family has a `Common` subsection listing ke
 
 ## Tagging and template selection (overview)
 
-Templates are chosen by matching a set of tags. Each template payload in `configs/templates*.jsonc` carries a `tags` list (examples: `tags: ["issues", "opened"]`, `tags: ["push", "force"]`, or `tags: ["pull_request", "closed", "merged"]`).
+Templates are chosen by matching a set of tags. Each template payload in `configs/templates/<locale>/<event>.json` (one file per event, e.g. `configs/templates/default/push.json`) carries a `tags` list (examples: `tags: ["issues", "opened"]`, `tags: ["push", "force"]`, or `tags: ["pull_request", "closed", "merged"]`).
 
 ### How tags work
 
@@ -23,7 +23,7 @@ Templates are chosen by matching a set of tags. Each template payload in `config
 
 4. **Default tag**: If no specific tags are added beyond event type and action, a `default` tag is appended as a fallback.
 
-> Note: For details on template substitution (placeholders, filters, and supported `{{#if ...}}{{/if}}` conditional blocks), see `internal/template/README.md`. It is recommended to read that document before editing `configs/templates*.jsonc`.
+> Note: For details on template substitution (placeholders, filters, and supported `{{#if ...}}{{/if}}` conditional blocks), see `internal/template/README.md`. It is recommended to read that document before editing files under `configs/templates/`.
 
 ### Tag matching priority
 
@@ -281,7 +281,8 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ### deployment_status
 
-- (see deployment_status object)
+- `deployment_status` (object) — the raw deployment_status object
+- `deployment` (object) — the raw deployment object (templates use `{{deployment.ref}}`)
 
 ### check_run
 
@@ -310,7 +311,14 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ### status
 
-- `status_state` (string)
+GitHub's status payload keeps these at the top level (there is no `status` object):
+
+- `state` (string) — payload.state (success/failure/pending/error)
+- `context` (string) — payload.context (e.g. "ci/build")
+- `status_state` (string) — alias of state
+- `status_description` (string) — payload.description
+- `status_target_url` (string) — payload.target_url
+- `status_branches` (array) — payload.branches
 
 ---
 
@@ -373,12 +381,17 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 
 ## Pages
 
-### Common
+### page_build
 
-- `page_build` (object)
+GitHub's `page_build` payload has no top-level `action`; the outcome lives in the `build` object.
 
-- Tags: `[default]`.
-- Condition: use family tag `page_build`.
+- `build` (object) — the raw `build` object from the payload
+- `build_status` (string) — build.status (e.g. `built`, `errored`)
+- `build_pusher` (string) — build.pusher.login
+- `build_error` (string) — build.error.message (only present when the build errored)
+
+- Tags: `[page_build, default]`.
+- Condition: use family tag `page_build`; templates may branch on `{{build.status}}`.
 
 ---
 
@@ -670,7 +683,8 @@ All these events call `prepareRepoData()` and `prepareSenderData()`:
 - `sponsorable_login` (string)
 - `tier_name` (string)
 - `tier_monthly_price_cents` (int)
-- `tier_monthly_price_dollars` (float)
+- `tier_monthly_price_in_dollars` (float) — cents / 100 (the shipped template uses this)
+- `tier_monthly_price_dollars` (float) — alias of the above
 
 ---
 

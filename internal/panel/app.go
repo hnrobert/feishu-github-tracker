@@ -10,9 +10,14 @@ import (
 	"embed"
 	"encoding/json"
 	"html/template"
+	"io"
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
+	"runtime/debug"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -73,8 +78,12 @@ type ViewData struct {
 	Topology      Topology
 
 	// repos
-	Repos    []RepoRow
-	EditRepo RepoRow
+	Patterns       []PatternRow
+	EditPattern    PatternRow
+	PatternsLegacy bool // pattern rules live in the legacy repos.yaml (pre-migration)
+
+	// migration (settings page)
+	LegacyFiles []string // legacy flat files detected and eligible for migration
 
 	// bots
 	Bots      []BotRow
@@ -87,6 +96,7 @@ type ViewData struct {
 	// events
 	EventSetsYAML string
 	EventsYAML    string
+	EventFiles    []EventFileRow
 
 	// templates
 	TemplateFilesList []TemplateFileRow
@@ -104,16 +114,17 @@ type ServerInfo struct {
 }
 
 // RepoRow represents one repos.yaml entry, for both list display and editing.
-type RepoRow struct {
+type PatternRow struct {
 	Index       int
+	Weight      int
 	Pattern     string
-	NotifyTo    []string // list display
-	NotifyToRaw string   // newline-joined, for the edit form
+	NotifyTo    []string
+	NotifyToRaw string
 	Events      map[string]any
-	EventsYAML  string // raw YAML text, for the edit textarea
+	EventsYAML  string
 	EventCount  int
-	Secret      string // per-rule webhook secret (edit form)
-	HasSecret   bool   // whether a per-rule secret is set (list badge)
+	Secret      string
+	HasSecret   bool
 }
 
 // BotRow represents one feishu-bots.yaml entry.
@@ -149,6 +160,7 @@ type EditTemplateData struct {
 	Events       []string // available event keys
 	Event        string   // selected event key
 	PayloadsJSON string   // editable JSON for the event's payloads array
+	Legacy       bool     // editing the legacy flat templates.*.jsonc (comments lost on save)
 }
 
 // New constructs a panel App from opts.
@@ -202,8 +214,8 @@ func New(opts Options) (*App, error) {
 		"login",
 		"dashboard",
 		"topology",
-		"repos",
-		"repo_edit",
+		"patterns",
+		"pattern_edit",
 		"bots",
 		"bot_edit",
 		"server_settings",
@@ -278,11 +290,11 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/", a.requireAuth(a.handleDashboard))
 	mux.HandleFunc("/topology", a.requireAuth(a.handleTopology))
-	mux.HandleFunc("/repos", a.requireAuth(a.handleRepos))
-	mux.HandleFunc("/repos/new", a.requireAuth(a.handleRepoNew))
-	mux.HandleFunc("/repos/edit", a.requireAuth(a.handleRepoEdit))
-	mux.HandleFunc("/repos/save", a.requireAuth(a.handleRepoSave))
-	mux.HandleFunc("/repos/delete", a.requireAuth(a.handleRepoDelete))
+	mux.HandleFunc("/patterns", a.requireAuth(a.handlePatterns))
+	mux.HandleFunc("/patterns/new", a.requireAuth(a.handlePatternNew))
+	mux.HandleFunc("/patterns/edit", a.requireAuth(a.handlePatternEdit))
+	mux.HandleFunc("/patterns/save", a.requireAuth(a.handlePatternSave))
+	mux.HandleFunc("/patterns/delete", a.requireAuth(a.handlePatternDelete))
 
 	mux.HandleFunc("/bots", a.requireAuth(a.handleBots))
 	mux.HandleFunc("/bots/new", a.requireAuth(a.handleBotNew))
@@ -292,9 +304,12 @@ func (a *App) routes() http.Handler {
 
 	mux.HandleFunc("/settings", a.requireAuth(a.handleSettings))
 	mux.HandleFunc("/settings/save", a.requireAuth(a.handleSettingsSave))
+	mux.HandleFunc("/settings/migrate", a.requireAuth(a.handleSettingsMigrate))
 
 	mux.HandleFunc("/events", a.requireAuth(a.handleEvents))
 	mux.HandleFunc("/events/save", a.requireAuth(a.handleEventsSave))
+	mux.HandleFunc("/events/create", a.requireAuth(a.handleEventsCreateFile))
+	mux.HandleFunc("/events/delete", a.requireAuth(a.handleEventsDeleteFile))
 
 	mux.HandleFunc("/templates", a.requireAuth(a.handleTemplatesList))
 	mux.HandleFunc("/templates/edit", a.requireAuth(a.handleTemplateEdit))
@@ -395,7 +410,7 @@ func readRecentLogLines(logDir string, n int) []string {
 	}
 	var newest os.DirEntry
 	for _, e := range entries {
-		if e.IsDir() {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".log") {
 			continue
 		}
 		if newest == nil || e.Name() > newest.Name() {
@@ -405,11 +420,16 @@ func readRecentLogLines(logDir string, n int) []string {
 	if newest == nil {
 		return nil
 	}
-	data, err := os.ReadFile(filepath.Join(logDir, newest.Name()))
+	info, err := newest.Info()
 	if err != nil {
 		return nil
 	}
-	lines := strings.Split(strings.TrimRight(string(data), "\n"), "\n")
+	budget := dashboardLogByteBudget()
+	readSize := info.Size()
+	if readSize > budget {
+		readSize = budget
+	}
+	lines := readLogTail(filepath.Join(logDir, newest.Name()), info.Size()-readSize, readSize)
 	var kept []string
 	for _, l := range lines {
 		if strings.Contains(l, "Successfully sent") || strings.Contains(l, "Failed") || strings.Contains(l, "notification") {
@@ -428,20 +448,161 @@ func readRecentLogLines(logDir string, n int) []string {
 // each line's timestamp — reading only the newest file would put everything on
 // today's bar.
 func readDashboardLogLines(logDir string) []string {
+	return readDashboardLogLinesWithBudget(logDir, dashboardLogByteBudget())
+}
+
+const (
+	minDashboardLogBytes = int64(1 << 20)
+	maxDashboardLogBytes = int64(16 << 20)
+	maxDashboardLogLines = 100000
+)
+
+// dashboardLogByteBudget reserves most of the currently available memory for
+// request handling and configuration data. The fixed ceiling is intentional:
+// a large host must not make a dashboard request allocate an unbounded slice.
+func dashboardLogByteBudget() int64 {
+	var stats runtime.MemStats
+	runtime.ReadMemStats(&stats)
+	return dashboardLogByteBudgetFor(availableSystemMemory(), stats.HeapAlloc)
+}
+
+func dashboardLogByteBudgetFor(available, heapAlloc uint64) int64 {
+	if available > heapAlloc {
+		available -= heapAlloc
+	} else {
+		available = 0
+	}
+	budget := int64(available / 8)
+	if budget < minDashboardLogBytes {
+		return minDashboardLogBytes
+	}
+	if budget > maxDashboardLogBytes {
+		return maxDashboardLogBytes
+	}
+	return budget
+}
+
+// availableSystemMemory returns MemAvailable on Linux. On other platforms it
+// falls back to the Go runtime limit, if one was configured (for example via
+// GOMEMLIMIT); the bounded minimum keeps the dashboard safe otherwise.
+func availableSystemMemory() uint64 {
+	if data, err := os.ReadFile("/proc/meminfo"); err == nil {
+		for _, line := range strings.Split(string(data), "\n") {
+			fields := strings.Fields(line)
+			if len(fields) < 2 || fields[0] != "MemAvailable:" {
+				continue
+			}
+			value, err := strconv.ParseUint(fields[1], 10, 64)
+			if err != nil {
+				return 0
+			}
+			if len(fields) > 2 && fields[2] == "kB" {
+				value *= 1024
+			}
+			return value
+		}
+	}
+	limit := debug.SetMemoryLimit(-1)
+	if limit > 0 && limit < 1<<62 {
+		return uint64(limit)
+	}
+	return 0
+}
+
+type dashboardLogFile struct {
+	path string
+	name string
+	size int64
+}
+
+// readDashboardLogLinesWithBudget reads only the newest log tails that fit in
+// budget. Files are visited newest-first, then chunks are returned chronologically.
+func readDashboardLogLinesWithBudget(logDir string, budget int64) []string {
+	if budget <= 0 {
+		return nil
+	}
 	entries, err := os.ReadDir(logDir)
 	if err != nil {
 		return nil
 	}
-	var lines []string
+	files := make([]dashboardLogFile, 0, len(entries))
 	for _, entry := range entries {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".log") {
 			continue
 		}
-		data, err := os.ReadFile(filepath.Join(logDir, entry.Name()))
+		info, err := entry.Info()
 		if err != nil {
 			continue
 		}
-		lines = append(lines, strings.Split(strings.TrimSpace(string(data)), "\n")...)
+		files = append(files, dashboardLogFile{
+			path: filepath.Join(logDir, entry.Name()),
+			name: entry.Name(),
+			size: info.Size(),
+		})
+	}
+	sort.Slice(files, func(i, j int) bool { return files[i].name > files[j].name })
+
+	remainingBytes := budget
+	remainingLines := maxDashboardLogLines
+	chunks := make([][]string, 0, len(files))
+	for _, file := range files {
+		if remainingBytes <= 0 || remainingLines <= 0 {
+			break
+		}
+		readSize := file.size
+		if readSize > remainingBytes {
+			readSize = remainingBytes
+		}
+		if readSize <= 0 {
+			continue
+		}
+		chunk := readLogTail(file.path, file.size-readSize, readSize)
+		if len(chunk) > remainingLines {
+			chunk = chunk[len(chunk)-remainingLines:]
+		}
+		if len(chunk) == 0 {
+			continue
+		}
+		chunks = append(chunks, chunk)
+		remainingBytes -= readSize
+		remainingLines -= len(chunk)
+	}
+
+	var lines []string
+	for i := len(chunks) - 1; i >= 0; i-- {
+		lines = append(lines, chunks[i]...)
+	}
+	return lines
+}
+
+func readLogTail(path string, offset, size int64) []string {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil
+	}
+	defer file.Close()
+	if _, err := file.Seek(offset, io.SeekStart); err != nil {
+		return nil
+	}
+	partialLine := false
+	if offset > 0 {
+		var previous [1]byte
+		if _, err := file.ReadAt(previous[:], offset-1); err != nil || previous[0] != '\n' {
+			partialLine = true
+		}
+	}
+	data := make([]byte, size)
+	if _, err := io.ReadFull(file, data); err != nil && err != io.EOF && err != io.ErrUnexpectedEOF {
+		return nil
+	}
+	text := strings.TrimSpace(string(data))
+	if text == "" {
+		return nil
+	}
+	lines := strings.Split(text, "\n")
+	if partialLine && len(lines) > 0 {
+		// The first byte may be in the middle of a log line.
+		lines = lines[1:]
 	}
 	return lines
 }

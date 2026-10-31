@@ -14,6 +14,7 @@ func TestInitCreatesLogFileAndWrites(t *testing.T) {
 	if err := Init("debug", dir); err != nil {
 		t.Fatalf("Init failed: %v", err)
 	}
+	defer Close()
 	// write different level logs
 	Debug("debug message %s", "d")
 	Info("info message %s", "i")
@@ -51,6 +52,7 @@ func TestLevelFiltering(t *testing.T) {
 	if err := Init("warn", dir); err != nil {
 		t.Fatalf("Init failed: %v", err)
 	}
+	defer Close()
 	// Reset logger output capture by creating and reading file
 	Debug("should not appear")
 	Info("should not appear")

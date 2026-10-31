@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/hnrobert/feishu-github-tracker/internal/auth"
+	"github.com/hnrobert/feishu-github-tracker/internal/config"
 )
 
 // handleSettings renders the server.yaml editor.
@@ -28,7 +29,30 @@ func (a *App) handleSettings(w http.ResponseWriter, r *http.Request) {
 	if u, _ := resolveCredentials(a.cfgDir); u != "" {
 		data.ServerForm.Username = u
 	}
+	// Offer one-click legacy→split migration when old flat files are present.
+	data.LegacyFiles = config.DetectLegacy(a.cfgDir).Files
 	a.renderPage(w, "server_settings", data)
+}
+
+// handleSettingsMigrate runs the explicit legacy→split migration (button on
+// the settings page). Originals are preserved under configs/legacy/ and the
+// running config is reloaded immediately afterwards.
+func (a *App) handleSettingsMigrate(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Redirect(w, r, "/settings", http.StatusSeeOther)
+		return
+	}
+	status, err := config.MigrateAll(a.cfgDir)
+	if err != nil {
+		a.redirectFlash(w, r, "/settings", a.message(r, "flash.migrateFailed", err), "err")
+		return
+	}
+	if !status.Any() {
+		a.redirectFlash(w, r, "/settings", a.message(r, "flash.migrateNone"), "ok")
+		return
+	}
+	a.notifySaved()
+	a.redirectFlash(w, r, "/settings", a.message(r, "flash.migrateDone", strings.Join(status.Files, ", ")), "ok")
 }
 
 // handleSettingsSave persists server.yaml edits via yaml.Node mutation so all

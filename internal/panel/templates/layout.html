@@ -4,8 +4,8 @@
   <a class="{{if eq .CurrentPage " dashboard"}}active{{end}}" href="/">
     {{t . "nav.overview"}}
   </a>
-  <a class="{{if startsWith .CurrentPage " repo"}}active{{end}}" href="/repos">
-    {{t . "nav.repos"}}
+  <a class="{{if startsWith .CurrentPage " pattern"}}active{{end}}" href="/patterns">
+    {{t . "nav.patterns"}}
   </a>
   <a class="{{if startsWith .CurrentPage " bot"}}active{{end}}" href="/bots">
     {{t . "nav.bots"}}

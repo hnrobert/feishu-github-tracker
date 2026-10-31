@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🚢 部署：{{deployment.environment}}"
+            },
+            "template": "green"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**应用：** {{deployment.ref}}\n**环境：** {{deployment.environment}}\n**发起人：** {{sender_link_md | default(sender.login)}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

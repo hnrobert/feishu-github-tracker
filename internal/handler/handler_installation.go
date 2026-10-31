@@ -10,6 +10,10 @@ func prepareInstallationData(data map[string]any, payload map[string]any) {
 		if id, ok := installation["id"].(float64); ok {
 			data["installation_id"] = int(id)
 		}
+		// The shipped template renders {{app_name}}.
+		if slug, ok := installation["app_slug"].(string); ok {
+			data["app_name"] = slug
+		}
 	}
 
 	// Extract repositories

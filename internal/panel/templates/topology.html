@@ -6,7 +6,7 @@
 </div>
 
 <div class="topologyLegend">
-  <span><i class="legendMark"></i>{{t . "topology.legend.repo"}}</span>
+  <span><i class="legendMark"></i>{{t . "topology.legend.pattern"}}</span>
   <span><i class="legendMark event"></i>{{t . "topology.legend.event"}}</span>
   <span><i class="legendMark bot"></i>{{t . "topology.legend.bot"}}</span>
 </div>
@@ -17,7 +17,7 @@
   <div><strong>{{len .Topology.Nodes}}</strong><span>{{t . "topology.nodes"}}</span></div>
   <div><strong>{{len .Topology.Edges}}</strong><span>{{t . "topology.edges"}}</span></div>
 </div>
-<div class="topologyCanvas"><svg id="topology-svg" role="img" aria-label="{{t . "topology.title"}}" data-repo-label="{{t . "topology.column.repo"}}" data-event-label="{{t . "topology.column.event"}}" data-target-label="{{t . "topology.column.target"}}"></svg></div>
+<div class="topologyCanvas"><svg id="topology-svg" role="img" aria-label="{{t . "topology.title"}}" data-repo-label="{{t . "topology.column.pattern"}}" data-event-label="{{t . "topology.column.event"}}" data-target-label="{{t . "topology.column.target"}}"></svg></div>
 <script>
   (function () {
     var graph = {{toJSON .Topology}};

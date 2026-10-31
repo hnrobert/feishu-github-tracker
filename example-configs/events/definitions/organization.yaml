@@ -1,0 +1,4 @@
+types:
+- member_added
+- member_removed
+- member_invited

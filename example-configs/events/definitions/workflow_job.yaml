@@ -1,0 +1,5 @@
+types:
+- completed
+- in_progress
+- queued
+- waiting

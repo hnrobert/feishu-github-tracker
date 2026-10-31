@@ -1,0 +1,5 @@
+types:
+- blocked_by_added
+- blocked_by_removed
+- blocking_added
+- blocking_removed

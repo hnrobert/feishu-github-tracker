@@ -2,6 +2,8 @@ package panel
 
 import (
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"regexp"
 	"testing"
 	"time"
@@ -26,6 +28,35 @@ func TestSummarizeDeliveries(t *testing.T) {
 	}
 	if len(got.Events) != 2 || got.Events[0].Count != 1 {
 		t.Fatalf("unexpected events: %#v", got.Events)
+	}
+}
+
+func TestReadDashboardLogLinesWithBudget(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "feishu-github-tracker-2026-08-16.log"), []byte("old-1\nold-2\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "feishu-github-tracker-2026-08-17.log"), []byte("new-1\nnew-2\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	got := readDashboardLogLinesWithBudget(dir, int64(len("new-1\nnew-2\n"))+int64(len("old-2\n")))
+	if len(got) != 3 || got[0] != "old-2" || got[1] != "new-1" || got[2] != "new-2" {
+		t.Fatalf("bounded dashboard logs = %#v", got)
+	}
+
+	got = readDashboardLogLinesWithBudget(dir, 9)
+	if len(got) != 1 || got[0] != "new-2" {
+		t.Fatalf("partial log line was not discarded: %#v", got)
+	}
+}
+
+func TestDashboardLogByteBudgetClamps(t *testing.T) {
+	if got := dashboardLogByteBudgetFor(1024<<20, 0); got != maxDashboardLogBytes {
+		t.Fatalf("large available memory budget = %d, want %d", got, maxDashboardLogBytes)
+	}
+	if got := dashboardLogByteBudgetFor(2<<20, 0); got != minDashboardLogBytes {
+		t.Fatalf("small available memory budget = %d, want %d", got, minDashboardLogBytes)
 	}
 }
 

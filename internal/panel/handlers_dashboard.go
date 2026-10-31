@@ -119,6 +119,24 @@ func requestScheme(r *http.Request) string {
 	return "https"
 }
 
+// requestIsSecure reports only explicit HTTPS evidence for cookie flags. It
+// intentionally does not use requestScheme's public-URL fallback to preserve
+// cookies for deployments that still serve the panel over plain HTTP.
+func requestIsSecure(r *http.Request) bool {
+	if r.TLS != nil {
+		return true
+	}
+	for _, h := range []string{"X-Forwarded-Proto", "X-Forwarded-Scheme", "X-Forwarded-Protocol"} {
+		if v := strings.ToLower(strings.TrimSpace(r.Header.Get(h))); strings.HasPrefix(v, "https") {
+			return true
+		}
+	}
+	if browserScheme(r, "Origin") == "https" || browserScheme(r, "Referer") == "https" {
+		return true
+	}
+	return strings.Contains(strings.ToLower(r.Header.Get("CF-Visitor")), `"scheme":"https"`)
+}
+
 // browserScheme extracts the scheme from a browser-set header (Origin or
 // Referer) when it is absolute and same-origin with the request host; "" when
 // absent, relative, or cross-origin (don't trust a cross-origin origin).

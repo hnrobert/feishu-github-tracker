@@ -1,0 +1,19 @@
+types:
+- opened
+- closed
+- reopened
+- assigned
+- unassigned
+- labeled
+- unlabeled
+- edited
+- milestoned
+- demilestoned
+- transferred
+- deleted
+- pinned
+- unpinned
+- locked
+- unlocked
+- typed
+- untyped

@@ -5,5 +5,8 @@ func prepareLabelData(data map[string]any, payload map[string]any) {
 	prepareCommonData(data, payload)
 	if label, ok := payload["label"].(map[string]any); ok {
 		data["label"] = label
+		if name, ok := label["name"].(string); ok {
+			data["label_name"] = name
+		}
 	}
 }

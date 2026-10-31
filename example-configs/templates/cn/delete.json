@@ -1,0 +1,33 @@
+{
+  "payloads": [
+    {
+      "tags": [
+        "default"
+      ],
+      "payload": {
+        "msg_type": "interactive",
+        "card": {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "header": {
+            "title": {
+              "tag": "plain_text",
+              "content": "🗑️ 删除：{{ref_type}} 在 {{repository.full_name}}"
+            },
+            "template": "red"
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "tag": "lark_md",
+                "content": "**触发者：** {{sender_link_md | default(sender.login)}}\n**删除：** {{ref_type}} {{ref}}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

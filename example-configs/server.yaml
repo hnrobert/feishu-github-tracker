@@ -10,8 +10,12 @@ server:
   # secret: "your_secret" # 全局 Webhook 密钥（fallback）：用于验证 GitHub X-Hub-Signature；某条 repos 匹配单独配置了 secret 时，该规则优先使用自己的 secret，否则回退到这里
   log_level: "info" # 可选: debug, info, warn, error
   match_all_rules: false # 是否让同一 webhook 依次匹配所有仓库规则；false 时首条匹配规则生效
-  max_payload_size: 5MB # 限制单次Webhook body大小
+  max_payload_size: 25MB # 限制单次Webhook body大小
   timeout: 15 # 单次请求处理超时 (秒)
+  # migrate_config: true # 一次性开关：把旧版单文件配置（repos.yaml/events.yaml/templates*.jsonc）无损迁移为分文件
+  #   格式，原件连同注释备份到 configs/legacy/，完成后此行自动被注释掉。旧格式不迁移也可一直正常使用；管理面板
+  #   「服务设置」页也提供同样的一键迁移按钮。/ One-shot opt-in legacy→split migration (same action is available
+  #   as a button in the panel); the option is commented back out automatically after it runs.
 
 # 允许的来源（用于白名单过滤，可选）
 allowed_sources:

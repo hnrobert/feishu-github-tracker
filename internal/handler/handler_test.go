@@ -35,8 +35,46 @@ func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
 	}
 }
 
+// TestPrepareDiscussionData exposes the raw discussion object (including the
+// nested category) so the shipped card templates' {{discussion.title}} and
+// {{discussion.category.name}} placeholders resolve instead of rendering
+// literally.
+func TestPrepareDiscussionData(t *testing.T) {
+	cfg := &config.Config{}
+	h := New(cfg, notifier.New(config.FeishuBotsConfig{}))
+
+	payload := map[string]any{
+		"action": "edited",
+		"discussion": map[string]any{
+			"title":    "Week 3 lab",
+			"html_url": "https://github.com/org/repo/discussions/1",
+			"category": map[string]any{"name": "Q&A"},
+		},
+	}
+
+	data := h.prepareTemplateData("discussion", payload)
+
+	raw, ok := data["discussion"].(map[string]any)
+	if !ok {
+		t.Fatal("expected raw discussion object in data")
+	}
+	if raw["title"] != "Week 3 lab" {
+		t.Errorf("discussion.title = %v", raw["title"])
+	}
+	if cat, ok := raw["category"].(map[string]any); !ok || cat["name"] != "Q&A" {
+		t.Errorf("discussion.category.name missing or wrong: %#v", raw["category"])
+	}
+	if data["discussion_category"] != "Q&A" {
+		t.Errorf("flat discussion_category = %v", data["discussion_category"])
+	}
+	if data["discussion_title"] != "Week 3 lab" {
+		t.Errorf("flat discussion_title = %v", data["discussion_title"])
+	}
+}
+
 func TestProcessWebhookMatchAllRules(t *testing.T) {
 	logger.Init("error", os.TempDir())
+	defer logger.Close()
 	received := make(map[string]int)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		received[r.URL.Path]++
@@ -75,14 +113,16 @@ func TestProcessWebhookMatchAllRules(t *testing.T) {
 		"action":     "edited",
 		"repository": map[string]any{"full_name": "org/repo"},
 	}
-	if err := newHandler(false).processWebhook("issue_comment", payload); err != nil {
+	firstMatch := newHandler(false)
+	if err := firstMatch.processWebhook("issue_comment", payload, firstMatch.snapshot()); err != nil {
 		t.Fatalf("default matching returned error: %v", err)
 	}
 	if len(received) != 0 {
 		t.Fatalf("default matching delivered %#v, want no messages", received)
 	}
 
-	if err := newHandler(true).processWebhook("issue_comment", payload); err != nil {
+	matchAll := newHandler(true)
+	if err := matchAll.processWebhook("issue_comment", payload, matchAll.snapshot()); err != nil {
 		t.Fatalf("match_all_rules returned error: %v", err)
 	}
 	if received["/action"] != 1 || received["/reviewer"] != 1 || received["/shared"] != 1 || received["/sl"] != 0 {
@@ -93,6 +133,7 @@ func TestProcessWebhookMatchAllRules(t *testing.T) {
 func TestServeHTTP_FormEncodedPayload(t *testing.T) {
 	// Initialize logger for tests
 	logger.Init("info", "/tmp")
+	defer logger.Close()
 
 	// Create a minimal config and handler
 	cfg := &config.Config{
@@ -162,6 +203,7 @@ func TestServeHTTP_FormEncodedPayload(t *testing.T) {
 func TestServeHTTP_FormEncodedMissingPayload(t *testing.T) {
 	// Initialize logger for tests
 	logger.Init("info", "/tmp")
+	defer logger.Close()
 
 	cfg := &config.Config{
 		Server: config.ServerConfig{
@@ -197,6 +239,36 @@ func TestServeHTTP_FormEncodedMissingPayload(t *testing.T) {
 
 	if !strings.Contains(w.Body.String(), "Missing payload field") {
 		t.Fatalf("Expected 'Missing payload field' error, got: %s", w.Body.String())
+	}
+}
+
+func TestServeHTTP_RejectsOversizedPayload(t *testing.T) {
+	cfg := &config.Config{}
+	cfg.Server.Server.MaxPayloadSize = "1KB"
+	h := New(cfg, notifier.New(config.FeishuBotsConfig{}))
+	req := httptest.NewRequest("POST", "/webhook", strings.NewReader(strings.Repeat("x", 2048)))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-GitHub-Event", "push")
+
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, req)
+	if w.Code != http.StatusRequestEntityTooLarge {
+		t.Fatalf("oversized payload status = %d, want %d", w.Code, http.StatusRequestEntityTooLarge)
+	}
+}
+
+func TestParseMaxPayloadBytes(t *testing.T) {
+	tests := map[string]int64{
+		"1KB":  1 << 10,
+		"5 MB": 5 << 20,
+		"2MiB": 2 << 20,
+		"4096": 4096,
+		"bad":  defaultMaxPayloadBytes,
+	}
+	for input, want := range tests {
+		if got := parseMaxPayloadBytes(input); got != want {
+			t.Errorf("parseMaxPayloadBytes(%q) = %d, want %d", input, got, want)
+		}
 	}
 }
 

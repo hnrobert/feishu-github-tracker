@@ -66,26 +66,26 @@ func (a *App) requireAuth(h http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func (a *App) issueCookie(w http.ResponseWriter, token string) {
+func (a *App) issueCookie(w http.ResponseWriter, token string, secure bool) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     a.cookieName,
 		Value:    token,
 		Path:     "/",
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
-		Secure:   false,
+		Secure:   secure,
 		MaxAge:   int(sessionTTL.Seconds()),
 	})
 }
 
-func (a *App) clearCookie(w http.ResponseWriter) {
+func (a *App) clearCookie(w http.ResponseWriter, secure bool) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     a.cookieName,
 		Value:    "",
 		Path:     "/",
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
-		Secure:   false,
+		Secure:   secure,
 		MaxAge:   -1,
 	})
 }

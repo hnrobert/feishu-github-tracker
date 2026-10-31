@@ -19,6 +19,11 @@ func prepareDeploymentReviewData(data map[string]any, payload map[string]any) {
 	if comment, ok := payload["comment"].(string); ok {
 		data["comment"] = comment
 	}
+	// GitHub's deployment_review payload carries the environment name as a
+	// top-level string used directly by the shipped card template.
+	if env, ok := payload["environment"].(string); ok {
+		data["environment"] = env
+	}
 
 	// Extract workflow run info
 	if workflowRun, ok := payload["workflow_run"].(map[string]any); ok {

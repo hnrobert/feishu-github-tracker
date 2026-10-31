@@ -1,0 +1,7 @@
+types:
+- appeared_in_branch
+- closed_by_user
+- created
+- fixed
+- reopened
+- reopened_by_user

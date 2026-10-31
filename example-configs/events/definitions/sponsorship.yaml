@@ -1,0 +1,7 @@
+types:
+- cancelled
+- created
+- edited
+- pending_cancellation
+- pending_tier_change
+- tier_changed

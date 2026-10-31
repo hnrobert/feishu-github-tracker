@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -38,8 +39,19 @@ func main() {
 		configDir = filepath.Join(filepath.Dir(execPath), "configs")
 	}
 
+	// Migration is EXPLICIT and opt-in: legacy flat files keep working by
+	// default. Only `server.migrate_config: true` in server.yaml triggers the
+	// one-shot conversion here (the panel also offers a button); after it runs
+	// the option is commented back out automatically.
+	if ran, status, err := config.MigrateIfRequested(configDir); err != nil {
+		fmt.Fprintf(os.Stderr, "Config migration warning: %v (continuing)\n", err)
+	} else if ran {
+		fmt.Fprintf(os.Stderr, "Legacy config migrated (%s); originals preserved under %s\n",
+			strings.Join(status.Files, ", "), filepath.Join(configDir, "legacy"))
+	}
+
 	if defaultConfigDir := os.Getenv("DEFAULT_CONFIG_DIR"); defaultConfigDir != "" {
-		if err := initializeConfigDir(defaultConfigDir, configDir); err != nil {
+		if err := initializeConfigDir(defaultConfigDir, configDir, config.SeedingSkips(configDir)); err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to initialize configuration: %v\n", err)
 			os.Exit(1)
 		}
@@ -148,13 +160,16 @@ func main() {
 	if err := srv.Shutdown(ctx); err != nil {
 		logger.Error("Server forced to shutdown: %v", err)
 	}
-
 	logger.Info("Server stopped")
+	_ = logger.Close()
 }
 
 // initializeConfigDir copies default configuration files that do not yet exist.
 // Existing files are never overwritten so user configuration remains intact.
-func initializeConfigDir(defaultConfigDir, configDir string) error {
+// skipDirs names top-level example subdirectories that must NOT be seeded —
+// used when a legacy flat file is authoritative (e.g. a user's repos.yaml must
+// not be shadowed by seeded patterns/ defaults).
+func initializeConfigDir(defaultConfigDir, configDir string, skipDirs map[string]bool) error {
 	sourceInfo, err := os.Stat(defaultConfigDir)
 	if err != nil {
 		return fmt.Errorf("read default configuration directory: %w", err)
@@ -177,6 +192,14 @@ func initializeConfigDir(defaultConfigDir, configDir string) error {
 			return err
 		}
 		if relativePath == "." {
+			return nil
+		}
+
+		// Skip whole subtrees whose legacy flat counterpart is authoritative.
+		if top := strings.SplitN(relativePath, string(filepath.Separator), 2)[0]; skipDirs[top] {
+			if entry.IsDir() {
+				return fs.SkipDir
+			}
 			return nil
 		}
 
@@ -235,12 +258,15 @@ func initializeConfigDir(defaultConfigDir, configDir string) error {
 // NewServer creates an *http.Server configured from cfg and handler.
 func NewServer(cfg *config.Config, handler http.Handler) *http.Server {
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Server.Host, cfg.Server.Server.Port)
+	timeout := time.Duration(cfg.Server.Server.Timeout) * time.Second
 	return &http.Server{
-		Addr:         addr,
-		Handler:      handler,
-		ReadTimeout:  time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		WriteTimeout: time.Duration(cfg.Server.Server.Timeout) * time.Second,
-		IdleTimeout:  60 * time.Second,
+		Addr:              addr,
+		Handler:           handler,
+		ReadTimeout:       timeout,
+		ReadHeaderTimeout: timeout,
+		WriteTimeout:      timeout,
+		IdleTimeout:       60 * time.Second,
+		MaxHeaderBytes:    1 << 20,
 	}
 }
 
