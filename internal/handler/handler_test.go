@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"net/url"
@@ -12,7 +14,72 @@ import (
 	"github.com/hnrobert/feishu-github-tracker/internal/config"
 	"github.com/hnrobert/feishu-github-tracker/internal/logger"
 	"github.com/hnrobert/feishu-github-tracker/internal/notifier"
+	"github.com/hnrobert/feishu-github-tracker/internal/template"
 )
+
+func TestPushTemplates(t *testing.T) {
+	cfg, err := config.Load(filepath.Join("..", "..", "example-configs"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	h := New(cfg, notifier.New(config.FeishuBotsConfig{}))
+	tests := []struct {
+		name, ref, kind, title, titleCN string
+		deleted, forced                 bool
+	}{
+		{"branch", "refs/heads/feature/test", "branch", "Deleted:", "删除：", true, false},
+		{"tag", "refs/tags/v1/test", "tag", "Deleted:", "删除：", true, false},
+		{"normal empty push", "refs/heads/main", "", "New Push", "新推送", false, false},
+		{"force", "refs/heads/main", "", "New Push", "新推送", false, true},
+		{"deleted and forced", "refs/heads/feature/test", "branch", "Deleted:", "删除：", true, true},
+	}
+	for _, tt := range tests {
+		for _, locale := range []string{"default", "cn"} {
+			t.Run(tt.name+"/"+locale, func(t *testing.T) {
+				payload := map[string]any{
+					"ref": tt.ref, "deleted": tt.deleted, "forced": tt.forced, "commits": []any{},
+					"compare":    "https://example.com/compare",
+					"repository": map[string]any{"full_name": "org/repo", "html_url": "https://github.com/org/repo"},
+					"sender":     map[string]any{"login": "alice", "html_url": "https://github.com/alice"},
+					"pusher":     map[string]any{"name": "alice"},
+				}
+				data := h.prepareTemplateData("push", payload)
+				selected, err := template.SelectTemplate("push", template.DetermineTags("push", payload), cfg.GetTemplateConfig(locale))
+				if err != nil {
+					t.Fatal(err)
+				}
+				card, err := template.FillTemplate(selected, data)
+				if err != nil {
+					t.Fatal(err)
+				}
+				encoded, err := json.Marshal(card)
+				if err != nil {
+					t.Fatal(err)
+				}
+				got := string(encoded)
+				title := tt.title
+				if locale == "cn" {
+					title = tt.titleCN
+				}
+				if !strings.Contains(got, title) {
+					t.Fatalf("card missing title %q: %s", title, got)
+				}
+				if tt.deleted {
+					for _, want := range []string{"alice", "org/repo", tt.kind, tt.ref} {
+						if !strings.Contains(got, want) {
+							t.Errorf("card missing %q: %s", want, got)
+						}
+					}
+					for _, unwanted := range []string{"commits", "提交", "compare", "/tree/", `"tag":"action"`} {
+						if strings.Contains(got, unwanted) {
+							t.Errorf("deletion card contains %q: %s", unwanted, got)
+						}
+					}
+				}
+			})
+		}
+	}
+}
 
 func TestPrepareTemplateData_IncludesNestedObjects(t *testing.T) {
 	// Minimal config and notifier stub
