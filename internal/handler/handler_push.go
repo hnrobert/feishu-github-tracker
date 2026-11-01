@@ -68,6 +68,15 @@ func preparePushData(data map[string]any, payload map[string]any) {
 	data["forced"] = payload["forced"]
 
 	if ref, ok := payload["ref"].(string); ok {
+		if deleted, _ := payload["deleted"].(bool); deleted {
+			if strings.HasPrefix(ref, "refs/heads/") {
+				data["ref_type"] = "branch"
+			} else if strings.HasPrefix(ref, "refs/tags/") {
+				data["ref_type"] = "tag"
+			} else {
+				data["ref_type"] = "ref"
+			}
+		}
 		branch := strings.TrimPrefix(ref, "refs/heads/")
 		data["branch_name"] = branch
 		if repo, ok := payload["repository"].(map[string]any); ok {
