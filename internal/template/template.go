@@ -373,7 +373,9 @@ func DetermineTags(eventType string, payload map[string]any) []string {
 
 	switch eventType {
 	case "push":
-		if forced, ok := payload["forced"].(bool); ok && forced {
+		if deleted, ok := payload["deleted"].(bool); ok && deleted {
+			tags = append(tags, "deleted")
+		} else if forced, ok := payload["forced"].(bool); ok && forced {
 			tags = append(tags, "force")
 		} else {
 			tags = append(tags, "default")
